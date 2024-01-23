@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>减少虚拟机内存</title>
+    <link href="/2024/01/23/%E5%87%8F%E5%B0%91%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E5%AD%98/"/>
+    <url>/2024/01/23/%E5%87%8F%E5%B0%91%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E5%AD%98/</url>
+    
+    <content type="html"><![CDATA[<p>written in 2023.8.16</p><p>我的kali22.04占的物理机内存60多个G，也没安装什么大型软件，不知道为什么水涨船高，从40多G到66.6G，去谷歌上搜也没什么好的办法，就自己研究了一下</p><h1 id="克隆原虚拟机"><a href="#克隆原虚拟机" class="headerlink" title="克隆原虚拟机"></a>克隆原虚拟机</h1><p>之前想的克隆应该是一模一样的，但好多了，从原来66.6G直接变成39个G</p><img src="/2024/01/23/%E5%87%8F%E5%B0%91%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E5%AD%98/1697605034183-80578df9-810a-40b8-9270-a27794f809e3.png" class="" title="img"><p>不知道之后会不会自动涨内存，先这样再说</p><h1 id="删一些未知的文件"><a href="#删一些未知的文件" class="headerlink" title="删一些未知的文件"></a>删一些未知的文件</h1><p>这是我先克隆一个虚拟机再进行的操作，想着这些未知又占内存的应该没什么用，就手动一个个删了，发现对虚拟机运行真没影响。当然这样有点冒险，慎用</p><img src="/2024/01/23/%E5%87%8F%E5%B0%91%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E5%AD%98/1697604744305-82590b55-8e9f-422a-8b83-f4afa8d56425.png" class="" title="img">]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>搭建博客时个人遇到的一些问题</title>
+    <link href="/2024/01/14/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%97%B6%E4%B8%AA%E4%BA%BA%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/"/>
+    <url>/2024/01/14/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%97%B6%E4%B8%AA%E4%BA%BA%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/</url>
+    
+    <content type="html"><![CDATA[<p>本文主要是记录一些与时俱进的问题（因为网上的教程大都是三四年前的了）和个人的一些非预期做法</p><h1 id="本地博客映射到github"><a href="#本地博客映射到github" class="headerlink" title="本地博客映射到github"></a>本地博客映射到github</h1><p>执行<code>hexo clean&amp;hexo g -d</code>后会有像下面一样时不时地报错，网上的不是很行，我这里把github名改成和博客名一样就行了</p><img src="/2024/01/14/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%97%B6%E4%B8%AA%E4%BA%BA%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/1.png" class="" title="image-20240114211559597"><p>目前我的github是这么个页面</p><img src="/2024/01/14/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%97%B6%E4%B8%AA%E4%BA%BA%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/image-20240114212817973.png" class="" title="image-20240114212817973"><h1 id="统计访问量"><a href="#统计访问量" class="headerlink" title="统计访问量"></a>统计访问量</h1><p>按教程用leancloud统计访问量不知道为什么本地能看到但是远程一直看不到，试了busuanzi发现也差不多</p><img src="/2024/01/14/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%97%B6%E4%B8%AA%E4%BA%BA%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/image-20240114212107890.png" class="" title="image-20240114212107890"><h1 id="添加图片"><a href="#添加图片" class="headerlink" title="添加图片"></a>添加图片</h1><p><a href="https://zhuanlan.zhihu.com/p/280758822#:~:text=hexo%E5%8D%9A%E5%AE%A2%E6%98%BE%E7%A4%BAmarkdown%E8%B7%AF%E5%BE%84%E7%9A%84%E5%9B%BE%E7%89%87%201%20%E4%BF%AE%E6%94%B9%20_config.yml%20%E4%B8%AD%E7%9A%84%20post_asset_folder%3A%20true%202,install%20hexo-image-link%20--save%204%20%E4%BF%AE%E6%94%B9md%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E5%9B%BE%E7%89%87%E8%B7%AF%E5%BE%84%20%21%20%5Blabel%5D%20%28markdown-file-name%2Fimage-name.jpg%29">hexo博客显示markdown路径的图片 - 知乎 (zhihu.com)</a></p><p>我没有用教程给的方法，而是自己找了一个，把图片直接复制到文档里，markdown和博客都能直接看到图片，简洁明了</p><p>总结来说，最后能成功还是满意的，还是要自己多实践，培养独立解决问题的能力</p><p>总的参考教程附上：<a href="https://blog.csdn.net/yaorongke/article/details/119089190">https://blog.csdn.net/yaorongke/article/details/119089190</a></p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>简单使用MT管理器</title>
+    <link href="/2024/01/14/%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8MT%E7%AE%A1%E7%90%86%E5%99%A8/"/>
+    <url>/2024/01/14/%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8MT%E7%AE%A1%E7%90%86%E5%99%A8/</url>
+    
+    <content type="html"><![CDATA[<p><del>written in 2023&#x2F;10&#x2F;26</del></p><p>昨天看到0xGame的0x14537a60师傅提到了MT管理器，就去研究了一下</p><p>这是0xGame week3的第三题</p><p>首先把apk文件放到tmp文件夹，因为在原文件没有修改权限</p><img src="/2024/01/14/%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8MT%E7%AE%A1%E7%90%86%E5%99%A8/1.jpg" class=""><p>随便找一个tmp文件夹放就行</p><img src="/2024/01/14/%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8MT%E7%AE%A1%E7%90%86%E5%99%A8/2.jpg" class=""><p>去电脑上找到onClick绝对路径</p><img src="/2024/01/14/%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8MT%E7%AE%A1%E7%90%86%E5%99%A8/3.png" class=""><p>用dex编辑器打开classes.dex,若有多个一般都是最后一个dex</p><img src="/2024/01/14/%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8MT%E7%AE%A1%E7%90%86%E5%99%A8/4.jpg" class=""><p>找到方法</p><img src="/2024/01/14/%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8MT%E7%AE%A1%E7%90%86%E5%99%A8/5.jpg" class=""><p>进去看方法，原来是v4，改成v1</p><p>这里为什么这样改呢，我的想法是第十行result-object，还有就是第九行v1,v2和v3在一起出现</p><img src="/2024/01/14/%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8MT%E7%AE%A1%E7%90%86%E5%99%A8/6.jpg" class=""><p>再重新安装后运行</p><img src="/2024/01/14/%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8MT%E7%AE%A1%E7%90%86%E5%99%A8/7.jpg" class=""><p>浅浅学了一下，希望对以后有点帮助</p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="/2024/01/13/hello-world/"/>
+    <url>/2024/01/13/hello-world/</url>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  
+</search>
