@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>以一道pwn题学习如何动调</title>
+    <link href="/2024/01/26/%E4%BB%A5%E4%B8%80%E9%81%93pwn%E9%A2%98%E5%AD%A6%E4%B9%A0%E5%A6%82%E4%BD%95%E5%8A%A8%E8%B0%83/"/>
+    <url>/2024/01/26/%E4%BB%A5%E4%B8%80%E9%81%93pwn%E9%A2%98%E5%AD%A6%E4%B9%A0%E5%A6%82%E4%BD%95%E5%8A%A8%E8%B0%83/</url>
+    
+    <content type="html"><![CDATA[<p>这是0xGame的week2的一道pwn题，题目本身不难，有一个疑问，刚好借此巩固了一下pwn的动调，希望可以有所收获</p><p><strong>目标：去看dword_40e0改变后的值</strong></p><img src="/2024/01/26/%E4%BB%A5%E4%B8%80%E9%81%93pwn%E9%A2%98%E5%AD%A6%E4%B9%A0%E5%A6%82%E4%BD%95%E5%8A%A8%E8%B0%83/1696928256892-d5876add-9c6c-48f5-a51b-ec3c4a6ace91.png" class="" title="img"><p>一开始是2，memset赋值为0</p><img src="/2024/01/26/%E4%BB%A5%E4%B8%80%E9%81%93pwn%E9%A2%98%E5%AD%A6%E4%B9%A0%E5%A6%82%E4%BD%95%E5%8A%A8%E8%B0%83/1696933587412-3d11e82a-c48c-48a4-91c9-c5d8ffea408e.png" class="" title="img"><p><strong>查看内存注意不要加*</strong></p><p>因为是小端序，红色框起来的部分是shopping_cart[0]</p><img src="/2024/01/26/%E4%BB%A5%E4%B8%80%E9%81%93pwn%E9%A2%98%E5%AD%A6%E4%B9%A0%E5%A6%82%E4%BD%95%E5%8A%A8%E8%B0%83/1696931566289-5ff15310-4891-45fc-a21c-36b568debc5f.png" class="" title="img"><p>看基址</p><img src="/2024/01/26/%E4%BB%A5%E4%B8%80%E9%81%93pwn%E9%A2%98%E5%AD%A6%E4%B9%A0%E5%A6%82%E4%BD%95%E5%8A%A8%E8%B0%83/1696928301743-312c76ab-6eda-4690-beb0-643c5b194883.png" class="" title="img"><p><strong>加偏移后得到真实地址</strong></p><p>在两次scanf之间下断点</p><img src="/2024/01/26/%E4%BB%A5%E4%B8%80%E9%81%93pwn%E9%A2%98%E5%AD%A6%E4%B9%A0%E5%A6%82%E4%BD%95%E5%8A%A8%E8%B0%83/1696933156497-0828eea7-53fe-441e-8643-1c57ec02a3aa.png" class="" title="img"><img src="/2024/01/26/%E4%BB%A5%E4%B8%80%E9%81%93pwn%E9%A2%98%E5%AD%A6%E4%B9%A0%E5%A6%82%E4%BD%95%E5%8A%A8%E8%B0%83/1696933120221-449859d4-9339-433c-8c6c-2095728035b8.png" class="" title="img"><p>有断点所以会停下来</p><img src="/2024/01/26/%E4%BB%A5%E4%B8%80%E9%81%93pwn%E9%A2%98%E5%AD%A6%E4%B9%A0%E5%A6%82%E4%BD%95%E5%8A%A8%E8%B0%83/1696933208375-7fd26797-e85b-434c-82a5-444f7d6dc676.png" class="" title="img"><p>单步步过至0x5555555555452(超过544f）</p><img src="/2024/01/26/%E4%BB%A5%E4%B8%80%E9%81%93pwn%E9%A2%98%E5%AD%A6%E4%B9%A0%E5%A6%82%E4%BD%95%E5%8A%A8%E8%B0%83/1696933320205-b8f8d425-ff15-4ad5-96c4-fb5f81598879.png" class="" title="img"><p>再看内存就发现变了</p><img src="/2024/01/26/%E4%BB%A5%E4%B8%80%E9%81%93pwn%E9%A2%98%E5%AD%A6%E4%B9%A0%E5%A6%82%E4%BD%95%E5%8A%A8%E8%B0%83/1696933006068-cde05956-be30-4e84-bbb3-8faaab80f643.png" class="" title="img"><p>用w查看内存就可以避免端序问题</p><img src="/2024/01/26/%E4%BB%A5%E4%B8%80%E9%81%93pwn%E9%A2%98%E5%AD%A6%E4%B9%A0%E5%A6%82%E4%BD%95%E5%8A%A8%E8%B0%83/1696933427059-5ce862e5-b191-4be7-9378-2d1622ea0353.png" class="" title="img">]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>减少虚拟机内存</title>
     <link href="/2024/01/23/%E5%87%8F%E5%B0%91%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E5%AD%98/"/>
     <url>/2024/01/23/%E5%87%8F%E5%B0%91%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E5%AD%98/</url>
