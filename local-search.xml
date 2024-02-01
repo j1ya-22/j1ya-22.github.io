@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>二进制文件存在但仍有FileNotFoundError</title>
+    <link href="/2024/02/01/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E5%AD%98%E5%9C%A8%E4%BD%86%E4%BB%8D%E6%9C%89FileNotFoundError/"/>
+    <url>/2024/02/01/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E5%AD%98%E5%9C%A8%E4%BD%86%E4%BB%8D%E6%9C%89FileNotFoundError/</url>
+    
+    <content type="html"><![CDATA[<p>桌面明明有vuln这个文件，但是kali仍有FileNotFoundError</p><img src="/2024/02/01/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E5%AD%98%E5%9C%A8%E4%BD%86%E4%BB%8D%E6%9C%89FileNotFoundError/4BE59ACDFB71F188E62CCF1B8E4A7979.jpg" class="" title="img"><p>问群里的师傅原来是要装glibc-all-in-one</p><p>一开始师傅说要用.&#x2F;libc.so.6查看要安装的libc版本，但本地一直报错</p><img src="/2024/02/01/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E5%AD%98%E5%9C%A8%E4%BD%86%E4%BB%8D%E6%9C%89FileNotFoundError/7DFD5873CC9E06A971F4766218EB5E2C.jpg" class="" title="img"><p>我google了但是一直没有直接的解决方案，于是在另一位师傅的推荐下看了另一篇文档，用strings libc.so.6 |grep Ubuntu来确定需要安装的libc库 </p><img src="/2024/02/01/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E5%AD%98%E5%9C%A8%E4%BD%86%E4%BB%8D%E6%9C%89FileNotFoundError/image-20240201215652930.png" class="" title="image-20240201215652930"><p>直接下载libc出错，于是去官网手动下载</p><img src="/2024/02/01/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E5%AD%98%E5%9C%A8%E4%BD%86%E4%BB%8D%E6%9C%89FileNotFoundError/image-20240201215612566.png" class="" title="image-20240201215612566"><p>最后按教程配置即可</p><img src="/2024/02/01/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E5%AD%98%E5%9C%A8%E4%BD%86%E4%BB%8D%E6%9C%89FileNotFoundError/image-20240201215510938.png" class="" title="image-20240201215510938"><p>参考链接：<a href="https://www.freebuf.com/sectool/366854.html">https://www.freebuf.com/sectool/366854.html</a></p><p><a href="https://blog.csdn.net/weixin_49764009/article/details/124970461">【kali】 glibc-all-in-one安装 （解决version <code>GLIBC_2.34‘ not found）_version </code>glibc_2.34’ not found-CSDN博客</a></p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>以一道pwn题学习如何动调</title>
     <link href="/2024/01/26/%E4%BB%A5%E4%B8%80%E9%81%93pwn%E9%A2%98%E5%AD%A6%E4%B9%A0%E5%A6%82%E4%BD%95%E5%8A%A8%E8%B0%83/"/>
     <url>/2024/01/26/%E4%BB%A5%E4%B8%80%E9%81%93pwn%E9%A2%98%E5%AD%A6%E4%B9%A0%E5%A6%82%E4%BD%95%E5%8A%A8%E8%B0%83/</url>
