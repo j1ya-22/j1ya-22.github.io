@@ -16,29 +16,26 @@
   <meta name="author" content="j1ya">
   <meta name="keywords" content="">
   
-    <meta name="description" content="桌面明明有vuln这个文件，但是kali仍有FileNotFoundError   问群里的师傅原来是要装glibc-all-in-one 一开始师傅说要用.&#x2F;libc.so.6查看要安装的libc版本，但本地一直报错   我google了但是一直没有直接的解决方案，于是在另一位师傅的推荐下看了另一篇文档，用strings libc.so.6 |grep Ubuntu来确定需要安装的li">
+    <meta name="description" content="github上libcsearch只对python2有效，用python3就找不到匹配的libc版本了，网上说的重装或者更新都是针对python2的，由于本机安装pwntools用的是python3且python2已经不维护了，干脆就另寻出路 https:&#x2F;&#x2F;pypi.org&#x2F;project&#x2F;LibcSearcher&#x2F;#files 从上面的链接中下载libcsearch可满足python3 然后再">
 <meta property="og:type" content="article">
-<meta property="og:title" content="二进制文件存在但仍有FileNotFoundError">
-<meta property="og:url" content="https://j1ya-22.github.io/2024/02/01/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E5%AD%98%E5%9C%A8%E4%BD%86%E4%BB%8D%E6%9C%89FileNotFoundError/index.html">
+<meta property="og:title" content="如何安装libcsearch">
+<meta property="og:url" content="https://j1ya-22.github.io/2024/02/03/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%85libcsearch/index.html">
 <meta property="og:site_name" content="j1ya">
-<meta property="og:description" content="桌面明明有vuln这个文件，但是kali仍有FileNotFoundError   问群里的师傅原来是要装glibc-all-in-one 一开始师傅说要用.&#x2F;libc.so.6查看要安装的libc版本，但本地一直报错   我google了但是一直没有直接的解决方案，于是在另一位师傅的推荐下看了另一篇文档，用strings libc.so.6 |grep Ubuntu来确定需要安装的li">
+<meta property="og:description" content="github上libcsearch只对python2有效，用python3就找不到匹配的libc版本了，网上说的重装或者更新都是针对python2的，由于本机安装pwntools用的是python3且python2已经不维护了，干脆就另寻出路 https:&#x2F;&#x2F;pypi.org&#x2F;project&#x2F;LibcSearcher&#x2F;#files 从上面的链接中下载libcsearch可满足python3 然后再">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/01/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E5%AD%98%E5%9C%A8%E4%BD%86%E4%BB%8D%E6%9C%89FileNotFoundError/4BE59ACDFB71F188E62CCF1B8E4A7979.jpg">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/01/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E5%AD%98%E5%9C%A8%E4%BD%86%E4%BB%8D%E6%9C%89FileNotFoundError/7DFD5873CC9E06A971F4766218EB5E2C.jpg">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/01/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E5%AD%98%E5%9C%A8%E4%BD%86%E4%BB%8D%E6%9C%89FileNotFoundError/image-20240201215652930.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/01/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E5%AD%98%E5%9C%A8%E4%BD%86%E4%BB%8D%E6%9C%89FileNotFoundError/image-20240201215612566.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/01/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E5%AD%98%E5%9C%A8%E4%BD%86%E4%BB%8D%E6%9C%89FileNotFoundError/image-20240201215510938.png">
-<meta property="article:published_time" content="2024-02-01T13:47:35.000Z">
-<meta property="article:modified_time" content="2024-02-01T14:48:25.277Z">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/02/03/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%85libcsearch/1691905062554-b22ce7a6-1d9a-4bf7-972b-b4a57d8cab49.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/02/03/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%85libcsearch/1691905008510-c2cd1f79-d48d-422d-9ae0-659f0d94e1e0.png">
+<meta property="article:published_time" content="2024-02-03T11:13:14.000Z">
+<meta property="article:modified_time" content="2024-02-03T11:14:00.174Z">
 <meta property="article:author" content="j1ya">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://j1ya-22.github.io/2024/02/01/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E5%AD%98%E5%9C%A8%E4%BD%86%E4%BB%8D%E6%9C%89FileNotFoundError/4BE59ACDFB71F188E62CCF1B8E4A7979.jpg">
+<meta name="twitter:image" content="https://j1ya-22.github.io/2024/02/03/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%85libcsearch/1691905062554-b22ce7a6-1d9a-4bf7-972b-b4a57d8cab49.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>二进制文件存在但仍有FileNotFoundError - j1ya</title>
+  <title>如何安装libcsearch - j1ya</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -233,7 +230,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="二进制文件存在但仍有FileNotFoundError"></span>
+            <span id="subtitle" data-typed-text="如何安装libcsearch"></span>
           
         </div>
 
@@ -244,8 +241,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-02-01 21:47" pubdate>
-          2024年2月1日 晚上
+        <time datetime="2024-02-03 19:13" pubdate>
+          2024年2月3日 晚上
         </time>
       </span>
     
@@ -256,7 +253,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          158 字
+          171 字
         
       </span>
     
@@ -312,31 +309,22 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">二进制文件存在但仍有FileNotFoundError</h1>
+            <h1 id="seo-header">如何安装libcsearch</h1>
             
             
               <div class="markdown-body">
                 
-                <p>桌面明明有vuln这个文件，但是kali仍有FileNotFoundError</p>
-<img src="/2024/02/01/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E5%AD%98%E5%9C%A8%E4%BD%86%E4%BB%8D%E6%9C%89FileNotFoundError/4BE59ACDFB71F188E62CCF1B8E4A7979.jpg" srcset="/img/loading.gif" lazyload class="" title="img">
+                <p>github上libcsearch只对python2有效，用python3就找不到匹配的libc版本了，网上说的重装或者更新都是针对python2的，由于本机安装pwntools用的是python3且python2已经不维护了，干脆就另寻出路</p>
+<p><a target="_blank" rel="noopener" href="https://pypi.org/project/LibcSearcher/#files">https://pypi.org/project/LibcSearcher/#files</a></p>
+<p>从上面的链接中下载libcsearch可满足python3</p>
+<p>然后再去跑脚本，果然可以了</p>
+<img src="/2024/02/03/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%85libcsearch/1691905062554-b22ce7a6-1d9a-4bf7-972b-b4a57d8cab49.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
-<p>问群里的师傅原来是要装glibc-all-in-one</p>
-<p>一开始师傅说要用.&#x2F;libc.so.6查看要安装的libc版本，但本地一直报错</p>
-<img src="/2024/02/01/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E5%AD%98%E5%9C%A8%E4%BD%86%E4%BB%8D%E6%9C%89FileNotFoundError/7DFD5873CC9E06A971F4766218EB5E2C.jpg" srcset="/img/loading.gif" lazyload class="" title="img">
+<p>这是远程的libc选择，和本地不一样</p>
+<p>上网查一下发现ubuntu18对应libc2.27，先试一下第三个，成功</p>
+<img src="/2024/02/03/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%85libcsearch/1691905008510-c2cd1f79-d48d-422d-9ae0-659f0d94e1e0.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
-<p>我google了但是一直没有直接的解决方案，于是在另一位师傅的推荐下看了另一篇文档，用strings libc.so.6 |grep Ubuntu来确定需要安装的libc库 </p>
-<img src="/2024/02/01/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E5%AD%98%E5%9C%A8%E4%BD%86%E4%BB%8D%E6%9C%89FileNotFoundError/image-20240201215652930.png" srcset="/img/loading.gif" lazyload class="" title="image-20240201215652930">
-
-<p>直接下载libc出错，于是去官网手动下载</p>
-<img src="/2024/02/01/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E5%AD%98%E5%9C%A8%E4%BD%86%E4%BB%8D%E6%9C%89FileNotFoundError/image-20240201215612566.png" srcset="/img/loading.gif" lazyload class="" title="image-20240201215612566">
-
-<p>最后按教程配置即可</p>
-<img src="/2024/02/01/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E5%AD%98%E5%9C%A8%E4%BD%86%E4%BB%8D%E6%9C%89FileNotFoundError/image-20240201215510938.png" srcset="/img/loading.gif" lazyload class="" title="image-20240201215510938">
-
-
-
-<p>参考链接：<a target="_blank" rel="noopener" href="https://www.freebuf.com/sectool/366854.html">https://www.freebuf.com/sectool/366854.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_49764009/article/details/124970461">【kali】 glibc-all-in-one安装 （解决version <code>GLIBC_2.34‘ not found）_version </code>glibc_2.34’ not found-CSDN博客</a></p>
+<p>还有个问题是要知道本机的libc版本，我这里是libc6_2.36-4_amd64,这样打本地会快一点，每次打个一两分钟都是常有的事，不用奇怪</p>
 
                 
               </div>
@@ -354,8 +342,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>二进制文件存在但仍有FileNotFoundError</div>
-      <div>https://j1ya-22.github.io/2024/02/01/二进制文件存在但仍有FileNotFoundError/</div>
+      <div>如何安装libcsearch</div>
+      <div>https://j1ya-22.github.io/2024/02/03/如何安装libcsearch/</div>
     </div>
     <div class="license-meta">
       
@@ -367,7 +355,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年2月1日</div>
+          <div>2024年2月3日</div>
         </div>
       
       
@@ -399,18 +387,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/02/03/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%85libcsearch/" title="如何安装libcsearch">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">如何安装libcsearch</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/01/26/%E4%BB%A5%E4%B8%80%E9%81%93pwn%E9%A2%98%E5%AD%A6%E4%B9%A0%E5%A6%82%E4%BD%95%E5%8A%A8%E8%B0%83/" title="以一道pwn题学习如何动调">
-                        <span class="hidden-mobile">以一道pwn题学习如何动调</span>
+                      <a href="/2024/02/01/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E5%AD%98%E5%9C%A8%E4%BD%86%E4%BB%8D%E6%9C%89FileNotFoundError/" title="二进制文件存在但仍有FileNotFoundError">
+                        <span class="hidden-mobile">二进制文件存在但仍有FileNotFoundError</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

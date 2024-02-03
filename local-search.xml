@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>如何安装libcsearch</title>
+    <link href="/2024/02/03/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%85libcsearch/"/>
+    <url>/2024/02/03/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%85libcsearch/</url>
+    
+    <content type="html"><![CDATA[<p>github上libcsearch只对python2有效，用python3就找不到匹配的libc版本了，网上说的重装或者更新都是针对python2的，由于本机安装pwntools用的是python3且python2已经不维护了，干脆就另寻出路</p><p><a href="https://pypi.org/project/LibcSearcher/#files">https://pypi.org/project/LibcSearcher/#files</a></p><p>从上面的链接中下载libcsearch可满足python3</p><p>然后再去跑脚本，果然可以了</p><img src="/2024/02/03/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%85libcsearch/1691905062554-b22ce7a6-1d9a-4bf7-972b-b4a57d8cab49.png" class="" title="img"><p>这是远程的libc选择，和本地不一样</p><p>上网查一下发现ubuntu18对应libc2.27，先试一下第三个，成功</p><img src="/2024/02/03/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%85libcsearch/1691905008510-c2cd1f79-d48d-422d-9ae0-659f0d94e1e0.png" class="" title="img"><p>还有个问题是要知道本机的libc版本，我这里是libc6_2.36-4_amd64,这样打本地会快一点，每次打个一两分钟都是常有的事，不用奇怪</p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>二进制文件存在但仍有FileNotFoundError</title>
     <link href="/2024/02/01/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E5%AD%98%E5%9C%A8%E4%BD%86%E4%BB%8D%E6%9C%89FileNotFoundError/"/>
     <url>/2024/02/01/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E5%AD%98%E5%9C%A8%E4%BD%86%E4%BB%8D%E6%9C%89FileNotFoundError/</url>
