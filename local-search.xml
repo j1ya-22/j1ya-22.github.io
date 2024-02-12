@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>pwn调试插件的安装与切换</title>
+    <link href="/2024/02/12/pwn%E8%B0%83%E8%AF%95%E6%8F%92%E4%BB%B6%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%88%87%E6%8D%A2/"/>
+    <url>/2024/02/12/pwn%E8%B0%83%E8%AF%95%E6%8F%92%E4%BB%B6%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%88%87%E6%8D%A2/</url>
+    
+    <content type="html"><![CDATA[<p>written in 2023.7.5</p><p>链接如下：</p><p><a href="https://blog.csdn.net/aoxixi/article/details/90142736">https://blog.csdn.net/aoxixi/article/details/90142736</a></p><p>pwndbg,peda,gef三个插件到GdbPlugins目录下启动对应命令切换即可，Google还是好用，再类推一下马上就能切换三个插件了，也算是搞了两天了😫😫，终于成功！</p><p>对应启动命令：</p><p>echo “source ~&#x2F;GdbPlugins&#x2F;peda&#x2F;peda.py” &gt; ~&#x2F;.gdbinit </p><p>echo “source ~&#x2F;GdbPlugins&#x2F;gef&#x2F;gef.py” &gt; ~&#x2F;.gdbinit </p><p>echo “source ~&#x2F;GdbPlugins&#x2F;gdbinit&#x2F;gdbinit” &gt; ~&#x2F;.gdbinit </p><p>echo “source ~&#x2F;GdbPlugins&#x2F;pwndbg&#x2F;gdbinit.py” &gt; ~&#x2F;.gdbinit</p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>如何安装libcsearch</title>
     <link href="/2024/02/03/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%85libcsearch/"/>
     <url>/2024/02/03/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%85libcsearch/</url>
