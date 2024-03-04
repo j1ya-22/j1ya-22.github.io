@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>IDA显示中文字符</title>
+    <link href="/2024/03/04/IDA%E6%98%BE%E7%A4%BA%E4%B8%AD%E6%96%87%E5%AD%97%E7%AC%A6/"/>
+    <url>/2024/03/04/IDA%E6%98%BE%E7%A4%BA%E4%B8%AD%E6%96%87%E5%AD%97%E7%AC%A6/</url>
+    
+    <content type="html"><![CDATA[<p>之前ida一直不知道如何识别中文字符<img src="/2024/03/04/IDA%E6%98%BE%E7%A4%BA%E4%B8%AD%E6%96%87%E5%AD%97%E7%AC%A6/image-20240304210011904.png" class="" title="image-20240304210011904"></p><p>在目录后面加参数-dCULTURE&#x3D;all和把编码方式改为gbk都失败了</p><p>后来用学长的ida发现能正常显示中文，查看编码方式原来是gb2312</p><p>于是我在ida8.3里右键插入新的编码方式</p><img src="/2024/03/04/IDA%E6%98%BE%E7%A4%BA%E4%B8%AD%E6%96%87%E5%AD%97%E7%AC%A6/image-20240304210343584.png" class="" title="image-20240304210343584"><p>然后在ida左下角右键重新分析</p><img src="/2024/03/04/IDA%E6%98%BE%E7%A4%BA%E4%B8%AD%E6%96%87%E5%AD%97%E7%AC%A6/image-20240304210511607.png" class="" title="image-20240304210511607"><p>再右键rebuild即可</p><img src="/2024/03/04/IDA%E6%98%BE%E7%A4%BA%E4%B8%AD%E6%96%87%E5%AD%97%E7%AC%A6/image-20240304210546604.png" class="" title="image-20240304210546604">]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>NSSRound#18部分wp</title>
     <link href="/2024/02/16/NSSRound-18%E9%83%A8%E5%88%86wp/"/>
     <url>/2024/02/16/NSSRound-18%E9%83%A8%E5%88%86wp/</url>
