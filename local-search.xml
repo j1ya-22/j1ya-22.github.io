@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>安装pngcheck</title>
+    <link href="/2024/03/26/%E5%AE%89%E8%A3%85pngcheck/"/>
+    <url>/2024/03/26/%E5%AE%89%E8%A3%85pngcheck/</url>
+    
+    <content type="html"><![CDATA[<h2 id="安装pngcheck"><a href="#安装pngcheck" class="headerlink" title="安装pngcheck"></a>安装pngcheck</h2><p>written in 2023.9.26</p><p>阿里云的源找不到</p><img src="/2024/03/26/%E5%AE%89%E8%A3%85pngcheck/1695737968243-87e7a061-8436-4375-aae7-39bca5a291e6.png" class="" title="img"><p>同学反映可能是用了阿里云源的关系，所以第一种方法是换源，用kali原来的源就能一键成功</p><img src="/2024/03/26/%E5%AE%89%E8%A3%85pngcheck/1695738257858-862a66bc-871b-48be-b183-1daa9d0b9d8d.png" class="" title="img"><p>翻github找到一个更新的网站，下载对应的版本就行了</p><img src="/2024/03/26/%E5%AE%89%E8%A3%85pngcheck/1695737936166-d9838d33-6c94-46f8-b1dd-fd7f3999a96a.png" class="" title="img"><img src="/2024/03/26/%E5%AE%89%E8%A3%85pngcheck/1695737866998-d5a52522-3c03-4b2b-bcd7-36f95acd13e5.png" class="" title="img">]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>BeginCTF2024部分逆向</title>
     <link href="/2024/03/13/BeginCTF2024%E9%83%A8%E5%88%86%E9%80%86%E5%90%91/"/>
     <url>/2024/03/13/BeginCTF2024%E9%83%A8%E5%88%86%E9%80%86%E5%90%91/</url>
