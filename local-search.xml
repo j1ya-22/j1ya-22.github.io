@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>虚拟机网络设置</title>
+    <link href="/2024/03/27/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/"/>
+    <url>/2024/03/27/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/</url>
+    
+    <content type="html"><![CDATA[<p>删除原来nat模式的虚拟网络编辑器，新建一张虚拟网卡，如vmnet0可使多台虚拟机和主机在同一网段上</p><img src="/2024/03/27/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/1711506464849-2874c590-9c49-4934-b30e-1c43ec6687d4.png" class="" title="img"><img src="/2024/03/27/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/1708495363780-e2a4e9b5-6bd9-429d-98ae-e1d47c8da120.png" class="" title="img"><p>选择一张虚拟网卡，我这里选择桥接模式，或者下面的自定义选择对应网卡也行</p><img src="/2024/03/27/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/1711466152376-87b6d4a4-00a6-4117-90b1-5a8d0d2928ee.png" class="" title="img"><p>后面我就出现了ip不再是虚拟的192.168.15.1，但是主机还是能ping通的情况，其实之前一直是正常的，不知道咋了又还原成172.17.0.1,同学说可能是桥接会固定一段时间还原啥的</p><p>后面也遇到了虚拟机快照打不开的情况</p><p><a href="https://blog.csdn.net/qq_45771413/article/details/121230747">https://blog.csdn.net/qq_45771413/article/details/121230747</a></p><img src="/2024/03/27/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/1711516508625-7ce053f6-dc2a-4d28-94a4-fdfb2e8d9aa3.png" class="" title="img"><p>最后把网络适配器全部还原成默认的，再按照教程全部设置成NAT</p><p><a href="https://zhuanlan.zhihu.com/p/479522879">https://zhuanlan.zhihu.com/p/479522879</a></p><img src="/2024/03/27/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/1711519056690-363480f0-5b01-4803-a93e-d9cc77b92531.png" class="" title="img"><img src="/2024/03/27/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/1711521124605-41af9189-016e-467d-a9a2-b3a3b1af398b.png" class="" title="img"><p>发现还是不行，我真的…</p><p>再次恢复快照，竟然成了，所以还得是拍快照</p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>安装pngcheck</title>
     <link href="/2024/03/26/%E5%AE%89%E8%A3%85pngcheck/"/>
     <url>/2024/03/26/%E5%AE%89%E8%A3%85pngcheck/</url>
