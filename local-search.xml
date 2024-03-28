@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>简单搭建CTFd</title>
+    <link href="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/"/>
+    <url>/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/</url>
+    
+    <content type="html"><![CDATA[<p>written in 2023.9.16</p><p>搞了一晚上，ubuntu上命令复制不了，麻烦。搜kali的教程，docker-compose不能正常使用，估计是设置了python2有问题，一直警告，还是先pull docker</p><p><a href="https://www.bilibili.com/read/cv16948927/">https://www.bilibili.com/read/cv16948927/</a></p><h1 id="CTFd"><a href="#CTFd" class="headerlink" title="CTFd"></a>CTFd</h1><p>安装docker</p><img src="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661434139-2bb68ae4-07d2-4e3e-bf5c-a6519df585ae.png" class="" title="img"><p>启动docker</p><img src="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661452074-0cdea229-ffda-4647-9a99-40dcb39e3c1d.png" class="" title="img"><p>pull 镜像</p><img src="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661496732-122cff23-0e9f-40f9-ae92-0ea8fc8895cc.png" class="" title="img"><p>启动容器</p><img src="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661527389-4538ed6e-2298-4568-ab74-5e4fc1c0b84d.png" class="" title="img"><p>虚拟机内启动</p><img src="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661552024-5545993b-44c7-4078-a114-bdf832cd323a.png" class="" title="img"><p>注意端口</p><img src="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661572673-8ee28ee4-7540-4dbc-9574-d47517593ba1.png" class="" title="img"><p>映射到本地</p><img src="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661587448-c9faa948-f9b2-4dd5-b439-8e7de93b9cf8.png" class="" title="img">]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>虚拟机网络设置</title>
     <link href="/2024/03/27/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/"/>
     <url>/2024/03/27/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/</url>

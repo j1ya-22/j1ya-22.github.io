@@ -16,30 +16,31 @@
   <meta name="author" content="j1ya">
   <meta name="keywords" content="">
   
-    <meta name="description" content="删除原来nat模式的虚拟网络编辑器，新建一张虚拟网卡，如vmnet0可使多台虚拟机和主机在同一网段上     选择一张虚拟网卡，我这里选择桥接模式，或者下面的自定义选择对应网卡也行     后面我就出现了ip不再是虚拟的192.168.15.1，但是主机还是能ping通的情况，其实之前一直是正常的，不知道咋了又还原成172.17.0.1,同学说可能是桥接会固定一段时间还原啥的 后面也遇到了虚拟机快">
+    <meta name="description" content="written in 2023.9.16 搞了一晚上，ubuntu上命令复制不了，麻烦。搜kali的教程，docker-compose不能正常使用，估计是设置了python2有问题，一直警告，还是先pull docker https:&#x2F;&#x2F;www.bilibili.com&#x2F;read&#x2F;cv16948927&#x2F; CTFd安装docker   启动docker     pull 镜像   启动容器   虚拟">
 <meta property="og:type" content="article">
-<meta property="og:title" content="虚拟机网络设置">
-<meta property="og:url" content="https://j1ya-22.github.io/2024/03/27/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/index.html">
+<meta property="og:title" content="简单搭建CTFd">
+<meta property="og:url" content="https://j1ya-22.github.io/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/index.html">
 <meta property="og:site_name" content="j1ya">
-<meta property="og:description" content="删除原来nat模式的虚拟网络编辑器，新建一张虚拟网卡，如vmnet0可使多台虚拟机和主机在同一网段上     选择一张虚拟网卡，我这里选择桥接模式，或者下面的自定义选择对应网卡也行     后面我就出现了ip不再是虚拟的192.168.15.1，但是主机还是能ping通的情况，其实之前一直是正常的，不知道咋了又还原成172.17.0.1,同学说可能是桥接会固定一段时间还原啥的 后面也遇到了虚拟机快">
+<meta property="og:description" content="written in 2023.9.16 搞了一晚上，ubuntu上命令复制不了，麻烦。搜kali的教程，docker-compose不能正常使用，估计是设置了python2有问题，一直警告，还是先pull docker https:&#x2F;&#x2F;www.bilibili.com&#x2F;read&#x2F;cv16948927&#x2F; CTFd安装docker   启动docker     pull 镜像   启动容器   虚拟">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/27/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/1711506464849-2874c590-9c49-4934-b30e-1c43ec6687d4.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/27/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/1708495363780-e2a4e9b5-6bd9-429d-98ae-e1d47c8da120.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/27/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/1711466152376-87b6d4a4-00a6-4117-90b1-5a8d0d2928ee.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/27/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/1711516508625-7ce053f6-dc2a-4d28-94a4-fdfb2e8d9aa3.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/27/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/1711519056690-363480f0-5b01-4803-a93e-d9cc77b92531.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/27/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/1711521124605-41af9189-016e-467d-a9a2-b3a3b1af398b.png">
-<meta property="article:published_time" content="2024-03-27T08:40:52.000Z">
-<meta property="article:modified_time" content="2024-03-27T08:41:08.344Z">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661434139-2bb68ae4-07d2-4e3e-bf5c-a6519df585ae.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661452074-0cdea229-ffda-4647-9a99-40dcb39e3c1d.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661496732-122cff23-0e9f-40f9-ae92-0ea8fc8895cc.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661527389-4538ed6e-2298-4568-ab74-5e4fc1c0b84d.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661552024-5545993b-44c7-4078-a114-bdf832cd323a.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661572673-8ee28ee4-7540-4dbc-9574-d47517593ba1.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661587448-c9faa948-f9b2-4dd5-b439-8e7de93b9cf8.png">
+<meta property="article:published_time" content="2024-03-28T11:40:12.000Z">
+<meta property="article:modified_time" content="2024-03-28T11:42:10.289Z">
 <meta property="article:author" content="j1ya">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://j1ya-22.github.io/2024/03/27/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/1711506464849-2874c590-9c49-4934-b30e-1c43ec6687d4.png">
+<meta name="twitter:image" content="https://j1ya-22.github.io/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661434139-2bb68ae4-07d2-4e3e-bf5c-a6519df585ae.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>虚拟机网络设置 - j1ya</title>
+  <title>简单搭建CTFd - j1ya</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -234,7 +235,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="虚拟机网络设置"></span>
+            <span id="subtitle" data-typed-text="简单搭建CTFd"></span>
           
         </div>
 
@@ -245,8 +246,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-03-27 16:40" pubdate>
-          2024年3月27日 下午
+        <time datetime="2024-03-28 19:40" pubdate>
+          2024年3月28日 晚上
         </time>
       </span>
     
@@ -257,7 +258,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          229 字
+          80 字
         
       </span>
     
@@ -268,7 +269,7 @@
         
         
         
-          2 分钟
+          1 分钟
         
       </span>
     
@@ -313,34 +314,36 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">虚拟机网络设置</h1>
+            <h1 id="seo-header">简单搭建CTFd</h1>
             
             
               <div class="markdown-body">
                 
-                <p>删除原来nat模式的虚拟网络编辑器，新建一张虚拟网卡，如vmnet0可使多台虚拟机和主机在同一网段上</p>
-<img src="/2024/03/27/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/1711506464849-2874c590-9c49-4934-b30e-1c43ec6687d4.png" srcset="/img/loading.gif" lazyload class="" title="img">
+                <p>written in 2023.9.16</p>
+<p>搞了一晚上，ubuntu上命令复制不了，麻烦。搜kali的教程，docker-compose不能正常使用，估计是设置了python2有问题，一直警告，还是先pull docker</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/read/cv16948927/">https://www.bilibili.com/read/cv16948927/</a></p>
+<h1 id="CTFd"><a href="#CTFd" class="headerlink" title="CTFd"></a>CTFd</h1><p>安装docker</p>
+<img src="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661434139-2bb68ae4-07d2-4e3e-bf5c-a6519df585ae.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
-<img src="/2024/03/27/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/1708495363780-e2a4e9b5-6bd9-429d-98ae-e1d47c8da120.png" srcset="/img/loading.gif" lazyload class="" title="img">
-
-<p>选择一张虚拟网卡，我这里选择桥接模式，或者下面的自定义选择对应网卡也行</p>
-<img src="/2024/03/27/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/1711466152376-87b6d4a4-00a6-4117-90b1-5a8d0d2928ee.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<p>启动docker</p>
+<img src="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661452074-0cdea229-ffda-4647-9a99-40dcb39e3c1d.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
 
 
-<p>后面我就出现了ip不再是虚拟的192.168.15.1，但是主机还是能ping通的情况，其实之前一直是正常的，不知道咋了又还原成172.17.0.1,同学说可能是桥接会固定一段时间还原啥的</p>
-<p>后面也遇到了虚拟机快照打不开的情况</p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45771413/article/details/121230747">https://blog.csdn.net/qq_45771413/article/details/121230747</a></p>
-<img src="/2024/03/27/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/1711516508625-7ce053f6-dc2a-4d28-94a4-fdfb2e8d9aa3.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<p>pull 镜像</p>
+<img src="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661496732-122cff23-0e9f-40f9-ae92-0ea8fc8895cc.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
-<p>最后把网络适配器全部还原成默认的，再按照教程全部设置成NAT</p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/479522879">https://zhuanlan.zhihu.com/p/479522879</a></p>
-<img src="/2024/03/27/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/1711519056690-363480f0-5b01-4803-a93e-d9cc77b92531.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<p>启动容器</p>
+<img src="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661527389-4538ed6e-2298-4568-ab74-5e4fc1c0b84d.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
-<img src="/2024/03/27/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/1711521124605-41af9189-016e-467d-a9a2-b3a3b1af398b.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<p>虚拟机内启动</p>
+<img src="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661552024-5545993b-44c7-4078-a114-bdf832cd323a.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
-<p>发现还是不行，我真的…</p>
-<p>再次恢复快照，竟然成了，所以还得是拍快照</p>
+<p>注意端口</p>
+<img src="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661572673-8ee28ee4-7540-4dbc-9574-d47517593ba1.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>映射到本地</p>
+<img src="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661587448-c9faa948-f9b2-4dd5-b439-8e7de93b9cf8.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
                 
               </div>
@@ -358,8 +361,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>虚拟机网络设置</div>
-      <div>https://j1ya-22.github.io/2024/03/27/虚拟机网络设置/</div>
+      <div>简单搭建CTFd</div>
+      <div>https://j1ya-22.github.io/2024/03/28/简单搭建CTFd/</div>
     </div>
     <div class="license-meta">
       
@@ -371,7 +374,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年3月27日</div>
+          <div>2024年3月28日</div>
         </div>
       
       
@@ -403,18 +406,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/" title="简单搭建CTFd">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">简单搭建CTFd</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/03/26/%E5%AE%89%E8%A3%85pngcheck/" title="安装pngcheck">
-                        <span class="hidden-mobile">安装pngcheck</span>
+                      <a href="/2024/03/27/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/" title="虚拟机网络设置">
+                        <span class="hidden-mobile">虚拟机网络设置</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
