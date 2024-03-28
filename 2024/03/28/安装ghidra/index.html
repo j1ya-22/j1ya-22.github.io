@@ -16,31 +16,25 @@
   <meta name="author" content="j1ya">
   <meta name="keywords" content="">
   
-    <meta name="description" content="written in 2023.9.16 搞了一晚上，ubuntu上命令复制不了，麻烦。搜kali的教程，docker-compose不能正常使用，估计是设置了python2有问题，一直警告，还是先pull docker https:&#x2F;&#x2F;www.bilibili.com&#x2F;read&#x2F;cv16948927&#x2F; CTFd安装docker   启动docker     pull 镜像   启动容器   虚拟">
+    <meta name="description" content="written in 2023.9.8 安装完了要写jdk17的目录（ghidra高版本要求java17及以上），电脑上只有jdk1.8.0，按下面教程切换java版本即可   [https:&#x2F;&#x2F;blog.csdn.net&#x2F;niaoyi0357&#x2F;article&#x2F;details&#x2F;125595348#:~:text&#x3D;%E4%B8%80%E3%80%81windows%E5%AE%89%E8%A3%85">
 <meta property="og:type" content="article">
-<meta property="og:title" content="简单搭建CTFd">
-<meta property="og:url" content="https://j1ya-22.github.io/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/index.html">
+<meta property="og:title" content="安装ghidra">
+<meta property="og:url" content="https://j1ya-22.github.io/2024/03/28/%E5%AE%89%E8%A3%85ghidra/index.html">
 <meta property="og:site_name" content="j1ya">
-<meta property="og:description" content="written in 2023.9.16 搞了一晚上，ubuntu上命令复制不了，麻烦。搜kali的教程，docker-compose不能正常使用，估计是设置了python2有问题，一直警告，还是先pull docker https:&#x2F;&#x2F;www.bilibili.com&#x2F;read&#x2F;cv16948927&#x2F; CTFd安装docker   启动docker     pull 镜像   启动容器   虚拟">
+<meta property="og:description" content="written in 2023.9.8 安装完了要写jdk17的目录（ghidra高版本要求java17及以上），电脑上只有jdk1.8.0，按下面教程切换java版本即可   [https:&#x2F;&#x2F;blog.csdn.net&#x2F;niaoyi0357&#x2F;article&#x2F;details&#x2F;125595348#:~:text&#x3D;%E4%B8%80%E3%80%81windows%E5%AE%89%E8%A3%85">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661434139-2bb68ae4-07d2-4e3e-bf5c-a6519df585ae.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661452074-0cdea229-ffda-4647-9a99-40dcb39e3c1d.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661496732-122cff23-0e9f-40f9-ae92-0ea8fc8895cc.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661527389-4538ed6e-2298-4568-ab74-5e4fc1c0b84d.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661552024-5545993b-44c7-4078-a114-bdf832cd323a.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661572673-8ee28ee4-7540-4dbc-9574-d47517593ba1.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661587448-c9faa948-f9b2-4dd5-b439-8e7de93b9cf8.png">
-<meta property="article:published_time" content="2024-03-28T11:40:12.000Z">
-<meta property="article:modified_time" content="2024-03-28T11:42:10.289Z">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/03/28/%E5%AE%89%E8%A3%85ghidra/1694153302506-731218f9-c283-4e36-87d5-a97bba467df1.png">
+<meta property="article:published_time" content="2024-03-28T11:48:28.000Z">
+<meta property="article:modified_time" content="2024-03-28T11:50:51.436Z">
 <meta property="article:author" content="j1ya">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://j1ya-22.github.io/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661434139-2bb68ae4-07d2-4e3e-bf5c-a6519df585ae.png">
+<meta name="twitter:image" content="https://j1ya-22.github.io/2024/03/28/%E5%AE%89%E8%A3%85ghidra/1694153302506-731218f9-c283-4e36-87d5-a97bba467df1.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>简单搭建CTFd - j1ya</title>
+  <title>安装ghidra - j1ya</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -235,7 +229,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="简单搭建CTFd"></span>
+            <span id="subtitle" data-typed-text="安装ghidra"></span>
           
         </div>
 
@@ -246,7 +240,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-03-28 19:40" pubdate>
+        <time datetime="2024-03-28 19:48" pubdate>
           2024年3月28日 晚上
         </time>
       </span>
@@ -258,7 +252,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          80 字
+          222 字
         
       </span>
     
@@ -269,7 +263,7 @@
         
         
         
-          1 分钟
+          2 分钟
         
       </span>
     
@@ -314,36 +308,17 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">简单搭建CTFd</h1>
+            <h1 id="seo-header">安装ghidra</h1>
             
             
               <div class="markdown-body">
                 
-                <p>written in 2023.9.16</p>
-<p>搞了一晚上，ubuntu上命令复制不了，麻烦。搜kali的教程，docker-compose不能正常使用，估计是设置了python2有问题，一直警告，还是先pull docker</p>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/read/cv16948927/">https://www.bilibili.com/read/cv16948927/</a></p>
-<h1 id="CTFd"><a href="#CTFd" class="headerlink" title="CTFd"></a>CTFd</h1><p>安装docker</p>
-<img src="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661434139-2bb68ae4-07d2-4e3e-bf5c-a6519df585ae.png" srcset="/img/loading.gif" lazyload class="" title="img">
+                <p>written in 2023.9.8</p>
+<p>安装完了要写jdk17的目录（ghidra高版本要求java17及以上），电脑上只有jdk1.8.0，按下面教程切换java版本即可</p>
+<img src="/2024/03/28/%E5%AE%89%E8%A3%85ghidra/1694153302506-731218f9-c283-4e36-87d5-a97bba467df1.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
-<p>启动docker</p>
-<img src="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661452074-0cdea229-ffda-4647-9a99-40dcb39e3c1d.png" srcset="/img/loading.gif" lazyload class="" title="img">
-
-
-
-<p>pull 镜像</p>
-<img src="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661496732-122cff23-0e9f-40f9-ae92-0ea8fc8895cc.png" srcset="/img/loading.gif" lazyload class="" title="img">
-
-<p>启动容器</p>
-<img src="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661527389-4538ed6e-2298-4568-ab74-5e4fc1c0b84d.png" srcset="/img/loading.gif" lazyload class="" title="img">
-
-<p>虚拟机内启动</p>
-<img src="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661552024-5545993b-44c7-4078-a114-bdf832cd323a.png" srcset="/img/loading.gif" lazyload class="" title="img">
-
-<p>注意端口</p>
-<img src="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661572673-8ee28ee4-7540-4dbc-9574-d47517593ba1.png" srcset="/img/loading.gif" lazyload class="" title="img">
-
-<p>映射到本地</p>
-<img src="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661587448-c9faa948-f9b2-4dd5-b439-8e7de93b9cf8.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/niaoyi0357/article/details/125595348#:~:text=%E4%B8%80%E3%80%81windows%E5%AE%89%E8%A3%85java17%E4%B8%8Ejava8%E5%85%B1%E5%AD%98%E3%80%81centos%E5%AE%89%E8%A3%85java17%201%201.%20java17%E4%B8%8B%E8%BD%BD%20%E4%B8%8B%E8%BD%BD%E9%93%BE%E6%8E%A5%EF%BC%88%20https%3A%2F%2Fwww.oracle.com%2Fjava%2Ftechnologies%2Fdownloads%2F%23jdk17-windows%20%EF%BC%89%202,%E6%9F%A5%E7%9C%8Bjava%E7%9B%AE%E5%BD%95%20%5Broot%40r01%20~%5Dwhich%20java%20%2Fusr%2Fbin%2Fjava%201%202%20]">https://blog.csdn.net/niaoyi0357/article/details/125595348#:~:text=%E4%B8%80%E3%80%81windows%E5%AE%89%E8%A3%85java17%E4%B8%8Ejava8%E5%85%B1%E5%AD%98%E3%80%81centos%E5%AE%89%E8%A3%85java17%201%201.%20java17%E4%B8%8B%E8%BD%BD%20%E4%B8%8B%E8%BD%BD%E9%93%BE%E6%8E%A5%EF%BC%88%20https%3A%2F%2Fwww.oracle.com%2Fjava%2Ftechnologies%2Fdownloads%2F%23jdk17-windows%20%EF%BC%89%202,%E6%9F%A5%E7%9C%8Bjava%E7%9B%AE%E5%BD%95%20%5Broot%40r01%20~%5Dwhich%20java%20%2Fusr%2Fbin%2Fjava%201%202%20]</a>(<a target="_blank" rel="noopener" href="https://blog.csdn.net/niaoyi0357/article/details/125595348#:~:text=%E4%B8%80%E3%80%81windows%E5%AE%89%E8%A3%85java17%E4%B8%8Ejava8%E5%85%B1%E5%AD%98%E3%80%81centos%E5%AE%89%E8%A3%85java17">https://blog.csdn.net/niaoyi0357/article/details/125595348#:~:text=一、windows安装java17与java8共存、centos安装java17</a> 1 1. java17下载 下载链接（ https%3A%2F%2F<a href="http://www.oracle.com%2Fjava%2Ftechnologies%2Fdownloads%2F%23jdk17-windows">www.oracle.com%2Fjava%2Ftechnologies%2Fdownloads%2F%23jdk17-windows</a> ） 2,查看java目录 [root%40r01 ~]which java %2Fusr%2Fbin%2Fjava 1 2 )</p>
+<p>搞了两个小时，有点折磨，多关注报错和要求其实能很快解决</p>
 
                 
               </div>
@@ -361,8 +336,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>简单搭建CTFd</div>
-      <div>https://j1ya-22.github.io/2024/03/28/简单搭建CTFd/</div>
+      <div>安装ghidra</div>
+      <div>https://j1ya-22.github.io/2024/03/28/安装ghidra/</div>
     </div>
     <div class="license-meta">
       
@@ -406,18 +381,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/03/28/%E5%AE%89%E8%A3%85ghidra/" title="安装ghidra">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">安装ghidra</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/03/27/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/" title="虚拟机网络设置">
-                        <span class="hidden-mobile">虚拟机网络设置</span>
+                      <a href="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/" title="简单搭建CTFd">
+                        <span class="hidden-mobile">简单搭建CTFd</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

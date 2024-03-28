@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>安装ghidra</title>
+    <link href="/2024/03/28/%E5%AE%89%E8%A3%85ghidra/"/>
+    <url>/2024/03/28/%E5%AE%89%E8%A3%85ghidra/</url>
+    
+    <content type="html"><![CDATA[<p>written in 2023.9.8</p><p>安装完了要写jdk17的目录（ghidra高版本要求java17及以上），电脑上只有jdk1.8.0，按下面教程切换java版本即可</p><img src="/2024/03/28/%E5%AE%89%E8%A3%85ghidra/1694153302506-731218f9-c283-4e36-87d5-a97bba467df1.png" class="" title="img"><p>[<a href="https://blog.csdn.net/niaoyi0357/article/details/125595348#:~:text=%E4%B8%80%E3%80%81windows%E5%AE%89%E8%A3%85java17%E4%B8%8Ejava8%E5%85%B1%E5%AD%98%E3%80%81centos%E5%AE%89%E8%A3%85java17%201%201.%20java17%E4%B8%8B%E8%BD%BD%20%E4%B8%8B%E8%BD%BD%E9%93%BE%E6%8E%A5%EF%BC%88%20https%3A%2F%2Fwww.oracle.com%2Fjava%2Ftechnologies%2Fdownloads%2F%23jdk17-windows%20%EF%BC%89%202,%E6%9F%A5%E7%9C%8Bjava%E7%9B%AE%E5%BD%95%20%5Broot%40r01%20~%5Dwhich%20java%20%2Fusr%2Fbin%2Fjava%201%202%20]">https://blog.csdn.net/niaoyi0357/article/details/125595348#:~:text=%E4%B8%80%E3%80%81windows%E5%AE%89%E8%A3%85java17%E4%B8%8Ejava8%E5%85%B1%E5%AD%98%E3%80%81centos%E5%AE%89%E8%A3%85java17%201%201.%20java17%E4%B8%8B%E8%BD%BD%20%E4%B8%8B%E8%BD%BD%E9%93%BE%E6%8E%A5%EF%BC%88%20https%3A%2F%2Fwww.oracle.com%2Fjava%2Ftechnologies%2Fdownloads%2F%23jdk17-windows%20%EF%BC%89%202,%E6%9F%A5%E7%9C%8Bjava%E7%9B%AE%E5%BD%95%20%5Broot%40r01%20~%5Dwhich%20java%20%2Fusr%2Fbin%2Fjava%201%202%20]</a>(<a href="https://blog.csdn.net/niaoyi0357/article/details/125595348#:~:text=%E4%B8%80%E3%80%81windows%E5%AE%89%E8%A3%85java17%E4%B8%8Ejava8%E5%85%B1%E5%AD%98%E3%80%81centos%E5%AE%89%E8%A3%85java17">https://blog.csdn.net/niaoyi0357/article/details/125595348#:~:text=一、windows安装java17与java8共存、centos安装java17</a> 1 1. java17下载 下载链接（ https%3A%2F%2F<a href="http://www.oracle.com%2Fjava%2Ftechnologies%2Fdownloads%2F%23jdk17-windows">www.oracle.com%2Fjava%2Ftechnologies%2Fdownloads%2F%23jdk17-windows</a> ） 2,查看java目录 [root%40r01 ~]which java %2Fusr%2Fbin%2Fjava 1 2 )</p><p>搞了两个小时，有点折磨，多关注报错和要求其实能很快解决</p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>简单搭建CTFd</title>
     <link href="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/"/>
     <url>/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/</url>
