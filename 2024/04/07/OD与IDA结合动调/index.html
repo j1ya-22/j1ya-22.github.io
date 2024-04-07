@@ -16,25 +16,25 @@
   <meta name="author" content="j1ya">
   <meta name="keywords" content="">
   
-    <meta name="description" content="written in 2023.9.8 安装完了要写jdk17的目录（ghidra高版本要求java17及以上），电脑上只有jdk1.8.0，按下面教程切换java版本即可   [https:&#x2F;&#x2F;blog.csdn.net&#x2F;niaoyi0357&#x2F;article&#x2F;details&#x2F;125595348#:~:text&#x3D;%E4%B8%80%E3%80%81windows%E5%AE%89%E8%A3%85">
+    <meta name="description" content="written in 2023.7.22 晚上听尧哥说DASFCTF的一道re题需要动调来判断函数先后执行的顺序，好像一下子就悟了，但悟得不多，还没完全调出来。主要网上讲动态的视频太少，只知道基本快捷键还是很难动调，所以这里记录一下 1.还有一点当函数较复杂时，伪c会不准，即放在前面的函数不一定先运行，所以需要看OD的汇编，配合IDA的伪c代码 2.一般先是在main函数的input下一个断点，然">
 <meta property="og:type" content="article">
-<meta property="og:title" content="安装ghidra">
-<meta property="og:url" content="https://j1ya-22.github.io/2024/03/28/%E5%AE%89%E8%A3%85ghidra/index.html">
+<meta property="og:title" content="OD与IDA结合动调">
+<meta property="og:url" content="https://j1ya-22.github.io/2024/04/07/OD%E4%B8%8EIDA%E7%BB%93%E5%90%88%E5%8A%A8%E8%B0%83/index.html">
 <meta property="og:site_name" content="j1ya">
-<meta property="og:description" content="written in 2023.9.8 安装完了要写jdk17的目录（ghidra高版本要求java17及以上），电脑上只有jdk1.8.0，按下面教程切换java版本即可   [https:&#x2F;&#x2F;blog.csdn.net&#x2F;niaoyi0357&#x2F;article&#x2F;details&#x2F;125595348#:~:text&#x3D;%E4%B8%80%E3%80%81windows%E5%AE%89%E8%A3%85">
+<meta property="og:description" content="written in 2023.7.22 晚上听尧哥说DASFCTF的一道re题需要动调来判断函数先后执行的顺序，好像一下子就悟了，但悟得不多，还没完全调出来。主要网上讲动态的视频太少，只知道基本快捷键还是很难动调，所以这里记录一下 1.还有一点当函数较复杂时，伪c会不准，即放在前面的函数不一定先运行，所以需要看OD的汇编，配合IDA的伪c代码 2.一般先是在main函数的input下一个断点，然">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/28/%E5%AE%89%E8%A3%85ghidra/1694153302506-731218f9-c283-4e36-87d5-a97bba467df1.png">
-<meta property="article:published_time" content="2024-03-28T11:48:28.000Z">
-<meta property="article:modified_time" content="2024-03-28T11:50:51.436Z">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/07/OD%E4%B8%8EIDA%E7%BB%93%E5%90%88%E5%8A%A8%E8%B0%83/1690079441955-4d727ec8-c82d-4ece-a8b9-76ac0741bdec.png">
+<meta property="article:published_time" content="2024-04-07T07:40:32.000Z">
+<meta property="article:modified_time" content="2024-04-07T07:41:39.270Z">
 <meta property="article:author" content="j1ya">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://j1ya-22.github.io/2024/03/28/%E5%AE%89%E8%A3%85ghidra/1694153302506-731218f9-c283-4e36-87d5-a97bba467df1.png">
+<meta name="twitter:image" content="https://j1ya-22.github.io/2024/04/07/OD%E4%B8%8EIDA%E7%BB%93%E5%90%88%E5%8A%A8%E8%B0%83/1690079441955-4d727ec8-c82d-4ece-a8b9-76ac0741bdec.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>安装ghidra - j1ya</title>
+  <title>OD与IDA结合动调 - j1ya</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -229,7 +229,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="安装ghidra"></span>
+            <span id="subtitle" data-typed-text="OD与IDA结合动调"></span>
           
         </div>
 
@@ -240,8 +240,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-03-28 19:48" pubdate>
-          2024年3月28日 晚上
+        <time datetime="2024-04-07 15:40" pubdate>
+          2024年4月7日 下午
         </time>
       </span>
     
@@ -252,7 +252,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          222 字
+          371 字
         
       </span>
     
@@ -263,7 +263,7 @@
         
         
         
-          2 分钟
+          4 分钟
         
       </span>
     
@@ -308,17 +308,19 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">安装ghidra</h1>
+            <h1 id="seo-header">OD与IDA结合动调</h1>
             
             
               <div class="markdown-body">
                 
-                <p>written in 2023.9.8</p>
-<p>安装完了要写jdk17的目录（ghidra高版本要求java17及以上），电脑上只有jdk1.8.0，按下面教程切换java版本即可</p>
-<img src="/2024/03/28/%E5%AE%89%E8%A3%85ghidra/1694153302506-731218f9-c283-4e36-87d5-a97bba467df1.png" srcset="/img/loading.gif" lazyload class="" title="img">
+                <p>written in 2023.7.22</p>
+<p>晚上听尧哥说DASFCTF的一道re题需要动调来判断函数先后执行的顺序，好像一下子就悟了，但悟得不多，还没完全调出来。主要网上讲动态的视频太少，只知道基本快捷键还是很难动调，所以这里记录一下</p>
+<p>1.还有一点当函数较复杂时，伪c会不准，即放在前面的函数不一定先运行，所以需要看OD的汇编，配合IDA的伪c代码</p>
+<p>2.一般先是在main函数的input下一个断点，然后f8单步执行，当汇编地址有较大变化的时候要去IDA里相应的汇编地址，然后按tab，看看现在位于哪个函数，以此来判断加密函数的执行先后顺序，遇到汇编循环，可以点到汇编循环的下一个位置，然后f4到该位置，快速跳出循环，因为OD是线性扫描，所以本来循环结束也是到下一条指令，两个软件的界面建议一左一右，这样就不用一直切界面，就像下面这样。</p>
+<img src="/2024/04/07/OD%E4%B8%8EIDA%E7%BB%93%E5%90%88%E5%8A%A8%E8%B0%83/1690079441955-4d727ec8-c82d-4ece-a8b9-76ac0741bdec.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
-<p>[<a target="_blank" rel="noopener" href="https://blog.csdn.net/niaoyi0357/article/details/125595348#:~:text=%E4%B8%80%E3%80%81windows%E5%AE%89%E8%A3%85java17%E4%B8%8Ejava8%E5%85%B1%E5%AD%98%E3%80%81centos%E5%AE%89%E8%A3%85java17%201%201.%20java17%E4%B8%8B%E8%BD%BD%20%E4%B8%8B%E8%BD%BD%E9%93%BE%E6%8E%A5%EF%BC%88%20https%3A%2F%2Fwww.oracle.com%2Fjava%2Ftechnologies%2Fdownloads%2F%23jdk17-windows%20%EF%BC%89%202,%E6%9F%A5%E7%9C%8Bjava%E7%9B%AE%E5%BD%95%20%5Broot%40r01%20~%5Dwhich%20java%20%2Fusr%2Fbin%2Fjava%201%202%20]">https://blog.csdn.net/niaoyi0357/article/details/125595348#:~:text=%E4%B8%80%E3%80%81windows%E5%AE%89%E8%A3%85java17%E4%B8%8Ejava8%E5%85%B1%E5%AD%98%E3%80%81centos%E5%AE%89%E8%A3%85java17%201%201.%20java17%E4%B8%8B%E8%BD%BD%20%E4%B8%8B%E8%BD%BD%E9%93%BE%E6%8E%A5%EF%BC%88%20https%3A%2F%2Fwww.oracle.com%2Fjava%2Ftechnologies%2Fdownloads%2F%23jdk17-windows%20%EF%BC%89%202,%E6%9F%A5%E7%9C%8Bjava%E7%9B%AE%E5%BD%95%20%5Broot%40r01%20~%5Dwhich%20java%20%2Fusr%2Fbin%2Fjava%201%202%20]</a>(<a target="_blank" rel="noopener" href="https://blog.csdn.net/niaoyi0357/article/details/125595348#:~:text=%E4%B8%80%E3%80%81windows%E5%AE%89%E8%A3%85java17%E4%B8%8Ejava8%E5%85%B1%E5%AD%98%E3%80%81centos%E5%AE%89%E8%A3%85java17">https://blog.csdn.net/niaoyi0357/article/details/125595348#:~:text=一、windows安装java17与java8共存、centos安装java17</a> 1 1. java17下载 下载链接（ https%3A%2F%2F<a href="http://www.oracle.com%2Fjava%2Ftechnologies%2Fdownloads%2F%23jdk17-windows">www.oracle.com%2Fjava%2Ftechnologies%2Fdownloads%2F%23jdk17-windows</a> ） 2,查看java目录 [root%40r01 ~]which java %2Fusr%2Fbin%2Fjava 1 2 )</p>
-<p>搞了两个小时，有点折磨，多关注报错和要求其实能很快解决</p>
+<p>3.每次调试高几位的地址不一样，不过没关系，先在IDA里开启调试，汇编界面的地址就能和OD里面对应了</p>
+<p>4.汇编里面有函数调用函数（call）要按f7进入，此外，看伪c代码也可以看出一些函数调用关系</p>
 
                 
               </div>
@@ -336,8 +338,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>安装ghidra</div>
-      <div>https://j1ya-22.github.io/2024/03/28/安装ghidra/</div>
+      <div>OD与IDA结合动调</div>
+      <div>https://j1ya-22.github.io/2024/04/07/OD与IDA结合动调/</div>
     </div>
     <div class="license-meta">
       
@@ -349,7 +351,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年3月28日</div>
+          <div>2024年4月7日</div>
         </div>
       
       
@@ -381,18 +383,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/04/07/OD%E4%B8%8EIDA%E7%BB%93%E5%90%88%E5%8A%A8%E8%B0%83/" title="OD与IDA结合动调">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">OD与IDA结合动调</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/" title="简单搭建CTFd">
-                        <span class="hidden-mobile">简单搭建CTFd</span>
+                      <a href="/2024/03/28/%E5%AE%89%E8%A3%85ghidra/" title="安装ghidra">
+                        <span class="hidden-mobile">安装ghidra</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
