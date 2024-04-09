@@ -16,25 +16,23 @@
   <meta name="author" content="j1ya">
   <meta name="keywords" content="">
   
-    <meta name="description" content="written in 2023.7.22 晚上听尧哥说DASFCTF的一道re题需要动调来判断函数先后执行的顺序，好像一下子就悟了，但悟得不多，还没完全调出来。主要网上讲动态的视频太少，只知道基本快捷键还是很难动调，所以这里记录一下 1.还有一点当函数较复杂时，伪c会不准，即放在前面的函数不一定先运行，所以需要看OD的汇编，配合IDA的伪c代码 2.一般先是在main函数的input下一个断点，然">
+    <meta name="description" content="written in 2023.8.19 忘给梯子续费了，edge和谷歌都不能用了，报了网络转换错误，百度上一查让我重置网络，一点不知道后果就去试了，报错了我还以为没事，重启后就不对了。百度果然靠不住，过一会联想浏览器上所有书签都没了，大惊！ 晚饭过后搞了好久都找到把重置的网络恢复的方法，系统还原了也报错了，期间要改注册表，qetx说要成仁，我觉得也还行，最后好在系统没什么事，最后只能想着找浏览记">
 <meta property="og:type" content="article">
-<meta property="og:title" content="OD与IDA结合动调">
-<meta property="og:url" content="https://j1ya-22.github.io/2024/04/07/OD%E4%B8%8EIDA%E7%BB%93%E5%90%88%E5%8A%A8%E8%B0%83/index.html">
+<meta property="og:title" content="和代理的一些故事">
+<meta property="og:url" content="https://j1ya-22.github.io/2024/04/09/%E5%92%8C%E4%BB%A3%E7%90%86%E7%9A%84%E4%B8%80%E4%BA%9B%E6%95%85%E4%BA%8B/index.html">
 <meta property="og:site_name" content="j1ya">
-<meta property="og:description" content="written in 2023.7.22 晚上听尧哥说DASFCTF的一道re题需要动调来判断函数先后执行的顺序，好像一下子就悟了，但悟得不多，还没完全调出来。主要网上讲动态的视频太少，只知道基本快捷键还是很难动调，所以这里记录一下 1.还有一点当函数较复杂时，伪c会不准，即放在前面的函数不一定先运行，所以需要看OD的汇编，配合IDA的伪c代码 2.一般先是在main函数的input下一个断点，然">
+<meta property="og:description" content="written in 2023.8.19 忘给梯子续费了，edge和谷歌都不能用了，报了网络转换错误，百度上一查让我重置网络，一点不知道后果就去试了，报错了我还以为没事，重启后就不对了。百度果然靠不住，过一会联想浏览器上所有书签都没了，大惊！ 晚饭过后搞了好久都找到把重置的网络恢复的方法，系统还原了也报错了，期间要改注册表，qetx说要成仁，我觉得也还行，最后好在系统没什么事，最后只能想着找浏览记">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/04/07/OD%E4%B8%8EIDA%E7%BB%93%E5%90%88%E5%8A%A8%E8%B0%83/1690079441955-4d727ec8-c82d-4ece-a8b9-76ac0741bdec.png">
-<meta property="article:published_time" content="2024-04-07T07:40:32.000Z">
-<meta property="article:modified_time" content="2024-04-07T07:41:39.270Z">
+<meta property="article:published_time" content="2024-04-09T05:46:25.000Z">
+<meta property="article:modified_time" content="2024-04-09T05:47:31.652Z">
 <meta property="article:author" content="j1ya">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://j1ya-22.github.io/2024/04/07/OD%E4%B8%8EIDA%E7%BB%93%E5%90%88%E5%8A%A8%E8%B0%83/1690079441955-4d727ec8-c82d-4ece-a8b9-76ac0741bdec.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>OD与IDA结合动调 - j1ya</title>
+  <title>和代理的一些故事 - j1ya</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -229,7 +227,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="OD与IDA结合动调"></span>
+            <span id="subtitle" data-typed-text="和代理的一些故事"></span>
           
         </div>
 
@@ -240,8 +238,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-04-07 15:40" pubdate>
-          2024年4月7日 下午
+        <time datetime="2024-04-09 13:46" pubdate>
+          2024年4月9日 下午
         </time>
       </span>
     
@@ -252,7 +250,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          371 字
+          214 字
         
       </span>
     
@@ -263,7 +261,7 @@
         
         
         
-          4 分钟
+          2 分钟
         
       </span>
     
@@ -308,19 +306,16 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">OD与IDA结合动调</h1>
+            <h1 id="seo-header">和代理的一些故事</h1>
             
             
               <div class="markdown-body">
                 
-                <p>written in 2023.7.22</p>
-<p>晚上听尧哥说DASFCTF的一道re题需要动调来判断函数先后执行的顺序，好像一下子就悟了，但悟得不多，还没完全调出来。主要网上讲动态的视频太少，只知道基本快捷键还是很难动调，所以这里记录一下</p>
-<p>1.还有一点当函数较复杂时，伪c会不准，即放在前面的函数不一定先运行，所以需要看OD的汇编，配合IDA的伪c代码</p>
-<p>2.一般先是在main函数的input下一个断点，然后f8单步执行，当汇编地址有较大变化的时候要去IDA里相应的汇编地址，然后按tab，看看现在位于哪个函数，以此来判断加密函数的执行先后顺序，遇到汇编循环，可以点到汇编循环的下一个位置，然后f4到该位置，快速跳出循环，因为OD是线性扫描，所以本来循环结束也是到下一条指令，两个软件的界面建议一左一右，这样就不用一直切界面，就像下面这样。</p>
-<img src="/2024/04/07/OD%E4%B8%8EIDA%E7%BB%93%E5%90%88%E5%8A%A8%E8%B0%83/1690079441955-4d727ec8-c82d-4ece-a8b9-76ac0741bdec.png" srcset="/img/loading.gif" lazyload class="" title="img">
-
-<p>3.每次调试高几位的地址不一样，不过没关系，先在IDA里开启调试，汇编界面的地址就能和OD里面对应了</p>
-<p>4.汇编里面有函数调用函数（call）要按f7进入，此外，看伪c代码也可以看出一些函数调用关系</p>
+                <p>written in 2023.8.19</p>
+<p>忘给梯子续费了，edge和谷歌都不能用了，报了网络转换错误，百度上一查让我重置网络，一点不知道后果就去试了，报错了我还以为没事，重启后就不对了。百度果然靠不住，过一会联想浏览器上所有书签都没了，大惊！</p>
+<p>晚饭过后搞了好久都找到把重置的网络恢复的方法，系统还原了也报错了，期间要改注册表，qetx说要成仁，我觉得也还行，最后好在系统没什么事，最后只能想着找浏览记录去补收藏夹了😫😫</p>
+<p>没补几个突然看到收藏夹那边有什么导入，一点，哇，都回来了。</p>
+<p>我虽然想不明白原理，但还是很惊喜，算是不幸中的万幸！</p>
 
                 
               </div>
@@ -338,8 +333,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>OD与IDA结合动调</div>
-      <div>https://j1ya-22.github.io/2024/04/07/OD与IDA结合动调/</div>
+      <div>和代理的一些故事</div>
+      <div>https://j1ya-22.github.io/2024/04/09/和代理的一些故事/</div>
     </div>
     <div class="license-meta">
       
@@ -351,7 +346,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年4月7日</div>
+          <div>2024年4月9日</div>
         </div>
       
       
@@ -383,18 +378,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/04/09/%E5%92%8C%E4%BB%A3%E7%90%86%E7%9A%84%E4%B8%80%E4%BA%9B%E6%95%85%E4%BA%8B/" title="和代理的一些故事">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">和代理的一些故事</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/03/28/%E5%AE%89%E8%A3%85ghidra/" title="安装ghidra">
-                        <span class="hidden-mobile">安装ghidra</span>
+                      <a href="/2024/04/07/OD%E4%B8%8EIDA%E7%BB%93%E5%90%88%E5%8A%A8%E8%B0%83/" title="OD与IDA结合动调">
+                        <span class="hidden-mobile">OD与IDA结合动调</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
