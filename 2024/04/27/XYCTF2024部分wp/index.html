@@ -1,0 +1,935 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="j1ya">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Re聪明的信使  发现是rot9   想起来不是简单的减9，是循环着来   1flag&#123;Y0u_KnOw_Crypt0_14_v3ry_Imp0rt@nt!&#125;    miao和省赛的差不多     交叉引用过去    1flag&#123;My_fl@g_h4s_br0ken_4parT_Bu7_Y0u_c@n_f1x_1t!&#125;  大学生第一次遇到dos系统   输入">
+<meta property="og:type" content="article">
+<meta property="og:title" content="XYCTF2024部分wp">
+<meta property="og:url" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/index.html">
+<meta property="og:site_name" content="j1ya">
+<meta property="og:description" content="Re聪明的信使  发现是rot9   想起来不是简单的减9，是循环着来   1flag&#123;Y0u_KnOw_Crypt0_14_v3ry_Imp0rt@nt!&#125;    miao和省赛的差不多     交叉引用过去    1flag&#123;My_fl@g_h4s_br0ken_4parT_Bu7_Y0u_c@n_f1x_1t!&#125;  大学生第一次遇到dos系统   输入">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712051726951-e17ec2ed-5b40-48d7-9db5-26eeedbb1c7e.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712051750030-dcf3a574-9a06-4d78-85d7-8548b65b64af.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712052272078-5cb1c2fc-02e1-4b6d-93b6-1111c3d290e0.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712052290247-2e08b5c7-b2e9-455d-80e1-5635a2330a74.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712052736031-043a026f-64ca-4663-9d85-0f43bf4982ef.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712052859203-27455d36-5e20-46a0-8091-5487a6d9a1fe.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712052847842-5e8a1465-de85-48fc-98fd-07f0db85ee3b.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712052961771-0e54e387-423d-444c-8414-612e3f3862b0.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712053132899-8b9d1dbe-f307-46ab-9432-ba4412d54c0b.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712068099854-bc9b4106-2a2e-4e6c-ac5a-b49ba6800d04.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712068164096-eece6aeb-2994-40ed-bb0d-b15749c93821.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712068022471-94366bc6-8310-40a3-8207-0260b49a23df.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712068563333-67ab2072-df0b-4cea-b49f-ae30286d2594.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712107912377-569a0014-5b5d-4133-b724-7f01ca496e3e.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712199875421-3631d52d-bea6-43de-9765-b1e05126ef4d.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712069152663-2dc9e98b-3de0-438d-ab96-477524415e86.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712069133323-17339519-b6ec-4aa1-8813-dfab80f4a262.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712069325538-606612d5-a9c3-4b78-90cd-f1c58f13a650.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712200674892-4cb7837c-94da-431e-9716-4f3c6cfaf1cf.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712200661342-ba5f59e0-c3ff-4126-aff6-85b3da4a9e7a.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712202255450-513c7acb-fedf-4c62-9f18-bb69b6e86683.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712201691011-c79aeee3-64ee-454a-9720-df79b747304f.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712229746541-30eff005-c68f-4095-a123-605411be1f3c.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712229660604-107b9590-1134-47ee-8a97-903aaefaa40c.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712232918014-62b6c178-c636-4fc8-b4a1-41a2984b1dff.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712232841782-3b26a269-4c5e-4249-8ef5-2b440bf3db17.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712233210071-44d9d6ce-629b-43d7-936a-4397b3246f07.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712232745234-e3dd72db-7b2c-401a-8324-96f9448aff04.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712233142959-27f6e707-4446-46ac-bbd0-f663172bc53f.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712974229801-bd1f51a1-575d-470e-9d27-880389e661e5.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712974741323-6710afcf-62cc-454b-a18c-645705aa7b69.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712974851911-69a9c572-eda5-4a57-a78a-8e79cd3d42ea.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712326587601-87685055-82db-4f8b-a35f-2fbb7d52f3c9.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712326568808-10448a9d-423d-45b4-aa55-c4774c0d622e.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712371932601-3a00572c-cfd8-4321-bc8f-0fe7b9de5172.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712380768147-197af3b8-2065-4776-be23-10dd20da3c6c.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712380994506-8a936fa0-4c30-41c3-9ccf-2898ee870c2e.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712383451448-ce45a2cb-293a-4ab4-8558-767632343504.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712386499831-fe0a4e91-4ded-497f-84bb-db825caef7f2.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712385155393-902ca6f6-c85a-4265-8377-41cafd7dd312.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712538029145-73021005-5d48-46f5-bcc0-cc2cab675a18.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712538092358-e82af05c-6f0e-401f-bded-c7c33c2342ea.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712537941479-30672fcf-b71c-4a8e-827b-8cbed73aecc1.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712539239937-b3df0244-eee0-4c3a-a6a8-4b4bd1dde81c.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712538522256-2949ff9c-dc33-4ea4-be74-ca21e1448739.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712573749281-60369774-2b88-4088-869b-6bc6d933091b.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712203144307-e1b80582-c475-4853-9fd9-230c8235ce6b.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712202797199-efa0d22a-ff49-42fb-8ee8-6fc6a51d1b5e.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712203002356-cc93cb50-3b45-422f-be3b-309ec03ac341.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712212960769-be00309f-2594-4983-8f08-291b1c4a094a.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712383099722-d2568fa2-a8ce-4d14-bff7-d2be58bf7297.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712383204457-f62fd638-89e1-4dd5-9044-1d6ce8ef527d.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712383248486-5ffecd01-bca8-46c6-98e8-80fa9ec53d50.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712467126283-fbfcf916-4692-44d9-8948-5fc61d2b0063.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712467442789-04e40258-9c5e-4097-b87b-1619cd20332a.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712473914434-ce76bd09-7132-45ae-9155-875b9c12a76a.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712495034710-c8246956-dbed-4dff-af43-91c6ac408974.png">
+<meta property="article:published_time" content="2024-04-27T07:53:29.000Z">
+<meta property="article:modified_time" content="2024-04-27T07:54:02.427Z">
+<meta property="article:author" content="j1ya">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://j1ya-22.github.io/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712051726951-e17ec2ed-5b40-48d7-9db5-26eeedbb1c7e.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>XYCTF2024部分wp - j1ya</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"j1ya-22.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":false,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"5oPqGOgpqzM186wdJq3YyrcV-gzGzoHsz","app_key":"tdZv3tC3tP1IszSKxEodRe6e","server_url":null,"path":"window.location.pathname","ignore_local":true}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>j1ya</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="XYCTF2024部分wp"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-04-27 15:53" pubdate>
+          2024年4月27日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          975 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          9 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">XYCTF2024部分wp</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Re"><a href="#Re" class="headerlink" title="Re"></a>Re</h1><h2 id="聪明的信使"><a href="#聪明的信使" class="headerlink" title="聪明的信使"></a>聪明的信使</h2><img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712051726951-e17ec2ed-5b40-48d7-9db5-26eeedbb1c7e.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>发现是rot9</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712051750030-dcf3a574-9a06-4d78-85d7-8548b65b64af.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>想起来不是简单的减9，是循环着来</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712052272078-5cb1c2fc-02e1-4b6d-93b6-1111c3d290e0.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs smali">flag&#123;Y0u_KnOw_Crypt0_14_v3ry_Imp0rt@nt!&#125;<br></code></pre></td></tr></table></figure>
+
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712052290247-2e08b5c7-b2e9-455d-80e1-5635a2330a74.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<h2 id="miao"><a href="#miao" class="headerlink" title="miao"></a>miao</h2><p>和省赛的差不多</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712052736031-043a026f-64ca-4663-9d85-0f43bf4982ef.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712052859203-27455d36-5e20-46a0-8091-5487a6d9a1fe.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>交叉引用过去</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712052847842-5e8a1465-de85-48fc-98fd-07f0db85ee3b.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712052961771-0e54e387-423d-444c-8414-612e3f3862b0.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs angelscript">flag&#123;<span class="hljs-symbol">My_fl@</span><span class="hljs-symbol">g_h4s_br0ken_4parT_Bu7_Y0u_c@</span>n_f1x_1t!&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="大学生"><a href="#大学生" class="headerlink" title="大学生"></a>大学生</h2><p>第一次遇到dos系统</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712053132899-8b9d1dbe-f307-46ab-9432-ba4412d54c0b.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>输入然后相邻两位异或</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712068099854-bc9b4106-2a2e-4e6c-ac5a-b49ba6800d04.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>最后和密文比较</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712068164096-eece6aeb-2994-40ed-bb0d-b15749c93821.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>直觉是密文相邻两位异或</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712068022471-94366bc6-8310-40a3-8207-0260b49a23df.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<h2 id="DebugMe"><a href="#DebugMe" class="headerlink" title="DebugMe"></a>DebugMe</h2><img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712068563333-67ab2072-df0b-4cea-b49f-ae30286d2594.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>jadx混淆有点严重</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712107912377-569a0014-5b5d-4133-b724-7f01ca496e3e.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>不如jeb直接动调，不要下断点，直接attach之后click就有flag</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712199875421-3631d52d-bea6-43de-9765-b1e05126ef4d.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dust"><span class="language-xml">XYCTF</span><span class="hljs-template-variable">&#123;d3bugg3r_15_v3ry_u53ful&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="TrustMe"><a href="#TrustMe" class="headerlink" title="TrustMe"></a>TrustMe</h2><p>rc4解密</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712069152663-2dc9e98b-3de0-438d-ab96-477524415e86.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712069133323-17339519-b6ec-4aa1-8813-dfab80f4a262.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712069325538-606612d5-a9c3-4b78-90cd-f1c58f13a650.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712200674892-4cb7837c-94da-431e-9716-4f3c6cfaf1cf.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>解密不够，去看其他方法，发现了decrypt，异或0xff，二进制位原来是1变为0，原来是0变为1</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712200661342-ba5f59e0-c3ff-4126-aff6-85b3da4a9e7a.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712202255450-513c7acb-fedf-4c62-9f18-bb69b6e86683.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>高版本没有debug</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712201691011-c79aeee3-64ee-454a-9720-df79b747304f.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>最后一部分没有注释，那估计是有用数据</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712229746541-30eff005-c68f-4095-a123-605411be1f3c.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>发现还真是zip，同时也是apk，记得最后四位不要，这样才能在模拟器中打开</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712229660604-107b9590-1134-47ee-8a97-903aaefaa40c.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>还是一个apk，flag从数据库中读出来</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712232918014-62b6c178-c636-4fc8-b4a1-41a2984b1dff.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>找到db文件了，但是在线工具一直打不开，应该要能想到已经被加密了(师傅提醒,有点misc)，因为数据库这种不加密很危险</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712232841782-3b26a269-4c5e-4249-8ef5-2b440bf3db17.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>对着原本的文件头去异或，发现异或的是同一个数0xff，估计是第一个apk把所有有用文件都异或0xff了</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712233210071-44d9d6ce-629b-43d7-936a-4397b3246f07.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>异或后直接搜就能出</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712232745234-e3dd72db-7b2c-401a-8324-96f9448aff04.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>这样就能在线查看了</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712233142959-27f6e707-4446-46ac-bbd0-f663172bc53f.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<h2 id="砸核桃"><a href="#砸核桃" class="headerlink" title="砸核桃"></a>砸核桃</h2><img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712974229801-bd1f51a1-575d-470e-9d27-880389e661e5.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712974741323-6710afcf-62cc-454b-a18c-645705aa7b69.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>demo解压到本地就能脱壳了</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712974851911-69a9c572-eda5-4a57-a78a-8e79cd3d42ea.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<h2 id="baby-unity-2"><a href="#baby-unity-2" class="headerlink" title="baby_unity-2"></a>baby_unity-2</h2><p><a target="_blank" rel="noopener" href="https://www.52pojie.cn/thread-1580642-1-1.html">https://www.52pojie.cn/thread-1580642-1-1.html</a></p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712326587601-87685055-82db-4f8b-a35f-2fbb7d52f3c9.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712326568808-10448a9d-423d-45b4-aa55-c4774c0d622e.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>发现并没有需要的libil2cpp.so，用GameAssembler.dll代替</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712371932601-3a00572c-cfd8-4321-bc8f-0fe7b9de5172.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>在师傅的提醒下发现有壳，其实想想也应该的，只有这个程序会有改动</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712380768147-197af3b8-2065-4776-be23-10dd20da3c6c.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712380994506-8a936fa0-4c30-41c3-9ccf-2898ee870c2e.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>用dnSpy打开，发现并没有具体实现</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712383451448-ce45a2cb-293a-4ab4-8558-767632343504.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>用ida打开GameAssembly.dll，但是找不到密文</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712386499831-fe0a4e91-4ded-497f-84bb-db825caef7f2.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>发现sha1</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712385155393-902ca6f6-c85a-4265-8377-41cafd7dd312.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<h2 id="ezcube"><a href="#ezcube" class="headerlink" title="ezcube"></a>ezcube</h2><p>看颜色应该是三个中间块没有还原</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712538029145-73021005-5d48-46f5-bcc0-cc2cab675a18.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>且步数不能超过12</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712538092358-e82af05c-6f0e-401f-bded-c7c33c2342ea.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>用z3不行</p>
+<p>想到了最后一步还原公式</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712537941479-30672fcf-b71c-4a8e-827b-8cbed73aecc1.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dust"><span class="language-xml">flag</span><span class="hljs-template-variable">&#123;RuRURURuruRR&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="今夕是何年-2"><a href="#今夕是何年-2" class="headerlink" title="今夕是何年-2"></a>今夕是何年-2</h2><img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712539239937-b3df0244-eee0-4c3a-a6a8-4b4bd1dde81c.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>工具反编译不了</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712538522256-2949ff9c-dc33-4ea4-be74-ca21e1448739.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<h2 id="ez-rand-2"><a href="#ez-rand-2" class="headerlink" title="ez_rand-2"></a>ez_rand-2</h2><p>看上去像是真随机，没啥想法</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712573749281-60369774-2b88-4088-869b-6bc6d933091b.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<h2 id="何须相思煮余年-2"><a href="#何须相思煮余年-2" class="headerlink" title="何须相思煮余年-2"></a>何须相思煮余年-2</h2><p>gpt生成的汇编看不懂</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><code class="hljs python">push ebp<br>mov ebp, esp<br>sub esp, <span class="hljs-number">0x81ec</span><br>mov eax, [<span class="hljs-number">0xa8</span>]<br>mov ecx, [<span class="hljs-number">0x414040</span>]<br>xor eax, [<span class="hljs-number">0xfc45</span>]<br>push <span class="hljs-number">0x0</span><br>lea eax, [ebp-<span class="hljs-number">0xa0</span>]<br>push eax<br>call <span class="hljs-number">0xc7a</span><br>add esp, <span class="hljs-number">0xc</span><br>mov dword ptr [ebp-<span class="hljs-number">0xa8</span>], <span class="hljs-number">0x27</span><br>mov dword ptr [ebp-<span class="hljs-number">0xa4</span>], <span class="hljs-number">0x0</span><br>jmp short <span class="hljs-number">0xf</span><br>mov ecx, [ebp-<span class="hljs-number">0xa4</span>]<br>add ecx, <span class="hljs-number">0x1</span><br>mov dword ptr [ebp-<span class="hljs-number">0xa4</span>], ecx<br>cmp dword ptr [ebp-<span class="hljs-number">0xa4</span>], <span class="hljs-number">0x27</span><br>jle short <span class="hljs-number">0xf</span><br>lea ebp, [ebp]<br>mov edx, [ebp-<span class="hljs-number">0xa4</span>]<br>mov eax, [ebp+<span class="hljs-number">0x60</span>]<br>lea ebx, [ebp+edx-<span class="hljs-number">0x3</span>]<br>mov edx, [ebp-<span class="hljs-number">0xa4</span>]<br>mov ecx, [ebp-<span class="hljs-number">0xa4</span>]<br>mov dword ptr [ebp+ecx*<span class="hljs-number">4</span>-<span class="hljs-number">0x3</span>], edx<br>mov edx, [ebp-<span class="hljs-number">0xa4</span>]<br>mov eax, [ebp-<span class="hljs-number">0xa4</span>]<br>mov dword ptr [ebp+eax*<span class="hljs-number">4</span>-<span class="hljs-number">0x3</span>], edx<br>jmp short <span class="hljs-number">0x73</span><br>mov ecx, [ebp-<span class="hljs-number">0xa4</span>]<br>add ecx, <span class="hljs-number">0x3</span><br>mov dword ptr [ebp-<span class="hljs-number">0xa4</span>], ecx<br>cmp dword ptr [ebp-<span class="hljs-number">0xa4</span>], <span class="hljs-number">0x27</span><br>jle short <span class="hljs-number">0x73</span><br>lea esi, [ebp-<span class="hljs-number">0xa4</span>]<br>mov ecx, [ebp-<span class="hljs-number">0xa4</span>]<br>mov edx, [ebp+<span class="hljs-number">0x60</span>]<br>sub esi, edx<br>mov edx, [ebp-<span class="hljs-number">0xa4</span>]<br>mov ecx, [ebp-<span class="hljs-number">0xa4</span>]<br>mov dword ptr [ebp+ecx*<span class="hljs-number">4</span>-<span class="hljs-number">0x3</span>], edx<br>mov edx, [ebp-<span class="hljs-number">0xa4</span>]<br>mov eax, [ebp-<span class="hljs-number">0xa4</span>]<br>mov dword ptr [ebp+eax*<span class="hljs-number">4</span>-<span class="hljs-number">0x3</span>], edx<br>jmp short <span class="hljs-number">0x38</span><br>mov ecx, [ebp-<span class="hljs-number">0xa4</span>]<br>add ecx, <span class="hljs-number">0x3</span><br>mov dword ptr [ebp-<span class="hljs-number">0xa4</span>], ecx<br>cmp dword ptr [ebp-<span class="hljs-number">0xa4</span>], <span class="hljs-number">0x27</span><br>jle short <span class="hljs-number">0x38</span><br>lea edi, [ebp-<span class="hljs-number">0xa4</span>]<br>mov ecx, [ebp-<span class="hljs-number">0xa4</span>]<br>mov edx, [ebp+<span class="hljs-number">0x60</span>]<br>xor edi, edx<br>mov edx, [ebp-<span class="hljs-number">0xa4</span>]<br>mov ecx, [ebp-<span class="hljs-number">0xa4</span>]<br>mov dword ptr [ebp+ecx*<span class="hljs-number">4</span>-<span class="hljs-number">0x3</span>], edx<br>mov edx, [ebp-<span class="hljs-number">0xa4</span>]<br>mov eax, [ebp-<span class="hljs-number">0xa4</span>]<br>mov dword ptr [ebp+eax*<span class="hljs-number">4</span>-<span class="hljs-number">0x3</span>], edx<br>jmp short <span class="hljs-number">0xf7</span><br>xor eax, eax<br>mov ecx, [ebp-<span class="hljs-number">0x4</span>]<br>xor ecx, ebp<br>call <span class="hljs-number">0x4</span><br>mov ebp, esp<br>ret<br></code></pre></td></tr></table></figure>
+
+<h1 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h1><h2 id="神之套-2"><a href="#神之套-2" class="headerlink" title="神之套-2"></a>神之套-2</h2><p>一眼掩码攻击</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712203144307-e1b80582-c475-4853-9fd9-230c8235ce6b.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712202797199-efa0d22a-ff49-42fb-8ee8-6fc6a51d1b5e.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>套比flag多了flag.md，其他都一样</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712203002356-cc93cb50-3b45-422f-be3b-309ec03ac341.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>找到同样地址的地方，发现^0xff之后有压缩包</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712212960769-be00309f-2594-4983-8f08-291b1c4a094a.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<h2 id="TCPL"><a href="#TCPL" class="headerlink" title="TCPL"></a>TCPL</h2><p>直接运行不了</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712383099722-d2568fa2-a8ce-4d14-bff7-d2be58bf7297.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>ida不能反编译，那就用ghidra</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712383204457-f62fd638-89e1-4dd5-9044-1d6ce8ef527d.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>按照流程得到输出，但是好像没啥用</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712383248486-5ffecd01-bca8-46c6-98e8-80fa9ec53d50.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>由于题目说是把1用下面的图片来代替，那么可以知道下面的图片也表示一个字母或者数字，仔细去看上面的反编译代码后半部分可以发现是在调换数组的元素，那么数组的0x0就可以忽略，同时由于是5×5的矩阵，那猜测第59行应该是×5，同理上面应该是直接异或i，最后用0代替1即可</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python">a=[<span class="hljs-number">0x46</span>, <span class="hljs-number">0x4D</span>, <span class="hljs-number">0x43</span>, <span class="hljs-number">0x44</span>, <span class="hljs-number">0x7F</span>, <span class="hljs-number">0x55</span>, <span class="hljs-number">0x4A</span>, <span class="hljs-number">0x44</span>, <span class="hljs-number">0x5C</span>, <span class="hljs-number">0x56</span>,<br>  <span class="hljs-number">0x4B</span>, <span class="hljs-number">0x65</span>, <span class="hljs-number">0x38</span>, <span class="hljs-number">0x52</span>, <span class="hljs-number">0x7C</span>, <span class="hljs-number">0x3E</span>, <span class="hljs-number">0x43</span>, <span class="hljs-number">0x52</span>, <span class="hljs-number">0x64</span>, <span class="hljs-number">0x4C</span>,<br>  <span class="hljs-number">0x6C</span>, <span class="hljs-number">0x24</span>, <span class="hljs-number">0x7E</span>, <span class="hljs-number">0x62</span>, <span class="hljs-number">0x79</span>, <span class="hljs-number">0x77</span>, <span class="hljs-number">0x74</span>, <span class="hljs-number">0x2A</span>, <span class="hljs-number">0x61</span>]<br><span class="hljs-comment">#print(hex(len(a)))</span><br>s1=<span class="hljs-string">&#x27;&#x27;</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0x1d</span>):<br>    <span class="hljs-comment">#print((a[i]+i)^i,end=&quot;,&quot;)</span><br>    s1+=<span class="hljs-built_in">chr</span>((a[i]^i))<br><span class="hljs-built_in">print</span>(s1)<br><br>b=[<span class="hljs-number">0x20</span>, <span class="hljs-number">0x2A</span>, <span class="hljs-number">0x2A</span>, <span class="hljs-number">0x2A</span>, <span class="hljs-number">0x20</span>,<span class="hljs-number">0x2A</span>, <span class="hljs-number">0x20</span>, <span class="hljs-number">0x20</span>,<span class="hljs-number">0x20</span>, <span class="hljs-number">0x2A</span>,<span class="hljs-number">0x2A</span>, <span class="hljs-number">0x20</span>, <span class="hljs-number">0x20</span>, <span class="hljs-number">0x20</span>,<span class="hljs-number">0x2a</span>, <span class="hljs-number">0x2A</span>, <span class="hljs-number">0x20</span>,<span class="hljs-number">0x20</span>,<span class="hljs-number">0x20</span>,<span class="hljs-number">0x2a</span>,<span class="hljs-number">0x20</span>,<span class="hljs-number">0x2a</span>,<span class="hljs-number">0x2a</span>,<span class="hljs-number">0x2a</span>,<span class="hljs-number">0x20</span>]<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">len</span>(b))<br>s2=<span class="hljs-string">&#x27;&#x27;</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>):<br>    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>):<br>        s2+=<span class="hljs-built_in">chr</span>(b[j+i*<span class="hljs-number">5</span>])<br>    <span class="hljs-built_in">print</span>(s2,end=<span class="hljs-string">&quot;&quot;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;\n&#x27;</span>,end=<span class="hljs-string">&quot;&quot;</span>)<br>    s2=<span class="hljs-string">&#x27;&#x27;</span><br><span class="hljs-comment">#FLAG&#123;PLCT_An4_r1SCv_x1huann1&#125;</span><br>FLAG&#123;PLCT_An4_r0SCv_x0huann0&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="baby-AIO-2"><a href="#baby-AIO-2" class="headerlink" title="baby-AIO-2"></a>baby-AIO-2</h2><p>去看so层发现关键函数</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712467126283-fbfcf916-4692-44d9-8948-5fc61d2b0063.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712467442789-04e40258-9c5e-4097-b87b-1619cd20332a.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>后来又给了一个apk，发现是vm</p>
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712473914434-ce76bd09-7132-45ae-9155-875b9c12a76a.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/1712495034710-c8246956-dbed-4dff-af43-91c6ac408974.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>XYCTF2024部分wp</div>
+      <div>https://j1ya-22.github.io/2024/04/27/XYCTF2024部分wp/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>j1ya</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年4月27日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/04/10/2024%E9%95%BF%E5%9F%8E%E6%9D%AF%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86Re/" title="2024长城杯初赛部分Re">
+                        <span class="hidden-mobile">2024长城杯初赛部分Re</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"5oPqGOgpqzM186wdJq3YyrcV-gzGzoHsz","appKey":"tdZv3tC3tP1IszSKxEodRe6e","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
