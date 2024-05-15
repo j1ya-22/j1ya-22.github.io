@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>C盘扩容</title>
+    <link href="/2024/05/15/C%E7%9B%98%E6%89%A9%E5%AE%B9/"/>
+    <url>/2024/05/15/C%E7%9B%98%E6%89%A9%E5%AE%B9/</url>
+    
+    <content type="html"><![CDATA[<p>1</p><p>这两天刚买了硬盘，想着给C盘扩容来着，<del>为以后下2k做准备</del>。无法直接从E盘分配过去（不同硬盘），那就先把D盘的复制到E盘，再从D盘分内存到C盘。</p><p>基本教程网上有，先用DiskGenius拆分分区，把空余空间放到C和D之间<img src="/2024/05/15/C%E7%9B%98%E6%89%A9%E5%AE%B9/image-20240515234259306.png" class="" title="image-20240515234259306"></p><p>直接扩容C盘报错bitmap中有标记为已使用的簇，我这里chkdsk无效，于是用自带的磁盘管理器扩展卷就可以啦</p><img src="/2024/05/15/C%E7%9B%98%E6%89%A9%E5%AE%B9/image-20240515234110804.png" class="" title="image-20240515234110804">]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>NSSRound22-Reverse专项赛</title>
     <link href="/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/"/>
     <url>/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/</url>

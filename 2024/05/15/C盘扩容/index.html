@@ -16,37 +16,26 @@
   <meta name="author" content="j1ya">
   <meta name="keywords" content="">
   
-    <meta name="description" content="22这个数字我很喜欢，就是出的题目难了点😥 ezapk-1java层有XTEA   魔改异或918,得到username，负数用jeb转成16进制 12345678910111213141516171819202122232425262728293031#include &lt;stdio.h&gt;#include &lt;stdint.h&gt;int main() &#123;    ui">
+    <meta name="description" content="1 这两天刚买了硬盘，想着给C盘扩容来着，为以后下2k做准备。无法直接从E盘分配过去（不同硬盘），那就先把D盘的复制到E盘，再从D盘分内存到C盘。 基本教程网上有，先用DiskGenius拆分分区，把空余空间放到C和D之间 直接扩容C盘报错bitmap中有标记为已使用的簇，我这里chkdsk无效，于是用自带的磁盘管理器扩展卷就可以啦">
 <meta property="og:type" content="article">
-<meta property="og:title" content="NSSRound22-Reverse专项赛">
-<meta property="og:url" content="https://j1ya-22.github.io/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/index.html">
+<meta property="og:title" content="C盘扩容">
+<meta property="og:url" content="https://j1ya-22.github.io/2024/05/15/C%E7%9B%98%E6%89%A9%E5%AE%B9/index.html">
 <meta property="og:site_name" content="j1ya">
-<meta property="og:description" content="22这个数字我很喜欢，就是出的题目难了点😥 ezapk-1java层有XTEA   魔改异或918,得到username，负数用jeb转成16进制 12345678910111213141516171819202122232425262728293031#include &lt;stdio.h&gt;#include &lt;stdint.h&gt;int main() &#123;    ui">
+<meta property="og:description" content="1 这两天刚买了硬盘，想着给C盘扩容来着，为以后下2k做准备。无法直接从E盘分配过去（不同硬盘），那就先把D盘的复制到E盘，再从D盘分内存到C盘。 基本教程网上有，先用DiskGenius拆分分区，把空余空间放到C和D之间 直接扩容C盘报错bitmap中有标记为已使用的簇，我这里chkdsk无效，于是用自带的磁盘管理器扩展卷就可以啦">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/1712995414906-b14e000a-2d31-46cc-962d-4f9db223adf7.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/1713004158231-726848ee-4198-4918-bce9-006e362ecff1.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/1712995673545-44f7187b-f19b-40fe-a91c-821e37fb43dd.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/1713005527064-45e41f64-2346-4139-88db-0ff023ce32a1.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/1714281705041-492415f8-4f1b-444a-bdb0-86bfc8c327e4.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/1714281994258-00e36fc8-fd2c-4c1b-8f0d-f660a2968697.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/1714283017306-26380021-3938-42ce-bf08-a28eee88e219.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/1714283204028-1057fe73-fad1-47b4-948d-231a663fee70.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/1714282164099-ed1eb021-9a03-40ec-a21d-d7656134c270.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/1714289822893-f969cb8c-eb2c-432e-8fa9-b46ff7ff94c3.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/1714290752537-099c14b5-95c9-4d14-a6aa-3d4a85a2b7ad.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/1714291965372-c1a5414e-8187-41fc-a7ab-5ad9ed66806b.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/1714292085309-cda89066-4965-4d08-b6bb-063fc93ed8d8.png">
-<meta property="article:published_time" content="2024-04-28T08:17:53.000Z">
-<meta property="article:modified_time" content="2024-04-28T11:35:22.893Z">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/05/15/C%E7%9B%98%E6%89%A9%E5%AE%B9/image-20240515234259306.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/05/15/C%E7%9B%98%E6%89%A9%E5%AE%B9/image-20240515234110804.png">
+<meta property="article:published_time" content="2024-05-15T15:34:53.000Z">
+<meta property="article:modified_time" content="2024-05-15T15:45:03.777Z">
 <meta property="article:author" content="j1ya">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://j1ya-22.github.io/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/1712995414906-b14e000a-2d31-46cc-962d-4f9db223adf7.png">
+<meta name="twitter:image" content="https://j1ya-22.github.io/2024/05/15/C%E7%9B%98%E6%89%A9%E5%AE%B9/image-20240515234259306.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>NSSRound22-Reverse专项赛 - j1ya</title>
+  <title>C盘扩容 - j1ya</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -241,7 +230,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="NSSRound22-Reverse专项赛"></span>
+            <span id="subtitle" data-typed-text="C盘扩容"></span>
           
         </div>
 
@@ -252,8 +241,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-04-28 16:17" pubdate>
-          2024年4月28日 下午
+        <time datetime="2024-05-15 23:34" pubdate>
+          2024年5月15日 晚上
         </time>
       </span>
     
@@ -264,7 +253,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          599 字
+          127 字
         
       </span>
     
@@ -275,7 +264,7 @@
         
         
         
-          5 分钟
+          2 分钟
         
       </span>
     
@@ -320,59 +309,16 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">NSSRound22-Reverse专项赛</h1>
+            <h1 id="seo-header">C盘扩容</h1>
             
             
               <div class="markdown-body">
                 
-                <p>22这个数字我很喜欢，就是出的题目难了点😥</p>
-<h2 id="ezapk-1"><a href="#ezapk-1" class="headerlink" title="ezapk-1"></a>ezapk-1</h2><p>java层有XTEA</p>
-<img src="/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/1712995414906-b14e000a-2d31-46cc-962d-4f9db223adf7.png" srcset="/img/loading.gif" lazyload class="" title="img">
-
-<p>魔改异或918,得到username，负数用jeb转成16进制</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdint.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">uint32_t</span> v[<span class="hljs-number">2</span>] = &#123; <span class="hljs-number">1</span>, <span class="hljs-number">2</span> &#125;;<br>    <span class="hljs-type">int</span> num = <span class="hljs-number">32</span>;<br>    <span class="hljs-type">uint32_t</span> v0 = v[<span class="hljs-number">0</span>], v1 = v[<span class="hljs-number">1</span>], i; <span class="hljs-comment">/* set up */</span><br>    <span class="hljs-type">uint32_t</span> delta = <span class="hljs-number">0x9E3779B9</span>, sum = <span class="hljs-number">0x9E3779B9</span> * num;<br>    <span class="hljs-type">uint32_t</span> v2[<span class="hljs-number">2</span>] = &#123; <span class="hljs-number">0x3D121D26</span>, <span class="hljs-number">0x5E6189F9</span> &#125;, v3[<span class="hljs-number">2</span>] = &#123; <span class="hljs-number">0xC1FB278E</span>, <span class="hljs-number">0x3B494648</span> &#125;, v5[<span class="hljs-number">10</span>] = &#123; <span class="hljs-number">0x3c36eb49</span>, <span class="hljs-number">0x81acb0c0</span>, <span class="hljs-number">0xfac269ae</span>, <span class="hljs-number">0xca5bf9ec</span> &#125;;<br>    <span class="hljs-type">uint32_t</span> k[<span class="hljs-number">4</span>] = &#123; <span class="hljs-number">0x12345678</span>, <span class="hljs-number">0x5678abcd</span>, <span class="hljs-number">0x89ABCDEF</span>, <span class="hljs-number">0xCDEF1234</span> &#125;, l = <span class="hljs-number">0</span>, r = <span class="hljs-number">0</span>;<br>    <span class="hljs-type">uint32_t</span> k0 = k[<span class="hljs-number">0</span>], k1 = k[<span class="hljs-number">1</span>], k2 = k[<span class="hljs-number">2</span>], k3 = k[<span class="hljs-number">3</span>];<br>    <span class="hljs-comment">// v为要加密的数据是两个32位无符号整数</span><br>    <span class="hljs-comment">// k为加密解密密钥，为4个32位无符号整数，即密钥长度为128位</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> m = <span class="hljs-number">0</span>; m &lt; <span class="hljs-number">8</span>; m += <span class="hljs-number">2</span>) &#123;<span class="hljs-comment">//flag不全的话有可能是10</span><br>        sum = <span class="hljs-number">0x9E3779B9</span> * num;<br>        <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">32</span>; i++) &#123;                     <span class="hljs-comment">/* basic cycle start */</span><br>            v5[m + <span class="hljs-number">1</span>] -= (v5[m] &lt;&lt; <span class="hljs-number">4</span> ^ v5[m] &gt;&gt; <span class="hljs-number">5</span>)  + v5[m] ^ <span class="hljs-number">918</span> ^ k[(sum &gt;&gt; <span class="hljs-number">11</span>) &amp; <span class="hljs-number">3</span>] + sum;<br>            sum += <span class="hljs-number">0x61C88647</span>;<br>            v5[m] -= (v5[m + <span class="hljs-number">1</span>] &lt;&lt; <span class="hljs-number">4</span> ^ v5[m + <span class="hljs-number">1</span>] &gt;&gt; <span class="hljs-number">5</span>) + v5[m + <span class="hljs-number">1</span>] ^ <span class="hljs-number">918</span> ^ k[sum &amp; <span class="hljs-number">3</span>] + sum;<br>        &#125;                                              <span class="hljs-comment">/* end cycle */</span><br>    &#125;<br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">8</span>; i++) &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> m = <span class="hljs-number">0</span>; m &lt;= <span class="hljs-number">3</span>; m++) &#123;<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%c&quot;</span>, (v5[i] &gt;&gt; (<span class="hljs-number">8</span> * m)) &amp; <span class="hljs-number">0xff</span>);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><span class="hljs-comment">//NS5_R0Un6_z2_apK</span><br></code></pre></td></tr></table></figure>
-
-<img src="/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/1713004158231-726848ee-4198-4918-bce9-006e362ecff1.png" srcset="/img/loading.gif" lazyload class="" title="img">
-
-<p>魔改rc4,256变成128</p>
-<img src="/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/1712995673545-44f7187b-f19b-40fe-a91c-821e37fb43dd.png" srcset="/img/loading.gif" lazyload class="" title="img">
-
-<p>一开始以为validatePassword函数还有加密，后来想如果是这样的话java层应该有密文，再去看发现上面函数只是确认密文，这样看的话java层validatePassword(str, encryptWithRC4(str2, str))两个str含义不一样</p>
-<img src="/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/1713005527064-45e41f64-2346-4139-88db-0ff023ce32a1.png" srcset="/img/loading.gif" lazyload class="" title="img">
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">rc4</span>(<span class="hljs-params">data, key</span>):<br>    S = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">range</span>(<span class="hljs-number">128</span>))<br>    j = <span class="hljs-number">0</span><br>    out = []<br><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">128</span>):<br>        j = (j + S[i] + key[i % <span class="hljs-built_in">len</span>(key)]) % <span class="hljs-number">128</span><br>        S[i], S[j] = S[j], S[i]<br><br>    i = j = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">for</span> char <span class="hljs-keyword">in</span> data:<br>        i = (i + <span class="hljs-number">1</span>) % <span class="hljs-number">128</span><br>        j = (j + S[i]) % <span class="hljs-number">128</span><br>        S[i], S[j] = S[j], S[i]<br>        out.append(char ^ S[(S[i] + S[j]) % <span class="hljs-number">128</span>])<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">bytes</span>(out)<br><br><br>data = <span class="hljs-built_in">bytes</span>.fromhex(<span class="hljs-string">&quot;572e180b1a680b3e5276344b241d5b52525a043173346b1355442028&quot;</span>)<br>key = <span class="hljs-string">b&#x27;NS5_R0Un6_z2_apK&#x27;</span><br>decrypted = rc4(data, key)<br><span class="hljs-built_in">print</span>(decrypted)<br><span class="hljs-comment">#NSSCTF&#123;V3ry_4z_1ib_W1th_4pk&#125;</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="EzHook-1"><a href="#EzHook-1" class="headerlink" title="EzHook-1"></a>EzHook-1</h2><p>复现来自yuro✌和P✌</p>
-<p>考得是Windows IAT Hook技术，本题hook了MessageBoxA函数，当执行MessageBoxA的时候会跑到另外地方</p>
-<p>4B0函数里面一堆异或，一个个写出来不显示，后面Right?的话应该没这么简单</p>
-<img src="/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/1714281705041-492415f8-4f1b-444a-bdb0-86bfc8c327e4.png" srcset="/img/loading.gif" lazyload class="" title="img">
-
-<p>往main前找，找到1240，调试起来发现运行在main函数之后</p>
-<img src="/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/1714281994258-00e36fc8-fd2c-4c1b-8f0d-f660a2968697.png" srcset="/img/loading.gif" lazyload class="" title="img">
-
-<p>1880和1840里面调用的函数是一样的，那么大概率就是一对加解密函数</p>
-<img src="/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/1714283017306-26380021-3938-42ce-bf08-a28eee88e219.png" srcset="/img/loading.gif" lazyload class="" title="img">
-
-<p>细看猜测是xxtea</p>
-<img src="/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/1714283204028-1057fe73-fad1-47b4-948d-231a663fee70.png" srcset="/img/loading.gif" lazyload class="" title="img">
-
-<p>最后给了个弹窗，也就是说a090函数是MessageBoxA函数</p>
-<img src="/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/1714282164099-ed1eb021-9a03-40ec-a21d-d7656134c270.png" srcset="/img/loading.gif" lazyload class="" title="img">
-
-<p>调试到这里把str2赋值给a2</p>
-<img src="/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/1714289822893-f969cb8c-eb2c-432e-8fa9-b46ff7ff94c3.png" srcset="/img/loading.gif" lazyload class="" title="img">
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">E4 E7 FE E3 <span class="hljs-number">17</span> 1C DE <span class="hljs-number">32</span> E6 B8 <span class="hljs-number">68</span> <span class="hljs-number">40</span> <span class="hljs-number">40</span> D8 <span class="hljs-number">72</span> FA <span class="hljs-number">88</span> <span class="hljs-number">14</span> E1 <span class="hljs-number">85</span> CD <span class="hljs-number">81</span> AA DE 1D E8 <span class="hljs-number">92</span> <span class="hljs-number">41</span> B8 1E 5E CF CE <span class="hljs-number">49</span> <span class="hljs-number">27</span> <span class="hljs-number">22</span> <span class="hljs-number">39</span> 7D <span class="hljs-number">50</span> DA<br></code></pre></td></tr></table></figure>
-
-<p>通过汇编的rcx进入编辑</p>
-<img src="/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/1714290752537-099c14b5-95c9-4d14-a6aa-3d4a85a2b7ad.png" srcset="/img/loading.gif" lazyload class="" title="img">
-
-<p>每16个地址change byte一次，把对应的密文填进去</p>
-<img src="/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/1714291965372-c1a5414e-8187-41fc-a7ab-5ad9ed66806b.png" srcset="/img/loading.gif" lazyload class="" title="img">运行到解密函数之后
-
-<img src="/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/1714292085309-cda89066-4965-4d08-b6bb-063fc93ed8d8.png" srcset="/img/loading.gif" lazyload class="" title="img">
-
-<p>直接就是参数a1<code>NSSCTF&#123;C0ngr@tulat1ons!H0Ok_bY_1t_s3lf!&#125;</code></p>
+                <p>1</p>
+<p>这两天刚买了硬盘，想着给C盘扩容来着，<del>为以后下2k做准备</del>。无法直接从E盘分配过去（不同硬盘），那就先把D盘的复制到E盘，再从D盘分内存到C盘。</p>
+<p>基本教程网上有，先用DiskGenius拆分分区，把空余空间放到C和D之间<img src="/2024/05/15/C%E7%9B%98%E6%89%A9%E5%AE%B9/image-20240515234259306.png" srcset="/img/loading.gif" lazyload class="" title="image-20240515234259306"></p>
+<p>直接扩容C盘报错bitmap中有标记为已使用的簇，我这里chkdsk无效，于是用自带的磁盘管理器扩展卷就可以啦</p>
+<img src="/2024/05/15/C%E7%9B%98%E6%89%A9%E5%AE%B9/image-20240515234110804.png" srcset="/img/loading.gif" lazyload class="" title="image-20240515234110804">
 
                 
               </div>
@@ -390,8 +336,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>NSSRound22-Reverse专项赛</div>
-      <div>https://j1ya-22.github.io/2024/04/28/NSSRound22Reverse专项赛/</div>
+      <div>C盘扩容</div>
+      <div>https://j1ya-22.github.io/2024/05/15/C盘扩容/</div>
     </div>
     <div class="license-meta">
       
@@ -403,7 +349,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年4月28日</div>
+          <div>2024年5月15日</div>
         </div>
       
       
@@ -435,18 +381,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/05/15/C%E7%9B%98%E6%89%A9%E5%AE%B9/" title="C盘扩容">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">C盘扩容</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/" title="XYCTF2024部分wp">
-                        <span class="hidden-mobile">XYCTF2024部分wp</span>
+                      <a href="/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/" title="NSSRound22-Reverse专项赛">
+                        <span class="hidden-mobile">NSSRound22-Reverse专项赛</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
