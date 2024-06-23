@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>实现两台虚拟机相互ping通</title>
+    <link href="/2024/06/23/%E5%AE%9E%E7%8E%B0%E4%B8%A4%E5%8F%B0%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9B%B8%E4%BA%92ping%E9%80%9A/"/>
+    <url>/2024/06/23/%E5%AE%9E%E7%8E%B0%E4%B8%A4%E5%8F%B0%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9B%B8%E4%BA%92ping%E9%80%9A/</url>
+    
+    <content type="html"><![CDATA[<p>为了使虚拟机之间能够相互ping通且都能上网，比较快的方法是设置一张虚拟网卡，然后让所有虚拟机都用同一张网卡，这样不同虚拟机就在同一个局域网下了</p><p>先打开虚拟网络编辑器</p><img src="/2024/06/23/%E5%AE%9E%E7%8E%B0%E4%B8%A4%E5%8F%B0%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9B%B8%E4%BA%92ping%E9%80%9A/image-20240623162827380.png" class="" title="image-20240623162827380"><p>设置一张虚拟网卡为NAT模式，子网ip可以自己定义</p><p>后续虚拟机都要选择上面的网卡</p><img src="/2024/06/23/%E5%AE%9E%E7%8E%B0%E4%B8%A4%E5%8F%B0%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9B%B8%E4%BA%92ping%E9%80%9A/image-20240623162529826.png" class="" title="image-20240623162529826"><p>之后关闭虚拟机</p><img src="/2024/06/23/%E5%AE%9E%E7%8E%B0%E4%B8%A4%E5%8F%B0%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9B%B8%E4%BA%92ping%E9%80%9A/image-20240623162755653.png" class="" title="image-20240623162755653"><p>点击编辑虚拟机设置，选择NAT模式</p><img src="/2024/06/23/%E5%AE%9E%E7%8E%B0%E4%B8%A4%E5%8F%B0%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9B%B8%E4%BA%92ping%E9%80%9A/image-20240623162612160.png" class="" title="image-20240623162612160"><p>或者自定义选择对应虚拟网卡（这时候ip会不定时变动）</p><img src="/2024/06/23/%E5%AE%9E%E7%8E%B0%E4%B8%A4%E5%8F%B0%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9B%B8%E4%BA%92ping%E9%80%9A/image-20240623162733670.png" class="" title="image-20240623162733670"><p>再打开应该就能相互ping通了</p><p>一次渗透测试的时候主机ping不通靶机(主机：kali，靶机win_xp)</p><img src="/2024/06/23/%E5%AE%9E%E7%8E%B0%E4%B8%A4%E5%8F%B0%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9B%B8%E4%BA%92ping%E9%80%9A/image-20240623163125519.png" class="" title="image-20240623163125519"><p>但是靶机能ping主机</p><img src="/2024/06/23/%E5%AE%9E%E7%8E%B0%E4%B8%A4%E5%8F%B0%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9B%B8%E4%BA%92ping%E9%80%9A/image-20240623163157671.png" class="" title="image-20240623163157671"><p>这时候需要关闭win_xp的防火墙</p><img src="/2024/06/23/%E5%AE%9E%E7%8E%B0%E4%B8%A4%E5%8F%B0%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9B%B8%E4%BA%92ping%E9%80%9A/image-20240623163320427.png" class="" title="image-20240623163320427"><p>关闭之后就可以正常ping啦</p><img src="/2024/06/23/%E5%AE%9E%E7%8E%B0%E4%B8%A4%E5%8F%B0%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9B%B8%E4%BA%92ping%E9%80%9A/image-20240623163356393.png" class="" title="image-20240623163356393">]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>2024上海市赛初赛</title>
     <link href="/2024/05/26/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/"/>
     <url>/2024/05/26/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/</url>
