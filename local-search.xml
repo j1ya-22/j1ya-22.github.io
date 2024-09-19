@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>配置Rust环境</title>
+    <link href="/2024/09/19/%E9%85%8D%E7%BD%AERust%E7%8E%AF%E5%A2%83/"/>
+    <url>/2024/09/19/%E9%85%8D%E7%BD%AERust%E7%8E%AF%E5%A2%83/</url>
+    
+    <content type="html"><![CDATA[<img src="/2024/09/19/%E9%85%8D%E7%BD%AERust%E7%8E%AF%E5%A2%83/1696415384519-dc0a7f0b-c7f0-4379-8558-b49fe6933570.png" class="" title="img"><p>安装rust</p><img src="/2024/09/19/%E9%85%8D%E7%BD%AERust%E7%8E%AF%E5%A2%83/1726708340945-2b3a275c-6ab9-40d1-8aee-f8f92ff29407.png" class="" title="img"><p>要安装rs-dml</p><img src="/2024/09/19/%E9%85%8D%E7%BD%AERust%E7%8E%AF%E5%A2%83/1696415444700-6bf469ce-7b26-4297-b032-8de9a45d4481.png" class="" title="img"><p>点进rs-dml，发现要先build</p><img src="/2024/09/19/%E9%85%8D%E7%BD%AERust%E7%8E%AF%E5%A2%83/1696415700117-c58d91ce-3cd7-40a3-bb2c-2a5d497e527c.png" class="" title="img"><p>build</p><img src="/2024/09/19/%E9%85%8D%E7%BD%AERust%E7%8E%AF%E5%A2%83/1696415430313-ffd6e315-c182-4e5b-8d10-a1e37845db07.png" class="" title="img"><p>把插件中的IDARustDemangler.py放到plugins目录</p><img src="/2024/09/19/%E9%85%8D%E7%BD%AERust%E7%8E%AF%E5%A2%83/1696415797028-4b99536d-7d36-40fc-97af-55dbb6814c38.png" class="" title="img"><p>打开发现没有识别到<img src="/2024/09/19/%E9%85%8D%E7%BD%AERust%E7%8E%AF%E5%A2%83/1696415885331-e9ed7bcf-2e25-4bac-ae99-a151f87acfa3.png" class="" title="img"></p><p>要去配系统变量的path，把release文件放到path中</p><img src="/2024/09/19/%E9%85%8D%E7%BD%AERust%E7%8E%AF%E5%A2%83/1696415970899-506210c4-87fc-4e30-9f43-bc336e053699.png" class="" title="img"><p>这样就完成了</p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>2023浙江省省赛决赛复现</title>
     <link href="/2024/08/10/2023%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%8E%B0/"/>
     <url>/2024/08/10/2023%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%8E%B0/</url>
