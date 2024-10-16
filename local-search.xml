@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>IDA相关</title>
+    <link href="/2024/10/16/IDA%E7%9B%B8%E5%85%B3/"/>
+    <url>/2024/10/16/IDA%E7%9B%B8%E5%85%B3/</url>
+    
+    <content type="html"><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>注意不要有中文路径</p><p>下面是7.7的全插件版，好像要从阿里网盘下</p><p><a href="https://bbs.kanxue.com/thread-276531.htm">https://bbs.kanxue.com/thread-276531.htm</a></p><p>吾爱破解上的8.3</p><p><a href="https://down.52pojie.cn/Tools/Disassemblers/">https://down.52pojie.cn/Tools/Disassemblers/</a></p><h1 id="一些操作"><a href="#一些操作" class="headerlink" title="一些操作"></a>一些操作</h1><img src="/2024/10/16/IDA%E7%9B%B8%E5%85%B3/1723449748297-a4487684-a910-40c3-8de7-7922c1b5b5b9.png" class="" title="img"><h1 id="插件简单说明"><a href="#插件简单说明" class="headerlink" title="插件简单说明"></a>插件简单说明</h1><h2 id="findcrypt3"><a href="#findcrypt3" class="headerlink" title="findcrypt3"></a>findcrypt3</h2><p>用idapyswitch选择有yara-python的py版本，把findcrypt3.py和findcrypt3.rules放到plugins目录</p><h2 id="IDARustDemanager"><a href="#IDARustDemanager" class="headerlink" title="IDARustDemanager"></a>IDARustDemanager</h2><p><a href="https://www.yuque.com/u34082223/swqzq3/asyrepf22ypc4ddp">https://www.yuque.com/u34082223/swqzq3/asyrepf22ypc4ddp</a></p><h2 id="d810"><a href="#d810" class="headerlink" title="d810"></a>d810</h2><p>要用python3.7,7.7可行</p><h2 id="易语言"><a href="#易语言" class="headerlink" title="易语言"></a>易语言</h2><p>[<a href="https://bbs.kanxue.com/thread-274271.htm">原创]IDA易语言反编译插件E-Decompiler-IDA Pro插件区-看雪-安全社区|安全招聘|kanxue.com</a></p><p><a href="https://github.com/fjqisba/E-Decompiler?tab=readme-ov-file">https://github.com/fjqisba/E-Decompiler?tab=readme-ov-file</a></p><p>有编译好的文件在releases，按教程来就行,下面是7.7的patch，目前就7.7完全适配,8.3还是无法显示中文</p><p><a href="https://www.yuque.com/attachments/yuque/0/2024/zip/35612767/1727525756484-a7488b0f-95fb-4d72-94cc-37d90ae6bd6d.zip">📎ida7.7_patch.zip</a></p><img src="/2024/10/16/IDA%E7%9B%B8%E5%85%B3/1713267818879-98476862-c91c-4ec2-8834-3e6597a91fe8.png" class="" title="img"><h2 id="idagolanghelper"><a href="#idagolanghelper" class="headerlink" title="idagolanghelper"></a>idagolanghelper</h2><p>帮助恢复go语言的符号表，8.3好像默认会自动恢复符号表</p><p><a href="https://github.com/renshareck/IDAGolangHelper_SupportGo1.20">https://github.com/renshareck/IDAGolangHelper_SupportGo1.20</a></p><h2 id="Scylla"><a href="#Scylla" class="headerlink" title="Scylla"></a>Scylla</h2><p>8.3的ida也能用,下面的目前是能用的，7.7自带但是无法正常使用</p><p><a href="https://github.com/notify-bibi/ScyllaHide-IDA7.5">notify-bibi&#x2F;ScyllaHide-IDA7.5: ScyllaHide for IDA7.5; ScyllaHide IDA7.5; It is a really niccccccce anti-anti-debug tool (github.com)</a></p><p>选择ScyllaHide</p><img src="/2024/10/16/IDA%E7%9B%B8%E5%85%B3/1723448650692-68717c3d-d8c6-4cb7-997c-92604e1d0932.png" class="" title="img"><p>去反调试设置</p><img src="/2024/10/16/IDA%E7%9B%B8%E5%85%B3/1723448674509-2126c472-a0d5-4f9a-9976-41a4e4a34730.png" class="" title="img">]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>2024MoeCTF部分Re与Pwn</title>
     <link href="/2024/10/12/2024MoeCTF%E9%83%A8%E5%88%86Re%E4%B8%8EPwn/"/>
     <url>/2024/10/12/2024MoeCTF%E9%83%A8%E5%88%86Re%E4%B8%8EPwn/</url>
