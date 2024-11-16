@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>zsteg异常之栈级别太深</title>
+    <link href="/2024/11/16/zsteg%E5%BC%82%E5%B8%B8%E4%B9%8B%E6%A0%88%E7%BA%A7%E5%88%AB%E5%A4%AA%E6%B7%B1/"/>
+    <url>/2024/11/16/zsteg%E5%BC%82%E5%B8%B8%E4%B9%8B%E6%A0%88%E7%BA%A7%E5%88%AB%E5%A4%AA%E6%B7%B1/</url>
+    
+    <content type="html"><![CDATA[<p>2023.10.17</p><p>暑假也遇到过，之前重装了一下zsteg就解决了，现在再整理一下</p><p>据说是递归的原因</p><img src="/2024/11/16/zsteg%E5%BC%82%E5%B8%B8%E4%B9%8B%E6%A0%88%E7%BA%A7%E5%88%AB%E5%A4%AA%E6%B7%B1/1697546820671-5d9ee7d3-5c48-4fb4-9acf-99593dfb2b59.png" class="" title="img"><p>在网上找到这个</p><img src="/2024/11/16/zsteg%E5%BC%82%E5%B8%B8%E4%B9%8B%E6%A0%88%E7%BA%A7%E5%88%AB%E5%A4%AA%E6%B7%B1/1697547157743-a13d79eb-2cfe-4b3c-93cd-d0f9f51c68dc.jpeg" class="" title="img"><p>要去zshrc添加语句</p><p>先找到zshrc</p><img src="/2024/11/16/zsteg%E5%BC%82%E5%B8%B8%E4%B9%8B%E6%A0%88%E7%BA%A7%E5%88%AB%E5%A4%AA%E6%B7%B1/1697547289945-a5e8049f-88d1-43ce-972a-fa0b38923fc4.png" class="" title="img"><img src="/2024/11/16/zsteg%E5%BC%82%E5%B8%B8%E4%B9%8B%E6%A0%88%E7%BA%A7%E5%88%AB%E5%A4%AA%E6%B7%B1/1697546976703-6d326e0f-fe98-4d34-b9b2-476e1bb736e6.png" class="" title="img"><p>然后添加上去</p><img src="/2024/11/16/zsteg%E5%BC%82%E5%B8%B8%E4%B9%8B%E6%A0%88%E7%BA%A7%E5%88%AB%E5%A4%AA%E6%B7%B1/1697547055836-01967642-2864-4aa3-90cc-5e6157f3eddb.png" class="" title="img"><p>最后就又可以用啦</p><img src="/2024/11/16/zsteg%E5%BC%82%E5%B8%B8%E4%B9%8B%E6%A0%88%E7%BA%A7%E5%88%AB%E5%A4%AA%E6%B7%B1/1697547471571-d31b35be-4931-4903-b538-d02314c1cf17.png" class="" title="img">]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>数据修改总结</title>
     <link href="/2024/11/14/%E6%95%B0%E6%8D%AE%E4%BF%AE%E6%94%B9%E6%80%BB%E7%BB%93/"/>
     <url>/2024/11/14/%E6%95%B0%E6%8D%AE%E4%BF%AE%E6%94%B9%E6%80%BB%E7%BB%93/</url>
