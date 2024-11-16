@@ -1,0 +1,797 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="j1ya">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="RepreseD810   ~ ^可能在进行某种操作，先猜一下异或     1DASCTF&#123;good_the_re_is_easyhhhh&#125;    ezVM两位十进制数转成一个16进制数   44位flag，加载dll中的check函数           只有异或运算，那么可以根据前16位推出key       1234567891011121314a&#x3D;[13,8,26,10">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GFCTF2024">
+<meta property="og:url" content="https://j1ya-22.github.io/2024/08/01/GFCTF2024/index.html">
+<meta property="og:site_name" content="j1ya">
+<meta property="og:description" content="RepreseD810   ~ ^可能在进行某种操作，先猜一下异或     1DASCTF&#123;good_the_re_is_easyhhhh&#125;    ezVM两位十进制数转成一个16进制数   44位flag，加载dll中的check函数           只有异或运算，那么可以根据前16位推出key       1234567891011121314a&#x3D;[13,8,26,10">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/08/01/GFCTF2024/1722319131680-cb74dd2c-aa51-48c7-b807-9a870a1ffd4b.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/08/01/GFCTF2024/1722319318318-2f9910f5-2841-41c9-a137-3bc4d2965252.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/08/01/GFCTF2024/1722320429206-4b335de8-b8ef-41db-8438-89f07ef64680.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/08/01/GFCTF2024/1722320298273-93aa726d-4bf3-43be-ae88-625205d611f6.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/08/01/GFCTF2024/1722327916010-a7e7d4c7-5a7b-4e87-949a-2736cf021139.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/08/01/GFCTF2024/1722321579870-bd4ebca6-20d4-486a-9d41-91d13960a08d.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/08/01/GFCTF2024/1722321711399-5914079f-d3f9-4c02-8536-eab72508ceeb.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/08/01/GFCTF2024/1722322021548-6bdaf24e-d5b3-4af2-aff0-a818aec3ce99.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/08/01/GFCTF2024/1722322034317-a9ea7252-410e-44e3-bacb-b67b3f074674.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/08/01/GFCTF2024/1722323283602-a40dff41-ead6-4c8e-b67e-ee60c883cecb.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/08/01/GFCTF2024/1722329826670-277a4a1d-0c46-4e63-ba18-1559b52306cf.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/08/01/GFCTF2024/1722330263081-17237543-404f-4234-b772-37fec50d089e.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/08/01/GFCTF2024/1722330256009-39f50cef-4103-4ca8-baf2-eb2408b60453.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/08/01/GFCTF2024/1722332794076-d4cff4a3-489f-4fb2-8a27-20f1a2befdb2.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/08/01/GFCTF2024/1722333271676-199be5a4-0b82-4018-ac48-474698580fb5.png">
+<meta property="article:published_time" content="2024-08-01T07:24:15.000Z">
+<meta property="article:modified_time" content="2024-11-16T15:03:46.823Z">
+<meta property="article:author" content="j1ya">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://j1ya-22.github.io/2024/08/01/GFCTF2024/1722319131680-cb74dd2c-aa51-48c7-b807-9a870a1ffd4b.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>GFCTF2024 - j1ya</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"j1ya-22.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":false,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"5oPqGOgpqzM186wdJq3YyrcV-gzGzoHsz","app_key":"tdZv3tC3tP1IszSKxEodRe6e","server_url":null,"path":"window.location.pathname","ignore_local":true}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>j1ya</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="GFCTF2024"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-08-01 15:24" pubdate>
+          2024年8月1日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          507 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          5 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">GFCTF2024</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Re"><a href="#Re" class="headerlink" title="Re"></a>Re</h1><h2 id="prese"><a href="#prese" class="headerlink" title="prese"></a>prese</h2><p>D810<img src="/2024/08/01/GFCTF2024/1722319131680-cb74dd2c-aa51-48c7-b807-9a870a1ffd4b.png" srcset="/img/loading.gif" lazyload class="" title="img"></p>
+<img src="/2024/08/01/GFCTF2024/1722319318318-2f9910f5-2841-41c9-a137-3bc4d2965252.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>~ ^可能在进行某种操作，先猜一下异或</p>
+<img src="/2024/08/01/GFCTF2024/1722320429206-4b335de8-b8ef-41db-8438-89f07ef64680.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2024/08/01/GFCTF2024/1722320298273-93aa726d-4bf3-43be-ae88-625205d611f6.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<figure class="highlight ceylon"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ceylon">DASCTF&#123;good<span class="hljs-number">_</span>the<span class="hljs-number">_</span>re<span class="hljs-number">_</span><span class="hljs-keyword">is</span><span class="hljs-number">_</span>easyhhhh&#125;<br></code></pre></td></tr></table></figure>
+
+<img src="/2024/08/01/GFCTF2024/1722327916010-a7e7d4c7-5a7b-4e87-949a-2736cf021139.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<h2 id="ezVM"><a href="#ezVM" class="headerlink" title="ezVM"></a>ezVM</h2><p>两位十进制数转成一个16进制数</p>
+<img src="/2024/08/01/GFCTF2024/1722321579870-bd4ebca6-20d4-486a-9d41-91d13960a08d.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>44位flag，加载dll中的check函数</p>
+<img src="/2024/08/01/GFCTF2024/1722321711399-5914079f-d3f9-4c02-8536-eab72508ceeb.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+
+
+<img src="/2024/08/01/GFCTF2024/1722322021548-6bdaf24e-d5b3-4af2-aff0-a818aec3ce99.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2024/08/01/GFCTF2024/1722322034317-a9ea7252-410e-44e3-bacb-b67b3f074674.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2024/08/01/GFCTF2024/1722323283602-a40dff41-ead6-4c8e-b67e-ee60c883cecb.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>只有异或运算，那么可以根据前16位推出key</p>
+<img src="/2024/08/01/GFCTF2024/1722329826670-277a4a1d-0c46-4e63-ba18-1559b52306cf.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2024/08/01/GFCTF2024/1722330263081-17237543-404f-4234-b772-37fec50d089e.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2024/08/01/GFCTF2024/1722330256009-39f50cef-4103-4ca8-baf2-eb2408b60453.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python">a=[<span class="hljs-number">13</span>,<span class="hljs-number">8</span>,<span class="hljs-number">26</span>,<span class="hljs-number">10</span>,<span class="hljs-number">29</span>,<span class="hljs-number">15</span>]<br>s1=<span class="hljs-string">&#x27;2x*&#123;*&#123;|&#125;qdz,&#123;&#125;d(&#125;q,dxx&#125;zd(z&#125;p&#x27;</span><br>s2=<span class="hljs-string">&#x27;(z+~&#125;yy4&#x27;</span><br>flag=<span class="hljs-string">&#x27;&#x27;</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(a)):<br>    flag+=<span class="hljs-built_in">chr</span>(a[i]^<span class="hljs-number">0x49</span>)<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(s1)):<br>    flag+=<span class="hljs-built_in">chr</span>(<span class="hljs-built_in">ord</span>(s1[i])^<span class="hljs-number">0x49</span>)<br>flag+=<span class="hljs-built_in">chr</span>(<span class="hljs-number">0x7f</span>^<span class="hljs-number">0x49</span>)<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(s2)):<br>    flag+=<span class="hljs-built_in">chr</span>(<span class="hljs-built_in">ord</span>(s2[i])^<span class="hljs-number">0x49</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">len</span>(flag))<br><span class="hljs-built_in">print</span>(flag)<br><span class="hljs-comment">#DASCTF&#123;1c2c2548-3e24-a48e-1143-a3496a3b7400&#125;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<p>当然，正常思路是vm,op+两个参数</p>
+<img src="/2024/08/01/GFCTF2024/1722332794076-d4cff4a3-489f-4fb2-8a27-20f1a2befdb2.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs python">vm = [<span class="hljs-number">0x000000A2</span>, <span class="hljs-number">0x00000000</span>, <span class="hljs-number">0x00000084</span>, <span class="hljs-number">0x000000A3</span>, <span class="hljs-number">0x00000008</span>, <span class="hljs-number">0x00000000</span>, <span class="hljs-number">0x000000A3</span>, <span class="hljs-number">0x00000008</span>, <span class="hljs-number">0x00000001</span>,<br>      <span class="hljs-number">0x000000B0</span>, <span class="hljs-number">0x00000008</span>, <span class="hljs-number">0x0000013C</span>, <span class="hljs-number">0x000000B2</span>, <span class="hljs-number">0x000000A3</span>, <span class="hljs-number">0x00000009</span>, <span class="hljs-number">0x00000001</span>, <span class="hljs-number">0x000000A3</span>, <span class="hljs-number">0x00000009</span>,<br>      <span class="hljs-number">0x00000002</span>, <span class="hljs-number">0x000000A3</span>, <span class="hljs-number">0x00000009</span>, <span class="hljs-number">0x00000003</span>, <span class="hljs-number">0x000000B0</span>, <span class="hljs-number">0x00000009</span>, <span class="hljs-number">0x0000009E</span>, <span class="hljs-number">0x000000B2</span>, <span class="hljs-number">0x000000A6</span>,<br>      <span class="hljs-number">0x00000004</span>, <span class="hljs-number">0x00000016</span>, <span class="hljs-number">0x000000A3</span>, <span class="hljs-number">0x00000000</span>, <span class="hljs-number">0x00000004</span>, <span class="hljs-number">0x000000B0</span>, <span class="hljs-number">0x00000000</span>, <span class="hljs-number">0x00000379</span>, <span class="hljs-number">0x000000B2</span>,<br>      <span class="hljs-number">0x000000A4</span>, <span class="hljs-number">0x00000005</span>, <span class="hljs-number">0x0000000B</span>, <span class="hljs-number">0x000000A1</span>, <span class="hljs-number">0x00000008</span>, <span class="hljs-number">0x00000005</span>, <span class="hljs-number">0x000000A3</span>, <span class="hljs-number">0x00000008</span>, <span class="hljs-number">0x00000006</span>,<br>      <span class="hljs-number">0x000000B0</span>,<br>      <span class="hljs-number">0x00000008</span>, <span class="hljs-number">0x00000026</span>, <span class="hljs-number">0x000000B2</span>, <span class="hljs-number">0x000000A3</span>, <span class="hljs-number">0x00000007</span>, <span class="hljs-number">0x00000006</span>, <span class="hljs-number">0x000000B0</span>, <span class="hljs-number">0x00000007</span>, <span class="hljs-number">0x00000060</span>,<br>      <span class="hljs-number">0x000000B2</span>, <span class="hljs-number">0x000000A1</span>, <span class="hljs-number">0x00000009</span>, <span class="hljs-number">0x00000001</span>, <span class="hljs-number">0x000000A3</span>, <span class="hljs-number">0x00000009</span>, <span class="hljs-number">0x00000002</span>, <span class="hljs-number">0x000000A5</span>, <span class="hljs-number">0x00000009</span>,<br>      <span class="hljs-number">0x00000005</span>, <span class="hljs-number">0x000000B0</span>, <span class="hljs-number">0x00000009</span>, <span class="hljs-number">0x0000006F</span>, <span class="hljs-number">0x000000B2</span>, <span class="hljs-number">0x000000A6</span>, <span class="hljs-number">0x00000005</span>, <span class="hljs-number">0x00000007</span>, <span class="hljs-number">0x000000A1</span>,<br>      <span class="hljs-number">0x00000008</span>, <span class="hljs-number">0x00000000</span>, <span class="hljs-number">0x000000A5</span>, <span class="hljs-number">0x00000008</span>, <span class="hljs-number">0x00000006</span>, <span class="hljs-number">0x000000A3</span>, <span class="hljs-number">0x00000008</span>, <span class="hljs-number">0x00000005</span>, <span class="hljs-number">0x000000B0</span>,<br>      <span class="hljs-number">0x00000008</span>, <span class="hljs-number">0x0000035B</span>, <span class="hljs-number">0x000000B2</span>, <span class="hljs-number">0x000000A3</span>, <span class="hljs-number">0x00000003</span>, <span class="hljs-number">0x00000004</span>, <span class="hljs-number">0x000000B0</span>, <span class="hljs-number">0x00000003</span>, <span class="hljs-number">0x000002C2</span>,<br>      <span class="hljs-number">0x000000B2</span>, <span class="hljs-number">0x000000C0</span>]<br><br>i = <span class="hljs-number">0</span><br><span class="hljs-keyword">while</span> vm[i] != <span class="hljs-number">192</span>:<br>    op = vm[i]<br>    <span class="hljs-keyword">if</span> op &lt; <span class="hljs-number">178</span>:<br>        arg1 = vm[i + <span class="hljs-number">1</span>]<br>        arg2 = vm[i + <span class="hljs-number">2</span>]<br>    <span class="hljs-keyword">if</span> op == <span class="hljs-number">160</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;mov key[&quot;</span> + <span class="hljs-built_in">str</span>(arg1) + <span class="hljs-string">&quot;] ,&quot;</span> + <span class="hljs-built_in">str</span>(arg2))<br>    <span class="hljs-keyword">if</span> op == <span class="hljs-number">161</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;mov key[&quot;</span> + <span class="hljs-built_in">str</span>(arg1) + <span class="hljs-string">&quot;] ,key[&quot;</span> + <span class="hljs-built_in">str</span>(arg2) + <span class="hljs-string">&quot;]&quot;</span>)<br>    <span class="hljs-keyword">if</span> op == <span class="hljs-number">162</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;add key[&quot;</span> + <span class="hljs-built_in">str</span>(arg1) + <span class="hljs-string">&quot;] ,&quot;</span> + <span class="hljs-built_in">str</span>(arg2))<br>    <span class="hljs-keyword">if</span> op == <span class="hljs-number">163</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;add key[&quot;</span> + <span class="hljs-built_in">str</span>(arg1) + <span class="hljs-string">&quot;] ,key[&quot;</span> + <span class="hljs-built_in">str</span>(arg2) + <span class="hljs-string">&quot;]&quot;</span>)<br>    <span class="hljs-keyword">if</span> op == <span class="hljs-number">164</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;sub key[&quot;</span> + <span class="hljs-built_in">str</span>(arg1) + <span class="hljs-string">&quot;] ,&quot;</span> + <span class="hljs-built_in">str</span>(arg2))<br>    <span class="hljs-keyword">if</span> op == <span class="hljs-number">165</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;sub key[&quot;</span> + <span class="hljs-built_in">str</span>(arg1) + <span class="hljs-string">&quot;] ,key[&quot;</span> + <span class="hljs-built_in">str</span>(arg2) + <span class="hljs-string">&quot;]&quot;</span>)<br>    <span class="hljs-keyword">if</span> op == <span class="hljs-number">166</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;mul key[&quot;</span> + <span class="hljs-built_in">str</span>(arg1) + <span class="hljs-string">&quot;] ,&quot;</span> + <span class="hljs-built_in">str</span>(arg2))<br>    <span class="hljs-keyword">if</span> op == <span class="hljs-number">167</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;mul key[&quot;</span> + <span class="hljs-built_in">str</span>(arg1) + <span class="hljs-string">&quot;] ,key[&quot;</span> + <span class="hljs-built_in">str</span>(arg2) + <span class="hljs-string">&quot;]&quot;</span>)<br>    <span class="hljs-keyword">if</span> op == <span class="hljs-number">176</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;cmp key[&quot;</span> + <span class="hljs-built_in">str</span>(arg1) + <span class="hljs-string">&quot;] ,&quot;</span> + <span class="hljs-built_in">str</span>(arg2))<br>    <span class="hljs-keyword">if</span> op == <span class="hljs-number">177</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;cmp key[&quot;</span> + <span class="hljs-built_in">str</span>(arg1) + <span class="hljs-string">&quot;] , key[&quot;</span> + <span class="hljs-built_in">str</span>(arg2) + <span class="hljs-string">&quot;]&quot;</span>)<br>    <span class="hljs-keyword">if</span> op == <span class="hljs-number">178</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;jz out&quot;</span>)<br>        i += <span class="hljs-number">1</span><br>        <span class="hljs-keyword">continue</span><br>    i += <span class="hljs-number">3</span><br></code></pre></td></tr></table></figure>
+
+<img src="/2024/08/01/GFCTF2024/1722333271676-199be5a4-0b82-4018-ac48-474698580fb5.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>用z3得到key</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> z3 <span class="hljs-keyword">import</span> *<br><span class="hljs-comment">#求解key</span><br>k = [Int(<span class="hljs-string">&quot;%d&quot;</span> % i) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">8</span>)]<br>constraints = []<br>constraints.append(k[<span class="hljs-number">0</span>]+k[<span class="hljs-number">1</span>]+<span class="hljs-number">132</span>==<span class="hljs-number">316</span>)<br>constraints.append(k[<span class="hljs-number">1</span>]+k[<span class="hljs-number">2</span>]+k[<span class="hljs-number">3</span>]==<span class="hljs-number">158</span>)<br>constraints.append(k[<span class="hljs-number">0</span>]+<span class="hljs-number">132</span> + k[<span class="hljs-number">4</span>]*<span class="hljs-number">22</span>==<span class="hljs-number">889</span>)<br>constraints.append(k[<span class="hljs-number">6</span>]+k[<span class="hljs-number">5</span>]-<span class="hljs-number">11</span>==<span class="hljs-number">38</span>)<br>constraints.append(k[<span class="hljs-number">6</span>]+k[<span class="hljs-number">7</span>]==<span class="hljs-number">96</span>)<br>constraints.append(k[<span class="hljs-number">1</span>]+k[<span class="hljs-number">2</span>]-k[<span class="hljs-number">5</span>]+<span class="hljs-number">11</span>==<span class="hljs-number">111</span>)<br>constraints.append(k[<span class="hljs-number">0</span>]+<span class="hljs-number">132</span> + k[<span class="hljs-number">4</span>]*<span class="hljs-number">22</span> - k[<span class="hljs-number">6</span>] + (k[<span class="hljs-number">5</span>]-<span class="hljs-number">11</span>)*<span class="hljs-number">7</span> == <span class="hljs-number">859</span>)<br>constraints.append(k[<span class="hljs-number">3</span>]+k[<span class="hljs-number">4</span>]*<span class="hljs-number">22</span>==<span class="hljs-number">706</span>)<br>solver = Solver()<br>solver.add(constraints)<br><span class="hljs-keyword">if</span> solver.check() == sat:<br>    res = solver.model()<br>    <span class="hljs-built_in">print</span>(solver.model())<br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%AF%94%E8%B5%9Bwp/" class="category-chain-item">比赛wp</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>GFCTF2024</div>
+      <div>https://j1ya-22.github.io/2024/08/01/GFCTF2024/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>j1ya</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年8月1日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/08/10/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2023%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%8E%B0/" title="浙江省省赛2023决赛复现">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">浙江省省赛2023决赛复现</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/24/DASCTF2024%E6%9A%91%E5%81%87%E6%8C%91%E6%88%98%E8%B5%9B/" title="DASCTF2024暑假挑战赛">
+                        <span class="hidden-mobile">DASCTF2024暑假挑战赛</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"5oPqGOgpqzM186wdJq3YyrcV-gzGzoHsz","appKey":"tdZv3tC3tP1IszSKxEodRe6e","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
