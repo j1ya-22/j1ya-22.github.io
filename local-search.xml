@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>patch used for a reverse problem named sm4 in MoeCTF2024</title>
+    <link href="/2025/02/05/patch-used-for-a-reverse-problem-named-sm4-in-MoeCTF2024/"/>
+    <url>/2025/02/05/patch-used-for-a-reverse-problem-named-sm4-in-MoeCTF2024/</url>
+    
+    <content type="html"><![CDATA[<p>当题目给了解密函数或者加解密对称的函数有一些特殊的方法，可以不去逆算法</p><img src="/2025/02/05/patch-used-for-a-reverse-problem-named-sm4-in-MoeCTF2024/1724231748225-bb19b32d-2991-4049-8f97-acc29d85d459.png" class="" title="img"><ul><li><code>**4C**</code>: 这是 <code>REX</code> 前缀，用于扩展寄存器和操作数的大小。<code>4C</code> 指定了指令使用扩展的 64 位寄存器（在此指令中为 <code>r8</code>），并且涉及到 <code>r8</code> 这一高位寄存器</li><li><code>**8D**</code>: 这是 <code>LEA</code>指令的操作码</li><li><code>**45 10**</code>: 这是操作数的 ModR&#x2F;M 字节和位移量。<code>45</code> 表示目标寄存器是 <code>r8</code>（4D的时候表示rcx)，源操作数的基址寄存器是 <code>rbp</code>，并且有一个 8 位符号扩展的位移量。<code>10</code> 是位移量</li></ul><img src="/2025/02/05/patch-used-for-a-reverse-problem-named-sm4-in-MoeCTF2024/1724231033107-e06ceffd-7d82-49af-9660-e9ea668816c9.png" class="" title="img"><p>栈结构如下</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs plain">-0000000000000120 ; Frame size: 120; Saved regs: 8; Purge: 0<br><br>-0000000000000100 enc             db 48 dup(?)          ; enc: 48字节<br>-00000000000000D0 Data_plain      db 48 dup(?)          ; Data_plain: 48字节<br>-00000000000000A0 key             db 16 dup(?)          ; key: 16字节<br>-0000000000000090 decode_Result   db 50 dup(?)          ; decode_Result: 50字节<br>-0000000000000050 encode_Result   db 50 dup(?)          ; encode_Result: 50字节<br>-0000000000000012 len             db ?                  ; len: 1字节<br>-0000000000000011 i               db ?                  ; i: 1字节<br>+0000000000000000  s              db 8 dup(?)           ; s: 8字节<br>+0000000000000008  r              db 8 dup(?)           ; r: 8字节<br></code></pre></td></tr></table></figure><p>A0-50&#x3D;50,所以上图黄色位置为50</p><p>现在要改为enc，A0-100&#x3D;-60，变成A0,相当于把加密后的数据快速改成密文，也可以调试的时候一位位改</p><img src="/2025/02/05/patch-used-for-a-reverse-problem-named-sm4-in-MoeCTF2024/1724144757695-5141af2c-9c55-43a9-a4d2-c56ffa3e62d4.png" class="" title="img"><p>输入长度为48位（题目要求）的时候正常输出flag</p><img src="/2025/02/05/patch-used-for-a-reverse-problem-named-sm4-in-MoeCTF2024/1724228737010-235a7104-10ec-47aa-9b54-9978af1259d8.png" class="" title="img">]]></content>
+    
+    
+    <categories>
+      
+      <category>知识点</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Reverse常见算法</title>
     <link href="/2025/01/09/Reverse%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95/"/>
     <url>/2025/01/09/Reverse%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95/</url>
