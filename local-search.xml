@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title></title>
+    <link href="/2025/02/23/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%86%B3%E8%B5%9B/"/>
+    <url>/2025/02/23/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%86%B3%E8%B5%9B/</url>
+    
+    <content type="html"><![CDATA[<p>今天的pwn就属于要么都别想打，要么大部分人都没修好，会被批量打</p><p>一上来直接搜字符串，看看有没有open(‘&#x2F;flag’)或者system这种,直接把read的字节改小，这样一直到20轮两道pwn都没有被打</p><p>两个函数都有read，后面想着其实可以把17和22行的数字1给改掉，因为别人也不知道是啥</p><img src="/2025/02/23/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%86%B3%E8%B5%9B/1717837104759-f21fb79d-b563-42e1-a33e-89805223589d-17403065139246.png" class="" title="img"><img src="/2025/02/23/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%86%B3%E8%B5%9B/1717835955103-aea717ac-ab2b-4970-af11-1e967d05fd55-17403065139257.png" class="" title="img"><p>后面被打又去看了一下，觉得pwn1是典型的off by one，刚好尧哥昨天讲过怎么修，直接全部nop发现就没被打了，之后发现flag还是会被read，但是因为提前修改只能读一个字节</p><img src="/2025/02/23/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%86%B3%E8%B5%9B/1717836749041-9787fe8a-7090-4ad9-88cc-c2fab0c10037-17403065139258.png" class="" title="img"><p>后面pwn2挺阴险的，倒数第二轮才打进来，最大malloc是0x4f+1<img src="/2025/02/23/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%86%B3%E8%B5%9B/1719924109530-af392741-38ef-4651-ad08-e25473a9ee08-17403065139259.png" class="" title="img"></p><p>add函数最小也是0x4f+1，这个时候会造成堆叠，修的话把上面的大于换成大于等于就行</p><img src="/2025/02/23/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%86%B3%E8%B5%9B/1719924324662-967d47e1-3ba4-4750-bd5b-da8ccfc30edf-174030651392510.png" class="" title="img"><p><strong>经验总结</strong></p><p>1.前一天得先看看xshell和xftp能不能用，第二天才发现缺32位的msvrc110.dll库，最好都装着</p><p>2.pwn题端口要nmap自己扫，md队友说了一直没去试</p><p>3.堆里面off by null和off by one常考，得会打</p><p>4.还有就是批量提交脚本，应该有两种提交方式，下次打之前得会写</p><p>5.规则还得研究清楚，到底宕机扣不扣分，这次好像没扣</p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>VNCTF2025部分Pwn与Reverse</title>
     <link href="/2025/02/09/VNCTF2025%E9%83%A8%E5%88%86Pwn%E4%B8%8EReverse/"/>
     <url>/2025/02/09/VNCTF2025%E9%83%A8%E5%88%86Pwn%E4%B8%8EReverse/</url>
