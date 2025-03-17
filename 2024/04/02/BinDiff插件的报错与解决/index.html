@@ -16,28 +16,29 @@
   <meta name="author" content="j1ya">
   <meta name="keywords" content="">
   
-    <meta name="description" content="当题目给了解密函数或者加解密对称的函数有一些特殊的方法，可以不去逆算法    **4C**: 这是 REX 前缀，用于扩展寄存器和操作数的大小。4C 指定了指令使用扩展的 64 位寄存器（在此指令中为 r8），并且涉及到 r8 这一高位寄存器 **8D**: 这是 LEA指令的操作码 **45 10**: 这是操作数的 ModR&#x2F;M 字节和位移量。45 表示目标寄存器是 r8（4D的时候">
+    <meta name="description" content="本来BinDiff插件很多都是自带的，即使安装也很容易，但是我的dll文件无论放在plugins目录下还是安装bindiff默认创建的IDAPro文件夹都不行   在学长的提醒下去看输出窗口的报错   那估计是先用原来系统里有的dll，删了就行   发现已经去ida目录下找了   成功   直接把dll放到对应ida目录下，发现多版本ida都能用了">
 <meta property="og:type" content="article">
-<meta property="og:title" content="patch used for a reverse problem named sm4 in MoeCTF2024">
-<meta property="og:url" content="https://j1ya-22.github.io/2025/02/05/patch-used-for-a-reverse-problem-named-sm4-in-MoeCTF2024/index.html">
+<meta property="og:title" content="BinDiff插件的报错与解决">
+<meta property="og:url" content="https://j1ya-22.github.io/2024/04/02/BinDiff%E6%8F%92%E4%BB%B6%E7%9A%84%E6%8A%A5%E9%94%99%E4%B8%8E%E8%A7%A3%E5%86%B3/index.html">
 <meta property="og:site_name" content="j1ya">
-<meta property="og:description" content="当题目给了解密函数或者加解密对称的函数有一些特殊的方法，可以不去逆算法    **4C**: 这是 REX 前缀，用于扩展寄存器和操作数的大小。4C 指定了指令使用扩展的 64 位寄存器（在此指令中为 r8），并且涉及到 r8 这一高位寄存器 **8D**: 这是 LEA指令的操作码 **45 10**: 这是操作数的 ModR&#x2F;M 字节和位移量。45 表示目标寄存器是 r8（4D的时候">
+<meta property="og:description" content="本来BinDiff插件很多都是自带的，即使安装也很容易，但是我的dll文件无论放在plugins目录下还是安装bindiff默认创建的IDAPro文件夹都不行   在学长的提醒下去看输出窗口的报错   那估计是先用原来系统里有的dll，删了就行   发现已经去ida目录下找了   成功   直接把dll放到对应ida目录下，发现多版本ida都能用了">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/02/05/patch-used-for-a-reverse-problem-named-sm4-in-MoeCTF2024/1724231748225-bb19b32d-2991-4049-8f97-acc29d85d459.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/02/05/patch-used-for-a-reverse-problem-named-sm4-in-MoeCTF2024/1724231033107-e06ceffd-7d82-49af-9660-e9ea668816c9.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/02/05/patch-used-for-a-reverse-problem-named-sm4-in-MoeCTF2024/1724144757695-5141af2c-9c55-43a9-a4d2-c56ffa3e62d4.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/02/05/patch-used-for-a-reverse-problem-named-sm4-in-MoeCTF2024/1724228737010-235a7104-10ec-47aa-9b54-9978af1259d8.png">
-<meta property="article:published_time" content="2025-02-05T09:04:09.000Z">
-<meta property="article:modified_time" content="2025-02-05T09:05:20.908Z">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/02/BinDiff%E6%8F%92%E4%BB%B6%E7%9A%84%E6%8A%A5%E9%94%99%E4%B8%8E%E8%A7%A3%E5%86%B3/image-20240402161514589.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/02/BinDiff%E6%8F%92%E4%BB%B6%E7%9A%84%E6%8A%A5%E9%94%99%E4%B8%8E%E8%A7%A3%E5%86%B3/image-20240402171654588.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/02/BinDiff%E6%8F%92%E4%BB%B6%E7%9A%84%E6%8A%A5%E9%94%99%E4%B8%8E%E8%A7%A3%E5%86%B3/image-20240402171858007.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/02/BinDiff%E6%8F%92%E4%BB%B6%E7%9A%84%E6%8A%A5%E9%94%99%E4%B8%8E%E8%A7%A3%E5%86%B3/image-20240402171402419.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/04/02/BinDiff%E6%8F%92%E4%BB%B6%E7%9A%84%E6%8A%A5%E9%94%99%E4%B8%8E%E8%A7%A3%E5%86%B3/image-20240402171446940.png">
+<meta property="article:published_time" content="2024-04-02T08:11:43.000Z">
+<meta property="article:modified_time" content="2025-03-17T06:27:15.469Z">
 <meta property="article:author" content="j1ya">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://j1ya-22.github.io/2025/02/05/patch-used-for-a-reverse-problem-named-sm4-in-MoeCTF2024/1724231748225-bb19b32d-2991-4049-8f97-acc29d85d459.png">
+<meta name="twitter:image" content="https://j1ya-22.github.io/2024/04/02/BinDiff%E6%8F%92%E4%BB%B6%E7%9A%84%E6%8A%A5%E9%94%99%E4%B8%8E%E8%A7%A3%E5%86%B3/image-20240402161514589.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>patch used for a reverse problem named sm4 in MoeCTF2024 - j1ya</title>
+  <title>BinDiff插件的报错与解决 - j1ya</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -203,6 +204,18 @@
             </li>
           
         
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
         
           <li class="nav-item" id="search-btn">
             <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
@@ -232,7 +245,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="patch used for a reverse problem named sm4 in MoeCTF2024"></span>
+            <span id="subtitle" data-typed-text="BinDiff插件的报错与解决"></span>
           
         </div>
 
@@ -243,8 +256,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-02-05 17:04" pubdate>
-          2025年2月5日 下午
+        <time datetime="2024-04-02 16:11" pubdate>
+          2024年4月2日 下午
         </time>
       </span>
     
@@ -255,7 +268,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          291 字
+          115 字
         
       </span>
     
@@ -266,7 +279,7 @@
         
         
         
-          3 分钟
+          1 分钟
         
       </span>
     
@@ -311,30 +324,27 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">patch used for a reverse problem named sm4 in MoeCTF2024</h1>
+            <h1 id="seo-header">BinDiff插件的报错与解决</h1>
             
             
               <div class="markdown-body">
                 
-                <p>当题目给了解密函数或者加解密对称的函数有一些特殊的方法，可以不去逆算法</p>
-<img src="/2025/02/05/patch-used-for-a-reverse-problem-named-sm4-in-MoeCTF2024/1724231748225-bb19b32d-2991-4049-8f97-acc29d85d459.png" srcset="/img/loading.gif" lazyload class="" title="img">
+                <p>本来BinDiff插件很多都是自带的，即使安装也很容易，但是我的dll文件无论放在plugins目录下还是安装bindiff默认创建的IDAPro文件夹都不行</p>
+<img src="/2024/04/02/BinDiff%E6%8F%92%E4%BB%B6%E7%9A%84%E6%8A%A5%E9%94%99%E4%B8%8E%E8%A7%A3%E5%86%B3/image-20240402161514589.png" srcset="/img/loading.gif" lazyload class="" title="image-20240402161514589">
 
-<ul>
-<li><code>**4C**</code>: 这是 <code>REX</code> 前缀，用于扩展寄存器和操作数的大小。<code>4C</code> 指定了指令使用扩展的 64 位寄存器（在此指令中为 <code>r8</code>），并且涉及到 <code>r8</code> 这一高位寄存器</li>
-<li><code>**8D**</code>: 这是 <code>LEA</code>指令的操作码</li>
-<li><code>**45 10**</code>: 这是操作数的 ModR&#x2F;M 字节和位移量。<code>45</code> 表示目标寄存器是 <code>r8</code>（4D的时候表示rcx)，源操作数的基址寄存器是 <code>rbp</code>，并且有一个 8 位符号扩展的位移量。<code>10</code> 是位移量</li>
-</ul>
-<img src="/2025/02/05/patch-used-for-a-reverse-problem-named-sm4-in-MoeCTF2024/1724231033107-e06ceffd-7d82-49af-9660-e9ea668816c9.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<p>在学长的提醒下去看输出窗口的报错</p>
+<img src="/2024/04/02/BinDiff%E6%8F%92%E4%BB%B6%E7%9A%84%E6%8A%A5%E9%94%99%E4%B8%8E%E8%A7%A3%E5%86%B3/image-20240402171654588.png" srcset="/img/loading.gif" lazyload class="" title="image-20240402171654588">
 
-<p>栈结构如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs plain">-0000000000000120 ; Frame size: 120; Saved regs: 8; Purge: 0<br><br>-0000000000000100 enc             db 48 dup(?)          ; enc: 48字节<br>-00000000000000D0 Data_plain      db 48 dup(?)          ; Data_plain: 48字节<br>-00000000000000A0 key             db 16 dup(?)          ; key: 16字节<br>-0000000000000090 decode_Result   db 50 dup(?)          ; decode_Result: 50字节<br>-0000000000000050 encode_Result   db 50 dup(?)          ; encode_Result: 50字节<br>-0000000000000012 len             db ?                  ; len: 1字节<br>-0000000000000011 i               db ?                  ; i: 1字节<br>+0000000000000000  s              db 8 dup(?)           ; s: 8字节<br>+0000000000000008  r              db 8 dup(?)           ; r: 8字节<br></code></pre></td></tr></table></figure>
+<p>那估计是先用原来系统里有的dll，删了就行</p>
+<img src="/2024/04/02/BinDiff%E6%8F%92%E4%BB%B6%E7%9A%84%E6%8A%A5%E9%94%99%E4%B8%8E%E8%A7%A3%E5%86%B3/image-20240402171858007.png" srcset="/img/loading.gif" lazyload class="" title="image-20240402171858007">
 
-<p>A0-50&#x3D;50,所以上图黄色位置为50</p>
-<p>现在要改为enc，A0-100&#x3D;-60，变成A0,相当于把加密后的数据快速改成密文，也可以调试的时候一位位改</p>
-<img src="/2025/02/05/patch-used-for-a-reverse-problem-named-sm4-in-MoeCTF2024/1724144757695-5141af2c-9c55-43a9-a4d2-c56ffa3e62d4.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<p>发现已经去ida目录下找了</p>
+<img src="/2024/04/02/BinDiff%E6%8F%92%E4%BB%B6%E7%9A%84%E6%8A%A5%E9%94%99%E4%B8%8E%E8%A7%A3%E5%86%B3/image-20240402171402419.png" srcset="/img/loading.gif" lazyload class="" title="image-20240402171402419">
 
-<p>输入长度为48位（题目要求）的时候正常输出flag</p>
-<img src="/2025/02/05/patch-used-for-a-reverse-problem-named-sm4-in-MoeCTF2024/1724228737010-235a7104-10ec-47aa-9b54-9978af1259d8.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<p>成功</p>
+<img src="/2024/04/02/BinDiff%E6%8F%92%E4%BB%B6%E7%9A%84%E6%8A%A5%E9%94%99%E4%B8%8E%E8%A7%A3%E5%86%B3/image-20240402171446940.png" srcset="/img/loading.gif" lazyload class="" title="image-20240402171446940">
+
+<p>直接把dll放到对应ida目录下，发现多版本ida都能用了</p>
 
                 
               </div>
@@ -353,7 +363,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E7%9F%A5%E8%AF%86%E7%82%B9/" class="category-chain-item">知识点</a>
+  <a href="/categories/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="category-chain-item">环境配置</a>
   
   
 
@@ -373,8 +383,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>patch used for a reverse problem named sm4 in MoeCTF2024</div>
-      <div>https://j1ya-22.github.io/2025/02/05/patch-used-for-a-reverse-problem-named-sm4-in-MoeCTF2024/</div>
+      <div>BinDiff插件的报错与解决</div>
+      <div>https://j1ya-22.github.io/2024/04/02/BinDiff插件的报错与解决/</div>
     </div>
     <div class="license-meta">
       
@@ -386,7 +396,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2025年2月5日</div>
+          <div>2024年4月2日</div>
         </div>
       
       
@@ -418,9 +428,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2025/02/09/VNCTF2025%E9%83%A8%E5%88%86Pwn%E4%B8%8EReverse/" title="VNCTF2025部分Pwn与Reverse">
+                      <a href="/2024/04/07/OD%E4%B8%8EIDA%E7%BB%93%E5%90%88%E5%8A%A8%E8%B0%83/" title="OD与IDA结合动调">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">VNCTF2025部分Pwn与Reverse</span>
+                        <span class="hidden-mobile">OD与IDA结合动调</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -428,8 +438,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2025/01/09/Reverse%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95/" title="Reverse常见算法">
-                        <span class="hidden-mobile">Reverse常见算法</span>
+                      <a href="/2024/03/28/%E5%AE%89%E8%A3%85ghidra/" title="安装ghidra">
+                        <span class="hidden-mobile">安装ghidra</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

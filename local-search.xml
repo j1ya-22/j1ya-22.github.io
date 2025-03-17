@@ -99,11 +99,11 @@
   
   
   <entry>
-    <title>patch used for a reverse problem named sm4 in MoeCTF2024</title>
-    <link href="/2025/02/05/patch-used-for-a-reverse-problem-named-sm4-in-MoeCTF2024/"/>
-    <url>/2025/02/05/patch-used-for-a-reverse-problem-named-sm4-in-MoeCTF2024/</url>
+    <title>patch</title>
+    <link href="/2025/02/05/patch/"/>
+    <url>/2025/02/05/patch/</url>
     
-    <content type="html"><![CDATA[<p>当题目给了解密函数或者加解密对称的函数有一些特殊的方法，可以不去逆算法</p><img src="/2025/02/05/patch-used-for-a-reverse-problem-named-sm4-in-MoeCTF2024/1724231748225-bb19b32d-2991-4049-8f97-acc29d85d459.png" class="" title="img"><ul><li><code>**4C**</code>: 这是 <code>REX</code> 前缀，用于扩展寄存器和操作数的大小。<code>4C</code> 指定了指令使用扩展的 64 位寄存器（在此指令中为 <code>r8</code>），并且涉及到 <code>r8</code> 这一高位寄存器</li><li><code>**8D**</code>: 这是 <code>LEA</code>指令的操作码</li><li><code>**45 10**</code>: 这是操作数的 ModR&#x2F;M 字节和位移量。<code>45</code> 表示目标寄存器是 <code>r8</code>（4D的时候表示rcx)，源操作数的基址寄存器是 <code>rbp</code>，并且有一个 8 位符号扩展的位移量。<code>10</code> 是位移量</li></ul><img src="/2025/02/05/patch-used-for-a-reverse-problem-named-sm4-in-MoeCTF2024/1724231033107-e06ceffd-7d82-49af-9660-e9ea668816c9.png" class="" title="img"><p>栈结构如下</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs plain">-0000000000000120 ; Frame size: 120; Saved regs: 8; Purge: 0<br><br>-0000000000000100 enc             db 48 dup(?)          ; enc: 48字节<br>-00000000000000D0 Data_plain      db 48 dup(?)          ; Data_plain: 48字节<br>-00000000000000A0 key             db 16 dup(?)          ; key: 16字节<br>-0000000000000090 decode_Result   db 50 dup(?)          ; decode_Result: 50字节<br>-0000000000000050 encode_Result   db 50 dup(?)          ; encode_Result: 50字节<br>-0000000000000012 len             db ?                  ; len: 1字节<br>-0000000000000011 i               db ?                  ; i: 1字节<br>+0000000000000000  s              db 8 dup(?)           ; s: 8字节<br>+0000000000000008  r              db 8 dup(?)           ; r: 8字节<br></code></pre></td></tr></table></figure><p>A0-50&#x3D;50,所以上图黄色位置为50</p><p>现在要改为enc，A0-100&#x3D;-60，变成A0,相当于把加密后的数据快速改成密文，也可以调试的时候一位位改</p><img src="/2025/02/05/patch-used-for-a-reverse-problem-named-sm4-in-MoeCTF2024/1724144757695-5141af2c-9c55-43a9-a4d2-c56ffa3e62d4.png" class="" title="img"><p>输入长度为48位（题目要求）的时候正常输出flag</p><img src="/2025/02/05/patch-used-for-a-reverse-problem-named-sm4-in-MoeCTF2024/1724228737010-235a7104-10ec-47aa-9b54-9978af1259d8.png" class="" title="img">]]></content>
+    <content type="html"><![CDATA[<p>used for a reverse problem named sm4 in MoeCTF2024</p><p>当题目给了解密函数或者加解密对称的函数有一些特殊的方法，可以不去逆算法</p><img src="/2025/02/05/patch/1724231748225-bb19b32d-2991-4049-8f97-acc29d85d459.png" class="" title="img"><ul><li><code>**4C**</code>: 这是 <code>REX</code> 前缀，用于扩展寄存器和操作数的大小。<code>4C</code> 指定了指令使用扩展的 64 位寄存器（在此指令中为 <code>r8</code>），并且涉及到 <code>r8</code> 这一高位寄存器</li><li><code>**8D**</code>: 这是 <code>LEA</code>指令的操作码</li><li><code>**45 10**</code>: 这是操作数的 ModR&#x2F;M 字节和位移量。<code>45</code> 表示目标寄存器是 <code>r8</code>（4D的时候表示rcx)，源操作数的基址寄存器是 <code>rbp</code>，并且有一个 8 位符号扩展的位移量。<code>10</code> 是位移量</li></ul><img src="/2025/02/05/patch/1724231033107-e06ceffd-7d82-49af-9660-e9ea668816c9.png" class="" title="img"><p>栈结构如下</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs plain">-0000000000000120 ; Frame size: 120; Saved regs: 8; Purge: 0<br><br>-0000000000000100 enc             db 48 dup(?)          ; enc: 48字节<br>-00000000000000D0 Data_plain      db 48 dup(?)          ; Data_plain: 48字节<br>-00000000000000A0 key             db 16 dup(?)          ; key: 16字节<br>-0000000000000090 decode_Result   db 50 dup(?)          ; decode_Result: 50字节<br>-0000000000000050 encode_Result   db 50 dup(?)          ; encode_Result: 50字节<br>-0000000000000012 len             db ?                  ; len: 1字节<br>-0000000000000011 i               db ?                  ; i: 1字节<br>+0000000000000000  s              db 8 dup(?)           ; s: 8字节<br>+0000000000000008  r              db 8 dup(?)           ; r: 8字节<br></code></pre></td></tr></table></figure><p>A0-50&#x3D;50,所以上图黄色位置为50</p><p>现在要改为enc，A0-100&#x3D;-60，变成A0,相当于把加密后的数据快速改成密文，也可以调试的时候一位位改</p><img src="/2025/02/05/patch/1724144757695-5141af2c-9c55-43a9-a4d2-c56ffa3e62d4.png" class="" title="img"><p>输入长度为48位（题目要求）的时候正常输出flag</p><img src="/2025/02/05/patch/1724228737010-235a7104-10ec-47aa-9b54-9978af1259d8.png" class="" title="img">]]></content>
     
     
     <categories>
@@ -637,6 +637,25 @@
     
     <content type="html"><![CDATA[<p>written in 2023.7.22</p><p>晚上听尧哥说DASFCTF的一道re题需要动调来判断函数先后执行的顺序，好像一下子就悟了，但悟得不多，还没完全调出来。主要网上讲动态的视频太少，只知道基本快捷键还是很难动调，所以这里记录一下</p><p>1.还有一点当函数较复杂时，伪c会不准，即放在前面的函数不一定先运行，所以需要看OD的汇编，配合IDA的伪c代码</p><p>2.一般先是在main函数的input下一个断点，然后f8单步执行，当汇编地址有较大变化的时候要去IDA里相应的汇编地址，然后按tab，看看现在位于哪个函数，以此来判断加密函数的执行先后顺序，遇到汇编循环，可以点到汇编循环的下一个位置，然后f4到该位置，快速跳出循环，因为OD是线性扫描，所以本来循环结束也是到下一条指令，两个软件的界面建议一左一右，这样就不用一直切界面，就像下面这样。</p><img src="/2024/04/07/OD%E4%B8%8EIDA%E7%BB%93%E5%90%88%E5%8A%A8%E8%B0%83/1690079441955-4d727ec8-c82d-4ece-a8b9-76ac0741bdec.png" class="" title="img"><p>3.每次调试高几位的地址不一样，不过没关系，先在IDA里开启调试，汇编界面的地址就能和OD里面对应了</p><p>4.汇编里面有函数调用函数（call）要按f7进入，此外，看伪c代码也可以看出一些函数调用关系</p>]]></content>
     
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>BinDiff插件的报错与解决</title>
+    <link href="/2024/04/02/BinDiff%E6%8F%92%E4%BB%B6%E7%9A%84%E6%8A%A5%E9%94%99%E4%B8%8E%E8%A7%A3%E5%86%B3/"/>
+    <url>/2024/04/02/BinDiff%E6%8F%92%E4%BB%B6%E7%9A%84%E6%8A%A5%E9%94%99%E4%B8%8E%E8%A7%A3%E5%86%B3/</url>
+    
+    <content type="html"><![CDATA[<p>本来BinDiff插件很多都是自带的，即使安装也很容易，但是我的dll文件无论放在plugins目录下还是安装bindiff默认创建的IDAPro文件夹都不行</p><img src="/2024/04/02/BinDiff%E6%8F%92%E4%BB%B6%E7%9A%84%E6%8A%A5%E9%94%99%E4%B8%8E%E8%A7%A3%E5%86%B3/image-20240402161514589.png" class="" title="image-20240402161514589"><p>在学长的提醒下去看输出窗口的报错</p><img src="/2024/04/02/BinDiff%E6%8F%92%E4%BB%B6%E7%9A%84%E6%8A%A5%E9%94%99%E4%B8%8E%E8%A7%A3%E5%86%B3/image-20240402171654588.png" class="" title="image-20240402171654588"><p>那估计是先用原来系统里有的dll，删了就行</p><img src="/2024/04/02/BinDiff%E6%8F%92%E4%BB%B6%E7%9A%84%E6%8A%A5%E9%94%99%E4%B8%8E%E8%A7%A3%E5%86%B3/image-20240402171858007.png" class="" title="image-20240402171858007"><p>发现已经去ida目录下找了</p><img src="/2024/04/02/BinDiff%E6%8F%92%E4%BB%B6%E7%9A%84%E6%8A%A5%E9%94%99%E4%B8%8E%E8%A7%A3%E5%86%B3/image-20240402171402419.png" class="" title="image-20240402171402419"><p>成功</p><img src="/2024/04/02/BinDiff%E6%8F%92%E4%BB%B6%E7%9A%84%E6%8A%A5%E9%94%99%E4%B8%8E%E8%A7%A3%E5%86%B3/image-20240402171446940.png" class="" title="image-20240402171446940"><p>直接把dll放到对应ida目录下，发现多版本ida都能用了</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>环境配置</category>
+      
+    </categories>
     
     
   </entry>
