@@ -16,33 +16,26 @@
   <meta name="author" content="j1ya">
   <meta name="keywords" content="">
   
-    <meta name="description" content="今年赛题强度很高，web一道fix二十多解，其他题attack和fix应该都是个位数解；pwn一道fix60解，一道30解，还有两道个位数解。渗透队友还是很强的，最后喜提二等安慰奖 Pwnpwn的附件有一道是web-pwn，不知道二进制文件在哪，其他题目也不是uaf，格式化字符串漏洞等明显的漏洞，我就fix了两道，30解的题10次用完也没fix出来 Quantum这里有格式化字符串漏洞但是没用">
+    <meta name="description" content="昨晚和高中同学聊起web端地图，于是突发奇想借助ai和框架做一个简易的系统，以此证实如今ai的强大 项目结构如下   app.py用最典型的Flask框架 1234567891011121314151617181920212223242526272829from flask import Flask, render_template, jsonifyapp &#x3D; Flask(__name__)moc">
 <meta property="og:type" content="article">
-<meta property="og:title" content="2025ciscn&amp;ccb浙江赛区半决赛">
-<meta property="og:url" content="https://j1ya-22.github.io/2025/03/16/2025ciscn-ccb%E6%B5%99%E6%B1%9F%E8%B5%9B%E5%8C%BA%E5%8D%8A%E5%86%B3%E8%B5%9B/index.html">
+<meta property="og:title" content="基于Leaflet框架的在线地图">
+<meta property="og:url" content="https://j1ya-22.github.io/2025/03/21/%E5%9F%BA%E4%BA%8ELeaflet%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9C%A8%E7%BA%BF%E5%9C%B0%E5%9B%BE/index.html">
 <meta property="og:site_name" content="j1ya">
-<meta property="og:description" content="今年赛题强度很高，web一道fix二十多解，其他题attack和fix应该都是个位数解；pwn一道fix60解，一道30解，还有两道个位数解。渗透队友还是很强的，最后喜提二等安慰奖 Pwnpwn的附件有一道是web-pwn，不知道二进制文件在哪，其他题目也不是uaf，格式化字符串漏洞等明显的漏洞，我就fix了两道，30解的题10次用完也没fix出来 Quantum这里有格式化字符串漏洞但是没用">
+<meta property="og:description" content="昨晚和高中同学聊起web端地图，于是突发奇想借助ai和框架做一个简易的系统，以此证实如今ai的强大 项目结构如下   app.py用最典型的Flask框架 1234567891011121314151617181920212223242526272829from flask import Flask, render_template, jsonifyapp &#x3D; Flask(__name__)moc">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/03/16/2025ciscn-ccb%E6%B5%99%E6%B1%9F%E8%B5%9B%E5%8C%BA%E5%8D%8A%E5%86%B3%E8%B5%9B/1742124596790-9c94d027-9cb5-46ab-9afc-cc9dab5d0ce7.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/03/16/2025ciscn-ccb%E6%B5%99%E6%B1%9F%E8%B5%9B%E5%8C%BA%E5%8D%8A%E5%86%B3%E8%B5%9B/1742124600547-4d808d3d-ad60-4531-a5df-947c760e87c4.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/03/16/2025ciscn-ccb%E6%B5%99%E6%B1%9F%E8%B5%9B%E5%8C%BA%E5%8D%8A%E5%86%B3%E8%B5%9B/1742124605846-d3859971-bb04-412d-aee1-b5c38094d811.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/03/16/2025ciscn-ccb%E6%B5%99%E6%B1%9F%E8%B5%9B%E5%8C%BA%E5%8D%8A%E5%86%B3%E8%B5%9B/1742124612247-21474968-e066-4aa5-b7a9-d2d184ec0246.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/03/16/2025ciscn-ccb%E6%B5%99%E6%B1%9F%E8%B5%9B%E5%8C%BA%E5%8D%8A%E5%86%B3%E8%B5%9B/1742125325929-8dfa2f72-8bec-434b-84a6-c885bb4ce699.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/03/16/2025ciscn-ccb%E6%B5%99%E6%B1%9F%E8%B5%9B%E5%8C%BA%E5%8D%8A%E5%86%B3%E8%B5%9B/1742125329668-a8ad1c3e-7b64-4dc1-a46e-36638a60edef.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/03/16/2025ciscn-ccb%E6%B5%99%E6%B1%9F%E8%B5%9B%E5%8C%BA%E5%8D%8A%E5%86%B3%E8%B5%9B/1742125334668-cd321d24-fec3-4875-850e-ca898f60e006.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/03/16/2025ciscn-ccb%E6%B5%99%E6%B1%9F%E8%B5%9B%E5%8C%BA%E5%8D%8A%E5%86%B3%E8%B5%9B/1742125340813-3e40145f-f24a-4ce6-82f3-1759dd2eecb6.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/03/16/2025ciscn-ccb%E6%B5%99%E6%B1%9F%E8%B5%9B%E5%8C%BA%E5%8D%8A%E5%86%B3%E8%B5%9B/1742125127623-a44638fa-db5a-47af-9927-d027cd01841c.png">
-<meta property="article:published_time" content="2025-03-16T11:50:16.000Z">
-<meta property="article:modified_time" content="2025-03-16T12:03:52.078Z">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/21/%E5%9F%BA%E4%BA%8ELeaflet%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9C%A8%E7%BA%BF%E5%9C%B0%E5%9B%BE/1742556436163-1171a43c-d771-4f7b-b6bc-c681cb2b8e72.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/03/21/%E5%9F%BA%E4%BA%8ELeaflet%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9C%A8%E7%BA%BF%E5%9C%B0%E5%9B%BE/1742556736492-e2d43f08-2021-41e0-807a-c2d3821d5cf8.png">
+<meta property="article:published_time" content="2025-03-21T11:41:52.000Z">
+<meta property="article:modified_time" content="2025-03-21T11:43:04.744Z">
 <meta property="article:author" content="j1ya">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://j1ya-22.github.io/2025/03/16/2025ciscn-ccb%E6%B5%99%E6%B1%9F%E8%B5%9B%E5%8C%BA%E5%8D%8A%E5%86%B3%E8%B5%9B/1742124596790-9c94d027-9cb5-46ab-9afc-cc9dab5d0ce7.png">
+<meta name="twitter:image" content="https://j1ya-22.github.io/2025/03/21/%E5%9F%BA%E4%BA%8ELeaflet%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9C%A8%E7%BA%BF%E5%9C%B0%E5%9B%BE/1742556436163-1171a43c-d771-4f7b-b6bc-c681cb2b8e72.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>2025ciscn&amp;ccb浙江赛区半决赛 - j1ya</title>
+  <title>基于Leaflet框架的在线地图 - j1ya</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -249,7 +242,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="2025ciscn&amp;ccb浙江赛区半决赛"></span>
+            <span id="subtitle" data-typed-text="基于Leaflet框架的在线地图"></span>
           
         </div>
 
@@ -260,8 +253,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-03-16 19:50" pubdate>
-          2025年3月16日 晚上
+        <time datetime="2025-03-21 19:41" pubdate>
+          2025年3月21日 晚上
         </time>
       </span>
     
@@ -272,7 +265,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          274 字
+          788 字
         
       </span>
     
@@ -283,7 +276,7 @@
         
         
         
-          3 分钟
+          7 分钟
         
       </span>
     
@@ -328,43 +321,25 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">2025ciscn&amp;ccb浙江赛区半决赛</h1>
+            <h1 id="seo-header">基于Leaflet框架的在线地图</h1>
             
             
               <div class="markdown-body">
                 
-                <p>今年赛题强度很高，web一道fix二十多解，其他题attack和fix应该都是个位数解；pwn一道fix60解，一道30解，还有两道个位数解。渗透队友还是很强的，最后喜提二等安慰奖</p>
-<h1 id="Pwn"><a href="#Pwn" class="headerlink" title="Pwn"></a>Pwn</h1><p>pwn的附件有一道是web-pwn，不知道二进制文件在哪，其他题目也不是uaf，格式化字符串漏洞等明显的漏洞，我就fix了两道，30解的题10次用完也没fix出来</p>
-<h2 id="Quantum"><a href="#Quantum" class="headerlink" title="Quantum"></a>Quantum</h2><p>这里有格式化字符串漏洞但是没用</p>
-<img src="/2025/03/16/2025ciscn-ccb%E6%B5%99%E6%B1%9F%E8%B5%9B%E5%8C%BA%E5%8D%8A%E5%86%B3%E8%B5%9B/1742124596790-9c94d027-9cb5-46ab-9afc-cc9dab5d0ce7.png" srcset="/img/loading.gif" lazyload class="" title="img">
+                <p>昨晚和高中同学聊起web端地图，于是突发奇想借助ai和框架做一个简易的系统，以此证实如今ai的强大</p>
+<p>项目结构如下</p>
+<img src="/2025/03/21/%E5%9F%BA%E4%BA%8ELeaflet%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9C%A8%E7%BA%BF%E5%9C%B0%E5%9B%BE/1742556436163-1171a43c-d771-4f7b-b6bc-c681cb2b8e72.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
-<p>把0x20改成8</p>
-<img src="/2025/03/16/2025ciscn-ccb%E6%B5%99%E6%B1%9F%E8%B5%9B%E5%8C%BA%E5%8D%8A%E5%86%B3%E8%B5%9B/1742124600547-4d808d3d-ad60-4531-a5df-947c760e87c4.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<p>app.py用最典型的Flask框架</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask, render_template, jsonify<br><br>app = Flask(__name__)<br><br>mock_data = [<br>    &#123;<br>        <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;标注点 A&quot;</span>,<br>        <span class="hljs-string">&quot;lat&quot;</span>: <span class="hljs-number">39.9042</span>,   <span class="hljs-comment"># 北京示例坐标</span><br>        <span class="hljs-string">&quot;lng&quot;</span>: <span class="hljs-number">116.4074</span><br>    &#125;,<br>    &#123;<br>        <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;标注点 B&quot;</span>,<br>        <span class="hljs-string">&quot;lat&quot;</span>: <span class="hljs-number">31.2304</span>,   <span class="hljs-comment"># 上海示例坐标</span><br>        <span class="hljs-string">&quot;lng&quot;</span>: <span class="hljs-number">121.4737</span><br>    &#125;<br>]<br><br><span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&quot;/&quot;</span></span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">index</span>():<br>    <span class="hljs-string">&quot;&quot;&quot;返回主页面&quot;&quot;&quot;</span><br>    <span class="hljs-keyword">return</span> render_template(<span class="hljs-string">&quot;index.html&quot;</span>)<br><br><span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&quot;/api/locations&quot;</span></span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_locations</span>():<br>    <span class="hljs-string">&quot;&quot;&quot;返回地理数据（JSON）&quot;&quot;&quot;</span><br>    <span class="hljs-keyword">return</span> jsonify(mock_data)<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    app.run(port=<span class="hljs-number">5000</span>, debug=<span class="hljs-literal">True</span>)<br></code></pre></td></tr></table></figure>
 
-<p>然后把free下面的一行nop掉</p>
-<img src="/2025/03/16/2025ciscn-ccb%E6%B5%99%E6%B1%9F%E8%B5%9B%E5%8C%BA%E5%8D%8A%E5%86%B3%E8%B5%9B/1742124605846-d3859971-bb04-412d-aee1-b5c38094d811.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<p>直接用Leaflet 资源的话会显示integrity校验失败，于是不使用 integrity等属性</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;zh-CN&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">&quot;UTF-8&quot;</span> /&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>地图演示页面<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span><br><br>    <span class="hljs-comment">&lt;!-- 引入 Leaflet CSS (不使用 integrity 和 crossorigin 属性) --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">link</span></span><br><span class="hljs-tag">      <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span></span><br><span class="hljs-tag">      <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://unpkg.com/leaflet@1.9.3/dist/leaflet.css&quot;</span></span><br><span class="hljs-tag">      /&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;&#123;&#123; url_for(&#x27;static&#x27;, filename=&#x27;style.css&#x27;) &#125;&#125;&quot;</span> /&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">header</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>地图演示页面<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">header</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">section</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;map-section&quot;</span>&gt;</span><br>      <span class="hljs-comment">&lt;!-- 地图容器 --&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;map&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">section</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">footer</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>© 2025 地图演示<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">footer</span>&gt;</span><br><br>    <span class="hljs-comment">&lt;!-- 引入 Leaflet JS (不使用 integrity 和 crossorigin 属性) --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">script</span></span><br><span class="hljs-tag">      <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://unpkg.com/leaflet@1.9.3/dist/leaflet.js&quot;</span></span><br><span class="hljs-tag">      &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><br>    <span class="hljs-comment">&lt;!-- 引入主逻辑脚本 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;&#123;&#123; url_for(&#x27;static&#x27;, filename=&#x27;main.js&#x27;) &#125;&#125;&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span><br>const map = L.map(&#x27;map&#x27;).setView([34, 108], 5);<br><br>// 设置 OpenStreetMap 瓦片层<br>L.tileLayer(&#x27;https://&#123;s&#125;.tile.openstreetmap.org/&#123;z&#125;/&#123;x&#125;/&#123;y&#125;.png&#x27;, &#123;<br>  attribution: &#x27;© OpenStreetMap&#x27;,<br>  maxZoom: 19,<br>&#125;).addTo(map);<br><br>// 从后端获取地理数据<br>fetch(&#x27;/api/locations&#x27;)<br>  .then(response =&gt; response.json())<br>  .then(data =&gt; &#123;<br>    data.forEach(item =&gt; &#123;<br>      // 为每个地点添加一个标注点<br>      const marker = L.marker([item.lat, item.lng]).addTo(map);<br>      // 为标注点添加弹出框显示名称和坐标<br>      marker.bindPopup(`<span class="hljs-tag">&lt;<span class="hljs-name">b</span>&gt;</span>$&#123;item.name&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">b</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span>坐标: $&#123;item.lat&#125;, $&#123;item.lng&#125;`);<br>    &#125;);<br>  &#125;)<br>  .catch(error =&gt; &#123;<br>    console.error(&quot;获取标注点数据失败:&quot;, error);<br>  &#125;);<br>body &#123;<br>  margin: 0;<br>  padding: 0;<br>  font-family: &quot;Microsoft YaHei&quot;, Arial, sans-serif;<br>  background-color: #fafafa;<br>&#125;<br><br>header, footer &#123;<br>  text-align: center;<br>  background-color: #333;<br>  color: #fff;<br>  padding: 12px 0;<br>&#125;<br><br>h1 &#123;<br>  margin: 0;<br>  font-size: 24px;<br>&#125;<br><br>/* 地图所在容器 */<br>#map-section &#123;<br>  width: 100%;<br>  height: calc(100vh - 120px); /* 除去 header/footer 的高度 */<br>  position: relative;<br>&#125;<br><br>/* Leaflet 地图必须显式设置高度才能显示 */<br>#map &#123;<br>  width: 100%;<br>  height: 100%;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>没想到这题这么好防，还是防慢了</p>
-<img src="/2025/03/16/2025ciscn-ccb%E6%B5%99%E6%B1%9F%E8%B5%9B%E5%8C%BA%E5%8D%8A%E5%86%B3%E8%B5%9B/1742124612247-21474968-e066-4aa5-b7a9-d2d184ec0246.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<p>最终效果</p>
+<img src="/2025/03/21/%E5%9F%BA%E4%BA%8ELeaflet%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9C%A8%E7%BA%BF%E5%9C%B0%E5%9B%BE/1742556736492-e2d43f08-2021-41e0-807a-c2d3821d5cf8.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
-<h2 id="Prompt"><a href="#Prompt" class="headerlink" title="Prompt"></a>Prompt</h2><p>把0x500改成0x100，这样就限制了large bin之类的</p>
-<img src="/2025/03/16/2025ciscn-ccb%E6%B5%99%E6%B1%9F%E8%B5%9B%E5%8C%BA%E5%8D%8A%E5%86%B3%E8%B5%9B/1742125325929-8dfa2f72-8bec-434b-84a6-c885bb4ce699.png" srcset="/img/loading.gif" lazyload class="" title="img">
-
-<p>把free下面一行（可能的offbyone nop）掉</p>
-<img src="/2025/03/16/2025ciscn-ccb%E6%B5%99%E6%B1%9F%E8%B5%9B%E5%8C%BA%E5%8D%8A%E5%86%B3%E8%B5%9B/1742125329668-a8ad1c3e-7b64-4dc1-a46e-36638a60edef.png" srcset="/img/loading.gif" lazyload class="" title="img">
-
-<p>把0x1000改成0x100</p>
-<img src="/2025/03/16/2025ciscn-ccb%E6%B5%99%E6%B1%9F%E8%B5%9B%E5%8C%BA%E5%8D%8A%E5%86%B3%E8%B5%9B/1742125334668-cd321d24-fec3-4875-850e-ca898f60e006.png" srcset="/img/loading.gif" lazyload class="" title="img">
-
-<p>修了半天才修出来，之前感觉也是这样的思路，大概率是第一眼没看到熟悉的漏洞就懵逼了</p>
-<img src="/2025/03/16/2025ciscn-ccb%E6%B5%99%E6%B1%9F%E8%B5%9B%E5%8C%BA%E5%8D%8A%E5%86%B3%E8%B5%9B/1742125340813-3e40145f-f24a-4ce6-82f3-1759dd2eecb6.png" srcset="/img/loading.gif" lazyload class="" title="img">
-
-
-
-<h2 id="Typo-2"><a href="#Typo-2" class="headerlink" title="Typo-2"></a>Typo-2</h2><p>尝试把+8改成+0，0x200改成0x120，显示利用失败，改成0x80或者0x78好像过度防御了</p>
-<img src="/2025/03/16/2025ciscn-ccb%E6%B5%99%E6%B1%9F%E8%B5%9B%E5%8C%BA%E5%8D%8A%E5%86%B3%E8%B5%9B/1742125127623-a44638fa-db5a-47af-9927-d027cd01841c.png" srcset="/img/loading.gif" lazyload class="" title="img">
-
-<p>最后次数用完了也是没fix，呜呜不知道为啥</p>
+<p>在大模型普及的今天，原来可能需要几天的时间来学习开发相关知识，现在只需要半小时就能完成基础开发，实在令人震惊。大模型在带给我们诸多便利的同时也给我带来一些思考：应该如何抵御ai浪潮的冲击，找到自己较为满意的工作？目前看来辩证看待ai给出的结果和持续学习应该是不错的选择，加油吧少年</p>
 
                 
               </div>
@@ -383,7 +358,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E6%AF%94%E8%B5%9Bwp/" class="category-chain-item">比赛wp</a>
+  <a href="/categories/%E4%BD%9C%E4%B8%9A%E4%B8%8E%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/" class="category-chain-item">作业与项目总结</a>
   
   
 
@@ -403,8 +378,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>2025ciscn&amp;ccb浙江赛区半决赛</div>
-      <div>https://j1ya-22.github.io/2025/03/16/2025ciscn-ccb浙江赛区半决赛/</div>
+      <div>基于Leaflet框架的在线地图</div>
+      <div>https://j1ya-22.github.io/2025/03/21/基于Leaflet框架的在线地图/</div>
     </div>
     <div class="license-meta">
       
@@ -416,7 +391,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2025年3月16日</div>
+          <div>2025年3月21日</div>
         </div>
       
       
@@ -448,18 +423,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2025/03/21/%E5%9F%BA%E4%BA%8ELeaflet%E6%A1%86%E6%9E%B6%E7%9A%84%E5%9C%A8%E7%BA%BF%E5%9C%B0%E5%9B%BE/" title="基于Leaflet框架的在线地图">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">基于Leaflet框架的在线地图</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2025/03/10/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9Cinitial-wp/" title="春秋云镜initial wp">
-                        <span class="hidden-mobile">春秋云镜initial wp</span>
+                      <a href="/2025/03/16/2025ciscn-ccb%E6%B5%99%E6%B1%9F%E8%B5%9B%E5%8C%BA%E5%8D%8A%E5%86%B3%E8%B5%9B/" title="2025ciscn&amp;ccb浙江赛区半决赛">
+                        <span class="hidden-mobile">2025ciscn&amp;ccb浙江赛区半决赛</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
