@@ -341,6 +341,12 @@
     </categories>
     
     
+    <tags>
+      
+      <tag>app逆向</tag>
+      
+    </tags>
+    
   </entry>
   
   
@@ -697,6 +703,18 @@
     </categories>
     
     
+    <tags>
+      
+      <tag>VM</tag>
+      
+      <tag>seh</tag>
+      
+      <tag>栈迁移</tag>
+      
+      <tag>沙箱保护</tag>
+      
+    </tags>
+    
   </entry>
   
   
@@ -718,9 +736,9 @@
     
     <tags>
       
-      <tag>SMC</tag>
-      
       <tag>tea魔改</tag>
+      
+      <tag>SMC</tag>
       
       <tag>app逆向</tag>
       
@@ -1049,6 +1067,18 @@
       
     </categories>
     
+    
+    <tags>
+      
+      <tag>VM</tag>
+      
+      <tag>sm4加密</tag>
+      
+      <tag>blowfish加密</tag>
+      
+      <tag>shellcode</tag>
+      
+    </tags>
     
   </entry>
   
