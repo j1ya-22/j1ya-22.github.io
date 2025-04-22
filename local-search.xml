@@ -104,7 +104,7 @@
       
       <tag>app逆向</tag>
       
-      <tag>aes</tag>
+      <tag>aes魔改</tag>
       
     </tags>
     
@@ -211,7 +211,7 @@
     
     <tags>
       
-      <tag>rc4</tag>
+      <tag>堆溢出</tag>
       
     </tags>
     
@@ -360,6 +360,22 @@
     </categories>
     
     
+    <tags>
+      
+      <tag>tea魔改</tag>
+      
+      <tag>aes魔改</tag>
+      
+      <tag>整数溢出</tag>
+      
+      <tag>md5加密</tag>
+      
+      <tag>sm4加密</tag>
+      
+      <tag>hashcat爆破</tag>
+      
+    </tags>
+    
   </entry>
   
   
@@ -436,6 +452,12 @@
     </categories>
     
     
+    <tags>
+      
+      <tag>pydas</tag>
+      
+    </tags>
+    
   </entry>
   
   
@@ -492,6 +514,26 @@
       
     </categories>
     
+    
+    <tags>
+      
+      <tag>伪随机数</tag>
+      
+      <tag>z3</tag>
+      
+      <tag>tea魔改</tag>
+      
+      <tag>pydas</tag>
+      
+      <tag>unity逆向</tag>
+      
+      <tag>rc4魔改</tag>
+      
+      <tag>中国剩余定理</tag>
+      
+      <tag>p高位泄露</tag>
+      
+    </tags>
     
   </entry>
   
@@ -552,11 +594,11 @@
     
     <tags>
       
-      <tag>rc4</tag>
+      <tag>tea魔改</tag>
+      
+      <tag>rc4魔改</tag>
       
       <tag>脱壳</tag>
-      
-      <tag>tea</tag>
       
     </tags>
     
@@ -676,11 +718,13 @@
     
     <tags>
       
+      <tag>SMC</tag>
+      
+      <tag>tea魔改</tag>
+      
       <tag>app逆向</tag>
       
-      <tag>rc4</tag>
-      
-      <tag>tea</tag>
+      <tag>DCT</tag>
       
     </tags>
     
@@ -708,11 +752,40 @@
   
   
   <entry>
-    <title>上海市赛2024初赛部分Reverse与数据安全</title>
+    <title>2024上海市赛初赛部分wp</title>
+    <link href="/2024/05/26/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/"/>
+    <url>/2024/05/26/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/</url>
+    
+    <content type="html"><![CDATA[<p>中途截的两张</p><img src="/2024/05/26/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1716648634963-1eb42663-5133-4d7f-b417-8608dcbe8f33.png" class="" title="img"><img src="/2024/05/26/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1716624422591-b7db8b02-4f36-42c3-98bb-80d01da837ee.png" class="" title="img"><h1 id="Re"><a href="#Re" class="headerlink" title="Re"></a>Re</h1><h2 id="ez-re"><a href="#ez-re" class="headerlink" title="ez_re"></a>ez_re</h2><p>看一下crazy和ohh</p><img src="/2024/05/26/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1716603171319-f2529c89-e9b1-4427-bcf9-3f57ed4e908e.png" class="" title="img"><p>逆向得到fake flag</p><img src="/2024/05/26/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1716603183325-dd6f2f91-460f-4d7c-a2af-6696384611f6.png" class="" title="img"><p>后面有自解密</p><img src="/2024/05/26/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1716603593551-2a159092-e376-4aec-a153-6fa8fa9f4104.png" class="" title="img"><p>运行到最后一个断点后f7进入</p><p>强制c，然后p</p><img src="/2024/05/26/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1716604322919-137970f1-0202-4803-9368-411aff9e23ab.png" class="" title="img"><p>404040是密文</p><img src="/2024/05/26/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1716603082521-c730d1aa-5d72-4a1c-a4fe-c1222a44cbfe.png" class="" title="img"><p>xxx明显是rc4</p><img src="/2024/05/26/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1716603126787-a478cc73-63c9-4f2b-8b72-472ff07fbd34.png" class="" title="img"><p>提取密文</p><img src="/2024/05/26/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1716603283906-646967f4-9e30-4075-b3ff-99fd22db8074.png" class="" title="img"><p>key就是前面的伪flag</p><img src="/2024/05/26/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1716604463744-440f26c5-523b-4a90-8a0d-94ca0e75922c.png" class="" title="img"><figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey">flag&#123;This_is_<span class="hljs-built_in">a_beautiful</span>_day!&#125;<br></code></pre></td></tr></table></figure><h2 id="ez-login"><a href="#ez-login" class="headerlink" title="ez_login"></a>ez_login</h2><p>找到des和密文</p><img src="/2024/05/26/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1716611130216-1f03c04c-be2b-48f5-aff0-d1ee6e354060.png" class="" title="img"><p>so层实现getKey</p><img src="/2024/05/26/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1716611157386-6330c5b7-07a3-4b8f-808c-e0a0d472c716.png" class="" title="img"><p>需要hook key</p><img src="/2024/05/26/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1716611164735-73d017cd-67c7-4761-ad11-ed79b85700cb.png" class="" title="img"><p>frida-ps -U -a，直接看真正的包名，注入之后发现key就是ida中显示的，怪不得航电师傅直接十分钟秒了</p><img src="/2024/05/26/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1716611188300-47f9b13d-d19e-4215-abe1-00a1322ef702.png" class="" title="img"><p>直接大厨解密</p><img src="/2024/05/26/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1716611103119-f3561930-dc64-4142-94e5-88037bfba2fe.png" class="" title="img"><h2 id="ez-iot-2"><a href="#ez-iot-2" class="headerlink" title="ez_iot-2"></a>ez_iot-2</h2><img src="/2024/05/26/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1716648938024-3fc4ac11-6fa2-4cb6-9b2f-79aaa1de8f7e.png" class="" title="img"><p>想着bin转hex，但hex无法查看</p><p>file之后搜信息发现是原题</p><p><a href="https://blog.csdn.net/qq_40934487/article/details/90759362">https://blog.csdn.net/qq_40934487/article/details/90759362</a></p><p>无法执行sh，用unsquashfs提取后tmp目录无backdoor</p><img src="/2024/05/26/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1716693924453-bbffbb45-6463-4d49-850e-10a3e1bbb9d1.png" class="" title="img"><h1 id="数据安全"><a href="#数据安全" class="headerlink" title="数据安全"></a>数据安全</h1><h2 id="API接口安全分析题"><a href="#API接口安全分析题" class="headerlink" title="API接口安全分析题"></a>API接口安全分析题</h2><p><strong>1</strong></p><img src="/2024/05/26/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1716631121962-2ed0573a-9843-43f9-900b-ee9d4569fdbf.png" class="" title="img"><img src="/2024/05/26/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1716623760405-856de68a-fd03-4aaa-a745-1824cd0ac50c.png" class="" title="img"><p><strong>2</strong></p><img src="/2024/05/26/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1716631156880-e41daf4a-c947-41ca-9452-52d94ff72327.png" class="" title="img"><img src="/2024/05/26/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1716623780859-8db722e0-07b9-42ef-bcc6-7772b88223f6.png" class="" title="img"><h2 id="数据勒索分析"><a href="#数据勒索分析" class="headerlink" title="数据勒索分析"></a>数据勒索分析</h2><p><strong>1</strong></p><img src="/2024/05/26/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1716631187178-1bbb5cbe-f085-469c-a67f-0f81452a03c7.png" class="" title="img"><p><strong>3</strong></p><p>ida分析发现可以直接用它的exe来加密，那么就想到我们可以自己写一个文件来看它怎么加密的</p><img src="/2024/05/26/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1716642650348-c384c8ec-d328-4d16-ab54-9f130da31644.png" class="" title="img"><img src="/2024/05/26/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1716642659732-13404109-fabe-41bd-85a6-e98f2a0e2d7d.png" class="" title="img"><p>经过比对发现，加密只是异或了23</p><img src="/2024/05/26/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1716642705593-cb856394-1599-4853-849a-4b901c7886b7.png" class="" title="img"><p>所以直接写一个脚本把加密的文件每个字节都异或23，解密后直接搜</p><img src="/2024/05/26/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1716630850175-6638fdb8-533f-4a40-91cd-7776a04fe8ce.png" class="" title="img">]]></content>
+    
+    
+    <categories>
+      
+      <category>比赛wp</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>SMC</tag>
+      
+      <tag>frida</tag>
+      
+      <tag>固件逆向</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>2024上海市赛初赛部分Reverse与数据安全</title>
     <link href="/2024/05/26/%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B2024%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86Reverse%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8/"/>
     <url>/2024/05/26/%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B2024%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86Reverse%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8/</url>
     
-    <content type="html"><![CDATA[<p>中途截的两张</p><img src="/2024/05/26/%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B2024%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86Reverse%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8/1716648634963-1eb42663-5133-4d7f-b417-8608dcbe8f33.png" class="" title="img"><img src="/2024/05/26/%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B2024%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86Reverse%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8/1716624422591-b7db8b02-4f36-42c3-98bb-80d01da837ee.png" class="" title="img"><h1 id="Re"><a href="#Re" class="headerlink" title="Re"></a>Re</h1><h2 id="ez-re"><a href="#ez-re" class="headerlink" title="ez_re"></a>ez_re</h2><p>看一下crazy和ohh</p><img src="/2024/05/26/%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B2024%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86Reverse%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8/1716603171319-f2529c89-e9b1-4427-bcf9-3f57ed4e908e.png" class="" title="img"><p>逆向得到fake flag</p><img src="/2024/05/26/%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B2024%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86Reverse%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8/1716603183325-dd6f2f91-460f-4d7c-a2af-6696384611f6.png" class="" title="img"><p>后面有自解密</p><img src="/2024/05/26/%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B2024%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86Reverse%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8/1716603593551-2a159092-e376-4aec-a153-6fa8fa9f4104.png" class="" title="img"><p>运行到最后一个断点后f7进入</p><p>强制c，然后p</p><img src="/2024/05/26/%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B2024%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86Reverse%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8/1716604322919-137970f1-0202-4803-9368-411aff9e23ab.png" class="" title="img"><p>404040是密文</p><img src="/2024/05/26/%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B2024%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86Reverse%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8/1716603082521-c730d1aa-5d72-4a1c-a4fe-c1222a44cbfe.png" class="" title="img"><p>xxx明显是rc4</p><img src="/2024/05/26/%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B2024%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86Reverse%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8/1716603126787-a478cc73-63c9-4f2b-8b72-472ff07fbd34.png" class="" title="img"><p>提取密文</p><img src="/2024/05/26/%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B2024%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86Reverse%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8/1716603283906-646967f4-9e30-4075-b3ff-99fd22db8074.png" class="" title="img"><p>key就是前面的伪flag</p><img src="/2024/05/26/%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B2024%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86Reverse%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8/1716604463744-440f26c5-523b-4a90-8a0d-94ca0e75922c.png" class="" title="img"><figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey">flag&#123;This_is_<span class="hljs-built_in">a_beautiful</span>_day!&#125;<br></code></pre></td></tr></table></figure><h2 id="ez-login"><a href="#ez-login" class="headerlink" title="ez_login"></a>ez_login</h2><p>找到des和密文</p><img src="/2024/05/26/%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B2024%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86Reverse%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8/1716611130216-1f03c04c-be2b-48f5-aff0-d1ee6e354060.png" class="" title="img"><p>so层实现getKey</p><img src="/2024/05/26/%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B2024%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86Reverse%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8/1716611157386-6330c5b7-07a3-4b8f-808c-e0a0d472c716.png" class="" title="img"><p>需要hook key</p><img src="/2024/05/26/%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B2024%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86Reverse%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8/1716611164735-73d017cd-67c7-4761-ad11-ed79b85700cb.png" class="" title="img"><p>frida-ps -U -a，直接看真正的包名</p><img src="/2024/05/26/%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B2024%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86Reverse%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8/1716611188300-47f9b13d-d19e-4215-abe1-00a1322ef702.png" class="" title="img"><p>直接大厨解密</p><img src="/2024/05/26/%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B2024%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86Reverse%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8/1716611103119-f3561930-dc64-4142-94e5-88037bfba2fe.png" class="" title="img"><h2 id="ez-iot-2"><a href="#ez-iot-2" class="headerlink" title="ez_iot-2"></a>ez_iot-2</h2><img src="/2024/05/26/%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B2024%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86Reverse%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8/1716648938024-3fc4ac11-6fa2-4cb6-9b2f-79aaa1de8f7e.png" class="" title="img"><p>想着bin转hex，但hex无法查看</p><p>file之后搜信息发现是原题</p><p><a href="https://blog.csdn.net/qq_40934487/article/details/90759362">https://blog.csdn.net/qq_40934487/article/details/90759362</a></p><p>无法执行sh，用unsquashfs提取后tmp目录无backdoor</p><img src="/2024/05/26/%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B2024%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86Reverse%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8/1716693924453-bbffbb45-6463-4d49-850e-10a3e1bbb9d1.png" class="" title="img"><h1 id="数据安全"><a href="#数据安全" class="headerlink" title="数据安全"></a>数据安全</h1><h2 id="API接口安全分析题"><a href="#API接口安全分析题" class="headerlink" title="API接口安全分析题"></a>API接口安全分析题</h2><p><strong>1</strong></p><img src="/2024/05/26/%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B2024%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86Reverse%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8/1716631121962-2ed0573a-9843-43f9-900b-ee9d4569fdbf.png" class="" title="img"><img src="/2024/05/26/%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B2024%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86Reverse%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8/1716623760405-856de68a-fd03-4aaa-a745-1824cd0ac50c.png" class="" title="img"><p><strong>2</strong></p><img src="/2024/05/26/%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B2024%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86Reverse%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8/1716631156880-e41daf4a-c947-41ca-9452-52d94ff72327.png" class="" title="img"><img src="/2024/05/26/%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B2024%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86Reverse%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8/1716623780859-8db722e0-07b9-42ef-bcc6-7772b88223f6.png" class="" title="img"><h2 id="数据勒索分析"><a href="#数据勒索分析" class="headerlink" title="数据勒索分析"></a>数据勒索分析</h2><p><strong>1</strong></p><img src="/2024/05/26/%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B2024%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86Reverse%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8/1716631187178-1bbb5cbe-f085-469c-a67f-0f81452a03c7.png" class="" title="img"><p><strong>3</strong></p><p>ida分析发现可以直接用它的exe来加密，那么就想到我们可以自己写一个文件来看它怎么加密的</p><img src="/2024/05/26/%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B2024%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86Reverse%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8/1716642650348-c384c8ec-d328-4d16-ab54-9f130da31644.png" class="" title="img"><img src="/2024/05/26/%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B2024%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86Reverse%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8/1716642659732-13404109-fabe-41bd-85a6-e98f2a0e2d7d.png" class="" title="img"><p>经过比对发现，加密只是异或了23</p><img src="/2024/05/26/%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B2024%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86Reverse%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8/1716642705593-cb856394-1599-4853-849a-4b901c7886b7.png" class="" title="img"><p>所以直接写一个脚本把加密的文件每个字节都异或23，解密后直接搜</p><img src="/2024/05/26/%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B2024%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86Reverse%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8/1716630850175-6638fdb8-533f-4a40-91cd-7776a04fe8ce.png" class="" title="img">]]></content>
+    <content type="html"><![CDATA[<p>中途截的两张</p><h1 id="Re"><a href="#Re" class="headerlink" title="Re"></a>Re</h1><h2 id="ez-re"><a href="#ez-re" class="headerlink" title="ez_re"></a>ez_re</h2><p>看一下crazy和ohh</p><p>逆向得到fake flag</p><p>后面有自解密</p><p>运行到最后一个断点后f7进入</p><p>强制c，然后p</p><p>404040是密文</p><p>xxx明显是rc4</p><p>提取密文</p><p>key就是前面的伪flag</p><figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey">flag&#123;This_is_<span class="hljs-built_in">a_beautiful</span>_day!&#125;<br></code></pre></td></tr></table></figure><h2 id="ez-login"><a href="#ez-login" class="headerlink" title="ez_login"></a>ez_login</h2><p>找到des和密文</p><p>so层实现getKey</p><p>需要hook key</p><p>frida-ps -U -a，直接看真正的包名</p><p>直接大厨解密</p><h2 id="ez-iot-2"><a href="#ez-iot-2" class="headerlink" title="ez_iot-2"></a>ez_iot-2</h2><p>想着bin转hex，但hex无法查看</p><p>file之后搜信息发现是原题</p><p><a href="https://blog.csdn.net/qq_40934487/article/details/90759362">https://blog.csdn.net/qq_40934487/article/details/90759362</a></p><p>无法执行sh，用unsquashfs提取后tmp目录无backdoor</p><h1 id="数据安全"><a href="#数据安全" class="headerlink" title="数据安全"></a>数据安全</h1><h2 id="API接口安全分析题"><a href="#API接口安全分析题" class="headerlink" title="API接口安全分析题"></a>API接口安全分析题</h2><p><strong>1</strong></p><p><strong>2</strong></p><h2 id="数据勒索分析"><a href="#数据勒索分析" class="headerlink" title="数据勒索分析"></a>数据勒索分析</h2><p><strong>1</strong></p><p><strong>3</strong></p><p>ida分析发现可以直接用它的exe来加密，那么就想到我们可以自己写一个文件来看它怎么加密的</p><p>经过比对发现，加密只是异或了23</p><p>所以直接写一个脚本把加密的文件每个字节都异或23，解密后直接搜</p>]]></content>
     
     
     <categories>
@@ -762,9 +835,9 @@
     
     <tags>
       
-      <tag>rc4</tag>
-      
       <tag>tea</tag>
+      
+      <tag>rc4</tag>
       
     </tags>
     
@@ -946,6 +1019,18 @@
     </categories>
     
     
+    <tags>
+      
+      <tag>花指令</tag>
+      
+      <tag>veh</tag>
+      
+      <tag>crc64魔改</tag>
+      
+      <tag>取证</tag>
+      
+    </tags>
+    
   </entry>
   
   
@@ -1005,9 +1090,9 @@
     
     <tags>
       
-      <tag>shellcode</tag>
-      
       <tag>unity逆向</tag>
+      
+      <tag>shellcode</tag>
       
     </tags>
     
