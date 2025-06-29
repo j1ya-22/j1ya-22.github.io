@@ -1,0 +1,776 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="j1ya">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="windows与linux下的随机数机制是不一样的，如果给的是elf文件要求随机序列，需要在linux下编译 C一般先设置种子srand(0)，然后调用rand 前后两次调用rand生成的随机数不同 动调获取随机序列2024geek flower 2024CISCN gdb_debug 爆破seedhttps:&#x2F;&#x2F;mp.weixin.qq.com&#x2F;s&#x2F;3PZK2O2PftCqr2mS7vn5wA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="伪随机数总结">
+<meta property="og:url" content="https://j1ya-22.github.io/2025/06/29/%E4%BC%AA%E9%9A%8F%E6%9C%BA%E6%95%B0%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="j1ya">
+<meta property="og:description" content="windows与linux下的随机数机制是不一样的，如果给的是elf文件要求随机序列，需要在linux下编译 C一般先设置种子srand(0)，然后调用rand 前后两次调用rand生成的随机数不同 动调获取随机序列2024geek flower 2024CISCN gdb_debug 爆破seedhttps:&#x2F;&#x2F;mp.weixin.qq.com&#x2F;s&#x2F;3PZK2O2PftCqr2mS7vn5wA">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-06-29T15:37:54.000Z">
+<meta property="article:modified_time" content="2025-06-29T15:38:31.363Z">
+<meta property="article:author" content="j1ya">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>伪随机数总结 - j1ya</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"j1ya-22.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":false,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"5oPqGOgpqzM186wdJq3YyrcV-gzGzoHsz","app_key":"tdZv3tC3tP1IszSKxEodRe6e","server_url":null,"path":"window.location.pathname","ignore_local":true}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>j1ya</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="伪随机数总结"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-06-29 23:37" pubdate>
+          2025年6月29日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          10 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">伪随机数总结</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>windows与linux下的随机数机制是不一样的，如果给的是elf文件要求随机序列，需要在linux下编译</p>
+<h1 id="C"><a href="#C" class="headerlink" title="C"></a>C</h1><p>一般先设置种子srand(0)，然后调用rand</p>
+<p>前后两次调用rand生成的随机数不同</p>
+<h2 id="动调获取随机序列"><a href="#动调获取随机序列" class="headerlink" title="动调获取随机序列"></a>动调获取随机序列</h2><p>2024geek flower</p>
+<p>2024CISCN gdb_debug</p>
+<h2 id="爆破seed"><a href="#爆破seed" class="headerlink" title="爆破seed"></a>爆破seed</h2><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/3PZK2O2PftCqr2mS7vn5wA">https://mp.weixin.qq.com/s/3PZK2O2PftCqr2mS7vn5wA</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.yuque.com/attachments/yuque/0/2024/zip/35612767/1733448751548-13232d84-0949-4fd6-bef2-1a04600dbf12.zip">📎upx2023_0.zip</a></p>
+<h1 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h1><p><a target="_blank" rel="noopener" href="https://lazzzaro.github.io/2020/11/07/crypto-%E6%B5%81%E5%AF%86%E7%A0%81/">https://lazzzaro.github.io/2020/11/07/crypto-%E6%B5%81%E5%AF%86%E7%A0%81/</a></p>
+<p>python中random库使用的是MT19937算法(梅森旋转算法)，利用算法可以求出后随机数，前未知随机数，种子等，详见博客</p>
+<p>1.利用seed初始化624个状态</p>
+<p>2.对状态进行旋转</p>
+<p>3.根据状态提取伪随机数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">_int32</span>(<span class="hljs-params">x</span>):<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">0xFFFFFFFF</span> &amp; x)<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MT19937</span>:<br>    <span class="hljs-comment"># 根据seed初始化624的state</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, seed</span>):<br>        self.mt = [<span class="hljs-number">0</span>] * <span class="hljs-number">624</span><br>        self.mt[<span class="hljs-number">0</span>] = seed<br>        self.mti = <span class="hljs-number">0</span><br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">624</span>):<br>            self.mt[i] = _int32(<span class="hljs-number">1812433253</span> * (self.mt[i - <span class="hljs-number">1</span>] ^ self.mt[i - <span class="hljs-number">1</span>] &gt;&gt; <span class="hljs-number">30</span>) + i)<br><br>    <span class="hljs-comment"># 提取伪随机数</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">extract_number</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">if</span> self.mti == <span class="hljs-number">0</span>:<br>            self.twist()<br>        y = self.mt[self.mti]<br>        y = y ^ y &gt;&gt; <span class="hljs-number">11</span><br>        y = y ^ y &lt;&lt; <span class="hljs-number">7</span> &amp; <span class="hljs-number">2636928640</span><br>        y = y ^ y &lt;&lt; <span class="hljs-number">15</span> &amp; <span class="hljs-number">4022730752</span><br>        y = y ^ y &gt;&gt; <span class="hljs-number">18</span><br>        self.mti = (self.mti + <span class="hljs-number">1</span>) % <span class="hljs-number">624</span><br>        <span class="hljs-keyword">return</span> _int32(y)<br><br>    <span class="hljs-comment"># 对状态进行旋转</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">twist</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, <span class="hljs-number">624</span>):<br>            y = _int32((self.mt[i] &amp; <span class="hljs-number">0x80000000</span>) + (self.mt[(i + <span class="hljs-number">1</span>) % <span class="hljs-number">624</span>] &amp; <span class="hljs-number">0x7fffffff</span>))<br>            self.mt[i] = (y &gt;&gt; <span class="hljs-number">1</span>) ^ self.mt[(i + <span class="hljs-number">397</span>) % <span class="hljs-number">624</span>]<br><br>            <span class="hljs-keyword">if</span> y % <span class="hljs-number">2</span> != <span class="hljs-number">0</span>:<br>                self.mt[i] = self.mt[i] ^ <span class="hljs-number">0x9908b0df</span><br></code></pre></td></tr></table></figure>
+
+
+
+<p>有默认种子，由当前时间和操作系统提供的熵源例如urandom综合生成</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> random<br><span class="hljs-keyword">import</span> time<br><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">int</span>(time.time()))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;随机数1：&#x27;</span>,random.random())<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">int</span>(time.time()))<br>random.seed(<span class="hljs-built_in">int</span>(time.time()))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;随机数2：&#x27;</span>,random.random())<br>random.seed(<span class="hljs-number">0</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;随机数3：&#x27;</span>,random.random())<br><br><span class="hljs-comment"># 1732158156</span><br><span class="hljs-comment"># 随机数1： 0.4747416427572331</span><br><span class="hljs-comment"># 1732158156</span><br><span class="hljs-comment"># 随机数2： 0.2260060177159785</span><br><span class="hljs-comment"># 随机数3： 0.8444218515250481</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="GKCTF-2021-Random"><a href="#GKCTF-2021-Random" class="headerlink" title="[GKCTF 2021]Random"></a>[GKCTF 2021]Random</h2><p>如果能获取前624个32位的随机数，就能预测出后面全部32位的随机数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> random<br><span class="hljs-keyword">from</span> hashlib <span class="hljs-keyword">import</span> md5<br> <br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_mask</span>():<br>    file = <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;random.txt&quot;</span>,<span class="hljs-string">&quot;w&quot;</span>)<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">104</span>):<br>        file.write(<span class="hljs-built_in">str</span>(random.getrandbits(<span class="hljs-number">32</span>))+<span class="hljs-string">&quot;\n&quot;</span>)<br>        file.write(<span class="hljs-built_in">str</span>(random.getrandbits(<span class="hljs-number">64</span>))+<span class="hljs-string">&quot;\n&quot;</span>)<br>        file.write(<span class="hljs-built_in">str</span>(random.getrandbits(<span class="hljs-number">96</span>))+<span class="hljs-string">&quot;\n&quot;</span>)<br>    file.close()<br>get_mask()<br>flag = md5(<span class="hljs-built_in">str</span>(random.getrandbits(<span class="hljs-number">32</span>)).encode()).hexdigest()<br><span class="hljs-built_in">print</span>(flag)<br></code></pre></td></tr></table></figure>
+
+<p>random的随机数以32位为一个单位，所以如果要产生一个64位的随机数，则等价于一次产生两个32位随机数</p>
+<p>本题中已知的随机数有104*(1+2+3)&#x3D;624个，刚好满足能够预测的条件，需要预测出下一个</p>
+<h3 id="randcrack"><a href="#randcrack" class="headerlink" title="randcrack"></a>randcrack</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> hashlib <span class="hljs-keyword">import</span> md5<br><span class="hljs-keyword">from</span> randcrack <span class="hljs-keyword">import</span> RandCrack<br><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">r&#x27;random.txt&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>    l = f.readlines()<br>l = [<span class="hljs-built_in">int</span>(i.strip()) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> l]<br>t = []<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(l)):<br>    <span class="hljs-keyword">if</span> i % <span class="hljs-number">3</span> == <span class="hljs-number">0</span>:<br>        t.append(l[i])  <span class="hljs-comment"># 32位长度直接存入</span><br>    <span class="hljs-keyword">elif</span> i % <span class="hljs-number">3</span> == <span class="hljs-number">1</span>:<br>        t.append(l[i] &amp; (<span class="hljs-number">2</span> ** <span class="hljs-number">32</span> - <span class="hljs-number">1</span>))  <span class="hljs-comment"># 64位长度先存入低32位</span><br>        t.append(l[i] &gt;&gt; <span class="hljs-number">32</span>)  <span class="hljs-comment"># 再存入高32位</span><br>    <span class="hljs-keyword">else</span>:<br>        t.append(l[i] &amp; (<span class="hljs-number">2</span> ** <span class="hljs-number">32</span> - <span class="hljs-number">1</span>))<br>        t.append(l[i] &amp; (<span class="hljs-number">2</span> ** <span class="hljs-number">64</span> - <span class="hljs-number">1</span>) &gt;&gt; <span class="hljs-number">32</span>)<br>        t.append(l[i] &gt;&gt; <span class="hljs-number">64</span>)<br>rc = RandCrack()<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> t:<br>    rc.submit(i)  <span class="hljs-comment"># 把每个数据都丢进预测器里</span><br>flag = rc.predict_getrandbits(<span class="hljs-number">32</span>)  <span class="hljs-comment"># 预测的下一个32位</span><br><span class="hljs-built_in">print</span>(md5(<span class="hljs-built_in">str</span>(flag).encode()).hexdigest())<br></code></pre></td></tr></table></figure>
+
+<h3 id="列举全部state的状态"><a href="#列举全部state的状态" class="headerlink" title="列举全部state的状态"></a>列举全部state的状态</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> random <span class="hljs-keyword">import</span> Random<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">invert_right</span>(<span class="hljs-params">m,l,val=<span class="hljs-string">&#x27;&#x27;</span></span>):<br>    length = <span class="hljs-number">32</span><br>    mx = <span class="hljs-number">0xffffffff</span><br>    <span class="hljs-keyword">if</span> val == <span class="hljs-string">&#x27;&#x27;</span>:<br>        val = mx<br>    i,res = <span class="hljs-number">0</span>,<span class="hljs-number">0</span><br>    <span class="hljs-keyword">while</span> i*l&lt;length:<br>        mask = (mx&lt;&lt;(length-l)&amp;mx)&gt;&gt;i*l<br>        tmp = m &amp; mask<br>        m = m^tmp&gt;&gt;l&amp;val<br>        res += tmp<br>        i += <span class="hljs-number">1</span><br>    <span class="hljs-keyword">return</span> res<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">invert_left</span>(<span class="hljs-params">m,l,val</span>):<br>    length = <span class="hljs-number">32</span><br>    mx = <span class="hljs-number">0xffffffff</span><br>    i,res = <span class="hljs-number">0</span>,<span class="hljs-number">0</span><br>    <span class="hljs-keyword">while</span> i*l &lt; length:<br>        mask = (mx&gt;&gt;(length-l)&amp;mx)&lt;&lt;i*l<br>        tmp = m &amp; mask<br>        m ^= tmp&lt;&lt;l&amp;val<br>        res |= tmp<br>        i += <span class="hljs-number">1</span><br>    <span class="hljs-keyword">return</span> res<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">invert_temper</span>(<span class="hljs-params">m</span>):<br>    m = invert_right(m,<span class="hljs-number">18</span>)<br>    m = invert_left(m,<span class="hljs-number">15</span>,<span class="hljs-number">4022730752</span>)<br>    m = invert_left(m,<span class="hljs-number">7</span>,<span class="hljs-number">2636928640</span>)<br>    m = invert_right(m,<span class="hljs-number">11</span>)<br>    <span class="hljs-keyword">return</span> m<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">clone_mt</span>(<span class="hljs-params">record</span>):<br>    state = [invert_temper(i) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> record]<br>    gen = Random()<br>    gen.setstate((<span class="hljs-number">3</span>,<span class="hljs-built_in">tuple</span>(state+[<span class="hljs-number">0</span>]),<span class="hljs-literal">None</span>))<br>    <span class="hljs-keyword">return</span> gen<br><br><br>f = <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;random.txt&quot;</span>,<span class="hljs-string">&#x27;r&#x27;</span>).readlines()<br>prng = []<br>j=<span class="hljs-number">0</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> f:<br>    i = i.strip(<span class="hljs-string">&#x27;\n&#x27;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-built_in">int</span>(i).bit_length())<br>    <span class="hljs-keyword">if</span>(j%<span class="hljs-number">3</span>==<span class="hljs-number">0</span>):<br>        prng.append(<span class="hljs-built_in">int</span>(i))<br>    <span class="hljs-keyword">elif</span>(j%<span class="hljs-number">3</span>==<span class="hljs-number">1</span>):<span class="hljs-comment">#将生成两次随机数的两个随机数分离出来</span><br>        prng.append(<span class="hljs-built_in">int</span>(i)&amp; (<span class="hljs-number">2</span> ** <span class="hljs-number">32</span> - <span class="hljs-number">1</span>))<br>        prng.append(<span class="hljs-built_in">int</span>(i)&gt;&gt; <span class="hljs-number">32</span>)<br>    <span class="hljs-keyword">else</span>:<span class="hljs-comment">#将生成三次随机数的三个随机数分离出来</span><br>        prng.append(<span class="hljs-built_in">int</span>(i)&amp; (<span class="hljs-number">2</span> ** <span class="hljs-number">32</span> - <span class="hljs-number">1</span>))<br>        prng.append(<span class="hljs-built_in">int</span>(i)&amp; (<span class="hljs-number">2</span> ** <span class="hljs-number">64</span> - <span class="hljs-number">1</span>) &gt;&gt; <span class="hljs-number">32</span>)<br>        prng.append(<span class="hljs-built_in">int</span>(i)&gt;&gt;<span class="hljs-number">64</span>)<br>    j+=<span class="hljs-number">1</span><br><br>g = clone_mt(prng[:<span class="hljs-number">624</span>])<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">624</span>):<br>    g.getrandbits(<span class="hljs-number">32</span>)<span class="hljs-comment">#产生前624个随机数，让state状态到生成flag前</span><br><br>key = g.getrandbits(<span class="hljs-number">32</span>)<br><span class="hljs-built_in">print</span>(key)<br><span class="hljs-keyword">from</span> hashlib <span class="hljs-keyword">import</span> md5<br>flag = md5(<span class="hljs-built_in">str</span>(key).encode()).hexdigest()<br><span class="hljs-built_in">print</span>(flag)<br><span class="hljs-comment">#14c71fec812b754b2061a35a4f6d8421</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="2023HITCTF邀请赛"><a href="#2023HITCTF邀请赛" class="headerlink" title="2023HITCTF邀请赛"></a>2023HITCTF邀请赛</h2><p>数据：<a target="_blank" rel="noopener" href="https://www.yuque.com/attachments/yuque/0/2024/zip/35612767/1733714779876-6541bea6-2464-4673-b684-4b38e6fef9c1.zip">📎output.zip</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> random<br><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;output.bin&#x27;</span>, <span class="hljs-string">&#x27;wb&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>    f.write(random.randbytes(<span class="hljs-number">2500</span>))<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;HITCTF2023&#123;%s&#125;&#x27;</span> % random.randbytes(<span class="hljs-number">16</span>).<span class="hljs-built_in">hex</span>())<br></code></pre></td></tr></table></figure>
+
+<p>题目已知产生了2500个byte，一个byte是8位，也就是说4个byte组成一个32位随机数，2500&#x2F;4&#x3D;625&gt;624，满足预测条件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> random<br><span class="hljs-keyword">from</span> mt19937predictor <span class="hljs-keyword">import</span> MT19937Predictor<br><br><span class="hljs-comment">#读取数据，并4个一组组成一个32位随机数(little是重点)</span><br>c = <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;output.bin&#x27;</span>, <span class="hljs-string">&#x27;rb&#x27;</span>).read()<br>c = [c[x:x+<span class="hljs-number">4</span>] <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(c), <span class="hljs-number">4</span>)]<br>c = [<span class="hljs-built_in">int</span>.from_bytes(x, <span class="hljs-string">&#x27;little&#x27;</span>) <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> c]<br><br>predictor = MT19937Predictor()<br><span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> c[:<span class="hljs-number">624</span>]:<br>	predictor.setrandbits(x, <span class="hljs-number">32</span>) <span class="hljs-comment">#只需要624组数据就行</span><br><span class="hljs-keyword">assert</span> predictor.getrandbits(<span class="hljs-number">32</span>) == c[-<span class="hljs-number">1</span>]<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;HITCTF2023&#123;%s&#125;&#x27;</span> % predictor.randbytes(<span class="hljs-number">16</span>).<span class="hljs-built_in">hex</span>())<br><span class="hljs-comment"># HITCTF2023&#123;d6712c20657ce5e02118f8592b7da71f&#125;</span><br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%9F%A5%E8%AF%86%E7%82%B9/" class="category-chain-item">知识点</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>伪随机数总结</div>
+      <div>https://j1ya-22.github.io/2025/06/29/伪随机数总结/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>j1ya</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年6月29日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/" title="绕过广告简单总结">
+                        <span class="hidden-mobile">绕过广告简单总结</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"5oPqGOgpqzM186wdJq3YyrcV-gzGzoHsz","appKey":"tdZv3tC3tP1IszSKxEodRe6e","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
