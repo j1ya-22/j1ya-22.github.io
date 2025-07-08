@@ -16,59 +16,60 @@
   <meta name="author" content="j1ya">
   <meta name="keywords" content="">
   
-    <meta name="description" content="本篇文章仅用于技术交流学习和研究，使用文章中的技术用于非法目的和破坏后果自负 用MT管理器+LibChecker去除WiFi钥匙广告目标：绕过刚登录及其他简单广告 破解版MT管理器和LibChecker可以从参考链接下载 在我的界面有广告   MT编辑的时候会有权限问题，需要放到storage文件夹下   AndroidManifest一开始尝试用MT反编译AndroidManifest，搜索到了">
+    <meta name="description" content="本篇文章仅用于技术交流学习和研究，使用文章中的技术用于非法目的和破坏后果自负 https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1CtkbYvEX8&#x2F;?spm_id_from&#x3D;333.337.search-card.all.click&amp;vd_source&#x3D;186775fb5e833bc4f9e53e60b11c99aa https:&#x2F;&#x2F;blog.csdn.net&#x2F;2301_">
 <meta property="og:type" content="article">
 <meta property="og:title" content="绕过广告简单总结">
 <meta property="og:url" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="j1ya">
-<meta property="og:description" content="本篇文章仅用于技术交流学习和研究，使用文章中的技术用于非法目的和破坏后果自负 用MT管理器+LibChecker去除WiFi钥匙广告目标：绕过刚登录及其他简单广告 破解版MT管理器和LibChecker可以从参考链接下载 在我的界面有广告   MT编辑的时候会有权限问题，需要放到storage文件夹下   AndroidManifest一开始尝试用MT反编译AndroidManifest，搜索到了">
+<meta property="og:description" content="本篇文章仅用于技术交流学习和研究，使用文章中的技术用于非法目的和破坏后果自负 https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1CtkbYvEX8&#x2F;?spm_id_from&#x3D;333.337.search-card.all.click&amp;vd_source&#x3D;186775fb5e833bc4f9e53e60b11c99aa https:&#x2F;&#x2F;blog.csdn.net&#x2F;2301_">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1743078108493-509e9dae-f45f-4841-b7f4-3bd446a3d6c1.jpeg">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1743078199642-26d79292-c507-44b3-b8b1-6e1a06efe764.jpeg">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/jpeg/35612767/1743078117202-1aeeca26-1dad-44c7-b2fc-7a7ddeae8bde.jpeg">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/jpeg/35612767/1743078001347-f10f8baa-1532-4c79-902a-068a1aaa8767.jpeg">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/jpeg/35612767/1743078267030-948049e1-351c-4e0e-a5ac-5c4f60198069.jpeg">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1743077991851-5e0271a5-a086-414a-9d4b-8450d4b1ebcd.jpeg">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/jpeg/35612767/1743078130967-37fcae72-094c-41a1-bf9c-8dd9f6ab3c2c.jpeg">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880108809-aec77c07-5545-4234-a5d8-d6d7bc92277b.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880108988-2b31be3d-f957-49c2-8cdc-eb9aa90c1bfc.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880109145-c0f1360a-465d-4153-b317-a8d3c53fe492.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880109356-9ed54d90-4035-48c9-9b56-f93c3faed759.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1751210589814-8799fddc-1fee-4cff-a0ac-7f1c79886584.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880109793-dc0ba1fd-807c-47bd-9576-387cb0bde259.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880110071-f42b0554-e291-48c5-a640-69b19794007d.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880110362-441b58a4-1142-49ad-a42c-5dd1c20d20c4.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880110603-3ecf349d-b788-4f11-996a-74c87068a91c.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880111405-33082d7e-f534-4aca-a955-a6f2dd01b37d.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880112065-9e30a9e0-1a5e-4f19-ba26-2178d6110d51.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880112250-2ca0409b-a4c0-4ad7-9dfd-d91c4a9e5957.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880112420-1ba39548-57c6-41b9-98db-fb94c14fdc96.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880112616-2e7ccb1f-c0b4-4727-bfe7-ba5c7950dc80.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880112855-0c1579cc-8917-41f3-ab8e-37ecb8641260.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880113041-6a56a802-86f8-4305-9512-a1f154801ce7.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880113230-0aae8acd-04c8-4daa-8e65-406e8cf7a3d7.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880113514-c36ffb32-bf03-4a16-8d6a-067e02c7812a.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880113730-7a1a4462-db1f-4198-a569-13f59cbaf75e.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880114048-8bdeec87-5abc-4528-98a6-c78044dda290.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880114293-96c7467b-df89-45bd-8cf9-b250451f4ed0.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880114599-a27d294b-f7a3-4a6a-9113-385bb974a446.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880114825-3e08cc17-1046-4d91-a212-fc7e09228f58.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880115023-5c60f57e-9622-435a-bb51-06bbc1e43086.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880115245-e3593f4d-a71c-44fc-b6ed-abb0913bb2ba.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880115434-b427e9ef-1e49-470e-9d7d-72bad4f3e384.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880115687-0b5a69cc-50ba-400d-a8d3-4a7b9d392376.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1751211001821-e1dcf948-fd22-4c58-a5f2-99b2046ff4f6.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1751211039036-a888584c-e2ef-4908-b91b-b3c91e511b33.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1751211064471-f6f73de0-c512-4140-9d85-ade2b1b742d8.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1751211089402-a5156101-ed83-447a-87b9-3373df5852f3.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1751211105554-45cbdb9b-f73e-4085-8bdc-4d35dec3abfc.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1751211122615-0d68b664-92ad-4f0b-8c7c-20c63ec8bc9a.png">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2025/png/35612767/1751211140169-53273d3f-62d7-4c82-81ec-1f1b915c7609.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1743078102934-f921a5cf-bdcb-41a8-830d-c993dcdb0e6c.jpeg">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1743078108493-509e9dae-f45f-4841-b7f4-3bd446a3d6c1-17519810602832.jpeg">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1743078199642-26d79292-c507-44b3-b8b1-6e1a06efe764-17519810602834.jpeg">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1743078117202-1aeeca26-1dad-44c7-b2fc-7a7ddeae8bde.jpeg">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1743078001347-f10f8baa-1532-4c79-902a-068a1aaa8767.jpeg">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1743078267030-948049e1-351c-4e0e-a5ac-5c4f60198069.jpeg">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1743077991851-5e0271a5-a086-414a-9d4b-8450d4b1ebcd-17519810602839.jpeg">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1743078130967-37fcae72-094c-41a1-bf9c-8dd9f6ab3c2c.jpeg">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880108809-aec77c07-5545-4234-a5d8-d6d7bc92277b.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880108988-2b31be3d-f957-49c2-8cdc-eb9aa90c1bfc.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880109145-c0f1360a-465d-4153-b317-a8d3c53fe492.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880109356-9ed54d90-4035-48c9-9b56-f93c3faed759.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1751210589814-8799fddc-1fee-4cff-a0ac-7f1c79886584.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880109793-dc0ba1fd-807c-47bd-9576-387cb0bde259.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880110071-f42b0554-e291-48c5-a640-69b19794007d.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880110362-441b58a4-1142-49ad-a42c-5dd1c20d20c4.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880110603-3ecf349d-b788-4f11-996a-74c87068a91c.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880111405-33082d7e-f534-4aca-a955-a6f2dd01b37d.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880112065-9e30a9e0-1a5e-4f19-ba26-2178d6110d51.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880112250-2ca0409b-a4c0-4ad7-9dfd-d91c4a9e5957.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880112420-1ba39548-57c6-41b9-98db-fb94c14fdc96.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880112616-2e7ccb1f-c0b4-4727-bfe7-ba5c7950dc80.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880112855-0c1579cc-8917-41f3-ab8e-37ecb8641260.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880113041-6a56a802-86f8-4305-9512-a1f154801ce7.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880113230-0aae8acd-04c8-4daa-8e65-406e8cf7a3d7.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880113514-c36ffb32-bf03-4a16-8d6a-067e02c7812a.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880113730-7a1a4462-db1f-4198-a569-13f59cbaf75e.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880114048-8bdeec87-5abc-4528-98a6-c78044dda290.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880114293-96c7467b-df89-45bd-8cf9-b250451f4ed0.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880114599-a27d294b-f7a3-4a6a-9113-385bb974a446.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880114825-3e08cc17-1046-4d91-a212-fc7e09228f58.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880115023-5c60f57e-9622-435a-bb51-06bbc1e43086.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880115245-e3593f4d-a71c-44fc-b6ed-abb0913bb2ba.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880115434-b427e9ef-1e49-470e-9d7d-72bad4f3e384.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880115687-0b5a69cc-50ba-400d-a8d3-4a7b9d392376.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1751211001821-e1dcf948-fd22-4c58-a5f2-99b2046ff4f6.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1751211039036-a888584c-e2ef-4908-b91b-b3c91e511b33.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1751211064471-f6f73de0-c512-4140-9d85-ade2b1b742d8.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1751211089402-a5156101-ed83-447a-87b9-3373df5852f3.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1751211105554-45cbdb9b-f73e-4085-8bdc-4d35dec3abfc.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1751211122615-0d68b664-92ad-4f0b-8c7c-20c63ec8bc9a.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1751211140169-53273d3f-62d7-4c82-81ec-1f1b915c7609.png">
 <meta property="article:published_time" content="2025-06-29T15:33:45.000Z">
-<meta property="article:modified_time" content="2025-07-08T13:15:21.316Z">
+<meta property="article:modified_time" content="2025-07-08T13:24:41.229Z">
 <meta property="article:author" content="j1ya">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1743078108493-509e9dae-f45f-4841-b7f4-3bd446a3d6c1.jpeg">
+<meta name="twitter:image" content="https://j1ya-22.github.io/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1743078102934-f921a5cf-bdcb-41a8-830d-c993dcdb0e6c.jpeg">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -304,7 +305,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1k 字
+          990 字
         
       </span>
     
@@ -366,99 +367,139 @@
               <div class="markdown-body">
                 
                 <p><strong>本篇文章仅用于技术交流学习和研究，使用文章中的技术用于非法目的和破坏后果自负</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1CtkbYvEX8/?spm_id_from=333.337.search-card.all.click&vd_source=186775fb5e833bc4f9e53e60b11c99aa">https://www.bilibili.com/video/BV1CtkbYvEX8/?spm_id_from=333.337.search-card.all.click&amp;vd_source=186775fb5e833bc4f9e53e60b11c99aa</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/2301_80124151/article/details/136779233">https://blog.csdn.net/2301_80124151/article/details/136779233</a></p>
 <h1 id="用MT管理器-LibChecker去除WiFi钥匙广告"><a href="#用MT管理器-LibChecker去除WiFi钥匙广告" class="headerlink" title="用MT管理器+LibChecker去除WiFi钥匙广告"></a>用MT管理器+LibChecker去除WiFi钥匙广告</h1><p>目标：绕过刚登录及其他简单广告</p>
-<p>破解版MT管理器和LibChecker可以从参考链接下载</p>
-<p>在我的界面有广告</p>
-<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1743078108493-509e9dae-f45f-4841-b7f4-3bd446a3d6c1.jpeg" srcset="/img/loading.gif" lazyload class="" title="img">
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1743078102934-f921a5cf-bdcb-41a8-830d-c993dcdb0e6c.jpeg" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>在我的界面还有广告</p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1743078108493-509e9dae-f45f-4841-b7f4-3bd446a3d6c1-17519810602832.jpeg" srcset="/img/loading.gif" lazyload class="" title="img">
 
 <p>MT编辑的时候会有权限问题，需要放到storage文件夹下</p>
-<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1743078199642-26d79292-c507-44b3-b8b1-6e1a06efe764.jpeg" srcset="/img/loading.gif" lazyload class="" title="img">
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1743078199642-26d79292-c507-44b3-b8b1-6e1a06efe764-17519810602834.jpeg" srcset="/img/loading.gif" lazyload class="" title="img">
 
 <h2 id="AndroidManifest"><a href="#AndroidManifest" class="headerlink" title="AndroidManifest"></a>AndroidManifest</h2><p>一开始尝试用MT反编译AndroidManifest，搜索到了baidu广告代码，直接全部删除</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/jpeg/35612767/1743078117202-1aeeca26-1dad-44c7-b2fc-7a7ddeae8bde.jpeg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1743078117202-1aeeca26-1dad-44c7-b2fc-7a7ddeae8bde.jpeg" srcset="/img/loading.gif" lazyload class="" title="img">
+
 <h2 id="LibChecker"><a href="#LibChecker" class="headerlink" title="LibChecker"></a>LibChecker</h2><p>找app的广告服务，找到穿山甲广告</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/jpeg/35612767/1743078001347-f10f8baa-1532-4c79-902a-068a1aaa8767.jpeg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1743078001347-f10f8baa-1532-4c79-902a-068a1aaa8767.jpeg" srcset="/img/loading.gif" lazyload class="" title="img">
+
 <p>还有腾讯广告</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/jpeg/35612767/1743078267030-948049e1-351c-4e0e-a5ac-5c4f60198069.jpeg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1743078267030-948049e1-351c-4e0e-a5ac-5c4f60198069.jpeg" srcset="/img/loading.gif" lazyload class="" title="img">
+
 <p>搜索父类</p>
-<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1743077991851-5e0271a5-a086-414a-9d4b-8450d4b1ebcd.jpeg" srcset="/img/loading.gif" lazyload class="" title="img">
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1743077991851-5e0271a5-a086-414a-9d4b-8450d4b1ebcd-17519810602839.jpeg" srcset="/img/loading.gif" lazyload class="" title="img">
 
 <p>替换为通配符#</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/jpeg/35612767/1743078130967-37fcae72-094c-41a1-bf9c-8dd9f6ab3c2c.jpeg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1743078130967-37fcae72-094c-41a1-bf9c-8dd9f6ab3c2c.jpeg" srcset="/img/loading.gif" lazyload class="" title="img">
+
 <p>之后编译保存更新，一和三两个广告并没有去除，但是广告二已经消失了</p>
 <h1 id="用Xposed去除-果视频片头广告"><a href="#用Xposed去除-果视频片头广告" class="headerlink" title="用Xposed去除*果视频片头广告"></a>用Xposed去除*果视频片头广告</h1><p>目标：针对最新版本的*果app，用afterhookmethod修改返回值，使得能直接绕过广告</p>
 <p>安装xposed模块</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880108809-aec77c07-5545-4234-a5d8-d6d7bc92277b.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880108809-aec77c07-5545-4234-a5d8-d6d7bc92277b.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
 <p>配置代理</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880108988-2b31be3d-f957-49c2-8cdc-eb9aa90c1bfc.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880108988-2b31be3d-f957-49c2-8cdc-eb9aa90c1bfc.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
 <p>能抓到流量但是网络不通</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880109145-c0f1360a-465d-4153-b317-a8d3c53fe492.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880109356-9ed54d90-4035-48c9-9b56-f93c3faed759.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880109145-c0f1360a-465d-4153-b317-a8d3c53fe492.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880109356-9ed54d90-4035-48c9-9b56-f93c3faed759.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
 <p>重新安装根证书</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1751210589814-8799fddc-1fee-4cff-a0ac-7f1c79886584.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1751210589814-8799fddc-1fee-4cff-a0ac-7f1c79886584.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
 <p>尝试复制权限</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880109793-dc0ba1fd-807c-47bd-9576-387cb0bde259.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880109793-dc0ba1fd-807c-47bd-9576-387cb0bde259.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
 <p>发现能够成功访问</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880110071-f42b0554-e291-48c5-a640-69b19794007d.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880110071-f42b0554-e291-48c5-a640-69b19794007d.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
 <p>用AS新建项目</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880110362-441b58a4-1142-49ad-a42c-5dd1c20d20c4.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880110362-441b58a4-1142-49ad-a42c-5dd1c20d20c4.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
 <p>Sdk版本为25不能使用anydpi，因此修改AndroidManifest.xml文件</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880110603-3ecf349d-b788-4f11-996a-74c87068a91c.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880110603-3ecf349d-b788-4f11-996a-74c87068a91c.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
 <p>直接删除mipmap-anydpi整个文件夹</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880111405-33082d7e-f534-4aca-a955-a6f2dd01b37d.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880111405-33082d7e-f534-4aca-a955-a6f2dd01b37d.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
 <p>自己创建libs文件夹并把两个jar包放到下面</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880112065-9e30a9e0-1a5e-4f19-ba26-2178d6110d51.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880112065-9e30a9e0-1a5e-4f19-ba26-2178d6110d51.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
 <p>用kotlin添加依赖</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880112250-2ca0409b-a4c0-4ad7-9dfd-d91c4a9e5957.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880112250-2ca0409b-a4c0-4ad7-9dfd-d91c4a9e5957.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
 <p>添加Xpoesd仓库</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880112420-1ba39548-57c6-41b9-98db-fb94c14fdc96.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880112420-1ba39548-57c6-41b9-98db-fb94c14fdc96.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
 <p>最后编译的sdk版本还是35</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880112616-2e7ccb1f-c0b4-4727-bfe7-ba5c7950dc80.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880112616-2e7ccb1f-c0b4-4727-bfe7-ba5c7950dc80.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
 <p>添加xposed.init文件</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880112855-0c1579cc-8917-41f3-ab8e-37ecb8641260.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880112855-0c1579cc-8917-41f3-ab8e-37ecb8641260.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
 <p>但其实文档有问题</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880113041-6a56a802-86f8-4305-9512-a1f154801ce7.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880113041-6a56a802-86f8-4305-9512-a1f154801ce7.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
 <p>应该是xposed_init</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880113230-0aae8acd-04c8-4daa-8e65-406e8cf7a3d7.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880113230-0aae8acd-04c8-4daa-8e65-406e8cf7a3d7.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
 <p>相当于可以自己编写模块了</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880113514-c36ffb32-bf03-4a16-8d6a-067e02c7812a.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880113514-c36ffb32-bf03-4a16-8d6a-067e02c7812a.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
 <p>之后重新启动，查看日志发现有报错</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880113730-7a1a4462-db1f-4198-a569-13f59cbaf75e.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880114048-8bdeec87-5abc-4528-98a6-c78044dda290.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880113730-7a1a4462-db1f-4198-a569-13f59cbaf75e.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880114048-8bdeec87-5abc-4528-98a6-c78044dda290.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
 <p>必须设置为25</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880114293-96c7467b-df89-45bd-8cf9-b250451f4ed0.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880114599-a27d294b-f7a3-4a6a-9113-385bb974a446.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880114293-96c7467b-df89-45bd-8cf9-b250451f4ed0.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880114599-a27d294b-f7a3-4a6a-9113-385bb974a446.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
 <p>输入1和1就能成功登入</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880114825-3e08cc17-1046-4d91-a212-fc7e09228f58.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880114825-3e08cc17-1046-4d91-a212-fc7e09228f58.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
 <ol>
 <li>用AndroidKiller找到关键代码</li>
 </ol>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880115023-5c60f57e-9622-435a-bb51-06bbc1e43086.png" srcset="/img/loading.gif" lazyload alt="img">绕过广告的配置同理</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880115245-e3593f4d-a71c-44fc-b6ed-abb0913bb2ba.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880115434-b427e9ef-1e49-470e-9d7d-72bad4f3e384.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880115023-5c60f57e-9622-435a-bb51-06bbc1e43086.png" srcset="/img/loading.gif" lazyload class="" title="img">绕过广告的配置同理
+
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880115245-e3593f4d-a71c-44fc-b6ed-abb0913bb2ba.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880115434-b427e9ef-1e49-470e-9d7d-72bad4f3e384.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
 <p>第一部分主要实现把服务器地址改成本地回环地址加端口，第二部分修改返回地址，这样更加保险</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.example.adskip;<br><span class="hljs-keyword">import</span> de.robv.android.xposed.IXposedHookLoadPackage;<span class="hljs-keyword">import</span> de.robv.android.xposed.XC_MethodHook;<span class="hljs-keyword">import</span> de.robv.android.xposed.XposedBridge;<span class="hljs-keyword">import</span> de.robv.android.xposed.XposedHelpers;<span class="hljs-keyword">import</span> de.robv.android.xposed.callbacks.XC_LoadPackage;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AdSkip</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">IXposedHookLoadPackage</span> &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">handleLoadPackage</span><span class="hljs-params">(XC_LoadPackage.LoadPackageParam lpparam)</span> <span class="hljs-keyword">throws</span> Throwable &#123;<br>        <span class="hljs-keyword">if</span> (!lpparam.packageName.equals(<span class="hljs-string">&quot;com.hunantv.imgo.activity&quot;</span>))&#123;<br>            XposedBridge.log(<span class="hljs-string">&quot;不是*果TV应用，直接跳过&quot;</span>);<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        XposedBridge.log(<span class="hljs-string">&quot;找到*果TV，开始hook&quot;</span>);<br><br>        XposedHelpers.findAndHookMethod(<span class="hljs-string">&quot;mk.b&quot;</span>, lpparam.classLoader, <span class="hljs-string">&quot;M&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">XC_MethodHook</span>() &#123;<br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">afterHookedMethod</span><span class="hljs-params">(MethodHookParam param)</span> <span class="hljs-keyword">throws</span> Throwable &#123;<br>                <span class="hljs-built_in">super</span>.afterHookedMethod(param);<br>                XposedBridge.log(<span class="hljs-string">&quot;M方法已经执行完毕&quot;</span>);<br>                <span class="hljs-comment">//获取实例对象</span><br>                <span class="hljs-type">Object</span> <span class="hljs-variable">instance</span> <span class="hljs-operator">=</span> param.thisObject;<br>                <span class="hljs-type">Object</span> <span class="hljs-variable">fList</span> <span class="hljs-operator">=</span> XposedHelpers.getObjectField(instance, <span class="hljs-string">&quot;f&quot;</span>);<br>                <span class="hljs-keyword">if</span> (fList <span class="hljs-keyword">instanceof</span> java.util.List)&#123;<br>                    ((java.util.List)fList).clear();<br>                    XposedBridge.log(<span class="hljs-string">&quot;fList已经清空&quot;</span>);<br>                    ((java.util.List)fList).add(<span class="hljs-string">&quot;http://127.0.0.1:6667&quot;</span>);<br>                    XposedBridge.log(<span class="hljs-string">&quot;mobile2.da.mgtv.com已经修改为http://127.0.0.1:6667&quot;</span>);<br>                &#125;<span class="hljs-keyword">else</span>&#123;<br>                    XposedBridge.log(<span class="hljs-string">&quot;fList不是List类型&quot;</span>);<br>                &#125;<br>            &#125;<br>        &#125;);<br><br>        XposedHelpers.findAndHookMethod(<span class="hljs-string">&quot;mk.b&quot;</span>, lpparam.classLoader, <span class="hljs-string">&quot;f&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">XC_MethodHook</span>() &#123;<br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">afterHookedMethod</span><span class="hljs-params">(MethodHookParam param)</span> <span class="hljs-keyword">throws</span> Throwable &#123;<br>                <span class="hljs-built_in">super</span>.afterHookedMethod(param);<br>                param.setResult(<span class="hljs-string">&quot;http://127.0.0.1:6666&quot;</span>);<br>                XposedBridge.log(<span class="hljs-string">&quot;mobile.da.mgtv.com已经修改为http://127.0.0.1:6666&quot;</span>);<br>            &#125;<br>        &#125;);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1748880115687-0b5a69cc-50ba-400d-a8d3-4a7b9d392376.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1748880115687-0b5a69cc-50ba-400d-a8d3-4a7b9d392376.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+
+
 <h1 id="用charles去除-讯视频片头广告"><a href="#用charles去除-讯视频片头广告" class="headerlink" title="用charles去除*讯视频片头广告"></a>用charles去除*讯视频片头广告</h1><p>目标：绕过最新版*讯视频广告，实现无广告播放视频</p>
 <p>首先下载最新版*讯视频，按照之前的思路，先去查找.mp4，发现把相关url rewrite之后还是有广告</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1751211001821-e1dcf948-fd22-4c58-a5f2-99b2046ff4f6.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1751211001821-e1dcf948-fd22-4c58-a5f2-99b2046ff4f6.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
 <p>观察每一个广告都会有不同的域名闪亮，都是和qq.com相关的</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1751211039036-a888584c-e2ef-4908-b91b-b3c91e511b33.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1751211039036-a888584c-e2ef-4908-b91b-b3c91e511b33.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
 <p>正常视频播放也有和qq.com相关的url会亮</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1751211064471-f6f73de0-c512-4140-9d85-ade2b1b742d8.png" srcset="/img/loading.gif" lazyload alt="img">那就猜测广告和视频相关的url都和qq.com有关，这里需要注意视频对应的url不能远程映射</p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1751211064471-f6f73de0-c512-4140-9d85-ade2b1b742d8.png" srcset="/img/loading.gif" lazyload class="" title="img">那就猜测广告和视频相关的url都和qq.com有关，这里需要注意视频对应的url不能远程映射
+
 <p>我大概找了以下网址，全部远程映射为自定义url</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1751211089402-a5156101-ed83-447a-87b9-3373df5852f3.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1751211089402-a5156101-ed83-447a-87b9-3373df5852f3.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
 <p>这里有一个url比较奇怪，就是acc.qq.com，好像每次广告都会出现，但是具体点进去又什么都没有，全是路由，但是这个感觉就比较关键</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1751211105554-45cbdb9b-f73e-4085-8bdc-4d35dec3abfc.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1751211105554-45cbdb9b-f73e-4085-8bdc-4d35dec3abfc.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
 <p>先尝试远程映射一下，发现不影响正常功能，且广告也能有效去除，按上述思路来做，发现再点击视频就会直接显示网速</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1751211122615-0d68b664-92ad-4f0b-8c7c-20c63ec8bc9a.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>然后下面也能显示跳过片头，还是很神奇的</p>
-<p><img src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1751211140169-53273d3f-62d7-4c82-81ec-1f1b915c7609.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<p>后面去搜了一下acc.qq.com发现和动漫相关</p>
-<p>参考链接：</p>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1CtkbYvEX8/?spm_id_from=333.337.search-card.all.click&vd_source=186775fb5e833bc4f9e53e60b11c99aa">https://www.bilibili.com/video/BV1CtkbYvEX8/?spm_id_from=333.337.search-card.all.click&amp;vd_source=186775fb5e833bc4f9e53e60b11c99aa</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/2301_80124151/article/details/136779233">https://blog.csdn.net/2301_80124151/article/details/136779233</a></p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1751211122615-0d68b664-92ad-4f0b-8c7c-20c63ec8bc9a.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>然后下面也能显示跳过片头</p>
+<img src="/2025/06/29/%E7%BB%95%E8%BF%87%E5%B9%BF%E5%91%8A%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1751211140169-53273d3f-62d7-4c82-81ec-1f1b915c7609.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>后面去搜了一下acc.qq.com发现和*讯动漫相关</p>
 
                 
               </div>
