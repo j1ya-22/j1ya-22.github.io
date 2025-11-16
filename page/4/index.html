@@ -397,9 +397,9 @@
             
               <a href="/tags/blowfish%E5%8A%A0%E5%AF%86/">#blowfish加密</a>
             
-              <a href="/tags/base64%E9%AD%94%E6%94%B9/">#base64魔改</a>
-            
               <a href="/tags/%E7%88%86%E7%A0%B4flag/">#爆破flag</a>
+            
+              <a href="/tags/base64%E9%AD%94%E6%94%B9/">#base64魔改</a>
             
           </div>
         
@@ -647,13 +647,13 @@
             
               <a href="/tags/shellcode/">#shellcode</a>
             
-              <a href="/tags/%E7%88%86%E7%A0%B4flag/">#爆破flag</a>
-            
               <a href="/tags/%E8%BF%B7%E5%AE%AB/">#迷宫</a>
             
               <a href="/tags/%E5%8F%8D%E8%B0%83%E8%AF%95/">#反调试</a>
             
               <a href="/tags/e%E8%AF%AD%E8%A8%80/">#e语言</a>
+            
+              <a href="/tags/%E7%88%86%E7%A0%B4flag/">#爆破flag</a>
             
               <a href="/tags/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2/">#格式化字符串</a>
             
@@ -714,69 +714,6 @@
 
           </div>
         
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2024/08/10/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2023%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%8E%B0/" target="_self">
-          浙江省省赛2023决赛复现
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/08/10/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2023%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%8E%B0/" target="_self">
-        <div>
-          还是太菜了，队友抬到二等奖，本来队友目标是一等的，呜呜，又拖后腿了，看到好多不会的，还得加油 Reida_pro有壳，但是不能直接脱壳，看了一下发现是被modified 又发现PE节被改了，那就改回来，把O改成U，然后再去脱壳   看伪c，flag由4部分组成   第一部分shift+f12   第二部分看函数名   第三部分是Xref，一开始断网没想起来，后来才想到是交叉引用 比赛的时候看汇编看
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2024-08-10 22:18" pubdate>
-              2024-08-10
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E6%AF%94%E8%B5%9Bwp/" class="category-chain-item">比赛wp</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/tea%E9%AD%94%E6%94%B9/">#tea魔改</a>
-            
-              <a href="/tags/RSA/">#RSA</a>
-            
-          </div>
         
       </div>
     </article>
@@ -911,6 +848,60 @@
               <a href="/tags/DCT/">#DCT</a>
             
           </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/06/23/%E5%AE%9E%E7%8E%B0%E4%B8%A4%E5%8F%B0%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9B%B8%E4%BA%92ping%E9%80%9A/" target="_self">
+          实现两台虚拟机相互ping通
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/06/23/%E5%AE%9E%E7%8E%B0%E4%B8%A4%E5%8F%B0%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9B%B8%E4%BA%92ping%E9%80%9A/" target="_self">
+        <div>
+          为了使虚拟机之间能够相互ping通且都能上网，比较快的方法是设置一张虚拟网卡，然后让所有虚拟机都用同一张网卡，这样不同虚拟机就在同一个局域网下了 先打开虚拟网络编辑器   设置一张虚拟网卡为NAT模式，子网ip可以自己定义 后续虚拟机都要选择上面的网卡   之后关闭虚拟机   点击编辑虚拟机设置，选择NAT模式   或者自定义选择对应虚拟网卡（这时候ip会不定时变动）   再打开应该就能相互pin
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-06-23 16:23" pubdate>
+              2024-06-23
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="category-chain-item">环境配置</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
         
       </div>
     </article>
