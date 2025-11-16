@@ -16,34 +16,33 @@
   <meta name="author" content="j1ya">
   <meta name="keywords" content="">
   
-    <meta name="description" content="封榜前rank11最终圆梦省一，感谢队友带飞，下面只记录个人解出的题目 Crypto简单数学题给了p和q和与差，直接相加相减得到p和q，后面直接解rsa 1234567891011121314from Crypto.Util.number import *sum_pq &#x3D; 158707136554562728189988680951266103895014172357620097933151275">
+    <meta name="description" content="今天的pwn就属于要么都别想打，要么大部分人都没修好，会被批量打 pwn1一上来直接搜字符串，看看有没有open(‘&#x2F;flag’)或者system这种,直接把read的字节改小，这样一直到20轮两道pwn都没有被打     后面被打又去看了一下，觉得pwn1是典型的off by one，刚好尧哥昨天讲过怎么修，直接全部nop发现就没被打了，之后发现flag还是会被read，但是因为提前修">
 <meta property="og:type" content="article">
-<meta property="og:title" content="浙江省省赛2025决赛wp">
-<meta property="og:url" content="https://j1ya-22.github.io/2025/11/16/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%86%B3%E8%B5%9Bwp/index.html">
+<meta property="og:title" content="2024上海市赛决赛记录">
+<meta property="og:url" content="https://j1ya-22.github.io/2024/06/18/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%86%B3%E8%B5%9B%E8%AE%B0%E5%BD%95/index.html">
 <meta property="og:site_name" content="j1ya">
-<meta property="og:description" content="封榜前rank11最终圆梦省一，感谢队友带飞，下面只记录个人解出的题目 Crypto简单数学题给了p和q和与差，直接相加相减得到p和q，后面直接解rsa 1234567891011121314from Crypto.Util.number import *sum_pq &#x3D; 158707136554562728189988680951266103895014172357620097933151275">
+<meta property="og:description" content="今天的pwn就属于要么都别想打，要么大部分人都没修好，会被批量打 pwn1一上来直接搜字符串，看看有没有open(‘&#x2F;flag’)或者system这种,直接把read的字节改小，这样一直到20轮两道pwn都没有被打     后面被打又去看了一下，觉得pwn1是典型的off by one，刚好尧哥昨天讲过怎么修，直接全部nop发现就没被打了，之后发现flag还是会被read，但是因为提前修">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/11/16/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%86%B3%E8%B5%9Bwp/1763256260580-505b489f-38d3-4da9-b6b5-0c25c3ff6034.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/11/16/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%86%B3%E8%B5%9Bwp/1763256262226-08086f6e-818f-47ad-aae3-dea93707033a.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/11/16/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%86%B3%E8%B5%9Bwp/1763256402875-8685ce16-e9db-4b12-a267-c97c2ba6f734.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/11/16/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%86%B3%E8%B5%9Bwp/1763256278458-ea98ac5a-f545-4716-a321-58faf50d844c.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/11/16/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%86%B3%E8%B5%9Bwp/1763256434936-ee356a50-f662-41cf-a310-bd982ad08ef2.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/11/16/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%86%B3%E8%B5%9Bwp/1763256449828-7249252a-e9a2-4b7b-be02-21f6b850aac9.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/11/16/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%86%B3%E8%B5%9Bwp/1763256457215-5ff8d148-28ca-4d62-9308-3baaecdf420c.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/11/16/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%86%B3%E8%B5%9Bwp/1763256519296-d9566e44-42e6-4982-83f4-b95af62d37de.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/11/16/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%86%B3%E8%B5%9Bwp/1763256525099-c01b9517-fd74-4223-a0e7-abf94e5eb0ac.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/11/16/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%86%B3%E8%B5%9Bwp/1763256533924-bfe695e8-15cd-4c5f-89fe-1d22926f5f53.png">
-<meta property="article:published_time" content="2025-11-16T08:15:28.000Z">
-<meta property="article:modified_time" content="2025-11-16T08:24:35.275Z">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/06/18/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%86%B3%E8%B5%9B%E8%AE%B0%E5%BD%95/1717837104759-f21fb79d-b563-42e1-a33e-89805223589d-176328210010719.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/06/18/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%86%B3%E8%B5%9B%E8%AE%B0%E5%BD%95/1717835955103-aea717ac-ab2b-4970-af11-1e967d05fd55-176328210010721.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/06/18/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%86%B3%E8%B5%9B%E8%AE%B0%E5%BD%95/1717836749041-9787fe8a-7090-4ad9-88cc-c2fab0c10037-176328210010825.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/06/18/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%86%B3%E8%B5%9B%E8%AE%B0%E5%BD%95/1742179145014-5f093bd9-9af7-48f6-aff5-783e2c49dfb9-176328210010823.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%86%B3%E8%B5%9B/1717837104759-f21fb79d-b563-42e1-a33e-89805223589d-17632820619471.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%86%B3%E8%B5%9B/1719924109530-af392741-38ef-4651-ad08-e25473a9ee08-176328208294013.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/06/18/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%86%B3%E8%B5%9B%E8%AE%B0%E5%BD%95/1719924324662-967d47e1-3ba4-4750-bd5b-da8ccfc30edf-176328208294115.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/06/18/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%86%B3%E8%B5%9B%E8%AE%B0%E5%BD%95/1742178743611-5cebca66-d6c2-486a-ae03-a619381c9220-176328208294117.png">
+<meta property="article:published_time" content="2024-06-18T10:32:07.000Z">
+<meta property="article:modified_time" content="2025-11-16T08:37:00.804Z">
 <meta property="article:author" content="j1ya">
+<meta property="article:tag" content="awd_pwn">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://j1ya-22.github.io/2025/11/16/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%86%B3%E8%B5%9Bwp/1763256260580-505b489f-38d3-4da9-b6b5-0c25c3ff6034.png">
+<meta name="twitter:image" content="https://j1ya-22.github.io/2024/06/18/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%86%B3%E8%B5%9B%E8%AE%B0%E5%BD%95/1717837104759-f21fb79d-b563-42e1-a33e-89805223589d-176328210010719.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>浙江省省赛2025决赛wp - j1ya</title>
+  <title>2024上海市赛决赛记录 - j1ya</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -250,7 +249,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="浙江省省赛2025决赛wp"></span>
+            <span id="subtitle" data-typed-text="2024上海市赛决赛记录"></span>
           
         </div>
 
@@ -261,8 +260,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-11-16 16:15" pubdate>
-          2025年11月16日 下午
+        <time datetime="2024-06-18 18:32" pubdate>
+          2024年6月18日 晚上
         </time>
       </span>
     
@@ -273,7 +272,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          291 字
+          230 字
         
       </span>
     
@@ -284,7 +283,7 @@
         
         
         
-          3 分钟
+          2 分钟
         
       </span>
     
@@ -329,49 +328,29 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">浙江省省赛2025决赛wp</h1>
+            <h1 id="seo-header">2024上海市赛决赛记录</h1>
             
             
               <div class="markdown-body">
                 
-                <p>封榜前rank11最终圆梦省一，感谢队友带飞，下面只记录个人解出的题目</p>
-<h1 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h1><h2 id="简单数学题"><a href="#简单数学题" class="headerlink" title="简单数学题"></a>简单数学题</h2><p>给了p和q和与差，直接相加相减得到p和q，后面直接解rsa</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br>sum_pq = <span class="hljs-number">15870713655456272818998868095126610389501417235762009793315127525027164306871912572802442396878309282140184445917718237547340279497682840149930939938364752</span><br>diff_pq = <span class="hljs-number">836877201325346306269647062252443025692393860257609240213263622058769344319275021861627524327674665653956022396760961371531780934904914806513684926008590</span><br>e = <span class="hljs-number">65537</span><br>c = <span class="hljs-number">24161337439375469726924397660125738582989340535865292626109110404205047138648291988394300469831314677804449487707306159537988907383165388647811395995713768215918986950780552907040433887058197369446944754008620731946047814491450890197003594397567524722975778515304899628035385825818809556412246258855782770070</span><br>p=(sum_pq+diff_pq)//<span class="hljs-number">2</span><br>q=(sum_pq-diff_pq)//<span class="hljs-number">2</span><br>n=p*q<br>phi = (p-<span class="hljs-number">1</span>)*(q-<span class="hljs-number">1</span>)<br>d = inverse(e, phi)<br>m = <span class="hljs-built_in">pow</span>(c, d, n)<br><br><span class="hljs-built_in">print</span>(long_to_bytes(m))<br><span class="hljs-comment">#b&#x27;DASCTF&#123;ok_1+1_1s_ez_so_try2goldbachs&#125;&#x27;</span><br></code></pre></td></tr></table></figure>
+                <p>今天的pwn就属于要么都别想打，要么大部分人都没修好，会被批量打</p>
+<h1 id="pwn1"><a href="#pwn1" class="headerlink" title="pwn1"></a>pwn1</h1><p>一上来直接搜字符串，看看有没有open(‘&#x2F;flag’)或者system这种,直接把read的字节改小，这样一直到20轮两道pwn都没有被打</p>
+<img src="/2024/06/18/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%86%B3%E8%B5%9B%E8%AE%B0%E5%BD%95/1717837104759-f21fb79d-b563-42e1-a33e-89805223589d-176328210010719.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
-<h2 id="AES"><a href="#AES" class="headerlink" title="AES"></a>AES</h2><p>cbc加密，给了key生成方法，密文和iv</p>
-<img src="/2025/11/16/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%86%B3%E8%B5%9Bwp/1763256260580-505b489f-38d3-4da9-b6b5-0c25c3ff6034.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img src="/2024/06/18/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%86%B3%E8%B5%9B%E8%AE%B0%E5%BD%95/1717835955103-aea717ac-ab2b-4970-af11-1e967d05fd55-176328210010721.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
-<p>md5生成key</p>
-<img src="/2025/11/16/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%86%B3%E8%B5%9Bwp/1763256262226-08086f6e-818f-47ad-aae3-dea93707033a.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<p>后面被打又去看了一下，觉得pwn1是典型的off by one，刚好尧哥昨天讲过怎么修，直接全部nop发现就没被打了，之后发现flag还是会被read，但是因为提前修改只能读一个字节</p>
+<img src="/2024/06/18/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%86%B3%E8%B5%9B%E8%AE%B0%E5%BD%95/1717836749041-9787fe8a-7090-4ad9-88cc-c2fab0c10037-176328210010825.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
-<img src="/2025/11/16/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%86%B3%E8%B5%9Bwp/1763256402875-8685ce16-e9db-4b12-a267-c97c2ba6f734.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<p>后面在change堆块的时候大于才break，会有越界产生</p>
+<img src="/2024/06/18/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%86%B3%E8%B5%9B%E8%AE%B0%E5%BD%95/1742179145014-5f093bd9-9af7-48f6-aff5-783e2c49dfb9-176328210010823.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
-<h2 id="Base64"><a href="#Base64" class="headerlink" title="Base64"></a>Base64</h2><p>直接大厨解密</p>
-<img src="/2025/11/16/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%86%B3%E8%B5%9Bwp/1763256278458-ea98ac5a-f545-4716-a321-58faf50d844c.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<h1 id="pwn2"><a href="#pwn2" class="headerlink" title="pwn2"></a>pwn2</h1><p><img src="/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%86%B3%E8%B5%9B/1717837104759-f21fb79d-b563-42e1-a33e-89805223589d-17632820619471.png" srcset="/img/loading.gif" lazyload alt="img">后面pwn2挺阴险的，倒数第二轮才打进来，最大malloc是0x4f+1<img src="/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%86%B3%E8%B5%9B/1719924109530-af392741-38ef-4651-ad08-e25473a9ee08-176328208294013.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>add函数最小也是0x4f+1，这个时候会造成堆叠，修的话把上面的大于换成大于等于就行</p>
+<img src="/2024/06/18/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%86%B3%E8%B5%9B%E8%AE%B0%E5%BD%95/1719924324662-967d47e1-3ba4-4750-bd5b-da8ccfc30edf-176328208294115.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
-<h1 id="Reverse"><a href="#Reverse" class="headerlink" title="Reverse"></a>Reverse</h1><h2 id="你是我的天命人吗"><a href="#你是我的天命人吗" class="headerlink" title="你是我的天命人吗"></a>你是我的天命人吗</h2><p>第一个函数是VirtualProtect自解密</p>
-<img src="/2025/11/16/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%86%B3%E8%B5%9Bwp/1763256434936-ee356a50-f662-41cf-a310-bd982ad08ef2.png" srcset="/img/loading.gif" lazyload class="" title="img">
-
-<p>第二个函数进入之后创建函数</p>
-<img src="/2025/11/16/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%86%B3%E8%B5%9Bwp/1763256449828-7249252a-e9a2-4b7b-be02-21f6b850aac9.png" srcset="/img/loading.gif" lazyload class="" title="img">
-
-<p>输入先异或i再转成hex</p>
-<img src="/2025/11/16/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%86%B3%E8%B5%9Bwp/1763256457215-5ff8d148-28ca-4d62-9308-3baaecdf420c.png" srcset="/img/loading.gif" lazyload class="" title="img">
-
-<p>直接逆向</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">s=<span class="hljs-string">&#x27;4440514050437D3E386C3A3F3E6F386D232124202D7420742C2F2E282525782D124344471015405A&#x27;</span><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">len</span>(s))<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>,<span class="hljs-built_in">len</span>(s),<span class="hljs-number">2</span>):<br>    <span class="hljs-built_in">print</span>(<span class="hljs-built_in">chr</span>(<span class="hljs-built_in">int</span>(s[i:i+<span class="hljs-number">2</span>],<span class="hljs-number">16</span>)^(i//<span class="hljs-number">2</span>)),end=<span class="hljs-string">&quot;&quot;</span>)<br><span class="hljs-comment">#DASCTF&#123;90e042b6b30639a6c464398f22bfd40f&#125;</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="androidtest"><a href="#androidtest" class="headerlink" title="androidtest"></a>androidtest</h2><p>jadx反编译不完全，用jeb打开发现base32的表</p>
-<img src="/2025/11/16/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%86%B3%E8%B5%9Bwp/1763256519296-d9566e44-42e6-4982-83f4-b95af62d37de.png" srcset="/img/loading.gif" lazyload class="" title="img">
-
-<p>so层下存在密文</p>
-<img src="/2025/11/16/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%86%B3%E8%B5%9Bwp/1763256525099-c01b9517-fd74-4223-a0e7-abf94e5eb0ac.png" srcset="/img/loading.gif" lazyload class="" title="img">
-
-<p>通过测试猜测base32解密之后再xor44能得到flag</p>
-<img src="/2025/11/16/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%86%B3%E8%B5%9Bwp/1763256533924-bfe695e8-15cd-4c5f-89fe-1d22926f5f53.png" srcset="/img/loading.gif" lazyload class="" title="img">
-
-<p>预期解应该是要解混淆</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">a=[<span class="hljs-number">0x68</span> ,<span class="hljs-number">0x6d</span> ,<span class="hljs-number">0x7f</span> ,<span class="hljs-number">0x6f</span> ,<span class="hljs-number">0x78</span> ,<span class="hljs-number">0x6a</span> ,<span class="hljs-number">0x57</span> ,<span class="hljs-number">0x4d</span> ,<span class="hljs-number">0x42</span> ,<span class="hljs-number">0x48</span> ,<span class="hljs-number">0x5e</span> ,<span class="hljs-number">0x43</span> ,<span class="hljs-number">0x45</span> ,<span class="hljs-number">0x48</span> ,<span class="hljs-number">0x73</span> ,<span class="hljs-number">0x4d</span> ,<span class="hljs-number">0x42</span> ,<span class="hljs-number">0x58</span> ,<span class="hljs-number">0x45</span> ,<span class="hljs-number">0x73</span> ,<span class="hljs-number">0x4d</span> ,<span class="hljs-number">0x42</span> ,<span class="hljs-number">0x48</span> ,<span class="hljs-number">0x73</span> ,<span class="hljs-number">0x58</span> ,<span class="hljs-number">0x49</span> ,<span class="hljs-number">0x5f</span> ,<span class="hljs-number">0x58</span> ,<span class="hljs-number">0x73</span> ,<span class="hljs-number">0x45</span> ,<span class="hljs-number">0x5f</span> ,<span class="hljs-number">0x73</span> ,<span class="hljs-number">0x45</span> ,<span class="hljs-number">0x42</span> ,<span class="hljs-number">0x58</span> ,<span class="hljs-number">0x49</span> ,<span class="hljs-number">0x5e</span> ,<span class="hljs-number">0x49</span> ,<span class="hljs-number">0x5f</span> ,<span class="hljs-number">0x58</span> ,<span class="hljs-number">0x45</span> ,<span class="hljs-number">0x42</span> ,<span class="hljs-number">0x4b</span> ,<span class="hljs-number">0x51</span>]<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(a)):<br>    <span class="hljs-built_in">print</span>(<span class="hljs-built_in">chr</span>(a[i]^<span class="hljs-number">44</span>),end=<span class="hljs-string">&quot;&quot;</span>)<br><span class="hljs-comment">#DASCTF&#123;android_anti_and_test_is_interesting&#125;</span><br></code></pre></td></tr></table></figure>
+<p>后面sprintf也有格式化字符串漏洞，应该要给rsi传%s</p>
+<img src="/2024/06/18/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%86%B3%E8%B5%9B%E8%AE%B0%E5%BD%95/1742178743611-5cebca66-d6c2-486a-ae03-a619381c9220-176328208294117.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
                 
               </div>
@@ -380,6 +359,34 @@
             <div>
               <div class="post-metas my-3">
   
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%AF%94%E8%B5%9Bwp/" class="category-chain-item">比赛wp</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/awd-pwn/" class="print-no-link">#awd_pwn</a>
+      
+    </div>
   
 </div>
 
@@ -389,8 +396,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>浙江省省赛2025决赛wp</div>
-      <div>https://j1ya-22.github.io/2025/11/16/浙江省省赛2025决赛wp/</div>
+      <div>2024上海市赛决赛记录</div>
+      <div>https://j1ya-22.github.io/2024/06/18/2024上海市赛决赛记录/</div>
     </div>
     <div class="license-meta">
       
@@ -402,7 +409,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2025年11月16日</div>
+          <div>2024年6月18日</div>
         </div>
       
       
@@ -434,12 +441,18 @@
                   <article class="post-prev col-6">
                     
                     
+                      <a href="/2024/06/23/%E5%AE%9E%E7%8E%B0%E4%B8%A4%E5%8F%B0%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9B%B8%E4%BA%92ping%E9%80%9A/" title="实现两台虚拟机相互ping通">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">实现两台虚拟机相互ping通</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2025/11/09/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%88%9D%E8%B5%9Bwp/" title="浙江省省赛2025初赛wp">
-                        <span class="hidden-mobile">浙江省省赛2025初赛wp</span>
+                      <a href="/2024/05/26/2024%E4%B8%8A%E6%B5%B7%E5%B8%82%E8%B5%9B%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/" title="2024上海市赛初赛部分wp">
+                        <span class="hidden-mobile">2024上海市赛初赛部分wp</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
