@@ -32,10 +32,11 @@
 <meta property="og:image" content="https://j1ya-22.github.io/2025/11/16/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%86%B3%E8%B5%9Bwp/1763256457215-5ff8d148-28ca-4d62-9308-3baaecdf420c.png">
 <meta property="og:image" content="https://j1ya-22.github.io/2025/11/16/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%86%B3%E8%B5%9Bwp/1763256519296-d9566e44-42e6-4982-83f4-b95af62d37de.png">
 <meta property="og:image" content="https://j1ya-22.github.io/2025/11/16/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%86%B3%E8%B5%9Bwp/1763256525099-c01b9517-fd74-4223-a0e7-abf94e5eb0ac.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2025/11/16/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%86%B3%E8%B5%9Bwp/1763515316980-22611cf9-76fd-4a3c-a196-68d07f1af008.png">
 <meta property="og:image" content="https://j1ya-22.github.io/2025/11/16/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%86%B3%E8%B5%9Bwp/1763256533924-bfe695e8-15cd-4c5f-89fe-1d22926f5f53.png">
 <meta property="og:image" content="https://j1ya-22.github.io/2025/11/16/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%86%B3%E8%B5%9Bwp/1763470802481-a996f09c-9a23-4b25-a03c-550ef0f73239.png">
 <meta property="article:published_time" content="2025-11-16T08:15:28.000Z">
-<meta property="article:modified_time" content="2025-11-18T13:04:12.030Z">
+<meta property="article:modified_time" content="2025-11-19T01:24:46.836Z">
 <meta property="article:author" content="j1ya">
 <meta property="article:tag" content="base32">
 <meta name="twitter:card" content="summary_large_image">
@@ -275,7 +276,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          309 字
+          310 字
         
       </span>
     
@@ -369,9 +370,10 @@
 <p>so层下存在密文</p>
 <img src="/2025/11/16/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%86%B3%E8%B5%9Bwp/1763256525099-c01b9517-fd74-4223-a0e7-abf94e5eb0ac.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
-<p>通过测试猜测base32解密之后再xor44能得到flag</p>
-<img src="/2025/11/16/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%86%B3%E8%B5%9Bwp/1763256533924-bfe695e8-15cd-4c5f-89fe-1d22926f5f53.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<p>先base32解密</p>
+<img src="/2025/11/16/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%86%B3%E8%B5%9Bwp/1763515316980-22611cf9-76fd-4a3c-a196-68d07f1af008.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
+<p>通过测试之后猜测再xor44能得到flag<img src="/2025/11/16/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2025%E5%86%B3%E8%B5%9Bwp/1763256533924-bfe695e8-15cd-4c5f-89fe-1d22926f5f53.png" srcset="/img/loading.gif" lazyload class="" title="img"></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">a=[<span class="hljs-number">0x68</span> ,<span class="hljs-number">0x6d</span> ,<span class="hljs-number">0x7f</span> ,<span class="hljs-number">0x6f</span> ,<span class="hljs-number">0x78</span> ,<span class="hljs-number">0x6a</span> ,<span class="hljs-number">0x57</span> ,<span class="hljs-number">0x4d</span> ,<span class="hljs-number">0x42</span> ,<span class="hljs-number">0x48</span> ,<span class="hljs-number">0x5e</span> ,<span class="hljs-number">0x43</span> ,<span class="hljs-number">0x45</span> ,<span class="hljs-number">0x48</span> ,<span class="hljs-number">0x73</span> ,<span class="hljs-number">0x4d</span> ,<span class="hljs-number">0x42</span> ,<span class="hljs-number">0x58</span> ,<span class="hljs-number">0x45</span> ,<span class="hljs-number">0x73</span> ,<span class="hljs-number">0x4d</span> ,<span class="hljs-number">0x42</span> ,<span class="hljs-number">0x48</span> ,<span class="hljs-number">0x73</span> ,<span class="hljs-number">0x58</span> ,<span class="hljs-number">0x49</span> ,<span class="hljs-number">0x5f</span> ,<span class="hljs-number">0x58</span> ,<span class="hljs-number">0x73</span> ,<span class="hljs-number">0x45</span> ,<span class="hljs-number">0x5f</span> ,<span class="hljs-number">0x73</span> ,<span class="hljs-number">0x45</span> ,<span class="hljs-number">0x42</span> ,<span class="hljs-number">0x58</span> ,<span class="hljs-number">0x49</span> ,<span class="hljs-number">0x5e</span> ,<span class="hljs-number">0x49</span> ,<span class="hljs-number">0x5f</span> ,<span class="hljs-number">0x58</span> ,<span class="hljs-number">0x45</span> ,<span class="hljs-number">0x42</span> ,<span class="hljs-number">0x4b</span> ,<span class="hljs-number">0x51</span>]<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(a)):<br>    <span class="hljs-built_in">print</span>(<span class="hljs-built_in">chr</span>(a[i]^<span class="hljs-number">44</span>),end=<span class="hljs-string">&quot;&quot;</span>)<br><span class="hljs-comment">#DASCTF&#123;android_anti_and_test_is_interesting&#125;</span><br></code></pre></td></tr></table></figure>
 
 <p>交叉引用ret_str方法找到关键加密，Onclick里面先执行xor 44再base32加密后和密文比较</p>
