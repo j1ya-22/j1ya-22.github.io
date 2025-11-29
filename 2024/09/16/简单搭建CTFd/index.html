@@ -16,25 +16,25 @@
   <meta name="author" content="j1ya">
   <meta name="keywords" content="">
   
-    <meta name="description" content="written in 2023.9.16 搞了一晚上，ubuntu上命令复制不了，麻烦。搜kali的教程，docker-compose不能正常使用，估计是设置了python2有问题，一直警告，还是先pull docker https:&#x2F;&#x2F;www.bilibili.com&#x2F;read&#x2F;cv16948927&#x2F; CTFd安装docker   启动docker     pull 镜像   启动容器   虚拟">
+    <meta name="description" content="搞了一晚上，ubuntu上命令复制不了，麻烦。搜kali的教程，docker-compose不能正常使用，估计是设置了python2有问题，一直警告，还是先pull docker https:&#x2F;&#x2F;www.bilibili.com&#x2F;read&#x2F;cv16948927&#x2F; CTFd安装docker   启动docker   pull 镜像   启动容器   虚拟机内启动   注意端口   映射到本地">
 <meta property="og:type" content="article">
 <meta property="og:title" content="简单搭建CTFd">
-<meta property="og:url" content="https://j1ya-22.github.io/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/index.html">
+<meta property="og:url" content="https://j1ya-22.github.io/2024/09/16/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/index.html">
 <meta property="og:site_name" content="j1ya">
-<meta property="og:description" content="written in 2023.9.16 搞了一晚上，ubuntu上命令复制不了，麻烦。搜kali的教程，docker-compose不能正常使用，估计是设置了python2有问题，一直警告，还是先pull docker https:&#x2F;&#x2F;www.bilibili.com&#x2F;read&#x2F;cv16948927&#x2F; CTFd安装docker   启动docker     pull 镜像   启动容器   虚拟">
+<meta property="og:description" content="搞了一晚上，ubuntu上命令复制不了，麻烦。搜kali的教程，docker-compose不能正常使用，估计是设置了python2有问题，一直警告，还是先pull docker https:&#x2F;&#x2F;www.bilibili.com&#x2F;read&#x2F;cv16948927&#x2F; CTFd安装docker   启动docker   pull 镜像   启动容器   虚拟机内启动   注意端口   映射到本地">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661434139-2bb68ae4-07d2-4e3e-bf5c-a6519df585ae.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661452074-0cdea229-ffda-4647-9a99-40dcb39e3c1d.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661496732-122cff23-0e9f-40f9-ae92-0ea8fc8895cc.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661527389-4538ed6e-2298-4568-ab74-5e4fc1c0b84d.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661552024-5545993b-44c7-4078-a114-bdf832cd323a.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661572673-8ee28ee4-7540-4dbc-9574-d47517593ba1.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661587448-c9faa948-f9b2-4dd5-b439-8e7de93b9cf8.png">
-<meta property="article:published_time" content="2024-03-28T11:40:12.000Z">
-<meta property="article:modified_time" content="2024-11-16T15:12:29.781Z">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/09/16/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661434139-2bb68ae4-07d2-4e3e-bf5c-a6519df585ae.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/09/16/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661452074-0cdea229-ffda-4647-9a99-40dcb39e3c1d.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/09/16/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661496732-122cff23-0e9f-40f9-ae92-0ea8fc8895cc.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/09/16/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661527389-4538ed6e-2298-4568-ab74-5e4fc1c0b84d.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/09/16/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661552024-5545993b-44c7-4078-a114-bdf832cd323a.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/09/16/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661572673-8ee28ee4-7540-4dbc-9574-d47517593ba1.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/09/16/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661587448-c9faa948-f9b2-4dd5-b439-8e7de93b9cf8.png">
+<meta property="article:published_time" content="2024-09-16T11:40:12.000Z">
+<meta property="article:modified_time" content="2025-11-29T00:35:47.790Z">
 <meta property="article:author" content="j1ya">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://j1ya-22.github.io/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661434139-2bb68ae4-07d2-4e3e-bf5c-a6519df585ae.png">
+<meta name="twitter:image" content="https://j1ya-22.github.io/2024/09/16/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661434139-2bb68ae4-07d2-4e3e-bf5c-a6519df585ae.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -258,8 +258,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-03-28 19:40" pubdate>
-          2024年3月28日 晚上
+        <time datetime="2024-09-16 19:40" pubdate>
+          2024年9月16日 晚上
         </time>
       </span>
     
@@ -270,7 +270,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          80 字
+          77 字
         
       </span>
     
@@ -331,31 +331,28 @@
             
               <div class="markdown-body">
                 
-                <p>written in 2023.9.16</p>
-<p>搞了一晚上，ubuntu上命令复制不了，麻烦。搜kali的教程，docker-compose不能正常使用，估计是设置了python2有问题，一直警告，还是先pull docker</p>
+                <p>搞了一晚上，ubuntu上命令复制不了，麻烦。搜kali的教程，docker-compose不能正常使用，估计是设置了python2有问题，一直警告，还是先pull docker</p>
 <p><a target="_blank" rel="noopener" href="https://www.bilibili.com/read/cv16948927/">https://www.bilibili.com/read/cv16948927/</a></p>
 <h1 id="CTFd"><a href="#CTFd" class="headerlink" title="CTFd"></a>CTFd</h1><p>安装docker</p>
-<img src="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661434139-2bb68ae4-07d2-4e3e-bf5c-a6519df585ae.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img src="/2024/09/16/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661434139-2bb68ae4-07d2-4e3e-bf5c-a6519df585ae.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
 <p>启动docker</p>
-<img src="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661452074-0cdea229-ffda-4647-9a99-40dcb39e3c1d.png" srcset="/img/loading.gif" lazyload class="" title="img">
-
-
+<img src="/2024/09/16/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661452074-0cdea229-ffda-4647-9a99-40dcb39e3c1d.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
 <p>pull 镜像</p>
-<img src="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661496732-122cff23-0e9f-40f9-ae92-0ea8fc8895cc.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img src="/2024/09/16/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661496732-122cff23-0e9f-40f9-ae92-0ea8fc8895cc.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
 <p>启动容器</p>
-<img src="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661527389-4538ed6e-2298-4568-ab74-5e4fc1c0b84d.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img src="/2024/09/16/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661527389-4538ed6e-2298-4568-ab74-5e4fc1c0b84d.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
 <p>虚拟机内启动</p>
-<img src="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661552024-5545993b-44c7-4078-a114-bdf832cd323a.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img src="/2024/09/16/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661552024-5545993b-44c7-4078-a114-bdf832cd323a.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
 <p>注意端口</p>
-<img src="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661572673-8ee28ee4-7540-4dbc-9574-d47517593ba1.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img src="/2024/09/16/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661572673-8ee28ee4-7540-4dbc-9574-d47517593ba1.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
 <p>映射到本地</p>
-<img src="/2024/03/28/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661587448-c9faa948-f9b2-4dd5-b439-8e7de93b9cf8.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img src="/2024/09/16/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/1694661587448-c9faa948-f9b2-4dd5-b439-8e7de93b9cf8.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
                 
               </div>
@@ -395,7 +392,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>简单搭建CTFd</div>
-      <div>https://j1ya-22.github.io/2024/03/28/简单搭建CTFd/</div>
+      <div>https://j1ya-22.github.io/2024/09/16/简单搭建CTFd/</div>
     </div>
     <div class="license-meta">
       
@@ -407,7 +404,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年3月28日</div>
+          <div>2024年9月16日</div>
         </div>
       
       
@@ -439,9 +436,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/03/28/%E5%AE%89%E8%A3%85ghidra/" title="安装ghidra">
+                      <a href="/2024/09/19/%E9%85%8D%E7%BD%AERust%E7%8E%AF%E5%A2%83/" title="配置Rust环境">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">安装ghidra</span>
+                        <span class="hidden-mobile">配置Rust环境</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -449,8 +446,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/03/27/%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE/" title="虚拟机网络设置">
-                        <span class="hidden-mobile">虚拟机网络设置</span>
+                      <a href="/2024/08/01/GFCTF2024/" title="GFCTF2024">
+                        <span class="hidden-mobile">GFCTF2024</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
