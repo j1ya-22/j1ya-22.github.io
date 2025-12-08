@@ -269,15 +269,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/09/19/%E9%85%8D%E7%BD%AERust%E7%8E%AF%E5%A2%83/" target="_self">
-          配置Rust环境
+        <a href="/2024/09/16/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/" target="_self">
+          简单搭建CTFd
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/09/19/%E9%85%8D%E7%BD%AERust%E7%8E%AF%E5%A2%83/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/09/16/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/" target="_self">
         <div>
-          安装rust   要安装rs-dml   点进rs-dml，发现要先build   build   把插件中的IDARustDemangler.py放到plugins目录   打开发现没有识别到 要去配系统变量的path，把release文件放到path中   这样就完成了
+          搞了一晚上，ubuntu上命令复制不了，麻烦。搜kali的教程，docker-compose不能正常使用，估计是设置了python2有问题，一直警告，还是先pull docker https://www.bilibili.com/read/cv16948927/ CTFd安装docker   启动docker   pull 镜像   启动容器   虚拟机内启动   注意端口   映射到本地
         </div>
       </a>
 
@@ -285,8 +285,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2024-09-19 09:13" pubdate>
-              2024-09-19
+            <time datetime="2024-09-16 19:40" pubdate>
+              2024-09-16
             </time>
           </div>
         
@@ -323,15 +323,15 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2024/09/16/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/" target="_self">
-          简单搭建CTFd
+        <a href="/2024/08/20/%E8%A7%82%E5%AE%89%E6%9D%AF2024%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/" target="_self">
+          观安杯2024初赛部分wp
         </a>
       </h2>
 
       
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/09/16/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BACTFd/" target="_self">
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/08/20/%E8%A7%82%E5%AE%89%E6%9D%AF2024%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/" target="_self">
         <div>
-          搞了一晚上，ubuntu上命令复制不了，麻烦。搜kali的教程，docker-compose不能正常使用，估计是设置了python2有问题，一直警告，还是先pull docker https://www.bilibili.com/read/cv16948927/ CTFd安装docker   启动docker   pull 镜像   启动容器   虚拟机内启动   注意端口   映射到本地
+          Miscoffice查看备注获得密码   假的flag，既然是office的题肯定想到宏    1python ./olevba.py &quot;E:\CTF_Attachments\Guan_an_bei\Misc\office\problem.xlsm&quot; -p I#ziTxnxvbg#GC9  发现是个rc4 123456789101112131415161718192021222
         </div>
       </a>
 
@@ -339,8 +339,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2024-09-16 19:40" pubdate>
-              2024-09-16
+            <time datetime="2024-08-20 15:03" pubdate>
+              2024-08-20
             </time>
           </div>
         
@@ -355,7 +355,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="category-chain-item">环境配置</a>
+  <a href="/categories/%E6%AF%94%E8%B5%9Bwp/" class="category-chain-item">比赛wp</a>
   
   
 
@@ -498,6 +498,67 @@
               <a href="/tags/app%E9%80%86%E5%90%91/">#app逆向</a>
             
               <a href="/tags/DCT/">#DCT</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2024/06/30/CISCN2024%E5%8D%8E%E4%B8%9C%E5%8D%97%E5%88%86%E5%8C%BA%E8%B5%9Bpwn%E5%A4%8D%E7%8E%B0/" target="_self">
+          CISCN2024华东南分区赛pwn复现
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/06/30/CISCN2024%E5%8D%8E%E4%B8%9C%E5%8D%97%E5%88%86%E5%8C%BA%E8%B5%9Bpwn%E5%A4%8D%E7%8E%B0/" target="_self">
+        <div>
+          baby_jit-1禁用execve那就用orw   这里莫名会分配空间，尝试改成*4 实际上多分配的8个字节用来写数字  后面偏移自己规定 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556unsigned __int64 sub_1389(
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-06-30 15:22" pubdate>
+              2024-06-30
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%AF%94%E8%B5%9Bwp/" class="category-chain-item">比赛wp</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/awdp-pwn/">#awdp_pwn</a>
             
           </div>
         
@@ -691,6 +752,67 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
         
+        <a href="/2024/05/21/CISCN2024%E5%88%9D%E8%B5%9BReverse%E9%83%A8%E5%88%86wp/" target="_self">
+          CISCN2024初赛Reverse部分wp
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2024/05/21/CISCN2024%E5%88%9D%E8%B5%9BReverse%E9%83%A8%E5%88%86wp/" target="_self">
+        <div>
+          Reasm_retxt找到密文   找到关键逻辑，*0x50 +0x14 ^0x4d +0x1e后面还有一段   也可以问一下gpt得到流程 12345678910111213141516171819202122#include &lt;stdio.h&gt;#include &lt;string.h&gt;void main() &#123;    char src[] = &quot;flag
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2024-05-21 15:16" pubdate>
+              2024-05-21
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%AF%94%E8%B5%9Bwp/" class="category-chain-item">比赛wp</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/app%E9%80%86%E5%90%91/">#app逆向</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header">
+        
         <a href="/2024/05/15/C%E7%9B%98%E6%89%A9%E5%AE%B9/" target="_self">
           C盘扩容
         </a>
@@ -739,157 +861,11 @@
     </article>
   </div>
 
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/" target="_self">
-          NSSRound22-Reverse专项赛
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/04/28/NSSRound22Reverse%E4%B8%93%E9%A1%B9%E8%B5%9B/" target="_self">
-        <div>
-          22这个数字我很喜欢，就是出的题目难了点😥 ezapk-1java层有XTEA   魔改异或918,得到username，负数用jeb转成16进制 12345678910111213141516171819202122232425262728293031#include &lt;stdio.h&gt;#include &lt;stdint.h&gt;int main() &#123;    ui
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2024-04-28 16:17" pubdate>
-              2024-04-28
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E6%AF%94%E8%B5%9Bwp/" class="category-chain-item">比赛wp</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/tea%E9%AD%94%E6%94%B9/">#tea魔改</a>
-            
-              <a href="/tags/rc4%E9%AD%94%E6%94%B9/">#rc4魔改</a>
-            
-              <a href="/tags/VM/">#VM</a>
-            
-              <a href="/tags/hashcat%E7%88%86%E7%A0%B4/">#hashcat爆破</a>
-            
-              <a href="/tags/blowfish%E5%8A%A0%E5%AF%86/">#blowfish加密</a>
-            
-              <a href="/tags/patch/">#patch</a>
-            
-              <a href="/tags/go%E8%AF%AD%E8%A8%80/">#go语言</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/" target="_self">
-          XYCTF2024部分wp
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt index-excerpt__noimg" href="/2024/04/27/XYCTF2024%E9%83%A8%E5%88%86wp/" target="_self">
-        <div>
-          Re聪明的信使  发现是rot9   想起来不是简单的减9，是循环着来   1flag&#123;Y0u_KnOw_Crypt0_14_v3ry_Imp0rt@nt!&#125;    miao和省赛的差不多     交叉引用过去    1flag&#123;My_fl@g_h4s_br0ken_4parT_Bu7_Y0u_c@n_f1x_1t!&#125;  大学生第一次遇到dos系统   输入
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2024-04-27 15:53" pubdate>
-              2024-04-27
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E6%AF%94%E8%B5%9Bwp/" class="category-chain-item">比赛wp</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/z3/">#z3</a>
-            
-              <a href="/tags/tea%E9%AD%94%E6%94%B9/">#tea魔改</a>
-            
-              <a href="/tags/unity%E9%80%86%E5%90%91/">#unity逆向</a>
-            
-              <a href="/tags/VM/">#VM</a>
-            
-              <a href="/tags/e%E8%AF%AD%E8%A8%80/">#e语言</a>
-            
-              <a href="/tags/lua%E8%AF%AD%E8%A8%80/">#lua语言</a>
-            
-              <a href="/tags/huffman/">#huffman</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
 
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/4/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/#board">3</a><a class="page-number" href="/page/4/#board">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/#board">6</a><a class="page-number" href="/page/7/#board">7</a><a class="extend next" rel="next" href="/page/6/#board"><i class="iconfont icon-arrowright"></i></a>
+      <a class="extend prev" rel="prev" href="/page/4/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/#board">3</a><a class="page-number" href="/page/4/#board">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/#board">6</a><a class="page-number" href="/page/7/#board">7</a><a class="page-number" href="/page/8/#board">8</a><a class="extend next" rel="next" href="/page/6/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 
