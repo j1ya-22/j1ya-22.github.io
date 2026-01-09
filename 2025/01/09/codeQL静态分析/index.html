@@ -16,18 +16,18 @@
   <meta name="author" content="j1ya">
   <meta name="keywords" content="">
   
-    <meta name="description" content="参考文档：https:&#x2F;&#x2F;www.cnblogs.com&#x2F;Cl0ud&#x2F;p&#x2F;15803314.html https:&#x2F;&#x2F;www.cnblogs.com&#x2F;hac425&#x2F;p&#x2F;14556110.html https:&#x2F;&#x2F;www.freebuf.com&#x2F;articles&#x2F;web&#x2F;283795.html 官方文档：https:&#x2F;&#x2F;codeql.github.com&#x2F;codeql-standard-librar">
+    <meta name="description" content="codeql功能把源代码转化成一个可查询的数据库，通过 Extractor 模块对源代码工程进行关键信息分析提取，构成一个关系型数据库，codeql的处理对象并不是源代码本身，而是中间生成的AST抽象语法树数据库，后续查询操作都在这个数据库中进行 项目编译databases栏加载test数据库 在&#x2F;ql&#x2F;cpp&#x2F;ql&#x2F;src下创建一个test.ql来编写ql">
 <meta property="og:type" content="article">
 <meta property="og:title" content="codeQL静态分析">
 <meta property="og:url" content="https://j1ya-22.github.io/2025/01/09/codeQL%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/index.html">
 <meta property="og:site_name" content="j1ya">
-<meta property="og:description" content="参考文档：https:&#x2F;&#x2F;www.cnblogs.com&#x2F;Cl0ud&#x2F;p&#x2F;15803314.html https:&#x2F;&#x2F;www.cnblogs.com&#x2F;hac425&#x2F;p&#x2F;14556110.html https:&#x2F;&#x2F;www.freebuf.com&#x2F;articles&#x2F;web&#x2F;283795.html 官方文档：https:&#x2F;&#x2F;codeql.github.com&#x2F;codeql-standard-librar">
+<meta property="og:description" content="codeql功能把源代码转化成一个可查询的数据库，通过 Extractor 模块对源代码工程进行关键信息分析提取，构成一个关系型数据库，codeql的处理对象并不是源代码本身，而是中间生成的AST抽象语法树数据库，后续查询操作都在这个数据库中进行 项目编译databases栏加载test数据库 在&#x2F;ql&#x2F;cpp&#x2F;ql&#x2F;src下创建一个test.ql来编写ql">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://j1ya-22.github.io/2025/01/09/codeQL%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/1733190891283-c9e6c415-4a7c-4bd4-9984-4718fcbe6e05.png">
 <meta property="og:image" content="https://j1ya-22.github.io/2025/01/09/codeQL%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/1733756202089-a73faea0-0d44-45a3-a622-812ac61e8c8d.png">
 <meta property="og:image" content="https://j1ya-22.github.io/2025/01/09/codeQL%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/1736391028586-85f962de-206b-46a8-9e29-f433205cac71.png">
 <meta property="article:published_time" content="2025-01-09T03:32:10.000Z">
-<meta property="article:modified_time" content="2025-01-09T03:36:47.961Z">
+<meta property="article:modified_time" content="2026-01-09T03:00:50.668Z">
 <meta property="article:author" content="j1ya">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://j1ya-22.github.io/2025/01/09/codeQL%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/1733190891283-c9e6c415-4a7c-4bd4-9984-4718fcbe6e05.png">
@@ -327,11 +327,7 @@
             
               <div class="markdown-body">
                 
-                <p>参考文档：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/Cl0ud/p/15803314.html">https://www.cnblogs.com/Cl0ud/p/15803314.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/hac425/p/14556110.html">https://www.cnblogs.com/hac425/p/14556110.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/283795.html">https://www.freebuf.com/articles/web/283795.html</a></p>
-<p>官方文档：<a target="_blank" rel="noopener" href="https://codeql.github.com/codeql-standard-libraries/cpp/">https://codeql.github.com/codeql-standard-libraries/cpp/</a></p>
-<h1 id="codeql功能"><a href="#codeql功能" class="headerlink" title="codeql功能"></a>codeql功能</h1><p>把源代码转化成一个可查询的数据库，通过 Extractor 模块对源代码工程进行关键信息分析提取，构成一个关系型数据库，codeql的处理对象并不是源代码本身，而是中间生成的AST抽象语法树数据库，后续查询操作都在这个数据库中进行</p>
+                <h1 id="codeql功能"><a href="#codeql功能" class="headerlink" title="codeql功能"></a>codeql功能</h1><p>把源代码转化成一个可查询的数据库，通过 Extractor 模块对源代码工程进行关键信息分析提取，构成一个关系型数据库，codeql的处理对象并不是源代码本身，而是中间生成的AST抽象语法树数据库，后续查询操作都在这个数据库中进行</p>
 <h1 id="项目编译"><a href="#项目编译" class="headerlink" title="项目编译"></a>项目编译</h1><p>databases栏加载test数据库</p>
 <p>在&#x2F;ql&#x2F;cpp&#x2F;ql&#x2F;src下创建一个test.ql来编写ql查询语句</p>
 <img src="/2025/01/09/codeQL%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/1733190891283-c9e6c415-4a7c-4bd4-9984-4718fcbe6e05.png" srcset="/img/loading.gif" lazyload class="" title="img">
@@ -353,6 +349,14 @@
 
 <p>最后以树结构返回，上面的函数调用下面的函数</p>
 <img src="/2025/01/09/codeQL%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90/1736391028586-85f962de-206b-46a8-9e29-f433205cac71.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+
+
+<p>参考文档：</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/Cl0ud/p/15803314.html">https://www.cnblogs.com/Cl0ud/p/15803314.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/hac425/p/14556110.html">https://www.cnblogs.com/hac425/p/14556110.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/283795.html">https://www.freebuf.com/articles/web/283795.html</a></p>
+<p>官方文档：<a target="_blank" rel="noopener" href="https://codeql.github.com/codeql-standard-libraries/cpp/">https://codeql.github.com/codeql-standard-libraries/cpp/</a></p>
 
                 
               </div>
