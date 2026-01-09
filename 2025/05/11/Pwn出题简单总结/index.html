@@ -16,12 +16,12 @@
   <meta name="author" content="j1ya">
   <meta name="keywords" content="">
   
-    <meta name="description" content="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;ve1kcon&#x2F;p&#x2F;18128333 https:&#x2F;&#x2F;xz.aliyun.com&#x2F;t&#x2F;14507?time__1311&#x3D;GqAhDIqIxUxmx0yx4%2BgrxgQAPi%3Dkf3x https:&#x2F;&#x2F;cn-sec.com&#x2F;archives&#x2F;3119494.html 环境由于docker的原因，要开启clash的tun和服务模式     重启d">
+    <meta name="description" content="环境由于docker的原因，要开启clash的tun和服务模式     重启docker环境之后平台也要重启，容器顺序不一定按修改的先后顺序排列   编译环境docker是ubuntu的，所以建议在Ubuntu上编译二进制文件，如果没有特定版本就用docker构建 编译特定glibc版本的附件 12345678910111213141516171819202122232425# 使用Ubuntu">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Pwn出题简单总结">
 <meta property="og:url" content="https://j1ya-22.github.io/2025/05/11/Pwn%E5%87%BA%E9%A2%98%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="j1ya">
-<meta property="og:description" content="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;ve1kcon&#x2F;p&#x2F;18128333 https:&#x2F;&#x2F;xz.aliyun.com&#x2F;t&#x2F;14507?time__1311&#x3D;GqAhDIqIxUxmx0yx4%2BgrxgQAPi%3Dkf3x https:&#x2F;&#x2F;cn-sec.com&#x2F;archives&#x2F;3119494.html 环境由于docker的原因，要开启clash的tun和服务模式     重启d">
+<meta property="og:description" content="环境由于docker的原因，要开启clash的tun和服务模式     重启docker环境之后平台也要重启，容器顺序不一定按修改的先后顺序排列   编译环境docker是ubuntu的，所以建议在Ubuntu上编译二进制文件，如果没有特定版本就用docker构建 编译特定glibc版本的附件 12345678910111213141516171819202122232425# 使用Ubuntu">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://j1ya-22.github.io/2025/05/11/Pwn%E5%87%BA%E9%A2%98%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1721984324990-1e80697c-6996-4673-a05f-a96b7009ee54.png">
 <meta property="og:image" content="https://j1ya-22.github.io/2025/05/11/Pwn%E5%87%BA%E9%A2%98%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1722158422023-6d246969-f23e-4f92-bff0-308837465892.png">
@@ -35,7 +35,7 @@
 <meta property="og:image" content="https://j1ya-22.github.io/2025/05/11/Pwn%E5%87%BA%E9%A2%98%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1746802852208-5265bf29-af41-4df5-91a2-13adfb6e2f6f.png">
 <meta property="og:image" content="https://j1ya-22.github.io/2025/05/11/Pwn%E5%87%BA%E9%A2%98%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1746861802891-20a3ec08-3feb-4bf5-8ef7-1411dac62281.png">
 <meta property="article:published_time" content="2025-05-11T03:55:47.000Z">
-<meta property="article:modified_time" content="2025-05-11T14:19:16.986Z">
+<meta property="article:modified_time" content="2026-01-09T02:53:08.958Z">
 <meta property="article:author" content="j1ya">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://j1ya-22.github.io/2025/05/11/Pwn%E5%87%BA%E9%A2%98%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1721984324990-1e80697c-6996-4673-a05f-a96b7009ee54.png">
@@ -274,7 +274,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          753 字
+          758 字
         
       </span>
     
@@ -335,10 +335,7 @@
             
               <div class="markdown-body">
                 
-                <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ve1kcon/p/18128333">https://www.cnblogs.com/ve1kcon/p/18128333</a></p>
-<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/14507?time__1311=GqAhDIqIxUxmx0yx4+grxgQAPi=kf3x">https://xz.aliyun.com/t/14507?time__1311=GqAhDIqIxUxmx0yx4%2BgrxgQAPi%3Dkf3x</a></p>
-<p><a target="_blank" rel="noopener" href="https://cn-sec.com/archives/3119494.html">https://cn-sec.com/archives/3119494.html</a></p>
-<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>由于docker的原因，要开启clash的tun和服务模式</p>
+                <h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>由于docker的原因，要开启clash的tun和服务模式</p>
 <img src="/2025/05/11/Pwn%E5%87%BA%E9%A2%98%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1721984324990-1e80697c-6996-4673-a05f-a96b7009ee54.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
 
@@ -398,6 +395,15 @@
 <h2 id="远程函数真实地址随机"><a href="#远程函数真实地址随机" class="headerlink" title="远程函数真实地址随机"></a>远程函数真实地址随机</h2><p>puts等函数真实地址不一定是0x7f开头，但如果是0x7c等开头也能打通，主要是地址随机化的缘故</p>
 <p>需要关闭系统地址随机化bash -c “echo 0 &gt; &#x2F;proc&#x2F;sys&#x2F;kernel&#x2F;randomize_va_space”</p>
 <img src="/2025/05/11/Pwn%E5%87%BA%E9%A2%98%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1746861802891-20a3ec08-3feb-4bf5-8ef7-1411dac62281.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+
+
+
+
+<p>参考链接：</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ve1kcon/p/18128333">https://www.cnblogs.com/ve1kcon/p/18128333</a></p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/14507?time__1311=GqAhDIqIxUxmx0yx4+grxgQAPi=kf3x">https://xz.aliyun.com/t/14507?time__1311=GqAhDIqIxUxmx0yx4%2BgrxgQAPi%3Dkf3x</a></p>
+<p><a target="_blank" rel="noopener" href="https://cn-sec.com/archives/3119494.html">https://cn-sec.com/archives/3119494.html</a></p>
 
                 
               </div>
