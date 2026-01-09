@@ -16,12 +16,12 @@
   <meta name="author" content="j1ya">
   <meta name="keywords" content="">
   
-    <meta name="description" content="参考链接： https:&#x2F;&#x2F;blog.csdn.net&#x2F;m0_51246873&#x2F;article&#x2F;details&#x2F;127167749 https:&#x2F;&#x2F;www.cnblogs.com&#x2F;YenKoc&#x2F;p&#x2F;14136012.html https:&#x2F;&#x2F;www.xjx100.cn&#x2F;news&#x2F;40167.html?action&#x3D;onClick https:&#x2F;&#x2F;mp.weixin.qq.com&#x2F;s&#x2F;MUth1Qw">
+    <meta name="description" content="背景 线性扫描算法：逐行反汇编（无法将数据和内容进行区分） 递归下降算法：根据一条指令是否被另一条指令引用来决定是否对其进行反汇编（难以准确定位）  正是因为这两种反汇编的规格和缺陷机制，所以才导致了会有花指令的诞生 花指令简单的说就是在代码中混入一些垃圾数据阻碍你的静态分析   常见指令 0xE8 call + 4字节偏移地址 0xE9 jmp + 4字节偏移地址 0xEB jmp + 2字节偏">
 <meta property="og:type" content="article">
 <meta property="og:title" content="花指令">
 <meta property="og:url" content="https://j1ya-22.github.io/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/index.html">
 <meta property="og:site_name" content="j1ya">
-<meta property="og:description" content="参考链接： https:&#x2F;&#x2F;blog.csdn.net&#x2F;m0_51246873&#x2F;article&#x2F;details&#x2F;127167749 https:&#x2F;&#x2F;www.cnblogs.com&#x2F;YenKoc&#x2F;p&#x2F;14136012.html https:&#x2F;&#x2F;www.xjx100.cn&#x2F;news&#x2F;40167.html?action&#x3D;onClick https:&#x2F;&#x2F;mp.weixin.qq.com&#x2F;s&#x2F;MUth1Qw">
+<meta property="og:description" content="背景 线性扫描算法：逐行反汇编（无法将数据和内容进行区分） 递归下降算法：根据一条指令是否被另一条指令引用来决定是否对其进行反汇编（难以准确定位）  正是因为这两种反汇编的规格和缺陷机制，所以才导致了会有花指令的诞生 花指令简单的说就是在代码中混入一些垃圾数据阻碍你的静态分析   常见指令 0xE8 call + 4字节偏移地址 0xE9 jmp + 4字节偏移地址 0xEB jmp + 2字节偏">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://j1ya-22.github.io/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1690873982788-dd770c8d-bb78-4af2-823a-f2f07ccfb7d7-17318416670861.png">
 <meta property="og:image" content="https://j1ya-22.github.io/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1689132929883-c68c1e41-0162-4c74-913b-551c5afe5f80-17318416670873.png">
@@ -56,7 +56,7 @@
 <meta property="og:image" content="https://j1ya-22.github.io/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1700739191513-de253465-6cc9-4a7a-b634-9d64e2a4f19a-173184166708861.png">
 <meta property="og:image" content="https://j1ya-22.github.io/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1700739265623-36862cfa-dd7f-487e-8619-d168e782330b-173184166708863.png">
 <meta property="article:published_time" content="2024-10-22T03:36:26.000Z">
-<meta property="article:modified_time" content="2024-11-17T11:07:54.506Z">
+<meta property="article:modified_time" content="2026-01-09T03:05:00.263Z">
 <meta property="article:author" content="j1ya">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://j1ya-22.github.io/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1690873982788-dd770c8d-bb78-4af2-823a-f2f07ccfb7d7-17318416670861.png">
@@ -356,12 +356,7 @@
             
               <div class="markdown-body">
                 
-                <p>参考链接：</p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_51246873/article/details/127167749">https://blog.csdn.net/m0_51246873/article/details/127167749</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/YenKoc/p/14136012.html">https://www.cnblogs.com/YenKoc/p/14136012.html</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.xjx100.cn/news/40167.html?action=onClick">https://www.xjx100.cn/news/40167.html?action=onClick</a></p>
-<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/MUth1Qw-Fl2a5OrLw_2_0g">https://mp.weixin.qq.com/s/MUth1Qw-Fl2a5OrLw_2_0g</a></p>
-<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><ul>
+                <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><ul>
 <li>线性扫描算法：逐行反汇编（无法将数据和内容进行区分）</li>
 <li>递归下降算法：根据一条指令是否被另一条指令引用来决定是否对其进行反汇编（难以准确定位）</li>
 </ul>
@@ -527,6 +522,11 @@
 <img src="/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1700739265623-36862cfa-dd7f-487e-8619-d168e782330b-173184166708863.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
 <p>之后重新反编译即可</p>
+<p>参考链接：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_51246873/article/details/127167749">https://blog.csdn.net/m0_51246873/article/details/127167749</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/YenKoc/p/14136012.html">https://www.cnblogs.com/YenKoc/p/14136012.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.xjx100.cn/news/40167.html?action=onClick">https://www.xjx100.cn/news/40167.html?action=onClick</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/MUth1Qw-Fl2a5OrLw_2_0g">https://mp.weixin.qq.com/s/MUth1Qw-Fl2a5OrLw_2_0g</a></p>
 
                 
               </div>
