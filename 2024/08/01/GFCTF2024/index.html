@@ -18,7 +18,7 @@
   
     <meta name="description" content="RepreseD810   ~ ^可能在进行某种操作，先猜一下异或     1DASCTF&#123;good_the_re_is_easyhhhh&#125;    ezVM两位十进制数转成一个16进制数   44位flag，加载dll中的check函数           只有异或运算，那么可以根据前16位推出key       1234567891011121314a&#x3D;[13,8,26,10">
 <meta property="og:type" content="article">
-<meta property="og:title" content="GFCTF2024">
+<meta property="og:title" content="GFCTF2024部分Re">
 <meta property="og:url" content="https://j1ya-22.github.io/2024/08/01/GFCTF2024/index.html">
 <meta property="og:site_name" content="j1ya">
 <meta property="og:description" content="RepreseD810   ~ ^可能在进行某种操作，先猜一下异或     1DASCTF&#123;good_the_re_is_easyhhhh&#125;    ezVM两位十进制数转成一个16进制数   44位flag，加载dll中的check函数           只有异或运算，那么可以根据前16位推出key       1234567891011121314a&#x3D;[13,8,26,10">
@@ -39,7 +39,7 @@
 <meta property="og:image" content="https://j1ya-22.github.io/2024/08/01/GFCTF2024/1722332794076-d4cff4a3-489f-4fb2-8a27-20f1a2befdb2.png">
 <meta property="og:image" content="https://j1ya-22.github.io/2024/08/01/GFCTF2024/1722333271676-199be5a4-0b82-4018-ac48-474698580fb5.png">
 <meta property="article:published_time" content="2024-08-01T07:24:15.000Z">
-<meta property="article:modified_time" content="2025-04-22T01:06:39.384Z">
+<meta property="article:modified_time" content="2026-01-19T08:15:03.696Z">
 <meta property="article:author" content="j1ya">
 <meta property="article:tag" content="VM">
 <meta property="article:tag" content="seh">
@@ -52,7 +52,7 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>GFCTF2024 - j1ya</title>
+  <title>GFCTF2024部分Re - j1ya</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -259,7 +259,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="GFCTF2024"></span>
+            <span id="subtitle" data-typed-text="GFCTF2024部分Re"></span>
           
         </div>
 
@@ -282,7 +282,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          507 字
+          505 字
         
       </span>
     
@@ -338,7 +338,7 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">GFCTF2024</h1>
+            <h1 id="seo-header">GFCTF2024部分Re</h1>
             
             
               <div class="markdown-body">
@@ -380,7 +380,7 @@
 
 
 
-<p>当然，正常思路是vm,op+两个参数</p>
+<p>正常思路是vm,op+两个参数</p>
 <img src="/2024/08/01/GFCTF2024/1722332794076-d4cff4a3-489f-4fb2-8a27-20f1a2befdb2.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs python">vm = [<span class="hljs-number">0x000000A2</span>, <span class="hljs-number">0x00000000</span>, <span class="hljs-number">0x00000084</span>, <span class="hljs-number">0x000000A3</span>, <span class="hljs-number">0x00000008</span>, <span class="hljs-number">0x00000000</span>, <span class="hljs-number">0x000000A3</span>, <span class="hljs-number">0x00000008</span>, <span class="hljs-number">0x00000001</span>,<br>      <span class="hljs-number">0x000000B0</span>, <span class="hljs-number">0x00000008</span>, <span class="hljs-number">0x0000013C</span>, <span class="hljs-number">0x000000B2</span>, <span class="hljs-number">0x000000A3</span>, <span class="hljs-number">0x00000009</span>, <span class="hljs-number">0x00000001</span>, <span class="hljs-number">0x000000A3</span>, <span class="hljs-number">0x00000009</span>,<br>      <span class="hljs-number">0x00000002</span>, <span class="hljs-number">0x000000A3</span>, <span class="hljs-number">0x00000009</span>, <span class="hljs-number">0x00000003</span>, <span class="hljs-number">0x000000B0</span>, <span class="hljs-number">0x00000009</span>, <span class="hljs-number">0x0000009E</span>, <span class="hljs-number">0x000000B2</span>, <span class="hljs-number">0x000000A6</span>,<br>      <span class="hljs-number">0x00000004</span>, <span class="hljs-number">0x00000016</span>, <span class="hljs-number">0x000000A3</span>, <span class="hljs-number">0x00000000</span>, <span class="hljs-number">0x00000004</span>, <span class="hljs-number">0x000000B0</span>, <span class="hljs-number">0x00000000</span>, <span class="hljs-number">0x00000379</span>, <span class="hljs-number">0x000000B2</span>,<br>      <span class="hljs-number">0x000000A4</span>, <span class="hljs-number">0x00000005</span>, <span class="hljs-number">0x0000000B</span>, <span class="hljs-number">0x000000A1</span>, <span class="hljs-number">0x00000008</span>, <span class="hljs-number">0x00000005</span>, <span class="hljs-number">0x000000A3</span>, <span class="hljs-number">0x00000008</span>, <span class="hljs-number">0x00000006</span>,<br>      <span class="hljs-number">0x000000B0</span>,<br>      <span class="hljs-number">0x00000008</span>, <span class="hljs-number">0x00000026</span>, <span class="hljs-number">0x000000B2</span>, <span class="hljs-number">0x000000A3</span>, <span class="hljs-number">0x00000007</span>, <span class="hljs-number">0x00000006</span>, <span class="hljs-number">0x000000B0</span>, <span class="hljs-number">0x00000007</span>, <span class="hljs-number">0x00000060</span>,<br>      <span class="hljs-number">0x000000B2</span>, <span class="hljs-number">0x000000A1</span>, <span class="hljs-number">0x00000009</span>, <span class="hljs-number">0x00000001</span>, <span class="hljs-number">0x000000A3</span>, <span class="hljs-number">0x00000009</span>, <span class="hljs-number">0x00000002</span>, <span class="hljs-number">0x000000A5</span>, <span class="hljs-number">0x00000009</span>,<br>      <span class="hljs-number">0x00000005</span>, <span class="hljs-number">0x000000B0</span>, <span class="hljs-number">0x00000009</span>, <span class="hljs-number">0x0000006F</span>, <span class="hljs-number">0x000000B2</span>, <span class="hljs-number">0x000000A6</span>, <span class="hljs-number">0x00000005</span>, <span class="hljs-number">0x00000007</span>, <span class="hljs-number">0x000000A1</span>,<br>      <span class="hljs-number">0x00000008</span>, <span class="hljs-number">0x00000000</span>, <span class="hljs-number">0x000000A5</span>, <span class="hljs-number">0x00000008</span>, <span class="hljs-number">0x00000006</span>, <span class="hljs-number">0x000000A3</span>, <span class="hljs-number">0x00000008</span>, <span class="hljs-number">0x00000005</span>, <span class="hljs-number">0x000000B0</span>,<br>      <span class="hljs-number">0x00000008</span>, <span class="hljs-number">0x0000035B</span>, <span class="hljs-number">0x000000B2</span>, <span class="hljs-number">0x000000A3</span>, <span class="hljs-number">0x00000003</span>, <span class="hljs-number">0x00000004</span>, <span class="hljs-number">0x000000B0</span>, <span class="hljs-number">0x00000003</span>, <span class="hljs-number">0x000002C2</span>,<br>      <span class="hljs-number">0x000000B2</span>, <span class="hljs-number">0x000000C0</span>]<br><br>i = <span class="hljs-number">0</span><br><span class="hljs-keyword">while</span> vm[i] != <span class="hljs-number">192</span>:<br>    op = vm[i]<br>    <span class="hljs-keyword">if</span> op &lt; <span class="hljs-number">178</span>:<br>        arg1 = vm[i + <span class="hljs-number">1</span>]<br>        arg2 = vm[i + <span class="hljs-number">2</span>]<br>    <span class="hljs-keyword">if</span> op == <span class="hljs-number">160</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;mov key[&quot;</span> + <span class="hljs-built_in">str</span>(arg1) + <span class="hljs-string">&quot;] ,&quot;</span> + <span class="hljs-built_in">str</span>(arg2))<br>    <span class="hljs-keyword">if</span> op == <span class="hljs-number">161</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;mov key[&quot;</span> + <span class="hljs-built_in">str</span>(arg1) + <span class="hljs-string">&quot;] ,key[&quot;</span> + <span class="hljs-built_in">str</span>(arg2) + <span class="hljs-string">&quot;]&quot;</span>)<br>    <span class="hljs-keyword">if</span> op == <span class="hljs-number">162</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;add key[&quot;</span> + <span class="hljs-built_in">str</span>(arg1) + <span class="hljs-string">&quot;] ,&quot;</span> + <span class="hljs-built_in">str</span>(arg2))<br>    <span class="hljs-keyword">if</span> op == <span class="hljs-number">163</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;add key[&quot;</span> + <span class="hljs-built_in">str</span>(arg1) + <span class="hljs-string">&quot;] ,key[&quot;</span> + <span class="hljs-built_in">str</span>(arg2) + <span class="hljs-string">&quot;]&quot;</span>)<br>    <span class="hljs-keyword">if</span> op == <span class="hljs-number">164</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;sub key[&quot;</span> + <span class="hljs-built_in">str</span>(arg1) + <span class="hljs-string">&quot;] ,&quot;</span> + <span class="hljs-built_in">str</span>(arg2))<br>    <span class="hljs-keyword">if</span> op == <span class="hljs-number">165</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;sub key[&quot;</span> + <span class="hljs-built_in">str</span>(arg1) + <span class="hljs-string">&quot;] ,key[&quot;</span> + <span class="hljs-built_in">str</span>(arg2) + <span class="hljs-string">&quot;]&quot;</span>)<br>    <span class="hljs-keyword">if</span> op == <span class="hljs-number">166</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;mul key[&quot;</span> + <span class="hljs-built_in">str</span>(arg1) + <span class="hljs-string">&quot;] ,&quot;</span> + <span class="hljs-built_in">str</span>(arg2))<br>    <span class="hljs-keyword">if</span> op == <span class="hljs-number">167</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;mul key[&quot;</span> + <span class="hljs-built_in">str</span>(arg1) + <span class="hljs-string">&quot;] ,key[&quot;</span> + <span class="hljs-built_in">str</span>(arg2) + <span class="hljs-string">&quot;]&quot;</span>)<br>    <span class="hljs-keyword">if</span> op == <span class="hljs-number">176</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;cmp key[&quot;</span> + <span class="hljs-built_in">str</span>(arg1) + <span class="hljs-string">&quot;] ,&quot;</span> + <span class="hljs-built_in">str</span>(arg2))<br>    <span class="hljs-keyword">if</span> op == <span class="hljs-number">177</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;cmp key[&quot;</span> + <span class="hljs-built_in">str</span>(arg1) + <span class="hljs-string">&quot;] , key[&quot;</span> + <span class="hljs-built_in">str</span>(arg2) + <span class="hljs-string">&quot;]&quot;</span>)<br>    <span class="hljs-keyword">if</span> op == <span class="hljs-number">178</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;jz out&quot;</span>)<br>        i += <span class="hljs-number">1</span><br>        <span class="hljs-keyword">continue</span><br>    i += <span class="hljs-number">3</span><br></code></pre></td></tr></table></figure>
@@ -440,7 +440,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>GFCTF2024</div>
+      <div>GFCTF2024部分Re</div>
       <div>https://j1ya-22.github.io/2024/08/01/GFCTF2024/</div>
     </div>
     <div class="license-meta">
@@ -495,8 +495,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/07/24/DASCTF2024%E6%9A%91%E5%81%87%E6%8C%91%E6%88%98%E8%B5%9B/" title="DASCTF2024暑假挑战赛">
-                        <span class="hidden-mobile">DASCTF2024暑假挑战赛</span>
+                      <a href="/2024/07/24/DASCTF2024%E6%9A%91%E5%81%87%E6%8C%91%E6%88%98%E8%B5%9B/" title="DASCTF2024暑假挑战赛Reverse">
+                        <span class="hidden-mobile">DASCTF2024暑假挑战赛Reverse</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
