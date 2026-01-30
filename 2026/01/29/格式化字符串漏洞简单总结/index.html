@@ -16,12 +16,12 @@
   <meta name="author" content="j1ya">
   <meta name="keywords" content="">
   
-    <meta name="description" content="本质：将用户输入当作格式化字符串使用 格式解析1%[parameter] [flag] [field width] [precision] [length] type  parameter（范围）：n$，获取格式化字符串中的指定参数 field width：输出的最小宽度 precision：输出的最大长度 length：hh，输出一个字节；h，输出一个双字节 type：  d&#x2F;i，有符">
+    <meta name="description" content="本质：将用户输入当作格式化字符串使用 格式解析1%[parameter] [flag] [field width] [precision] [length] type  parameter：n$，获取格式化字符串中的指定参数 field width：输出的最小宽度 precision：输出的最大长度 length：hh，输出一个字节；h，输出一个双字节 type：  d&#x2F;i，有符号整数">
 <meta property="og:type" content="article">
 <meta property="og:title" content="格式化字符串漏洞简单总结">
 <meta property="og:url" content="https://j1ya-22.github.io/2026/01/29/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="j1ya">
-<meta property="og:description" content="本质：将用户输入当作格式化字符串使用 格式解析1%[parameter] [flag] [field width] [precision] [length] type  parameter（范围）：n$，获取格式化字符串中的指定参数 field width：输出的最小宽度 precision：输出的最大长度 length：hh，输出一个字节；h，输出一个双字节 type：  d&#x2F;i，有符">
+<meta property="og:description" content="本质：将用户输入当作格式化字符串使用 格式解析1%[parameter] [flag] [field width] [precision] [length] type  parameter：n$，获取格式化字符串中的指定参数 field width：输出的最小宽度 precision：输出的最大长度 length：hh，输出一个字节；h，输出一个双字节 type：  d&#x2F;i，有符号整数">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://j1ya-22.github.io/2026/01/29/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1693290698790-e68771c2-2577-4e5b-a778-09ad766699a1.png">
 <meta property="og:image" content="https://j1ya-22.github.io/2026/01/29/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1693296299159-981934ed-611f-402c-9592-c9cd2753163d.png">
@@ -50,7 +50,7 @@
 <meta property="og:image" content="https://j1ya-22.github.io/2026/01/29/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1738031140998-33c82fae-7a96-48ac-824a-b7bc6794025b.png">
 <meta property="og:image" content="https://j1ya-22.github.io/2026/01/29/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1768657419365-e296cd7f-4f29-45d0-a94a-d8a0ee0cbd23.png">
 <meta property="article:published_time" content="2026-01-29T12:49:30.000Z">
-<meta property="article:modified_time" content="2026-01-29T14:15:44.371Z">
+<meta property="article:modified_time" content="2026-01-30T12:09:12.424Z">
 <meta property="article:author" content="j1ya">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://j1ya-22.github.io/2026/01/29/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1693290698790-e68771c2-2577-4e5b-a778-09ad766699a1.png">
@@ -353,7 +353,7 @@
                 <p>本质：将用户输入当作格式化字符串使用</p>
 <h2 id="格式解析"><a href="#格式解析" class="headerlink" title="格式解析"></a>格式解析</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plain">%[parameter] [flag] [field width] [precision] [length] type<br></code></pre></td></tr></table></figure>
 
-<p>parameter（范围）：n$，获取格式化字符串中的指定参数</p>
+<p>parameter：n$，获取格式化字符串中的指定参数</p>
 <p>field width：输出的最小宽度</p>
 <p>precision：输出的最大长度</p>
 <p>length：hh，输出一个字节；h，输出一个双字节</p>
@@ -373,15 +373,14 @@
 </li>
 <li><p>p， void * 型，输出对应变量的值。printf(“%p”,a) 用地址的格式打印变量 a 的值，printf(“%p”, &amp;a) 打印变量 a 所在的地址</p>
 </li>
-<li><p>n，不输出字符，但是<strong>把已经成功输出的字符个数写入对应的整型指针参数所指的变量****。</strong>如%100c10$n表示将0x64写入偏移10处保存的指针所指向的地址（4字节），<strong>而%$hn表示写入的地址空间为2字节，%$hhn表示写入的地址空间为1字节，%$lln表示写入的地址空间为8字节</strong>，<strong>有时直接写4字节会导致程序崩溃或等候时间过长，可以通过%$hn或%$hhn来调整</strong></p>
+<li><p>n，不输出字符，但是<strong>把已经成功输出的字符个数写入对应的整型指针参数所指的变量。</strong>如%100c10$n表示将0x64写入偏移10处保存的指针所指向的地址（4字节），<strong>而%$hn表示写入的地址空间为2字节，%$hhn表示写入的地址空间为1字节，%$lln表示写入的地址空间为8字节</strong>，<strong>有时直接写4字节会导致程序崩溃或等候时间过长，可以通过%$hn或%$hhn来调整</strong></p>
 </li>
 </ul>
 <h2 id="泄露栈内存"><a href="#泄露栈内存" class="headerlink" title="泄露栈内存"></a>泄露栈内存</h2><p><strong>建议使用 %p来获取对应栈的内存</strong>，可以不用考虑位数的区别</p>
 <p>可以通过如下方式确定该格式化字符串为第几个参数的问题</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">[ tag ]%p%p%p%p%p%p%p%p%p%p%p%p.......<br></code></pre></td></tr></table></figure>
 
-<p>[tag]为重复某个字符的字节长来作为tag。</p>
-<p>后面个%p会将依次遍历以地址的形式打印出函数参数</p>
+<p>[tag]为重复某个字符的字节长来作为tag，后面个%p会将依次遍历以地址的形式打印出函数参数</p>
 <img src="/2026/01/29/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/1693290698790-e68771c2-2577-4e5b-a778-09ad766699a1.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
 <p>利用 %s 来获取变量所对应地址的内容，有零截断，假设该格式化字符串相对函数调用为第k个参数，那么就可以通过addr%k$s的方式来获取某个指定地址addr的内容</p>
