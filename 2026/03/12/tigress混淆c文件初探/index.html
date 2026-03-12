@@ -16,31 +16,30 @@
   <meta name="author" content="j1ya">
   <meta name="keywords" content="">
   
-    <meta name="description" content="ezre14解 看上去有壳，但是无法手动脱   不能sfx脱壳，也不能动调   搜保护器的名字，找到unpack工具Releases · ergrelet&#x2F;unlicense (github.com) 去花指令后得到main是rc4魔改+tea魔改   tea一次移一个字符，36次循环刚好移完全部密文 1234567891011121314151617181920212223242526">
+    <meta name="description" content="由于用ollvm编译clang比较耗资源，这里采用Tigress项目来混淆c文件 先在官网下载Tigress:tigress.wtf&#x2F;tigress-download.html 设置Tigress安装路径，同时将当前目录添加到环境变量   生成混淆的c文件test1_obf.c：.&#x2F;tigress –Seed&#x3D;0 –Environment&#x3D;x86_64:Li">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DASCTF2024.10部分Reverse">
-<meta property="og:url" content="https://j1ya-22.github.io/2024/10/19/DASCTF2024.10%E9%83%A8%E5%88%86Reverse/index.html">
+<meta property="og:title" content="Tigress混淆c文件初探">
+<meta property="og:url" content="https://j1ya-22.github.io/2026/03/12/tigress%E6%B7%B7%E6%B7%86c%E6%96%87%E4%BB%B6%E5%88%9D%E6%8E%A2/index.html">
 <meta property="og:site_name" content="j1ya">
-<meta property="og:description" content="ezre14解 看上去有壳，但是无法手动脱   不能sfx脱壳，也不能动调   搜保护器的名字，找到unpack工具Releases · ergrelet&#x2F;unlicense (github.com) 去花指令后得到main是rc4魔改+tea魔改   tea一次移一个字符，36次循环刚好移完全部密文 1234567891011121314151617181920212223242526">
+<meta property="og:description" content="由于用ollvm编译clang比较耗资源，这里采用Tigress项目来混淆c文件 先在官网下载Tigress:tigress.wtf&#x2F;tigress-download.html 设置Tigress安装路径，同时将当前目录添加到环境变量   生成混淆的c文件test1_obf.c：.&#x2F;tigress –Seed&#x3D;0 –Environment&#x3D;x86_64:Li">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/10/19/DASCTF2024.10%E9%83%A8%E5%88%86Reverse/1729308978432-b0dd664d-b08b-44d4-9f5a-c66b0e1fc67c.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/10/19/DASCTF2024.10%E9%83%A8%E5%88%86Reverse/1729308926396-23de3e88-a3b4-4e4f-be89-cee838b32710.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/10/19/DASCTF2024.10%E9%83%A8%E5%88%86Reverse/1729340053117-1a162c50-efe7-49c5-a0c8-b975e206541a.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/10/19/DASCTF2024.10%E9%83%A8%E5%88%86Reverse/1729340154073-a6075c82-2bb0-44bd-85d5-9fa7896da708.png">
-<meta property="article:published_time" content="2024-10-19T15:13:52.000Z">
-<meta property="article:modified_time" content="2025-12-06T03:02:36.798Z">
+<meta property="og:image" content="https://j1ya-22.github.io/2026/03/12/tigress%E6%B7%B7%E6%B7%86c%E6%96%87%E4%BB%B6%E5%88%9D%E6%8E%A2/image-20260312221924552.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2026/03/12/tigress%E6%B7%B7%E6%B7%86c%E6%96%87%E4%BB%B6%E5%88%9D%E6%8E%A2/image-20260312223010675.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2026/03/12/tigress%E6%B7%B7%E6%B7%86c%E6%96%87%E4%BB%B6%E5%88%9D%E6%8E%A2/image-20260312113826439.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2026/03/12/tigress%E6%B7%B7%E6%B7%86c%E6%96%87%E4%BB%B6%E5%88%9D%E6%8E%A2/image-20260312223916947.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2026/03/12/tigress%E6%B7%B7%E6%B7%86c%E6%96%87%E4%BB%B6%E5%88%9D%E6%8E%A2/image-20260312223755756.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2026/03/12/tigress%E6%B7%B7%E6%B7%86c%E6%96%87%E4%BB%B6%E5%88%9D%E6%8E%A2/image-20260312223945529.png">
+<meta property="article:published_time" content="2026-03-12T03:38:02.000Z">
+<meta property="article:modified_time" content="2026-03-12T15:05:12.436Z">
 <meta property="article:author" content="j1ya">
-<meta property="article:tag" content="rc4魔改">
-<meta property="article:tag" content="tea魔改">
-<meta property="article:tag" content="脱壳">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://j1ya-22.github.io/2024/10/19/DASCTF2024.10%E9%83%A8%E5%88%86Reverse/1729308978432-b0dd664d-b08b-44d4-9f5a-c66b0e1fc67c.png">
+<meta name="twitter:image" content="https://j1ya-22.github.io/2026/03/12/tigress%E6%B7%B7%E6%B7%86c%E6%96%87%E4%BB%B6%E5%88%9D%E6%8E%A2/image-20260312221924552.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>DASCTF2024.10部分Reverse - j1ya</title>
+  <title>Tigress混淆c文件初探 - j1ya</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -247,7 +246,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="DASCTF2024.10部分Reverse"></span>
+            <span id="subtitle" data-typed-text="Tigress混淆c文件初探"></span>
           
         </div>
 
@@ -258,8 +257,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-10-19 23:13" pubdate>
-          2024年10月19日 晚上
+        <time datetime="2026-03-12 11:38" pubdate>
+          2026年3月12日 中午
         </time>
       </span>
     
@@ -270,7 +269,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          383 字
+          918 字
         
       </span>
     
@@ -281,7 +280,7 @@
         
         
         
-          4 分钟
+          8 分钟
         
       </span>
     
@@ -326,29 +325,84 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">DASCTF2024.10部分Reverse</h1>
+            <h1 id="seo-header">Tigress混淆c文件初探</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="ezre"><a href="#ezre" class="headerlink" title="ezre"></a><strong>ezre</strong></h1><p>14解</p>
-<p>看上去有壳，但是无法手动脱</p>
-<img src="/2024/10/19/DASCTF2024.10%E9%83%A8%E5%88%86Reverse/1729308978432-b0dd664d-b08b-44d4-9f5a-c66b0e1fc67c.png" srcset="/img/loading.gif" lazyload class="" title="img">
+                <p>由于用ollvm编译clang比较耗资源，这里采用Tigress项目来混淆c文件</p>
+<p>先在官网下载Tigress:<a target="_blank" rel="noopener" href="https://tigress.wtf/tigress-download.html">tigress.wtf&#x2F;tigress-download.html</a></p>
+<p>设置Tigress安装路径，同时将当前目录添加到环境变量</p>
+<img src="/2026/03/12/tigress%E6%B7%B7%E6%B7%86c%E6%96%87%E4%BB%B6%E5%88%9D%E6%8E%A2/image-20260312221924552.png" srcset="/img/loading.gif" lazyload class="" title="image-20260312221924552">
 
-<p>不能sfx脱壳，也不能动调</p>
-<img src="/2024/10/19/DASCTF2024.10%E9%83%A8%E5%88%86Reverse/1729308926396-23de3e88-a3b4-4e4f-be89-cee838b32710.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<p>生成混淆的c文件test1_obf.c：.&#x2F;tigress –Seed&#x3D;0 –Environment&#x3D;x86_64:Linux:Gcc:7.3 –Transform&#x3D;Flatten –Functions&#x3D;main test1.c –out&#x3D;test1_obf.c</p>
+<p>用gcc编译生成二进制文件：gcc -O0 -std&#x3D;c99 -I. test1_obf.c -o test1_obf</p>
+<p>如果生成混淆的c文件遇到rellocarray相关报错，可以在c文件中把头文件&lt;stdlib.h&gt;删除，因为Tigress 的解析器无法处理现代linux发行版中stdlib.h包含的GCC属性，从而导致崩溃</p>
+<img src="/2026/03/12/tigress%E6%B7%B7%E6%B7%86c%E6%96%87%E4%BB%B6%E5%88%9D%E6%8E%A2/image-20260312223010675.png" srcset="/img/loading.gif" lazyload class="" title="image-20260312223010675">
 
-<p>搜保护器的名字，找到unpack工具<a target="_blank" rel="noopener" href="https://github.com/ergrelet/unlicense">Releases · ergrelet&#x2F;unlicense (github.com)</a></p>
-<p>去花指令后得到main是rc4魔改+tea魔改</p>
-<img src="/2024/10/19/DASCTF2024.10%E9%83%A8%E5%88%86Reverse/1729340053117-1a162c50-efe7-49c5-a0c8-b975e206541a.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
-<p>tea一次移一个字符，36次循环刚好移完全部密文</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdint.h&gt;</span></span><br><span class="hljs-type">void</span> <span class="hljs-title function_">decrypt</span><span class="hljs-params">(<span class="hljs-type">uint32_t</span> v[<span class="hljs-number">2</span>], <span class="hljs-type">uint32_t</span> <span class="hljs-type">const</span> key[<span class="hljs-number">4</span>])</span> &#123;<br>    <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> i;<br>    <span class="hljs-type">uint32_t</span> v0 = v[<span class="hljs-number">0</span>], v1 = v[<span class="hljs-number">1</span>], delta = <span class="hljs-number">0x9E3779B8</span>, sum = <span class="hljs-number">0x66778899</span>+delta * (<span class="hljs-number">33</span>);<br>    <span class="hljs-comment">//printf(&quot;%x,%x,&quot;,v0,v1);</span><br>    <span class="hljs-keyword">for</span> (i=<span class="hljs-number">0</span>; i &lt;= <span class="hljs-number">32</span>; i++) &#123;<br>        v1 -= (((v0 &lt;&lt; <span class="hljs-number">4</span>) ^ (v0 &gt;&gt; <span class="hljs-number">5</span>)) + v0) ^ (sum + key[(sum&gt;&gt;<span class="hljs-number">11</span>) &amp; <span class="hljs-number">3</span>]);<br>        sum -= delta;<br>        v0 -= (((v1 &lt;&lt; <span class="hljs-number">5</span>) ^ (v1 &gt;&gt; <span class="hljs-number">6</span>)) + v1) ^ (sum + key[sum &amp; <span class="hljs-number">3</span>]);<br><br>    &#125;<br>    v[<span class="hljs-number">0</span>] = v0; v[<span class="hljs-number">1</span>] = v1;<br>    <span class="hljs-comment">//printf(&quot;%x,%x,&quot;,v0,v1);</span><br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">uint32_t</span> <span class="hljs-type">const</span> k[<span class="hljs-number">4</span>] = &#123;<span class="hljs-number">0x6E982837</span>,<span class="hljs-number">0x44332211</span>,<span class="hljs-number">0x11223344</span>,<span class="hljs-number">0x3728986E</span>&#125;;<br>    <span class="hljs-type">char</span> enc[] = &#123;<span class="hljs-number">0x50</span>, <span class="hljs-number">0xD4</span>, <span class="hljs-number">0xC8</span>, <span class="hljs-number">0xC4</span>, <span class="hljs-number">0x8F</span>, <span class="hljs-number">0x84</span>, <span class="hljs-number">0x40</span>, <span class="hljs-number">0xEB</span>, <span class="hljs-number">0x32</span>, <span class="hljs-number">0x81</span>,<br>                  <span class="hljs-number">0x8F</span>, <span class="hljs-number">0x85</span>, <span class="hljs-number">0x6C</span>, <span class="hljs-number">0xB2</span>, <span class="hljs-number">0x2B</span>, <span class="hljs-number">0x06</span>, <span class="hljs-number">0xBF</span>, <span class="hljs-number">0x05</span>, <span class="hljs-number">0x35</span>, <span class="hljs-number">0x5D</span>,<br>                  <span class="hljs-number">0x2E</span>, <span class="hljs-number">0xE3</span>, <span class="hljs-number">0x7D</span>, <span class="hljs-number">0x46</span>, <span class="hljs-number">0x8D</span>, <span class="hljs-number">0x35</span>, <span class="hljs-number">0x01</span>, <span class="hljs-number">0x70</span>, <span class="hljs-number">0x3A</span>, <span class="hljs-number">0x80</span>,<br>                  <span class="hljs-number">0x81</span>, <span class="hljs-number">0xC5</span>, <span class="hljs-number">0xE6</span>, <span class="hljs-number">0x71</span>, <span class="hljs-number">0xD3</span>, <span class="hljs-number">0xD6</span>, <span class="hljs-number">0x50</span>, <span class="hljs-number">0x69</span>, <span class="hljs-number">0x6F</span>, <span class="hljs-number">0xE2</span>,<br>                  <span class="hljs-number">0x6E</span>, <span class="hljs-number">0x78</span>, <span class="hljs-number">0x14</span>, <span class="hljs-number">0xD8</span>&#125;;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">36</span>; i&gt;=<span class="hljs-number">0</span>; i-=<span class="hljs-number">1</span>)&#123;<br>        decrypt(&amp;enc[i], k);<br><br>    &#125;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">44</span>; i++) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;0x%x,&quot;</span>, enc[i]&amp;<span class="hljs-number">0xff</span>);<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>rc4的魔改</p>
-<img src="/2024/10/19/DASCTF2024.10%E9%83%A8%E5%88%86Reverse/1729340154073-a6075c82-2bb0-44bd-85d5-9fa7896da708.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<p>Transform全部参数如下：</p>
+<ol>
+<li>控制流混淆类 (最常用)</li>
+</ol>
+<p>这类变换主要针对 IDA Pro 等反编译工具，使程序的流程逻辑变得极其复杂，难以还原逻辑图</p>
+<ul>
+<li>**<code>Flatten</code> (控制流平坦化)**：这是最经典的方法。将程序的 if-else、for 等结构拉平，放入一个大的 switch 中</li>
+<li>**<code>Virtualize</code> (代码虚拟化)**：Tigress 的核心技术。将 C 函数转换为自定义指令集（字节码），并在程序里嵌入一个解释器运行这些字节码</li>
+<li>**<code>AntiBranchAnalysis</code>**：插入大量难以预测的跳转，破坏静态分析工具对条件分支的判断</li>
+</ul>
+<ol start="2">
+<li>数据与算术混淆类</li>
+</ol>
+<p>这类变换专门用来对抗“变量跟踪”和“数学逻辑逆向”</p>
+<ul>
+<li>**<code>EncodeArithmetic</code>**：将简单的 <code>a + b</code> 转换成复杂的算术表达式组合，增加运算的复杂度</li>
+<li>**<code>EncodeData</code>**：对数据变量进行混淆（如使用不同编码或分拆变量），使内存中的数据呈现乱码状态</li>
+<li>**<code>EncodeLiterals</code>**：隐藏程序中的常量字符串和数字，防止通过字符串搜索定位关键逻辑</li>
+<li>**<code>AntiTaintAnalysis</code> &#x2F; <code>AntiAliasAnalysis</code>**：防止污点分析和别名分析，让自动化的反混淆工具无法追踪变量流向</li>
+</ul>
+<ol start="3">
+<li>环境与完整性防御类</li>
+</ol>
+<p>这类变换确保程序只能在预期的环境下运行，且未被篡改</p>
+<ul>
+<li>**<code>InitCheckEnvironment</code> &#x2F; <code>CheckEnvironment</code>**：插入检测代码，检查当前运行环境（如是否在调试器下、CPUID 等）</li>
+<li>**<code>Checksum</code>**：为代码块或数据段生成校验和，如果程序被修改（Patch），程序会崩溃或停止运行</li>
+<li>**<code>InitOpaque</code> &#x2F; <code>AddOpaque</code> &#x2F; <code>UpdateOpaque</code>**：添加“不透明谓词”（总是真或总是假的判断条件），让反汇编器看到不存在的分支</li>
+</ul>
+<ol start="4">
+<li>辅助与初始化类 (必要步骤)</li>
+</ol>
+<ul>
+<li>**<code>Initialize</code>**：必须先运行这个，初始化混淆环境</li>
+<li>**<code>CleanUp</code>**：在多次混淆后进行清理，优化代码结构，防止文件无限膨胀</li>
+<li>**<code>Inline</code>**：将函数内联，改变原始代码的结构</li>
+<li>**<code>Split</code>**：将一个大函数拆分成多个小函数</li>
+<li>**<code>Merge</code>**：将多个函数合并成一个，隐藏逻辑边界</li>
+<li>**<code>RandomFuns</code>**：插入无意义的垃圾代码函数，干扰逆向工程师的注意力</li>
+</ul>
+<ol start="5">
+<li>进阶与特殊技术类</li>
+</ol>
+<ul>
+<li>**<code>SelfModify</code> (自修改代码)**：程序运行时通过修改自身内存中的指令来实现功能，这是最高级的混淆手段之一，极难调试</li>
+<li>**<code>Jit</code> &#x2F; <code>JitDynamic</code>**：运行时生成机器码执行，直接对抗静态反汇编工具</li>
+<li>**<code>Measure</code> &#x2F; <code>SoftwareMetrics</code>**：分析并输出代码复杂度数据，用于评估混淆的效果</li>
+<li>**<code>Ident</code>**：对函数名和变量名进行随机化（伪随机命名）</li>
+</ul>
+<p>.&#x2F;tigress –Seed&#x3D;0 –Environment&#x3D;x86_64:Linux:Gcc:7.3 <br>–Transform&#x3D;Initialize <br>–Transform&#x3D;Flatten –Functions&#x3D;main,MD5Transform,MD5Update <br>–Transform&#x3D;Virtualize –Functions&#x3D;main <br>–Transform&#x3D;CleanUp <br>out1.c –out&#x3D;out1_obf.c</p>
+<p>混淆后的流程图</p>
+<img src="/2026/03/12/tigress%E6%B7%B7%E6%B7%86c%E6%96%87%E4%BB%B6%E5%88%9D%E6%8E%A2/image-20260312113826439.png" srcset="/img/loading.gif" lazyload class="" title="image-20260312113826439">
 
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">rc4</span>(<span class="hljs-params">data, key</span>):<br>    S = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">range</span>(<span class="hljs-number">256</span>))<br>    j = <span class="hljs-number">0</span><br>    out = []<br><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">256</span>):<br>        j = (j + S[i] + key[i % <span class="hljs-built_in">len</span>(key)]) % <span class="hljs-number">256</span><br>        S[i], S[j] = S[j], S[i]<br><br>    i = j = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">for</span> char <span class="hljs-keyword">in</span> data:<br>        i = (i + <span class="hljs-number">1</span>) % <span class="hljs-number">256</span><br>        j = (j + S[i]) % <span class="hljs-number">256</span><br>        S[i], S[j] = S[j], S[i]<br>        out.append((char - (S[(S[i] + S[j]) % <span class="hljs-number">256</span>]^<span class="hljs-number">0x33</span>))%<span class="hljs-number">256</span>)<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">bytes</span>(out)<br><br>data = <span class="hljs-built_in">bytes</span>([<span class="hljs-number">0xf5</span>,<span class="hljs-number">0xcf</span>,<span class="hljs-number">0xc9</span>,<span class="hljs-number">0x90</span>,<span class="hljs-number">0xba</span>,<span class="hljs-number">0x79</span>,<span class="hljs-number">0xd6</span>,<span class="hljs-number">0xe3</span>,<span class="hljs-number">0x51</span>,<span class="hljs-number">0x22</span>,<span class="hljs-number">0xd5</span>,<span class="hljs-number">0x2c</span>,<span class="hljs-number">0x50</span>,<span class="hljs-number">0xe9</span>,<span class="hljs-number">0xf6</span>,<span class="hljs-number">0x99</span>,<span class="hljs-number">0x71</span>,<span class="hljs-number">0x4d</span>,<span class="hljs-number">0x7a</span>,<span class="hljs-number">0xde</span>,<span class="hljs-number">0xff</span>,<span class="hljs-number">0x44</span>,<span class="hljs-number">0xc5</span>,<span class="hljs-number">0xab</span>,<span class="hljs-number">0x19</span>,<span class="hljs-number">0x37</span>,<span class="hljs-number">0xac</span>,<span class="hljs-number">0xe8</span>,<span class="hljs-number">0x72</span>,<span class="hljs-number">0xb6</span>,<span class="hljs-number">0xa4</span>,<span class="hljs-number">0xe</span>,<span class="hljs-number">0x93</span>,<span class="hljs-number">0x86</span>,<span class="hljs-number">0x4b</span>,<span class="hljs-number">0xc3</span>,<span class="hljs-number">0x55</span>,<span class="hljs-number">0x36</span>,<span class="hljs-number">0x74</span>,<span class="hljs-number">0x19</span>,<span class="hljs-number">0x36</span>,<span class="hljs-number">0xa2</span>,<span class="hljs-number">0xaf</span>,<span class="hljs-number">0x45</span>])<br>key = <span class="hljs-string">b&#x27;th0s_i0_ke9&#x27;</span><br>decrypted = rc4(data, key)<br><span class="hljs-built_in">print</span>(decrypted)<br></code></pre></td></tr></table></figure>
+<p>混淆后的伪代码</p>
+<img src="/2026/03/12/tigress%E6%B7%B7%E6%B7%86c%E6%96%87%E4%BB%B6%E5%88%9D%E6%8E%A2/image-20260312223916947.png" srcset="/img/loading.gif" lazyload class="" title="image-20260312223916947">
+
+<p>混淆前的流程图</p>
+<img src="/2026/03/12/tigress%E6%B7%B7%E6%B7%86c%E6%96%87%E4%BB%B6%E5%88%9D%E6%8E%A2/image-20260312223755756.png" srcset="/img/loading.gif" lazyload class="" title="image-20260312223755756">
+
+<p>混淆前的伪代码</p>
+<img src="/2026/03/12/tigress%E6%B7%B7%E6%B7%86c%E6%96%87%E4%BB%B6%E5%88%9D%E6%8E%A2/image-20260312223945529.png" srcset="/img/loading.gif" lazyload class="" title="image-20260312223945529">
 
                 
               </div>
@@ -367,7 +421,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E6%AF%94%E8%B5%9Bwp/" class="category-chain-item">比赛wp</a>
+  <a href="/categories/%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/" class="category-chain-item">项目总结</a>
   
   
 
@@ -379,17 +433,6 @@
     </div>
   
   
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/rc4%E9%AD%94%E6%94%B9/" class="print-no-link">#rc4魔改</a>
-      
-        <a href="/tags/tea%E9%AD%94%E6%94%B9/" class="print-no-link">#tea魔改</a>
-      
-        <a href="/tags/%E8%84%B1%E5%A3%B3/" class="print-no-link">#脱壳</a>
-      
-    </div>
-  
 </div>
 
 
@@ -398,8 +441,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>DASCTF2024.10部分Reverse</div>
-      <div>https://j1ya-22.github.io/2024/10/19/DASCTF2024.10部分Reverse/</div>
+      <div>Tigress混淆c文件初探</div>
+      <div>https://j1ya-22.github.io/2026/03/12/tigress混淆c文件初探/</div>
     </div>
     <div class="license-meta">
       
@@ -411,7 +454,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年10月19日</div>
+          <div>2026年3月12日</div>
         </div>
       
       
@@ -443,18 +486,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/" title="花指令">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">花指令</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/10/16/IDA%E7%9B%B8%E5%85%B3/" title="IDA相关">
-                        <span class="hidden-mobile">IDA相关</span>
+                      <a href="/2026/01/29/%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/" title="格式化字符串漏洞简单总结">
+                        <span class="hidden-mobile">格式化字符串漏洞简单总结</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
