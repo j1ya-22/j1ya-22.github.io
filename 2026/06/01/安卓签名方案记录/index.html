@@ -16,18 +16,18 @@
   <meta name="author" content="j1ya">
   <meta name="keywords" content="">
   
-    <meta name="description" content="https:&#x2F;&#x2F;source.android.google.cn&#x2F;docs&#x2F;security&#x2F;features&#x2F;apksigning?hl&#x3D;zh-cn https:&#x2F;&#x2F;mp.weixin.qq.com&#x2F;s&#x2F;teBn6_hZVMGT6VlC1jevCg Android的签名机制是保障应用安全和完整性的重要环节，经历了多个版本的演进。目前主流的签名方案包括V1、V2、V3、V4四种，它们适用于不同的A">
+    <meta name="description" content="Android的签名机制是保障应用安全和完整性的重要环节，经历了多个版本的演进。目前主流的签名方案包括V1、V2、V3、V4四种，它们适用于不同的Android版本和应用场景 V1签名是最初的签名方案；为了提高验证速度与覆盖度，在Android7.0引入了V2；为了实现密钥轮转，在Android9.0引入了V3；为了增量apk安装，在Android11.0引入了V4 V1签名方案V1 签名会在 A">
 <meta property="og:type" content="article">
 <meta property="og:title" content="安卓签名方案记录">
 <meta property="og:url" content="https://j1ya-22.github.io/2026/06/01/%E5%AE%89%E5%8D%93%E7%AD%BE%E5%90%8D%E6%96%B9%E6%A1%88%E8%AE%B0%E5%BD%95/index.html">
 <meta property="og:site_name" content="j1ya">
-<meta property="og:description" content="https:&#x2F;&#x2F;source.android.google.cn&#x2F;docs&#x2F;security&#x2F;features&#x2F;apksigning?hl&#x3D;zh-cn https:&#x2F;&#x2F;mp.weixin.qq.com&#x2F;s&#x2F;teBn6_hZVMGT6VlC1jevCg Android的签名机制是保障应用安全和完整性的重要环节，经历了多个版本的演进。目前主流的签名方案包括V1、V2、V3、V4四种，它们适用于不同的A">
+<meta property="og:description" content="Android的签名机制是保障应用安全和完整性的重要环节，经历了多个版本的演进。目前主流的签名方案包括V1、V2、V3、V4四种，它们适用于不同的Android版本和应用场景 V1签名是最初的签名方案；为了提高验证速度与覆盖度，在Android7.0引入了V2；为了实现密钥轮转，在Android9.0引入了V3；为了增量apk安装，在Android11.0引入了V4 V1签名方案V1 签名会在 A">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://j1ya-22.github.io/2026/06/01/%E5%AE%89%E5%8D%93%E7%AD%BE%E5%90%8D%E6%96%B9%E6%A1%88%E8%AE%B0%E5%BD%95/1780219244834-bdd363e5-8365-409c-9d20-89be7c965091.png">
 <meta property="og:image" content="https://j1ya-22.github.io/2026/06/01/%E5%AE%89%E5%8D%93%E7%AD%BE%E5%90%8D%E6%96%B9%E6%A1%88%E8%AE%B0%E5%BD%95/1780219373504-f7cbdfbd-2734-40cf-9927-cbf914541781.png">
 <meta property="og:image" content="https://j1ya-22.github.io/2026/06/01/%E5%AE%89%E5%8D%93%E7%AD%BE%E5%90%8D%E6%96%B9%E6%A1%88%E8%AE%B0%E5%BD%95/1780219442264-497e6ed2-a6e8-4453-b5a2-8d12a0d82b2d.png">
 <meta property="article:published_time" content="2026-06-01T05:30:01.000Z">
-<meta property="article:modified_time" content="2026-06-01T05:33:02.679Z">
+<meta property="article:modified_time" content="2026-06-01T05:35:55.476Z">
 <meta property="article:author" content="j1ya">
 <meta property="article:tag" content="Android">
 <meta name="twitter:card" content="summary_large_image">
@@ -328,9 +328,7 @@
             
               <div class="markdown-body">
                 
-                <p><a target="_blank" rel="noopener" href="https://source.android.google.cn/docs/security/features/apksigning?hl=zh-cn">https://source.android.google.cn/docs/security/features/apksigning?hl=zh-cn</a></p>
-<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/teBn6_hZVMGT6VlC1jevCg">https://mp.weixin.qq.com/s/teBn6_hZVMGT6VlC1jevCg</a></p>
-<p>Android的签名机制是保障应用安全和完整性的重要环节，经历了多个版本的演进。目前主流的签名方案包括V1、V2、V3、V4四种，它们适用于不同的Android版本和应用场景</p>
+                <p>Android的签名机制是保障应用安全和完整性的重要环节，经历了多个版本的演进。目前主流的签名方案包括V1、V2、V3、V4四种，它们适用于不同的Android版本和应用场景</p>
 <p>V1签名是最初的签名方案；为了提高验证速度与覆盖度，在Android7.0引入了V2；为了实现密钥轮转，在Android9.0引入了V3；为了增量apk安装，在Android11.0引入了V4</p>
 <h1 id="V1签名方案"><a href="#V1签名方案" class="headerlink" title="V1签名方案"></a>V1签名方案</h1><p>V1 签名会在 APK 的 META-INF&#x2F; 目录中新增或更新签名相关文件，其中会包括以下三个文件：</p>
 <p>通常包括 MANIFEST.MF、一个或多个 *.SF，以及与其对应的 *.RSA &#x2F; *.DSA &#x2F; *.EC 签名块文件</p>
@@ -380,6 +378,9 @@
 <p>传统安装通常需要在 APK 完整下载后，再对其进行验签和安装。对于体积较大的应用，这会增加用户开始使用应用前的等待时间。Android 11 引入了增量文件系统 IncFS，并支持 <code>adb install --incremental</code>。V4 基于 APK 的全部字节构建符合 fs-verity 结构的 Merkle 哈希树，并通过受签名保护的根哈希作为校验基准。当安装或运行过程需要访问某个尚未完整下载的数据块时，系统可以按需接收该数据块及其对应的 Merkle 验证信息，并根据可信根哈希验证该数据块的完整性；验证通过后即可使用该数据块，其余数据可以继续按需传输</p>
 <p>因此，V4 支持的是“按需下载、按块验证”的能力。应用能够启动前实际需要下载的数据量并不是固定值，而是取决于应用结构、启动阶段所需的代码和资源，以及系统的数据加载策略</p>
 <p>与 V2&#x2F;V3 将签名信息嵌入 APK 内部不同，V4 签名存储在独立的 <code>&lt;apk name&gt;.apk.idsig</code> 文件中，并与 APK 一同传输。V4 签名需要 V2 或 V3 签名作为补充，其主要职责是为增量安装阶段提供适合流式加载的数据完整性校验能力；V2&#x2F;V3 则继续提供 APK 内部签名保护以及与签名者身份相关的验证基础</p>
+<p>参考链接：</p>
+<p><a target="_blank" rel="noopener" href="https://source.android.google.cn/docs/security/features/apksigning?hl=zh-cn">https://source.android.google.cn/docs/security/features/apksigning?hl=zh-cn</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/teBn6_hZVMGT6VlC1jevCg">https://mp.weixin.qq.com/s/teBn6_hZVMGT6VlC1jevCg</a></p>
 
                 
               </div>
