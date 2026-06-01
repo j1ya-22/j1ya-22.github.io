@@ -1,0 +1,805 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/China.jpg">
+  <link rel="icon" href="/img/China.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="j1ya">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="https:&#x2F;&#x2F;source.android.google.cn&#x2F;docs&#x2F;security&#x2F;features&#x2F;apksigning?hl&#x3D;zh-cn https:&#x2F;&#x2F;mp.weixin.qq.com&#x2F;s&#x2F;teBn6_hZVMGT6VlC1jevCg Android的签名机制是保障应用安全和完整性的重要环节，经历了多个版本的演进。目前主流的签名方案包括V1、V2、V3、V4四种，它们适用于不同的A">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安卓签名方案记录">
+<meta property="og:url" content="https://j1ya-22.github.io/2026/06/01/%E5%AE%89%E5%8D%93%E7%AD%BE%E5%90%8D%E6%96%B9%E6%A1%88%E8%AE%B0%E5%BD%95/index.html">
+<meta property="og:site_name" content="j1ya">
+<meta property="og:description" content="https:&#x2F;&#x2F;source.android.google.cn&#x2F;docs&#x2F;security&#x2F;features&#x2F;apksigning?hl&#x3D;zh-cn https:&#x2F;&#x2F;mp.weixin.qq.com&#x2F;s&#x2F;teBn6_hZVMGT6VlC1jevCg Android的签名机制是保障应用安全和完整性的重要环节，经历了多个版本的演进。目前主流的签名方案包括V1、V2、V3、V4四种，它们适用于不同的A">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://j1ya-22.github.io/2026/06/01/%E5%AE%89%E5%8D%93%E7%AD%BE%E5%90%8D%E6%96%B9%E6%A1%88%E8%AE%B0%E5%BD%95/1780219244834-bdd363e5-8365-409c-9d20-89be7c965091.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2026/06/01/%E5%AE%89%E5%8D%93%E7%AD%BE%E5%90%8D%E6%96%B9%E6%A1%88%E8%AE%B0%E5%BD%95/1780219373504-f7cbdfbd-2734-40cf-9927-cbf914541781.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2026/06/01/%E5%AE%89%E5%8D%93%E7%AD%BE%E5%90%8D%E6%96%B9%E6%A1%88%E8%AE%B0%E5%BD%95/1780219442264-497e6ed2-a6e8-4453-b5a2-8d12a0d82b2d.png">
+<meta property="article:published_time" content="2026-06-01T05:30:01.000Z">
+<meta property="article:modified_time" content="2026-06-01T05:33:02.679Z">
+<meta property="article:author" content="j1ya">
+<meta property="article:tag" content="Android">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://j1ya-22.github.io/2026/06/01/%E5%AE%89%E5%8D%93%E7%AD%BE%E5%90%8D%E6%96%B9%E6%A1%88%E8%AE%B0%E5%BD%95/1780219244834-bdd363e5-8365-409c-9d20-89be7c965091.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>安卓签名方案记录 - j1ya</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"j1ya-22.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":false,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"5oPqGOgpqzM186wdJq3YyrcV-gzGzoHsz","app_key":"tdZv3tC3tP1IszSKxEodRe6e","server_url":null,"path":"window.location.pathname","ignore_local":true}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>j1ya</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="安卓签名方案记录"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-06-01 13:30" pubdate>
+          2026年6月1日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          20 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">安卓签名方案记录</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p><a target="_blank" rel="noopener" href="https://source.android.google.cn/docs/security/features/apksigning?hl=zh-cn">https://source.android.google.cn/docs/security/features/apksigning?hl=zh-cn</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/teBn6_hZVMGT6VlC1jevCg">https://mp.weixin.qq.com/s/teBn6_hZVMGT6VlC1jevCg</a></p>
+<p>Android的签名机制是保障应用安全和完整性的重要环节，经历了多个版本的演进。目前主流的签名方案包括V1、V2、V3、V4四种，它们适用于不同的Android版本和应用场景</p>
+<p>V1签名是最初的签名方案；为了提高验证速度与覆盖度，在Android7.0引入了V2；为了实现密钥轮转，在Android9.0引入了V3；为了增量apk安装，在Android11.0引入了V4</p>
+<h1 id="V1签名方案"><a href="#V1签名方案" class="headerlink" title="V1签名方案"></a>V1签名方案</h1><p>V1 签名会在 APK 的 META-INF&#x2F; 目录中新增或更新签名相关文件，其中会包括以下三个文件：</p>
+<p>通常包括 MANIFEST.MF、一个或多个 *.SF，以及与其对应的 *.RSA &#x2F; *.DSA &#x2F; *.EC 签名块文件</p>
+<p>MANIFEST.MF是清单摘要文件，对apk中除META-INF外的每个文件逐个计算哈希摘要，并以base64编码后保存，用于确保每个文件的完整性</p>
+<p>*.SF是签名文件，用于记录 MANIFEST.MF 的摘要，以及 MANIFEST.MF 中各个条目 section 的摘要</p>
+<p>*.RSA &#x2F; *.DSA &#x2F; *.EC是签名块文件，使用私钥对.SF进行数字签名，并且将签名结果连同包含公钥的X.509证书一起保存，用于验证签名合法性，可以通过openssl命令查看公钥以及签名的信息</p>
+<ol>
+<li>V1签名校验时，首先会在META-INF目录下查找后缀名为.DSA或者.RSA或者.EC的签名文件，找到之后根据签名文件的文件名推测出.SF的文件名；</li>
+<li>之后读取.RSA的签名文件数据，构造出PKCS#7格式的对象pkcs7，并从其中的X.509证书中读取公钥、签名数据，使用证书中的公钥验证 PKCS#7&#x2F;CMS 签名，确认 *.SF 文件确实由对应私钥签出且内容未被篡改；</li>
+<li>计算MANIFEST.MF整个文件的摘要值，并且与.SF文件中记录的摘要值进行比较，如果相等，就可以肯定MANIFEST.MF文件没有被篡改，否则需要对MANIFEST.MF文件中的每个 manifest section计算摘要，依次与.SF文件记录的摘要进行比对，每一个都相等才能进行下一步；</li>
+<li>之后先读取AndroidManifest.xml的文件数据计算出摘要，与MANIFEST.MF记录的摘要进行比对，如果相等，继续遍历文件计算摘要值进行比对，全部相等则校验成功</li>
+</ol>
+<h1 id="V2签名方案"><a href="#V2签名方案" class="headerlink" title="V2签名方案"></a>V2签名方案</h1><p>V2签名方案是基于V1签名方案的不足提出的，在Android9引入。V1 签名通常不会保护 META-INF 目录下未被 MANIFEST.MF 登记的普通文件，因此攻击者新增 META-INF 下的额外文件，或修改某些未参与签名校验的 META-INF 普通文件，可能不会影响 V1 验签。此外，V1签名方案的apk安装速度较慢，因为需要解压并验证每个文件；同时内存占用较高，需要解压和缓存文件。</p>
+<p>V2签名方案是基于zip文件的特性，对整个apk文件进行签名，该方案能发现对受保护apk所有地方的更改。</p>
+<p>apk文件的大致结构如下图所示：</p>
+<img src="/2026/06/01/%E5%AE%89%E5%8D%93%E7%AD%BE%E5%90%8D%E6%96%B9%E6%A1%88%E8%AE%B0%E5%BD%95/1780219244834-bdd363e5-8365-409c-9d20-89be7c965091.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>首先apk开头存储了所有的压缩数据，包括资源文件、代码文件等信息；签名块则是apk签名的保存位置；中央目录则相当于压缩包的索引表，记录了压缩包里每一个文件的名字、大小、压缩方式、在包内的偏移等信息。</p>
+<p>zip文件解析时，首先需要找到中央目录结束的地方，会从文件末尾搜索0x06054b50；然后继续往前扫描，拿到中央目录条目总数，再把整块中央目录全部读进来；之后从前往后，根据每条索引，读取压缩的真实文件，所以签名块放在压缩数据和中央目录之间，不会影响压缩文件的解压</p>
+<img src="/2026/06/01/%E5%AE%89%E5%8D%93%E7%AD%BE%E5%90%8D%E6%96%B9%E6%A1%88%E8%AE%B0%E5%BD%95/1780219373504-f7cbdfbd-2734-40cf-9927-cbf914541781.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>所以V2签名方案是基于zip文件的特性，将签名块放在压缩目录与中央目录之间。而相对于V1签名方案来说，V2签名不再以文件为单位计算摘要了，而是以1MB为单位将APK 的受保护区域拆分成多个连续的块，计算每个块的摘要，并对所有摘要进行签名，最后添加X.509开发者数字证书。验签时首先取出公钥，用公钥验证区块2的签名；再用摘要集依次验证每一块数据的摘要</p>
+<p>V2签名的标志是在中央目录之前的标志位APK Sig Block 42，如果没有这个标志，则没有V2签名</p>
+<img src="/2026/06/01/%E5%AE%89%E5%8D%93%E7%AD%BE%E5%90%8D%E6%96%B9%E6%A1%88%E8%AE%B0%E5%BD%95/1780219442264-497e6ed2-a6e8-4453-b5a2-8d12a0d82b2d.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<p>假设一个 APK 同时具有 v1 和 v2 签名，攻击者如果删除其中的 v2 签名块，然后让 Android 7.0 设备只按照 v1 方案验证，可能绕过 v2 对 ZIP 结构的更强保护</p>
+<p>为防止这种降级攻击，AOSP 规范要求：带 v2 且同时带 v1 签名的 APK，应在 <code>META-INF/*.SF</code> 的主属性部分加入：X-Android-APK-Signed: 2。这样，支持 v2 的系统在执行 v1 验证时，如果发现该属性声明 APK 本应存在 v2 签名，而实际 v2 签名块不存在，就必须拒绝安装</p>
+<h1 id="V3签名方案"><a href="#V3签名方案" class="headerlink" title="V3签名方案"></a>V3签名方案</h1><p>V3签名方案是在9.0版本提出的，用于解决密钥轮转问题。V1和V2签名都不支持密钥轮转，当开发者需要更换新证书时，用户需要重新安装应用，否则会提示签名不一致，不可以直接覆盖安装</p>
+<p>V3签名和V2签名大致相同，也是对整体zip文件进行签名，同样位于 APK Signing Block 中，但使用不同的签名方案 ID</p>
+<p>V3签名比V2签名的签名块中多了一块attr块，存储证书链；V3 在 signed data 的 additional attributes 中加入 proof-of-rotation 记录，用于描述旧签名证书到新签名证书的轮转关系。系统只要在链中找到和已安装apk任意证书匹配的那一级，就允许覆盖安装，而且轮转一旦发布，旧私钥就可以废弃；以后再次轮转，只需要把本次的密钥当旧即可，链可无限加长。证书链则是用旧密钥给新证书&#x2F;公钥进行签名声明，再把这段声明和新证书一块放在apk中，验证中只要发现某个安装的证书能在这条链里找到节点即可</p>
+<p>原来APP使用证书 A：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs plain">旧版本 App v1：<br>APK 内容<br>当前签名证书：A<br>签名私钥：A_private<br></code></pre></td></tr></table></figure>
+
+<p>现在开发者要更换为证书 B，需要先持有：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plain">旧私钥：A_private<br>新私钥：B_private<br>新证书：B<br></code></pre></td></tr></table></figure>
+
+<p>然后生成新版本：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs plain">新版本 App v2：<br>APK 内容<br>当前签名证书：B<br>当前 APK 签名：使用 B_private 生成<br><br>proof-of-rotation：<br>A → B<br>其中 A → B 的授权签名：使用 A_private 生成<br></code></pre></td></tr></table></figure>
+
+<h1 id="V3-1签名方案"><a href="#V3-1签名方案" class="headerlink" title="V3.1签名方案"></a>V3.1签名方案</h1><p>V3 已经支持密钥轮转，但无法精确指定轮转从哪个 SDK 版本开始生效。V3.1签名方案在 Android 13.0提出，让新证书只在指定新系统上生效</p>
+<p>V3.1签名方案的核心作用是：允许开发者指定密钥轮转从哪个 Android SDK 版本开始生效。例如，一个应用原本使用旧证书 A 签名，现在希望从 Android 13 开始切换到新证书 B，此时 APK 中可以同时存在：</p>
+<ul>
+<li>V3签名块：使用旧证书 A，供 Android 9 ~ Android 12L 使用</li>
+<li>V3.1签名块：使用新证书 B，供 Android 13 及以上使用</li>
+</ul>
+<h1 id="V4签名方案"><a href="#V4签名方案" class="headerlink" title="V4签名方案"></a>V4签名方案</h1><p>V4 签名方案由 Android 11 引入，不取代 V2&#x2F;V3 方案，而是用于支持流式传输和增量安装场景下的完整性校验</p>
+<p>传统安装通常需要在 APK 完整下载后，再对其进行验签和安装。对于体积较大的应用，这会增加用户开始使用应用前的等待时间。Android 11 引入了增量文件系统 IncFS，并支持 <code>adb install --incremental</code>。V4 基于 APK 的全部字节构建符合 fs-verity 结构的 Merkle 哈希树，并通过受签名保护的根哈希作为校验基准。当安装或运行过程需要访问某个尚未完整下载的数据块时，系统可以按需接收该数据块及其对应的 Merkle 验证信息，并根据可信根哈希验证该数据块的完整性；验证通过后即可使用该数据块，其余数据可以继续按需传输</p>
+<p>因此，V4 支持的是“按需下载、按块验证”的能力。应用能够启动前实际需要下载的数据量并不是固定值，而是取决于应用结构、启动阶段所需的代码和资源，以及系统的数据加载策略</p>
+<p>与 V2&#x2F;V3 将签名信息嵌入 APK 内部不同，V4 签名存储在独立的 <code>&lt;apk name&gt;.apk.idsig</code> 文件中，并与 APK 一同传输。V4 签名需要 V2 或 V3 签名作为补充，其主要职责是为增量安装阶段提供适合流式加载的数据完整性校验能力；V2&#x2F;V3 则继续提供 APK 内部签名保护以及与签名者身份相关的验证基础</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%9F%A5%E8%AF%86%E7%82%B9/" class="category-chain-item">知识点</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Android/" class="print-no-link">#Android</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>安卓签名方案记录</div>
+      <div>https://j1ya-22.github.io/2026/06/01/安卓签名方案记录/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>j1ya</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年6月1日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/" title="APP流量安全与协议逆向工程实验部分记录">
+                        <span class="hidden-mobile">APP流量安全与协议逆向工程实验部分记录</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"5oPqGOgpqzM186wdJq3YyrcV-gzGzoHsz","appKey":"tdZv3tC3tP1IszSKxEodRe6e","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
