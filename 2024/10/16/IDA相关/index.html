@@ -16,28 +16,31 @@
   <meta name="author" content="j1ya">
   <meta name="keywords" content="">
   
-    <meta name="description" content="安装注意不要有中文路径 下面是7.7的全插件版，好像要从阿里网盘下 https:&#x2F;&#x2F;bbs.kanxue.com&#x2F;thread-276531.htm 吾爱破解上的8.3 https:&#x2F;&#x2F;down.52pojie.cn&#x2F;Tools&#x2F;Disassemblers&#x2F; 常见操作  插件简单说明findcrypt3用idapyswitch选择有yara-python的py版本，把findcrypt3.py和f">
+    <meta name="description" content="安装注意不要有中文路径 下面是7.7的全插件版，好像要从阿里网盘下 https:&#x2F;&#x2F;bbs.kanxue.com&#x2F;thread-276531.htm 吾爱破解上的8.3 https:&#x2F;&#x2F;down.52pojie.cn&#x2F;Tools&#x2F;Disassemblers&#x2F; 目前出现了9.0，还附加了一些插件安装方式 https:&#x2F;&#x2F;bbs.kanxue.com&#x2F;thread-285604.htm 插件简单说明f">
 <meta property="og:type" content="article">
-<meta property="og:title" content="IDA相关">
+<meta property="og:title" content="IDA 安装与常用插件配置记录">
 <meta property="og:url" content="https://j1ya-22.github.io/2024/10/16/IDA%E7%9B%B8%E5%85%B3/index.html">
 <meta property="og:site_name" content="j1ya">
-<meta property="og:description" content="安装注意不要有中文路径 下面是7.7的全插件版，好像要从阿里网盘下 https:&#x2F;&#x2F;bbs.kanxue.com&#x2F;thread-276531.htm 吾爱破解上的8.3 https:&#x2F;&#x2F;down.52pojie.cn&#x2F;Tools&#x2F;Disassemblers&#x2F; 常见操作  插件简单说明findcrypt3用idapyswitch选择有yara-python的py版本，把findcrypt3.py和f">
+<meta property="og:description" content="安装注意不要有中文路径 下面是7.7的全插件版，好像要从阿里网盘下 https:&#x2F;&#x2F;bbs.kanxue.com&#x2F;thread-276531.htm 吾爱破解上的8.3 https:&#x2F;&#x2F;down.52pojie.cn&#x2F;Tools&#x2F;Disassemblers&#x2F; 目前出现了9.0，还附加了一些插件安装方式 https:&#x2F;&#x2F;bbs.kanxue.com&#x2F;thread-285604.htm 插件简单说明f">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/10/16/IDA%E7%9B%B8%E5%85%B3/1723449748297-a4487684-a910-40c3-8de7-7922c1b5b5b9.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/10/16/IDA%E7%9B%B8%E5%85%B3/1713267818879-98476862-c91c-4ec2-8834-3e6597a91fe8.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/10/16/IDA%E7%9B%B8%E5%85%B3/1723448650692-68717c3d-d8c6-4cb7-997c-92604e1d0932.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/10/16/IDA%E7%9B%B8%E5%85%B3/1723448674509-2126c472-a0d5-4f9a-9976-41a4e4a34730.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/10/16/IDA%E7%9B%B8%E5%85%B3/1780366765541-be47870f-f189-49e7-8845-14a7480de82b.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/10/16/IDA%E7%9B%B8%E5%85%B3/1780366840610-44dbb4be-04ec-47d0-bf66-a90c6bee4704.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/10/16/IDA%E7%9B%B8%E5%85%B3/1780366892420-06c01368-5ea7-4516-9b4f-b888fb4eee68.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/10/16/IDA%E7%9B%B8%E5%85%B3/1780366977894-df06155d-d47a-448f-aae0-0a71d8c94dd2.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/10/16/IDA%E7%9B%B8%E5%85%B3/1713267818879-98476862-c91c-4ec2-8834-3e6597a91fe8-17803670852287.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/10/16/IDA%E7%9B%B8%E5%85%B3/1723448650692-68717c3d-d8c6-4cb7-997c-92604e1d0932-17803670852289.png">
+<meta property="og:image" content="https://j1ya-22.github.io/2024/10/16/IDA%E7%9B%B8%E5%85%B3/1723448674509-2126c472-a0d5-4f9a-9976-41a4e4a34730-178036708522811.png">
 <meta property="article:published_time" content="2024-10-16T12:33:54.000Z">
-<meta property="article:modified_time" content="2026-05-12T06:57:24.193Z">
+<meta property="article:modified_time" content="2026-06-02T02:30:55.652Z">
 <meta property="article:author" content="j1ya">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://j1ya-22.github.io/2024/10/16/IDA%E7%9B%B8%E5%85%B3/1723449748297-a4487684-a910-40c3-8de7-7922c1b5b5b9.png">
+<meta name="twitter:image" content="https://j1ya-22.github.io/2024/10/16/IDA%E7%9B%B8%E5%85%B3/1780366765541-be47870f-f189-49e7-8845-14a7480de82b.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>IDA相关 - j1ya</title>
+  <title>IDA 安装与常用插件配置记录 - j1ya</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -244,7 +247,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="IDA相关"></span>
+            <span id="subtitle" data-typed-text="IDA 安装与常用插件配置记录"></span>
           
         </div>
 
@@ -267,7 +270,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          250 字
+          413 字
         
       </span>
     
@@ -278,7 +281,7 @@
         
         
         
-          3 分钟
+          4 分钟
         
       </span>
     
@@ -323,7 +326,7 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">IDA相关</h1>
+            <h1 id="seo-header">IDA 安装与常用插件配置记录</h1>
             
             
               <div class="markdown-body">
@@ -333,26 +336,49 @@
 <p><a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-276531.htm">https://bbs.kanxue.com/thread-276531.htm</a></p>
 <p>吾爱破解上的8.3</p>
 <p><a target="_blank" rel="noopener" href="https://down.52pojie.cn/Tools/Disassemblers/">https://down.52pojie.cn/Tools/Disassemblers/</a></p>
-<h1 id="常见操作"><a href="#常见操作" class="headerlink" title="常见操作"></a>常见操作</h1><img src="/2024/10/16/IDA%E7%9B%B8%E5%85%B3/1723449748297-a4487684-a910-40c3-8de7-7922c1b5b5b9.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<p>目前出现了9.0，还附加了一些插件安装方式</p>
+<p><a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-285604.htm">https://bbs.kanxue.com/thread-285604.htm</a></p>
+<h1 id="插件简单说明"><a href="#插件简单说明" class="headerlink" title="插件简单说明"></a>插件简单说明</h1><h2 id="findcrypt3"><a href="#findcrypt3" class="headerlink" title="findcrypt3"></a>findcrypt3</h2><p>用于识别常见算法特征</p>
+<p>用idapyswitch选择有yara-python的py版本，把findcrypt3.py和findcrypt3.rules放到plugins目录</p>
+<h2 id="d810"><a href="#d810" class="headerlink" title="d810"></a>d810</h2><p>用于去ollvm混淆</p>
+<p>python3.7&amp;IDA7.7可以正常使用该插件</p>
+<h2 id="BinDiff"><a href="#BinDiff" class="headerlink" title="BinDiff"></a>BinDiff</h2><p>用于显示两个二进制文件的差别</p>
+<p>在安装时dll文件无论放在plugins目录下还是安装bindiff默认创建的IDAPro文件夹都不行</p>
+<img src="/2024/10/16/IDA%E7%9B%B8%E5%85%B3/1780366765541-be47870f-f189-49e7-8845-14a7480de82b.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
-<h1 id="插件简单说明"><a href="#插件简单说明" class="headerlink" title="插件简单说明"></a>插件简单说明</h1><h2 id="findcrypt3"><a href="#findcrypt3" class="headerlink" title="findcrypt3"></a>findcrypt3</h2><p>用idapyswitch选择有yara-python的py版本，把findcrypt3.py和findcrypt3.rules放到plugins目录</p>
-<h2 id="IDARustDemanager"><a href="#IDARustDemanager" class="headerlink" title="IDARustDemanager"></a>IDARustDemanager</h2><p><a target="_blank" rel="noopener" href="https://www.yuque.com/u34082223/swqzq3/asyrepf22ypc4ddp">https://www.yuque.com/u34082223/swqzq3/asyrepf22ypc4ddp</a></p>
-<h2 id="d810"><a href="#d810" class="headerlink" title="d810"></a>d810</h2><p>要用python3.7,7.7可行</p>
-<h2 id="易语言"><a href="#易语言" class="headerlink" title="易语言"></a>易语言</h2><p>[<a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-274271.htm">原创]IDA易语言反编译插件E-Decompiler-IDA Pro插件区-看雪-安全社区|安全招聘|kanxue.com</a></p>
-<p><a target="_blank" rel="noopener" href="https://github.com/fjqisba/E-Decompiler?tab=readme-ov-file">https://github.com/fjqisba/E-Decompiler?tab=readme-ov-file</a></p>
-<p>有编译好的文件在releases，按教程来就行,下面是7.7的patch，目前就7.7完全适配,8.3还是无法显示中文</p>
-<p><a target="_blank" rel="noopener" href="https://www.yuque.com/attachments/yuque/0/2024/zip/35612767/1727525756484-a7488b0f-95fb-4d72-94cc-37d90ae6bd6d.zip">📎ida7.7_patch.zip</a></p>
-<img src="/2024/10/16/IDA%E7%9B%B8%E5%85%B3/1713267818879-98476862-c91c-4ec2-8834-3e6597a91fe8.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<p>在学长的提醒下去看输出窗口的报错，默认用原来系统里有的dll</p>
+<img src="/2024/10/16/IDA%E7%9B%B8%E5%85%B3/1780366840610-44dbb4be-04ec-47d0-bf66-a90c6bee4704.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
-<h2 id="idagolanghelper"><a href="#idagolanghelper" class="headerlink" title="idagolanghelper"></a>idagolanghelper</h2><p>帮助恢复go语言的符号表，8.3好像默认会自动恢复符号表</p>
+<p>删去系统盘下的dll文件就会加载IDA目录下的dll文件</p>
+<img src="/2024/10/16/IDA%E7%9B%B8%E5%85%B3/1780366892420-06c01368-5ea7-4516-9b4f-b888fb4eee68.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<img src="/2024/10/16/IDA%E7%9B%B8%E5%85%B3/1780366977894-df06155d-d47a-448f-aae0-0a71d8c94dd2.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+
+
+<h2 id="idagolanghelper"><a href="#idagolanghelper" class="headerlink" title="idagolanghelper"></a>idagolanghelper</h2><p>用于恢复go语言的符号表，IDA8.3默认会自动恢复符号表</p>
 <p><a target="_blank" rel="noopener" href="https://github.com/renshareck/IDAGolangHelper_SupportGo1.20">https://github.com/renshareck/IDAGolangHelper_SupportGo1.20</a></p>
-<h2 id="Scylla"><a href="#Scylla" class="headerlink" title="Scylla"></a>Scylla</h2><p>8.3的ida也能用,下面的目前是能用的，7.7自带但是无法正常使用</p>
+<h2 id="IDARustDemanager"><a href="#IDARustDemanager" class="headerlink" title="IDARustDemanager"></a>IDARustDemanager</h2><p>用于还原 Rust 混淆后的函数符号名</p>
+<p><a target="_blank" rel="noopener" href="https://www.yuque.com/u34082223/swqzq3/asyrepf22ypc4ddp">https://www.yuque.com/u34082223/swqzq3/asyrepf22ypc4ddp</a></p>
+<h2 id="易语言"><a href="#易语言" class="headerlink" title="易语言"></a>易语言</h2><p>用于优化易语言程序的反编译结果</p>
+<p>[<a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-274271.htm">原创]IDA易语言反编译插件E-Decompiler-IDA Pro插件区-看雪-安全社区|安全招聘|kanxue.com</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/fjqisba/E-Decompiler?tab=readme-ov-file">https://github.com/fjqisba/E-Decompiler?tab=readme-ov-file</a></p>
+<p>有编译好的文件在releases，按教程来就行，下面是7.7的patch，目前就7.7完全适配，8.3还是无法显示中文</p>
+<p><a target="_blank" rel="noopener" href="https://www.yuque.com/attachments/yuque/0/2024/zip/35612767/1727525756484-a7488b0f-95fb-4d72-94cc-37d90ae6bd6d.zip">📎ida7.7_patch.zip</a></p>
+<img src="/2024/10/16/IDA%E7%9B%B8%E5%85%B3/1713267818879-98476862-c91c-4ec2-8834-3e6597a91fe8-17803670852287.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+
+
+
+
+<h2 id="Scylla"><a href="#Scylla" class="headerlink" title="Scylla"></a>Scylla</h2><p>用于隐藏调试器特征、绕过反调试检测</p>
+<p>8.3的IDA能用，7.7自带但是无法正常使用</p>
 <p><a target="_blank" rel="noopener" href="https://github.com/notify-bibi/ScyllaHide-IDA7.5">notify-bibi&#x2F;ScyllaHide-IDA7.5: ScyllaHide for IDA7.5; ScyllaHide IDA7.5; It is a really niccccccce anti-anti-debug tool (github.com)</a></p>
 <p>选择ScyllaHide</p>
-<img src="/2024/10/16/IDA%E7%9B%B8%E5%85%B3/1723448650692-68717c3d-d8c6-4cb7-997c-92604e1d0932.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img src="/2024/10/16/IDA%E7%9B%B8%E5%85%B3/1723448650692-68717c3d-d8c6-4cb7-997c-92604e1d0932-17803670852289.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
 <p>去反调试设置</p>
-<img src="/2024/10/16/IDA%E7%9B%B8%E5%85%B3/1723448674509-2126c472-a0d5-4f9a-9976-41a4e4a34730.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img src="/2024/10/16/IDA%E7%9B%B8%E5%85%B3/1723448674509-2126c472-a0d5-4f9a-9976-41a4e4a34730-178036708522811.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
                 
               </div>
@@ -391,7 +417,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>IDA相关</div>
+      <div>IDA 安装与常用插件配置记录</div>
       <div>https://j1ya-22.github.io/2024/10/16/IDA相关/</div>
     </div>
     <div class="license-meta">

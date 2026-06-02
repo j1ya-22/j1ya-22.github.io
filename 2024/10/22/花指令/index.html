@@ -16,12 +16,12 @@
   <meta name="author" content="j1ya">
   <meta name="keywords" content="">
   
-    <meta name="description" content="背景 线性扫描算法：逐行反汇编（无法将数据和内容进行区分） 递归下降算法：根据一条指令是否被另一条指令引用来决定是否对其进行反汇编（难以准确定位）  正是因为这两种反汇编的规格和缺陷机制，所以才导致了会有花指令的诞生 花指令简单的说就是在代码中混入一些垃圾数据阻碍你的静态分析   常见指令 0xE8 call + 4字节偏移地址 0xE9 jmp + 4字节偏移地址 0xEB jmp + 2字节偏">
+    <meta name="description" content="背景 线性扫描算法：逐行反汇编（无法将数据和内容进行区分） 递归下降算法：根据一条指令是否被另一条指令引用来决定是否对其进行反汇编（难以准确定位）  正是因为这两种反汇编的规格和缺陷机制，所以才导致花指令的诞生 花指令简单说就是在代码中混入一些垃圾数据阻碍静态分析   常见指令 0xE8 call + 4字节偏移地址 0xE9 jmp + 4字节偏移地址 0xEB jmp + 2字节偏移地址 0x">
 <meta property="og:type" content="article">
 <meta property="og:title" content="花指令">
 <meta property="og:url" content="https://j1ya-22.github.io/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/index.html">
 <meta property="og:site_name" content="j1ya">
-<meta property="og:description" content="背景 线性扫描算法：逐行反汇编（无法将数据和内容进行区分） 递归下降算法：根据一条指令是否被另一条指令引用来决定是否对其进行反汇编（难以准确定位）  正是因为这两种反汇编的规格和缺陷机制，所以才导致了会有花指令的诞生 花指令简单的说就是在代码中混入一些垃圾数据阻碍你的静态分析   常见指令 0xE8 call + 4字节偏移地址 0xE9 jmp + 4字节偏移地址 0xEB jmp + 2字节偏">
+<meta property="og:description" content="背景 线性扫描算法：逐行反汇编（无法将数据和内容进行区分） 递归下降算法：根据一条指令是否被另一条指令引用来决定是否对其进行反汇编（难以准确定位）  正是因为这两种反汇编的规格和缺陷机制，所以才导致花指令的诞生 花指令简单说就是在代码中混入一些垃圾数据阻碍静态分析   常见指令 0xE8 call + 4字节偏移地址 0xE9 jmp + 4字节偏移地址 0xEB jmp + 2字节偏移地址 0x">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://j1ya-22.github.io/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1690873982788-dd770c8d-bb78-4af2-823a-f2f07ccfb7d7-17318416670861.png">
 <meta property="og:image" content="https://j1ya-22.github.io/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1689132929883-c68c1e41-0162-4c74-913b-551c5afe5f80-17318416670873.png">
@@ -56,7 +56,7 @@
 <meta property="og:image" content="https://j1ya-22.github.io/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1700739191513-de253465-6cc9-4a7a-b634-9d64e2a4f19a-173184166708861.png">
 <meta property="og:image" content="https://j1ya-22.github.io/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1700739265623-36862cfa-dd7f-487e-8619-d168e782330b-173184166708863.png">
 <meta property="article:published_time" content="2024-10-22T03:36:26.000Z">
-<meta property="article:modified_time" content="2026-01-19T08:09:15.141Z">
+<meta property="article:modified_time" content="2026-06-02T01:54:20.547Z">
 <meta property="article:author" content="j1ya">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://j1ya-22.github.io/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1690873982788-dd770c8d-bb78-4af2-823a-f2f07ccfb7d7-17318416670861.png">
@@ -360,8 +360,8 @@
 <li>线性扫描算法：逐行反汇编（无法将数据和内容进行区分）</li>
 <li>递归下降算法：根据一条指令是否被另一条指令引用来决定是否对其进行反汇编（难以准确定位）</li>
 </ul>
-<p>正是因为这两种反汇编的规格和缺陷机制，所以才导致了会有花指令的诞生</p>
-<p><strong>花指令简单的说就是在代码中混入一些垃圾数据阻碍你的静态分析</strong></p>
+<p>正是因为这两种反汇编的规格和缺陷机制，所以才导致花指令的诞生</p>
+<p><strong>花指令简单说就是在代码中混入一些垃圾数据阻碍静态分析</strong></p>
 <img src="/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1690873982788-dd770c8d-bb78-4af2-823a-f2f07ccfb7d7-17318416670861.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
 <h3 id="常见指令"><a href="#常见指令" class="headerlink" title="常见指令"></a>常见指令</h3><ul>
