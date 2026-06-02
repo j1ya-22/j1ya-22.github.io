@@ -16,19 +16,19 @@
   <meta name="author" content="j1ya">
   <meta name="keywords" content="">
   
-    <meta name="description" content="used for a reverse problem named sm4 in MoeCTF2024 当题目给了解密函数或者加解密对称的函数有一些特殊的方法，可以不去逆算法    **4C**: 这是 REX 前缀，用于扩展寄存器和操作数的大小。4C 指定了指令使用扩展的 64 位寄存器（在此指令中为 r8），并且涉及到 r8 这一高位寄存器 **8D**: 这是 LEA指令的操作码 **45 1">
+    <meta name="description" content="sm4-MoeCTF2024当题目给了解密函数或者加解密对称的函数有一些特殊的方法，可以不去逆算法    **4C**: 这是 REX 前缀，用于扩展寄存器和操作数的大小。4C 指定了指令使用扩展的 64 位寄存器（在此指令中为 r8），并且涉及到 r8 这一高位寄存器 **8D**: 这是 LEA指令的操作码 **45 10**: 这是操作数的 ModR&#x2F;M 字节和位移量。45 表示目">
 <meta property="og:type" content="article">
-<meta property="og:title" content="patch">
+<meta property="og:title" content="Reverse题中的Patch技巧：修改数据流复用程序解密逻辑">
 <meta property="og:url" content="https://j1ya-22.github.io/2025/02/05/patch/index.html">
 <meta property="og:site_name" content="j1ya">
-<meta property="og:description" content="used for a reverse problem named sm4 in MoeCTF2024 当题目给了解密函数或者加解密对称的函数有一些特殊的方法，可以不去逆算法    **4C**: 这是 REX 前缀，用于扩展寄存器和操作数的大小。4C 指定了指令使用扩展的 64 位寄存器（在此指令中为 r8），并且涉及到 r8 这一高位寄存器 **8D**: 这是 LEA指令的操作码 **45 1">
+<meta property="og:description" content="sm4-MoeCTF2024当题目给了解密函数或者加解密对称的函数有一些特殊的方法，可以不去逆算法    **4C**: 这是 REX 前缀，用于扩展寄存器和操作数的大小。4C 指定了指令使用扩展的 64 位寄存器（在此指令中为 r8），并且涉及到 r8 这一高位寄存器 **8D**: 这是 LEA指令的操作码 **45 10**: 这是操作数的 ModR&#x2F;M 字节和位移量。45 表示目">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://j1ya-22.github.io/2025/02/05/patch/1724231748225-bb19b32d-2991-4049-8f97-acc29d85d459.png">
 <meta property="og:image" content="https://j1ya-22.github.io/2025/02/05/patch/1724231033107-e06ceffd-7d82-49af-9660-e9ea668816c9.png">
 <meta property="og:image" content="https://j1ya-22.github.io/2025/02/05/patch/1724144757695-5141af2c-9c55-43a9-a4d2-c56ffa3e62d4.png">
 <meta property="og:image" content="https://j1ya-22.github.io/2025/02/05/patch/1724228737010-235a7104-10ec-47aa-9b54-9978af1259d8.png">
 <meta property="article:published_time" content="2025-02-05T09:04:09.000Z">
-<meta property="article:modified_time" content="2025-03-17T06:21:35.866Z">
+<meta property="article:modified_time" content="2026-06-02T01:43:22.316Z">
 <meta property="article:author" content="j1ya">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://j1ya-22.github.io/2025/02/05/patch/1724231748225-bb19b32d-2991-4049-8f97-acc29d85d459.png">
@@ -37,7 +37,7 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>patch - j1ya</title>
+  <title>Reverse题中的Patch技巧：修改数据流复用程序解密逻辑 - j1ya</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -244,7 +244,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="patch"></span>
+            <span id="subtitle" data-typed-text="Reverse题中的Patch技巧：修改数据流复用程序解密逻辑"></span>
           
         </div>
 
@@ -267,7 +267,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          292 字
+          293 字
         
       </span>
     
@@ -323,13 +323,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">patch</h1>
+            <h1 id="seo-header">Reverse题中的Patch技巧：修改数据流复用程序解密逻辑</h1>
             
             
               <div class="markdown-body">
                 
-                <p>used for a reverse problem named sm4 in MoeCTF2024</p>
-<p>当题目给了解密函数或者加解密对称的函数有一些特殊的方法，可以不去逆算法</p>
+                <h1 id="sm4-MoeCTF2024"><a href="#sm4-MoeCTF2024" class="headerlink" title="sm4-MoeCTF2024"></a>sm4-MoeCTF2024</h1><p>当题目给了解密函数或者加解密对称的函数有一些特殊的方法，可以不去逆算法</p>
 <img src="/2025/02/05/patch/1724231748225-bb19b32d-2991-4049-8f97-acc29d85d459.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
 <ul>
@@ -386,7 +385,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>patch</div>
+      <div>Reverse题中的Patch技巧：修改数据流复用程序解密逻辑</div>
       <div>https://j1ya-22.github.io/2025/02/05/patch/</div>
     </div>
     <div class="license-meta">
