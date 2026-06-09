@@ -28,7 +28,7 @@
 <meta property="og:image" content="https://j1ya-22.github.io/2026/06/08/eBPF%E5%88%9D%E6%8E%A2/1780826245677-0f0d6b0d-8ef1-4174-90a8-64fc060c501a.png">
 <meta property="og:image" content="https://j1ya-22.github.io/2026/06/08/eBPF%E5%88%9D%E6%8E%A2/1780829648273-3425a797-2582-4b76-90e5-945c25dd8389.png">
 <meta property="article:published_time" content="2026-06-08T14:31:06.000Z">
-<meta property="article:modified_time" content="2026-06-08T14:32:59.242Z">
+<meta property="article:modified_time" content="2026-06-09T04:36:04.481Z">
 <meta property="article:author" content="j1ya">
 <meta property="article:tag" content="Android">
 <meta name="twitter:card" content="summary_large_image">
@@ -268,7 +268,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.2k 字
+          2.3k 字
         
       </span>
     
@@ -352,6 +352,11 @@
 <img src="/2026/06/08/eBPF%E5%88%9D%E6%8E%A2/1780829648273-3425a797-2582-4b76-90e5-945c25dd8389.png" srcset="/img/loading.gif" lazyload class="" title="img">
 
 <h1 id="常见-eBPF-开发库"><a href="#常见-eBPF-开发库" class="headerlink" title="常见 eBPF 开发库"></a>常见 eBPF 开发库</h1><p>libbpf 是 C 生态的主流库，负责加载、验证、attach BPF 对象，并支持 skeleton、CO-RE 等能力；cilium&#x2F;ebpf 是 Go 生态的纯 Go eBPF 库，常配合 bpf2go 把 C 写的 BPF 程序编译并嵌入 Go 用户态程序，不是简单封装 libbpf</p>
+<h1 id="CTF应用"><a href="#CTF应用" class="headerlink" title="CTF应用"></a>CTF应用</h1><p>下面是一些国外比赛用到eBPF的链接，有些接近于realworld</p>
+<p><a target="_blank" rel="noopener" href="https://hemslo.io/ebpf-summit-2023-ctf-writeup/">https://hemslo.io/ebpf-summit-2023-ctf-writeup/</a></p>
+<p><a target="_blank" rel="noopener" href="https://medium.com/%400xfury/backdoor-ctf-2023-reverse-challenges-10bb58aa9aa1https://ortiz.sh/bpf/2021/12/02/THE-HIVE.html">https://medium.com/%400xfury/backdoor-ctf-2023-reverse-challenges-10bb58aa9aa1https://ortiz.sh/bpf/2021/12/02/THE-HIVE.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://zaratec.io/google2023-totally-not-bruteforce-1641c08c1dd655e5803fa105818c2bfc/">https://zaratec.io/google2023-totally-not-bruteforce-1641c08c1dd655e5803fa105818c2bfc/</a></p>
+<p><a target="_blank" rel="noopener" href="https://mem2019.github.io/jekyll/update/2021/07/19/GCTF2021-eBPF.html">https://mem2019.github.io/jekyll/update/2021/07/19/GCTF2021-eBPF.html</a></p>
 <h1 id="逆向实战场景"><a href="#逆向实战场景" class="headerlink" title="逆向实战场景"></a>逆向实战场景</h1><h2 id="反调试与反注入行为分析"><a href="#反调试与反注入行为分析" class="headerlink" title="反调试与反注入行为分析"></a>反调试与反注入行为分析</h2><p>很多 App 会通过 ptrace、prctl、kill&#x2F;tgkill、clone、seccomp、读取 &#x2F;proc&#x2F;self&#x2F;status、读取 &#x2F;proc&#x2F;self&#x2F;maps 等方式检测调试器、Frida、Xposed、Magisk 或异常运行环境</p>
 <p>使用 eBPF 可以在 syscall 或内核函数层观察这些行为。例如通过 raw_syscalls&#x2F;sys_enter 和 raw_syscalls&#x2F;sys_exit 观察系统调用号、参数和返回值；通过 kprobe 观察内核文件打开路径；通过 uprobe 观察 libc 或目标 so 中的关键函数调用</p>
 <h2 id="Root-检测与环境检测分析"><a href="#Root-检测与环境检测分析" class="headerlink" title="Root 检测与环境检测分析"></a>Root 检测与环境检测分析</h2><p>Root 检测通常会访问一些敏感路径或系统属性，例如 &#x2F;system&#x2F;bin&#x2F;su、&#x2F;system&#x2F;xbin&#x2F;su、&#x2F;sbin&#x2F;su、Magisk 相关路径、&#x2F;proc&#x2F;self&#x2F;mounts、&#x2F;proc&#x2F;self&#x2F;maps、&#x2F;proc&#x2F;self&#x2F;status 等<br>eBPF 可以监控 openat、faccessat、readlinkat、newfstatat、getdents64 等文件相关 syscall，记录目标 App 是否访问了这些路径、访问结果是什么、返回值是否表示文件存在</p>
@@ -368,7 +373,7 @@
 <p>eBPF 可以观察文件权限检查、进程凭据、UID&#x2F;GID、capability、部分 LSM&#x2F;security hook 相关路径，辅助判断目标 App 是否在做环境识别或权限探测，例如可以关注 security_file_open、security_inode_permission、cap_capable、getuid、getgid、geteuid、stat、access 等相关行为。需要注意的是，LSM&#x2F;security 相关 hook 点在不同 Android 内核上的可用性差异较大，实际使用前需要先确认符号是否存在、kprobe&#x2F;fentry 是否可挂，以及当前设备是否允许加载对应类型的 eBPF 程序</p>
 <h2 id="辅助-dump-dex"><a href="#辅助-dump-dex" class="headerlink" title="辅助 dump dex"></a>辅助 dump dex</h2><p>基本思路是用 uprobe 挂到libart.so 的关键函数，在 DexFile 被加载、验证或解释执行时捕获 DexFile 的内存地址和大小，再由用户态读取目标进程内存并落盘。它的优势是不需要像 Frida 那样注入目标进程，也不依赖 ptrace 长时间附加；限制是依赖 Android 版本、libart 符号&#x2F;偏移、root 权限、SELinux&#x2F;内核配置，并且对代码抽取、主动调用类脱壳不一定能完全替代传统方案</p>
 <h1 id="eBPF-限制"><a href="#eBPF-限制" class="headerlink" title="eBPF 限制"></a>eBPF 限制</h1><p>Android 上使用 eBPF 通常需要 root 权限，并且依赖内核配置是否开启 BTF、kprobe、tracepoint、fentry&#x2F;fexit、ringbuf 等能力。不同 Android 版本、不同厂商内核支持情况差异较大，因此实际使用前需要先检查内核能力，例如是否存在 <code>/sys/kernel/btf/vmlinux</code>，以及目标 attach 点是否可用</p>
-<p>另外，eBPF 更适合观察系统层行为，不一定能直接还原 Java 层方法名、业务参数语义。uprobe 虽然不需要注入目标进程，但也不应简单理解为完全无痕，面对强对抗场景仍然可能被检测</p>
+<p>另外，eBPF 更适合观察系统层行为，不一定能直接还原 Java 层方法名、业务参数语义。uprobe 虽然不需要注入目标进程，但也不应简单理解为完全无痕，面对强对抗场景仍然可能被检测，例如：<a target="_blank" rel="noopener" href="https://www.cnxct.com/defeating-ebpf-uprobe-monitoring/">https://www.cnxct.com/defeating-ebpf-uprobe-monitoring/</a></p>
 <p>参考链接：</p>
 <p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV17hBQBqEda">https://www.bilibili.com/video/BV17hBQBqEda</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1bQLt6KES1">https://www.bilibili.com/video/BV1bQLt6KES1</a></p>
