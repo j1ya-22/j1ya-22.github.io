@@ -385,7 +385,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2025/06/29/%E4%BC%AA%E9%9A%8F%E6%9C%BA%E6%95%B0%E6%80%BB%E7%BB%93/" target="_self">
         <div>
-          windows与linux下的随机数机制是不一样的，如果给的是elf文件要求随机序列，需要在linux下编译 C一般先设置种子srand(0)，然后调用rand 前后两次调用rand生成的随机数不同 动调获取随机序列2024geek flower 2024CISCN gdb_debug 爆破seedhttps://mp.weixin.qq.com/s/3PZK2O2PftCqr2mS7vn5wA
+          windows与linux下的随机数生成机制不一样，如果给的是elf文件要求随机序列，需要在linux下编译 C一般先设置种子srand(seed)，之后调用rand函数；如果没有调用srand函数则默认seed为1 需要注意rand是有内部状态的伪随机数生成器，每调用一次rand，内部状态就会更新一次， 下一次rand会基于更新后的状态继续生成下一个数   动调获取随机序列2024geek-fl
         </div>
       </a>
 
