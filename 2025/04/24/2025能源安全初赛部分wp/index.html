@@ -1,826 +1,1110 @@
-
-
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=auto>
-
-
-
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/China.jpg">
-  <link rel="icon" href="/img/China.jpg">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-  <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="j1ya">
-  <meta name="keywords" content="">
-  
-    <meta name="description" content="一整天打比赛真的好累，晚上十点只想上床睡觉😥 能源行业lava二血 die发现有upx壳   修补upx特征码       脱壳之后发现是rc4   init有魔改   按伪c一直得不到正确的S盒，直接提取初始化后的s盒   123456789101112131415161718192021222324252627282930313233343536373839404142434445464">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    
+    <meta name="author" content="j1ya">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://j1ya-22.github.io/2025/04/24/2025能源安全初赛部分wp/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="2025能源安全初赛部分wp">
 <meta property="og:url" content="https://j1ya-22.github.io/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/index.html">
 <meta property="og:site_name" content="j1ya">
-<meta property="og:description" content="一整天打比赛真的好累，晚上十点只想上床睡觉😥 能源行业lava二血 die发现有upx壳   修补upx特征码       脱壳之后发现是rc4   init有魔改   按伪c一直得不到正确的S盒，直接提取初始化后的s盒   123456789101112131415161718192021222324252627282930313233343536373839404142434445464">
+<meta property="og:description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744882807533-2dfe600a-dbb8-4ffa-9164-2447f340b340.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744853315645-719ccb3a-8db6-4037-a20c-f4e489a502a2.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744855385753-6554fb5f-766a-431c-8e77-290089ca1cd1.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744855371495-4de55fd3-bf10-424f-aa00-1d2fa0abd223.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744855321134-ed6e7f5b-9da7-4db7-b4bd-6a9852a352f9.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744855416132-6212feb3-55bd-4c48-aeab-571876810707.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744855425584-2f323cef-cfa9-49db-ba66-bb6cb40c6bb9.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744855303794-73ed07a8-88fe-472d-8cd8-6a8821ae59b5.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744883133737-7f7301bc-dda8-49e8-b52d-500ba10b172a.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744872536742-804d5a1d-c2ba-4ac6-bb54-b720a8151f8f.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744940695110-ead57687-804f-47e2-878f-389666c43846.png">
+<meta property="og:image" content="https://j1ya-22.github.io/images/redefine-og.webp">
 <meta property="article:published_time" content="2025-04-24T03:48:28.000Z">
 <meta property="article:modified_time" content="2025-04-24T03:49:55.266Z">
 <meta property="article:author" content="j1ya">
 <meta property="article:tag" content="rc4魔改">
 <meta property="article:tag" content="数论">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://j1ya-22.github.io/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744882807533-2dfe600a-dbb8-4ffa-9164-2447f340b340.png">
-  
-  
-    <meta name="referrer" content="no-referrer-when-downgrade">
-  
-  
-  <title>2025能源安全初赛部分wp - j1ya</title>
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
-
-
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-<!-- Do not modify the link that theme dependent icons -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
-
-
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
-
-
-<link  rel="stylesheet" href="/css/main.css" />
-
-
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
-  
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
-  
-
-
-
-
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"j1ya-22.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":false,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"5oPqGOgpqzM186wdJq3YyrcV-gzGzoHsz","app_key":"tdZv3tC3tP1IszSKxEodRe6e","server_url":null,"path":"window.location.pathname","ignore_local":true}},"search_path":"/local-search.xml","include_content_in_search":true};
-
-    if (CONFIG.web_analytics.follow_dnt) {
-      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
-      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
-    }
-  </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
-  
-
-  
-
-  
-    <!-- Google tag (gtag.js) -->
-    <script async>
-      if (!Fluid.ctx.dnt) {
-        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
-          window.dataLayer = window.dataLayer || [];
-          function gtag() {
-            dataLayer.push(arguments);
-          }
-          gtag('js', new Date());
-          gtag('config', '');
-        });
-      }
-    </script>
-  
-
-  
-
-  
-
-  
-
-  
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://j1ya-22.github.io/images/redefine-og.webp">
     
-  
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/img/China.jpg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/China.jpg">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/img/China.jpg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            2025能源安全初赛部分wp | j1ya&#39;s blog
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
 
 
+    <!--- Inject Part-->
+    
 
-  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"j1ya-22.github.io","root":"/","language":"zh-CN"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":"Hexo Theme Redefine, Redefine Your Hexo Journey."},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"<span style=\"display:none\"></span>","subtitle":{"text":["There is only one heroism in the world:<br>to see the world as it is, and to love it."],"hitokoto":{"enable":false,"show_author":false,"api":"https://v1.hitokoto.cn"},"typing_speed":80,"backing_speed":80,"starting_delay":500,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.4rem","subtitle_size":"2.35rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"style":"default","links":[{"icon":"fa-brands fa-github","url":null},{"icon":"fa-brands fa-twitter","url":null},{"icon":"fa-solid fa-at","url":"you@example.com"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Archives":{"path":"/archives/","icon":"fa-regular fa-archive"},"Categories":{"path":"/categories/","icon":"fa-regular fa-folder"},"Tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"About":{"icon":"fa-regular fa-user","path":"/about/"},"Friends":{"path":"/links/","icon":"fa-solid fa-link"}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":null},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-heart fa-beat\" style=\"--fa-animation-duration: 0.5s; color: #f54545\"></i>","start":"2022/8/17 11:45:14","statistics":true,"customize":null,"icp":{"enable":false,"number":null,"url":null}},"footerStart":"2022/8/17 11:45:14","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.i18n = {"search":"站内搜索您需要的内容...","toc":"目录","prev":"上一页","next":"下一页","prev_posts":"上一篇","next_posts":"下一篇","page":"第 %d 页","recent_posts":"最新文章","share":"分享","powered_by":"由 %s 驱动","theme":"主题","rss_feed":"RSS Feed","category":"分类","categories":"分类","tag":"标签","tags":"标签","post":"文章","posts":"文章","tagcloud":"标签云","comment":"评论","comments":"评论","top":"置顶","sticky":"置顶","go-back-home":"回到首页","masonry_loading":"照片加载中...","image_viewer":"图片查看器","close":"关闭","exif":{"title":"EXIF","cards":{"camera":"相机","lens":"镜头","exposure":"曝光","other":"其他"},"fields":{"make":"品牌","model":"机型","date_taken":"拍摄时间","lens_model":"镜头","focal_length":"焦距","focus_mode":"对焦模式","shutter":"快门","aperture":"光圈","iso":"感光度","exposure_program":"曝光程序","exposure_compensation":"曝光补偿","metering_mode":"测光模式","flash":"闪光灯","white_balance":"白平衡","latitude":"纬度","longitude":"经度","altitude":"海拔"},"status":{"loading":"加载中...","no_exif":"无 EXIF 信息","library_missing":"EXIF 库未加载","image_source_missing":"图片地址不可用","unavailable":"EXIF 不可用（可能被 CORS 阻止或缺少元数据）","flag_unavailable":"EXIF 不可用"}},"home":"首页","archive":"归档","archives":"归档","about":"关于","links":"链接","link":"链接","friends":"友情链接","friend":"友情链接","timeline":"时间轴","shuoshuo":"说说","bookmarks":"书签","site_uv":"访问人数","site_pv":"总访问量","read_more":"阅读全文","wordcount":"字","min2read":"分钟","changelog":"更新日志","status":"状态","runtime":"博客已运行","days":"天","hours":"小时","minutes":"分钟","seconds":"秒","optimized_by":"并由 Evan 进行优化","rights":"版权所有","site_posts":"共撰写了 %s 篇文章","site_wordcount":"共 %s 字","copyright":{"title":"标题","author":"作者","link":"链接","create_time":"创建于","update_time":"更新于","license_title":"版权声明","license_content":"本文章采用 %s 进行许可。","all_rights_reserved":"版权所有 &#169 %s，禁止转载。","public_domain":"本文为公有领域作品，可自由转载、引用。"},"ago":{"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"},"create_time":"创建","update_time":"更新","expired":"这篇文章最后更新于 %s 天前，内容可能已经过时。"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
 <meta name="generator" content="Hexo 7.0.0"></head>
 
 
 <body>
-  
+	<div class="progress-bar-container">
+	
 
-  <header>
-    
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
 
-<div class="header-inner" style="height: 70vh;">
-  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <strong>j1ya</strong>
-    </a>
+<main class="page-container" id="swup">
 
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
+	
 
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/" target="_self">
-                <i class="iconfont icon-home-fill"></i>
-                <span>首页</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/" target="_self">
-                <i class="iconfont icon-archive-fill"></i>
-                <span>归档</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/" target="_self">
-                <i class="iconfont icon-category-fill"></i>
-                <span>分类</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/" target="_self">
-                <i class="iconfont icon-tags-fill"></i>
-                <span>标签</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/" target="_self">
-                <i class="iconfont icon-user-fill"></i>
-                <span>关于</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/links/" target="_self">
-                <i class="iconfont icon-link-fill"></i>
-                <span>友链</span>
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              <i class="iconfont icon-search"></i>
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                j1ya&#39;s blog
+                
             </a>
-          </li>
-          
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
-              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
-            </a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-</nav>
-
-  
-
-<div id="banner" class="banner" parallax=true
-     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
-  <div class="full-bg-img">
-    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-      <div class="banner-text text-center fade-in-up">
-        <div class="h2">
-          
-            <span id="subtitle" data-typed-text="2025能源安全初赛部分wp"></span>
-          
         </div>
 
-        
-          
-  <div class="mt-3">
-    
-    
-      <span class="post-meta">
-        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-04-24 11:48" pubdate>
-          2025年4月24日 中午
-        </time>
-      </span>
-    
-  </div>
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
 
-  <div class="mt-1">
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-chart"></i>
-        
-          2.9k 字
-        
-      </span>
-    
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
 
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-clock-fill"></i>
-        
-        
-        
-          25 分钟
-        
-      </span>
-    
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-    
-    
-      
-        <span id="busuanzi_container_page_pv" style="display: none">
-          <i class="iconfont icon-eye" aria-hidden="true"></i>
-          <span id="busuanzi_value_page_pv"></span> 次
-        </span>
-        
-      
-    
-  </div>
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/archives/"
+                                        >
+                                    <i class="fa-regular fa-archive fa-fw"></i>
+                                    归档
+                                    
+                                </a>
 
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-        
-      </div>
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/categories/"
+                                        >
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    分类
+                                    
+                                </a>
 
-      
-    </div>
-  </div>
-</div>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-</div>
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/tags/"
+                                        >
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    标签
+                                    
+                                </a>
 
-  </header>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-  <main>
-    
-      
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/about/"
+                                        >
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
 
-<div class="container-fluid nopadding-x">
-  <div class="row nomargin-x">
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-    </div>
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/links/"
+                                        >
+                                    <i class="fa-solid fa-link fa-fw"></i>
+                                    友情链接
+                                    
+                                </a>
 
-    <div class="col-lg-8 nopadding-x-md">
-      <div class="container nopadding-x-md" id="board-ctn">
-        <div id="board">
-          <article class="post-content mx-auto">
-            <h1 id="seo-header">2025能源安全初赛部分wp</h1>
-            
-            
-              <div class="markdown-body">
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
                 
-                <img src="/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744882807533-2dfe600a-dbb8-4ffa-9164-2447f340b340.png" srcset="/img/loading.gif" lazyload class="" title="img">
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/archives/"
+                        >
+                            <span>
+                                归档
+                            </span>
+                            
+                                <i class="fa-regular fa-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/categories/"
+                        >
+                            <span>
+                                分类
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/tags/"
+                        >
+                            <span>
+                                标签
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/about/"
+                        >
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/links/"
+                        >
+                            <span>
+                                友情链接
+                            </span>
+                            
+                                <i class="fa-solid fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">51</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">5</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">79</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			<div class="w-full flex items-center pt-6 justify-start">
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">2025能源安全初赛部分wp</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/img/China.jpg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">j1ya</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv5</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2025-04-24 11:48:28</span>
+        <span class="mobile">2025-04-24 11:48:28</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2025-04-24 11:49:55</span>
+            <span class="mobile">2025-04-24 11:49:55</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E6%AF%94%E8%B5%9Bwp/">比赛wp</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/rc4%E9%AD%94%E6%94%B9/">rc4魔改</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E6%95%B0%E8%AE%BA/">数论</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744882807533-2dfe600a-dbb8-4ffa-9164-2447f340b340.png"
+                      class="" title="img"
+                >
 
 <p>一整天打比赛真的好累，晚上十点只想上床睡觉😥</p>
 <h1 id="能源行业"><a href="#能源行业" class="headerlink" title="能源行业"></a>能源行业</h1><h2 id="lava"><a href="#lava" class="headerlink" title="lava"></a>lava</h2><p>二血</p>
 <p>die发现有upx壳</p>
-<img src="/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744853315645-719ccb3a-8db6-4037-a20c-f4e489a502a2.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744853315645-719ccb3a-8db6-4037-a20c-f4e489a502a2.png"
+                      class="" title="img"
+                >
 
 <p>修补upx特征码</p>
-<img src="/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744855385753-6554fb5f-766a-431c-8e77-290089ca1cd1.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744855385753-6554fb5f-766a-431c-8e77-290089ca1cd1.png"
+                      class="" title="img"
+                >
 
-<img src="/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744855371495-4de55fd3-bf10-424f-aa00-1d2fa0abd223.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744855371495-4de55fd3-bf10-424f-aa00-1d2fa0abd223.png"
+                      class="" title="img"
+                >
 
-<img src="/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744855321134-ed6e7f5b-9da7-4db7-b4bd-6a9852a352f9.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744855321134-ed6e7f5b-9da7-4db7-b4bd-6a9852a352f9.png"
+                      class="" title="img"
+                >
 
 <p>脱壳之后发现是rc4</p>
-<img src="/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744855416132-6212feb3-55bd-4c48-aeab-571876810707.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744855416132-6212feb3-55bd-4c48-aeab-571876810707.png"
+                      class="" title="img"
+                >
 
 <p>init有魔改</p>
-<img src="/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744855425584-2f323cef-cfa9-49db-ba66-bb6cb40c6bb9.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744855425584-2f323cef-cfa9-49db-ba66-bb6cb40c6bb9.png"
+                      class="" title="img"
+                >
 
 <p>按伪c一直得不到正确的S盒，直接提取初始化后的s盒</p>
-<img src="/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744855303794-73ed07a8-88fe-472d-8cd8-6a8821ae59b5.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744855303794-73ed07a8-88fe-472d-8cd8-6a8821ae59b5.png"
+                      class="" title="img"
+                >
 
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">rc4</span>(<span class="hljs-params">data, key</span>):<br>    <span class="hljs-comment"># S = list(range(256))</span><br>    <span class="hljs-comment"># j = 0</span><br>    out = []<br>    <br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">256</span>):<br>        j = (j + S[i] + key[i % <span class="hljs-built_in">len</span>(key)]) % <span class="hljs-number">256</span><br>        tmp=S[i]<br>        S[i] =(S[i] + S[j])%<span class="hljs-number">256</span><br>        S[j] =(tmp + S[j])%<span class="hljs-number">256</span><br><br>    S=[]<br>    S=[<span class="hljs-number">0x4E</span>, <span class="hljs-number">0xD7</span>, <span class="hljs-number">0x0E</span>, <span class="hljs-number">0x5B</span>, <span class="hljs-number">0x81</span>, <span class="hljs-number">0x1E</span>, <span class="hljs-number">0x1A</span>, <span class="hljs-number">0x2B</span>, <span class="hljs-number">0x83</span>, <span class="hljs-number">0xFF</span>,<br>  <span class="hljs-number">0xA9</span>, <span class="hljs-number">0xAD</span>, <span class="hljs-number">0x8C</span>, <span class="hljs-number">0x60</span>, <span class="hljs-number">0x90</span>, <span class="hljs-number">0x6F</span>, <span class="hljs-number">0x50</span>, <span class="hljs-number">0x5A</span>, <span class="hljs-number">0x24</span>, <span class="hljs-number">0x9C</span>,<br>  <span class="hljs-number">0x4A</span>, <span class="hljs-number">0xFE</span>, <span class="hljs-number">0x97</span>, <span class="hljs-number">0xE5</span>, <span class="hljs-number">0x5F</span>, <span class="hljs-number">0x8E</span>, <span class="hljs-number">0x85</span>, <span class="hljs-number">0x13</span>, <span class="hljs-number">0x93</span>, <span class="hljs-number">0xE5</span>,<br>  <span class="hljs-number">0x4E</span>, <span class="hljs-number">0xE0</span>, <span class="hljs-number">0xEA</span>, <span class="hljs-number">0xD4</span>, <span class="hljs-number">0x29</span>, <span class="hljs-number">0x6F</span>, <span class="hljs-number">0x93</span>, <span class="hljs-number">0x1C</span>, <span class="hljs-number">0x66</span>, <span class="hljs-number">0xAA</span>,<br>  <span class="hljs-number">0xF3</span>, <span class="hljs-number">0x13</span>, <span class="hljs-number">0x9F</span>, <span class="hljs-number">0xB0</span>, <span class="hljs-number">0xCE</span>, <span class="hljs-number">0xEE</span>, <span class="hljs-number">0xF5</span>, <span class="hljs-number">0xF7</span>, <span class="hljs-number">0x12</span>, <span class="hljs-number">0xB7</span>,<br>  <span class="hljs-number">0xFA</span>, <span class="hljs-number">0xC4</span>, <span class="hljs-number">0x6C</span>, <span class="hljs-number">0xA2</span>, <span class="hljs-number">0xC4</span>, <span class="hljs-number">0xDB</span>, <span class="hljs-number">0x46</span>, <span class="hljs-number">0x03</span>, <span class="hljs-number">0x56</span>, <span class="hljs-number">0xCE</span>,<br>  <span class="hljs-number">0x3A</span>, <span class="hljs-number">0x54</span>, <span class="hljs-number">0xEA</span>, <span class="hljs-number">0x9C</span>, <span class="hljs-number">0xB2</span>, <span class="hljs-number">0xE0</span>, <span class="hljs-number">0xF4</span>, <span class="hljs-number">0xEC</span>, <span class="hljs-number">0x6A</span>, <span class="hljs-number">0x1C</span>,<br>  <span class="hljs-number">0x7D</span>, <span class="hljs-number">0xE8</span>, <span class="hljs-number">0x67</span>, <span class="hljs-number">0x4E</span>, <span class="hljs-number">0xA1</span>, <span class="hljs-number">0x2F</span>, <span class="hljs-number">0xB9</span>, <span class="hljs-number">0xE9</span>, <span class="hljs-number">0xD9</span>, <span class="hljs-number">0xD5</span>,<br>  <span class="hljs-number">0x27</span>, <span class="hljs-number">0x28</span>, <span class="hljs-number">0x28</span>, <span class="hljs-number">0x49</span>, <span class="hljs-number">0x0A</span>, <span class="hljs-number">0xD3</span>, <span class="hljs-number">0x0D</span>, <span class="hljs-number">0x82</span>, <span class="hljs-number">0xB8</span>, <span class="hljs-number">0xF7</span>,<br>  <span class="hljs-number">0x84</span>, <span class="hljs-number">0xD4</span>, <span class="hljs-number">0x40</span>, <span class="hljs-number">0xBA</span>, <span class="hljs-number">0xCC</span>, <span class="hljs-number">0xCB</span>, <span class="hljs-number">0x33</span>, <span class="hljs-number">0x27</span>, <span class="hljs-number">0xE4</span>, <span class="hljs-number">0x75</span>,<br>  <span class="hljs-number">0x71</span>, <span class="hljs-number">0xC2</span>, <span class="hljs-number">0xD6</span>, <span class="hljs-number">0x85</span>, <span class="hljs-number">0xBE</span>, <span class="hljs-number">0x90</span>, <span class="hljs-number">0xF5</span>, <span class="hljs-number">0xEC</span>, <span class="hljs-number">0x35</span>, <span class="hljs-number">0x31</span>,<br>  <span class="hljs-number">0x2A</span>, <span class="hljs-number">0x16</span>, <span class="hljs-number">0x5E</span>, <span class="hljs-number">0xDE</span>, <span class="hljs-number">0x75</span>, <span class="hljs-number">0x7B</span>, <span class="hljs-number">0xD3</span>, <span class="hljs-number">0x26</span>, <span class="hljs-number">0x37</span>, <span class="hljs-number">0x51</span>,<br>  <span class="hljs-number">0xC6</span>, <span class="hljs-number">0x3B</span>, <span class="hljs-number">0xA8</span>, <span class="hljs-number">0xB8</span>, <span class="hljs-number">0x16</span>, <span class="hljs-number">0x13</span>, <span class="hljs-number">0x7D</span>, <span class="hljs-number">0x1D</span>, <span class="hljs-number">0x7D</span>, <span class="hljs-number">0x50</span>,<br>  <span class="hljs-number">0x85</span>, <span class="hljs-number">0x39</span>, <span class="hljs-number">0x40</span>, <span class="hljs-number">0x23</span>, <span class="hljs-number">0x06</span>, <span class="hljs-number">0xA2</span>, <span class="hljs-number">0xAE</span>, <span class="hljs-number">0xE6</span>, <span class="hljs-number">0xD5</span>, <span class="hljs-number">0xD4</span>,<br>  <span class="hljs-number">0x00</span>, <span class="hljs-number">0x7E</span>, <span class="hljs-number">0x5A</span>, <span class="hljs-number">0x86</span>, <span class="hljs-number">0x30</span>, <span class="hljs-number">0x8B</span>, <span class="hljs-number">0x6F</span>, <span class="hljs-number">0x92</span>, <span class="hljs-number">0xDE</span>, <span class="hljs-number">0x75</span>,<br>  <span class="hljs-number">0x17</span>, <span class="hljs-number">0x3C</span>, <span class="hljs-number">0xA2</span>, <span class="hljs-number">0xDF</span>, <span class="hljs-number">0x6F</span>, <span class="hljs-number">0xEA</span>, <span class="hljs-number">0x05</span>, <span class="hljs-number">0x18</span>, <span class="hljs-number">0xA2</span>, <span class="hljs-number">0xA0</span>,<br>  <span class="hljs-number">0x23</span>, <span class="hljs-number">0xA2</span>, <span class="hljs-number">0x6A</span>, <span class="hljs-number">0x66</span>, <span class="hljs-number">0xA5</span>, <span class="hljs-number">0xBB</span>, <span class="hljs-number">0x29</span>, <span class="hljs-number">0x06</span>, <span class="hljs-number">0x79</span>, <span class="hljs-number">0xDE</span>,<br>  <span class="hljs-number">0xF6</span>, <span class="hljs-number">0x8A</span>, <span class="hljs-number">0xAA</span>, <span class="hljs-number">0x82</span>, <span class="hljs-number">0x81</span>, <span class="hljs-number">0x66</span>, <span class="hljs-number">0x5D</span>, <span class="hljs-number">0xDD</span>, <span class="hljs-number">0x27</span>, <span class="hljs-number">0x36</span>,<br>  <span class="hljs-number">0x32</span>, <span class="hljs-number">0x25</span>, <span class="hljs-number">0xFE</span>, <span class="hljs-number">0x79</span>, <span class="hljs-number">0x79</span>, <span class="hljs-number">0xEF</span>, <span class="hljs-number">0x37</span>, <span class="hljs-number">0xA5</span>, <span class="hljs-number">0x59</span>, <span class="hljs-number">0xEE</span>,<br>  <span class="hljs-number">0xED</span>, <span class="hljs-number">0x28</span>, <span class="hljs-number">0x84</span>, <span class="hljs-number">0x24</span>, <span class="hljs-number">0x34</span>, <span class="hljs-number">0xDF</span>, <span class="hljs-number">0xDE</span>, <span class="hljs-number">0x97</span>, <span class="hljs-number">0x7F</span>, <span class="hljs-number">0xE3</span>,<br>  <span class="hljs-number">0x13</span>, <span class="hljs-number">0x04</span>, <span class="hljs-number">0x29</span>, <span class="hljs-number">0xFA</span>, <span class="hljs-number">0x2C</span>, <span class="hljs-number">0x11</span>, <span class="hljs-number">0xD0</span>, <span class="hljs-number">0x31</span>, <span class="hljs-number">0x23</span>, <span class="hljs-number">0xBB</span>,<br>  <span class="hljs-number">0x23</span>, <span class="hljs-number">0xB4</span>, <span class="hljs-number">0x6A</span>, <span class="hljs-number">0xA8</span>, <span class="hljs-number">0x4A</span>, <span class="hljs-number">0x64</span>, <span class="hljs-number">0xD4</span>, <span class="hljs-number">0xB0</span>, <span class="hljs-number">0x03</span>, <span class="hljs-number">0xBA</span>,<br>  <span class="hljs-number">0xAA</span>, <span class="hljs-number">0xD0</span>, <span class="hljs-number">0x60</span>, <span class="hljs-number">0x09</span>, <span class="hljs-number">0x6B</span>, <span class="hljs-number">0xA9</span>, <span class="hljs-number">0x1D</span>, <span class="hljs-number">0x17</span>, <span class="hljs-number">0x50</span>, <span class="hljs-number">0x24</span>,<br>  <span class="hljs-number">0x9C</span>, <span class="hljs-number">0xD6</span>, <span class="hljs-number">0xD0</span>, <span class="hljs-number">0xD4</span>, <span class="hljs-number">0x6B</span>, <span class="hljs-number">0x01</span>, <span class="hljs-number">0xD9</span>, <span class="hljs-number">0x40</span>, <span class="hljs-number">0x24</span>, <span class="hljs-number">0x8E</span>,<br>  <span class="hljs-number">0xF5</span>, <span class="hljs-number">0x2B</span>, <span class="hljs-number">0x75</span>, <span class="hljs-number">0x64</span>, <span class="hljs-number">0xF5</span>, <span class="hljs-number">0xFE</span>, <span class="hljs-number">0x81</span>, <span class="hljs-number">0xF7</span>, <span class="hljs-number">0x2C</span>, <span class="hljs-number">0xF6</span>,<br>  <span class="hljs-number">0x4E</span>, <span class="hljs-number">0xA1</span>, <span class="hljs-number">0x0D</span>, <span class="hljs-number">0xD0</span>, <span class="hljs-number">0x18</span>, <span class="hljs-number">0xC6</span>]<br><br>    i = j = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">for</span> char <span class="hljs-keyword">in</span> data:<br>        i = (i + <span class="hljs-number">1</span>) % <span class="hljs-number">256</span><br>        j = (j + S[i]) % <span class="hljs-number">256</span><br>        S[i], S[j] = S[j], S[i]<br>        char = char + S[(S[i] + S[j]) % <span class="hljs-number">256</span>]<br>        char%=<span class="hljs-number">256</span><br>        out.append(char)<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">bytes</span>(out)<br><br><br>data = <span class="hljs-built_in">bytes</span>([<span class="hljs-number">0x64</span>, <span class="hljs-number">0x3A</span>, <span class="hljs-number">0xD0</span>, <span class="hljs-number">0x79</span>, <span class="hljs-number">0xB9</span>, <span class="hljs-number">0xE9</span>, <span class="hljs-number">0x75</span>, <span class="hljs-number">0x52</span>, <span class="hljs-number">0x6E</span>, <span class="hljs-number">0xE9</span>,<br>  <span class="hljs-number">0xFB</span>, <span class="hljs-number">0x0E</span>, <span class="hljs-number">0x52</span>, <span class="hljs-number">0x24</span>, <span class="hljs-number">0x1C</span>, <span class="hljs-number">0xB6</span>, <span class="hljs-number">0x2B</span>, <span class="hljs-number">0xE4</span>, <span class="hljs-number">0x86</span>, <span class="hljs-number">0xF8</span>,<br>  <span class="hljs-number">0x69</span>, <span class="hljs-number">0x52</span>, <span class="hljs-number">0x53</span>, <span class="hljs-number">0x3E</span>, <span class="hljs-number">0x3C</span>, <span class="hljs-number">0x8E</span>, <span class="hljs-number">0xB0</span>, <span class="hljs-number">0x16</span>, <span class="hljs-number">0x62</span>, <span class="hljs-number">0xE6</span>,<br>  <span class="hljs-number">0x98</span>, <span class="hljs-number">0x7F</span>])<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">len</span>(data))<br>key = <span class="hljs-string">b&#x27;rc4IsEasy&#x27;</span><br>decrypted = rc4(data, key)<br><span class="hljs-built_in">print</span>(decrypted)<br><span class="hljs-comment">#b&#x27;2404c9b8af2dd18f92dd9018c85f76fe&#x27;</span><br></code></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">rc4</span>(<span class="params">data, key</span>):</span><br><span class="line">    <span class="comment"># S = list(range(256))</span></span><br><span class="line">    <span class="comment"># j = 0</span></span><br><span class="line">    out = []</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">256</span>):</span><br><span class="line">        j = (j + S[i] + key[i % <span class="built_in">len</span>(key)]) % <span class="number">256</span></span><br><span class="line">        tmp=S[i]</span><br><span class="line">        S[i] =(S[i] + S[j])%<span class="number">256</span></span><br><span class="line">        S[j] =(tmp + S[j])%<span class="number">256</span></span><br><span class="line"></span><br><span class="line">    S=[]</span><br><span class="line">    S=[<span class="number">0x4E</span>, <span class="number">0xD7</span>, <span class="number">0x0E</span>, <span class="number">0x5B</span>, <span class="number">0x81</span>, <span class="number">0x1E</span>, <span class="number">0x1A</span>, <span class="number">0x2B</span>, <span class="number">0x83</span>, <span class="number">0xFF</span>,</span><br><span class="line">  <span class="number">0xA9</span>, <span class="number">0xAD</span>, <span class="number">0x8C</span>, <span class="number">0x60</span>, <span class="number">0x90</span>, <span class="number">0x6F</span>, <span class="number">0x50</span>, <span class="number">0x5A</span>, <span class="number">0x24</span>, <span class="number">0x9C</span>,</span><br><span class="line">  <span class="number">0x4A</span>, <span class="number">0xFE</span>, <span class="number">0x97</span>, <span class="number">0xE5</span>, <span class="number">0x5F</span>, <span class="number">0x8E</span>, <span class="number">0x85</span>, <span class="number">0x13</span>, <span class="number">0x93</span>, <span class="number">0xE5</span>,</span><br><span class="line">  <span class="number">0x4E</span>, <span class="number">0xE0</span>, <span class="number">0xEA</span>, <span class="number">0xD4</span>, <span class="number">0x29</span>, <span class="number">0x6F</span>, <span class="number">0x93</span>, <span class="number">0x1C</span>, <span class="number">0x66</span>, <span class="number">0xAA</span>,</span><br><span class="line">  <span class="number">0xF3</span>, <span class="number">0x13</span>, <span class="number">0x9F</span>, <span class="number">0xB0</span>, <span class="number">0xCE</span>, <span class="number">0xEE</span>, <span class="number">0xF5</span>, <span class="number">0xF7</span>, <span class="number">0x12</span>, <span class="number">0xB7</span>,</span><br><span class="line">  <span class="number">0xFA</span>, <span class="number">0xC4</span>, <span class="number">0x6C</span>, <span class="number">0xA2</span>, <span class="number">0xC4</span>, <span class="number">0xDB</span>, <span class="number">0x46</span>, <span class="number">0x03</span>, <span class="number">0x56</span>, <span class="number">0xCE</span>,</span><br><span class="line">  <span class="number">0x3A</span>, <span class="number">0x54</span>, <span class="number">0xEA</span>, <span class="number">0x9C</span>, <span class="number">0xB2</span>, <span class="number">0xE0</span>, <span class="number">0xF4</span>, <span class="number">0xEC</span>, <span class="number">0x6A</span>, <span class="number">0x1C</span>,</span><br><span class="line">  <span class="number">0x7D</span>, <span class="number">0xE8</span>, <span class="number">0x67</span>, <span class="number">0x4E</span>, <span class="number">0xA1</span>, <span class="number">0x2F</span>, <span class="number">0xB9</span>, <span class="number">0xE9</span>, <span class="number">0xD9</span>, <span class="number">0xD5</span>,</span><br><span class="line">  <span class="number">0x27</span>, <span class="number">0x28</span>, <span class="number">0x28</span>, <span class="number">0x49</span>, <span class="number">0x0A</span>, <span class="number">0xD3</span>, <span class="number">0x0D</span>, <span class="number">0x82</span>, <span class="number">0xB8</span>, <span class="number">0xF7</span>,</span><br><span class="line">  <span class="number">0x84</span>, <span class="number">0xD4</span>, <span class="number">0x40</span>, <span class="number">0xBA</span>, <span class="number">0xCC</span>, <span class="number">0xCB</span>, <span class="number">0x33</span>, <span class="number">0x27</span>, <span class="number">0xE4</span>, <span class="number">0x75</span>,</span><br><span class="line">  <span class="number">0x71</span>, <span class="number">0xC2</span>, <span class="number">0xD6</span>, <span class="number">0x85</span>, <span class="number">0xBE</span>, <span class="number">0x90</span>, <span class="number">0xF5</span>, <span class="number">0xEC</span>, <span class="number">0x35</span>, <span class="number">0x31</span>,</span><br><span class="line">  <span class="number">0x2A</span>, <span class="number">0x16</span>, <span class="number">0x5E</span>, <span class="number">0xDE</span>, <span class="number">0x75</span>, <span class="number">0x7B</span>, <span class="number">0xD3</span>, <span class="number">0x26</span>, <span class="number">0x37</span>, <span class="number">0x51</span>,</span><br><span class="line">  <span class="number">0xC6</span>, <span class="number">0x3B</span>, <span class="number">0xA8</span>, <span class="number">0xB8</span>, <span class="number">0x16</span>, <span class="number">0x13</span>, <span class="number">0x7D</span>, <span class="number">0x1D</span>, <span class="number">0x7D</span>, <span class="number">0x50</span>,</span><br><span class="line">  <span class="number">0x85</span>, <span class="number">0x39</span>, <span class="number">0x40</span>, <span class="number">0x23</span>, <span class="number">0x06</span>, <span class="number">0xA2</span>, <span class="number">0xAE</span>, <span class="number">0xE6</span>, <span class="number">0xD5</span>, <span class="number">0xD4</span>,</span><br><span class="line">  <span class="number">0x00</span>, <span class="number">0x7E</span>, <span class="number">0x5A</span>, <span class="number">0x86</span>, <span class="number">0x30</span>, <span class="number">0x8B</span>, <span class="number">0x6F</span>, <span class="number">0x92</span>, <span class="number">0xDE</span>, <span class="number">0x75</span>,</span><br><span class="line">  <span class="number">0x17</span>, <span class="number">0x3C</span>, <span class="number">0xA2</span>, <span class="number">0xDF</span>, <span class="number">0x6F</span>, <span class="number">0xEA</span>, <span class="number">0x05</span>, <span class="number">0x18</span>, <span class="number">0xA2</span>, <span class="number">0xA0</span>,</span><br><span class="line">  <span class="number">0x23</span>, <span class="number">0xA2</span>, <span class="number">0x6A</span>, <span class="number">0x66</span>, <span class="number">0xA5</span>, <span class="number">0xBB</span>, <span class="number">0x29</span>, <span class="number">0x06</span>, <span class="number">0x79</span>, <span class="number">0xDE</span>,</span><br><span class="line">  <span class="number">0xF6</span>, <span class="number">0x8A</span>, <span class="number">0xAA</span>, <span class="number">0x82</span>, <span class="number">0x81</span>, <span class="number">0x66</span>, <span class="number">0x5D</span>, <span class="number">0xDD</span>, <span class="number">0x27</span>, <span class="number">0x36</span>,</span><br><span class="line">  <span class="number">0x32</span>, <span class="number">0x25</span>, <span class="number">0xFE</span>, <span class="number">0x79</span>, <span class="number">0x79</span>, <span class="number">0xEF</span>, <span class="number">0x37</span>, <span class="number">0xA5</span>, <span class="number">0x59</span>, <span class="number">0xEE</span>,</span><br><span class="line">  <span class="number">0xED</span>, <span class="number">0x28</span>, <span class="number">0x84</span>, <span class="number">0x24</span>, <span class="number">0x34</span>, <span class="number">0xDF</span>, <span class="number">0xDE</span>, <span class="number">0x97</span>, <span class="number">0x7F</span>, <span class="number">0xE3</span>,</span><br><span class="line">  <span class="number">0x13</span>, <span class="number">0x04</span>, <span class="number">0x29</span>, <span class="number">0xFA</span>, <span class="number">0x2C</span>, <span class="number">0x11</span>, <span class="number">0xD0</span>, <span class="number">0x31</span>, <span class="number">0x23</span>, <span class="number">0xBB</span>,</span><br><span class="line">  <span class="number">0x23</span>, <span class="number">0xB4</span>, <span class="number">0x6A</span>, <span class="number">0xA8</span>, <span class="number">0x4A</span>, <span class="number">0x64</span>, <span class="number">0xD4</span>, <span class="number">0xB0</span>, <span class="number">0x03</span>, <span class="number">0xBA</span>,</span><br><span class="line">  <span class="number">0xAA</span>, <span class="number">0xD0</span>, <span class="number">0x60</span>, <span class="number">0x09</span>, <span class="number">0x6B</span>, <span class="number">0xA9</span>, <span class="number">0x1D</span>, <span class="number">0x17</span>, <span class="number">0x50</span>, <span class="number">0x24</span>,</span><br><span class="line">  <span class="number">0x9C</span>, <span class="number">0xD6</span>, <span class="number">0xD0</span>, <span class="number">0xD4</span>, <span class="number">0x6B</span>, <span class="number">0x01</span>, <span class="number">0xD9</span>, <span class="number">0x40</span>, <span class="number">0x24</span>, <span class="number">0x8E</span>,</span><br><span class="line">  <span class="number">0xF5</span>, <span class="number">0x2B</span>, <span class="number">0x75</span>, <span class="number">0x64</span>, <span class="number">0xF5</span>, <span class="number">0xFE</span>, <span class="number">0x81</span>, <span class="number">0xF7</span>, <span class="number">0x2C</span>, <span class="number">0xF6</span>,</span><br><span class="line">  <span class="number">0x4E</span>, <span class="number">0xA1</span>, <span class="number">0x0D</span>, <span class="number">0xD0</span>, <span class="number">0x18</span>, <span class="number">0xC6</span>]</span><br><span class="line"></span><br><span class="line">    i = j = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> char <span class="keyword">in</span> data:</span><br><span class="line">        i = (i + <span class="number">1</span>) % <span class="number">256</span></span><br><span class="line">        j = (j + S[i]) % <span class="number">256</span></span><br><span class="line">        S[i], S[j] = S[j], S[i]</span><br><span class="line">        char = char + S[(S[i] + S[j]) % <span class="number">256</span>]</span><br><span class="line">        char%=<span class="number">256</span></span><br><span class="line">        out.append(char)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">bytes</span>(out)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">data = <span class="built_in">bytes</span>([<span class="number">0x64</span>, <span class="number">0x3A</span>, <span class="number">0xD0</span>, <span class="number">0x79</span>, <span class="number">0xB9</span>, <span class="number">0xE9</span>, <span class="number">0x75</span>, <span class="number">0x52</span>, <span class="number">0x6E</span>, <span class="number">0xE9</span>,</span><br><span class="line">  <span class="number">0xFB</span>, <span class="number">0x0E</span>, <span class="number">0x52</span>, <span class="number">0x24</span>, <span class="number">0x1C</span>, <span class="number">0xB6</span>, <span class="number">0x2B</span>, <span class="number">0xE4</span>, <span class="number">0x86</span>, <span class="number">0xF8</span>,</span><br><span class="line">  <span class="number">0x69</span>, <span class="number">0x52</span>, <span class="number">0x53</span>, <span class="number">0x3E</span>, <span class="number">0x3C</span>, <span class="number">0x8E</span>, <span class="number">0xB0</span>, <span class="number">0x16</span>, <span class="number">0x62</span>, <span class="number">0xE6</span>,</span><br><span class="line">  <span class="number">0x98</span>, <span class="number">0x7F</span>])</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">len</span>(data))</span><br><span class="line">key = <span class="string">b&#x27;rc4IsEasy&#x27;</span></span><br><span class="line">decrypted = rc4(data, key)</span><br><span class="line"><span class="built_in">print</span>(decrypted)</span><br><span class="line"><span class="comment">#b&#x27;2404c9b8af2dd18f92dd9018c85f76fe&#x27;</span></span><br></pre></td></tr></table></figure></div>
 
 
 
 <h2 id="usb"><a href="#usb" class="headerlink" title="usb"></a>usb</h2><p>经典usb流量</p>
-<img src="/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744883133737-7f7301bc-dda8-49e8-b52d-500ba10b172a.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744883133737-7f7301bc-dda8-49e8-b52d-500ba10b172a.png"
+                      class="" title="img"
+                >
 
 <p>过滤hid data列，后面跑脚本提取</p>
-<img src="/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744872536742-804d5a1d-c2ba-4ac6-bb54-b720a8151f8f.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744872536742-804d5a1d-c2ba-4ac6-bb54-b720a8151f8f.png"
+                      class="" title="img"
+                >
 
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">flag&#123;<span class="hljs-built_in">whoami</span> &amp;&amp; <span class="hljs-built_in">rm</span> -rf /opt&#125;<br></code></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;whoami &amp;&amp; rm -rf /opt&#125;</span><br></pre></td></tr></table></figure></div>
 
 
 
 <h2 id="easymodbus-3"><a href="#easymodbus-3" class="headerlink" title="easymodbus-3"></a>easymodbus-3</h2><p>恢复不了符号表，也没找到网上类似的题</p>
 <p>&#x2F;bin&#x2F;sh字符串，可能要发送符合格式的数据再getshell</p>
 <h1 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h1><h2 id="NumberTheory"><a href="#NumberTheory" class="headerlink" title="NumberTheory"></a>NumberTheory</h2><p>yafu分解发现hint能被233整除，经过尝试之后发现可以用费马小定理</p>
-<img src="/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744940695110-ead57687-804f-47e2-878f-389666c43846.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2025/04/24/2025%E8%83%BD%E6%BA%90%E5%AE%89%E5%85%A8%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1744940695110-ead57687-804f-47e2-878f-389666c43846.png"
+                      class="" title="img"
+                >
 
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> math <span class="hljs-keyword">import</span> gcd<br><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> long_to_bytes, inverse<br><br>n  = <span class="hljs-number">113310007043671810845854958178261892350466329031075849658400622797220639822165853920670375240421584770086737199174179404426269461807205919265215015318558583279307342189066142674684812629436201594710931246023579402265860654799773575870718232197419475376859857859160478517321102794376573133320398421013885294803</span>  <span class="hljs-comment"># n</span><br>c  = <span class="hljs-number">71140184512977657248678802858923889906469994653365050397942639686285067049311597229075083243014006139628135512648917088910957708595173169740778384396383007676160125041429483214711040860094456744628950189892189206308633008723823236088821678663574778449944147445444557428696970338207423613161971095287158528268</span>  <span class="hljs-comment"># c</span><br>hint = <span class="hljs-number">304302625376181653586904104401793052942691958380766622476796502085769101118223423483198426870687288772995446524917404481734386549400612667029785738864459729312716240418284186683690152478372081937338184159203750009565388703480806423176123558900518577576731229725343401015296144240503499943327828404875279740222104515371853890423856666710430710428991178833598803175224026696772717334264841725910496575249477684269365734094608409667005577061258227602330654989600297462</span>  <span class="hljs-comment"># hint</span><br><br>e = <span class="hljs-number">65537</span><br><br>L = hint // <span class="hljs-number">233</span><br>p = gcd(<span class="hljs-built_in">pow</span>(c, L, n) - <span class="hljs-number">1</span>, n)<br>q = n // p<br><br>phi = (p - <span class="hljs-number">1</span>) * (q - <span class="hljs-number">1</span>)<br>d  = inverse(e, phi)<br>m  = <span class="hljs-built_in">pow</span>(c, d, n)<br>flag = long_to_bytes(m)<br><span class="hljs-built_in">print</span>(flag)<br><span class="hljs-comment">#flag&#123;d0bafb7185f2acfd371c566cbae25af9&#125;</span><br></code></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> gcd</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> long_to_bytes, inverse</span><br><span class="line"></span><br><span class="line">n  = <span class="number">113310007043671810845854958178261892350466329031075849658400622797220639822165853920670375240421584770086737199174179404426269461807205919265215015318558583279307342189066142674684812629436201594710931246023579402265860654799773575870718232197419475376859857859160478517321102794376573133320398421013885294803</span>  <span class="comment"># n</span></span><br><span class="line">c  = <span class="number">71140184512977657248678802858923889906469994653365050397942639686285067049311597229075083243014006139628135512648917088910957708595173169740778384396383007676160125041429483214711040860094456744628950189892189206308633008723823236088821678663574778449944147445444557428696970338207423613161971095287158528268</span>  <span class="comment"># c</span></span><br><span class="line">hint = <span class="number">304302625376181653586904104401793052942691958380766622476796502085769101118223423483198426870687288772995446524917404481734386549400612667029785738864459729312716240418284186683690152478372081937338184159203750009565388703480806423176123558900518577576731229725343401015296144240503499943327828404875279740222104515371853890423856666710430710428991178833598803175224026696772717334264841725910496575249477684269365734094608409667005577061258227602330654989600297462</span>  <span class="comment"># hint</span></span><br><span class="line"></span><br><span class="line">e = <span class="number">65537</span></span><br><span class="line"></span><br><span class="line">L = hint // <span class="number">233</span></span><br><span class="line">p = gcd(<span class="built_in">pow</span>(c, L, n) - <span class="number">1</span>, n)</span><br><span class="line">q = n // p</span><br><span class="line"></span><br><span class="line">phi = (p - <span class="number">1</span>) * (q - <span class="number">1</span>)</span><br><span class="line">d  = inverse(e, phi)</span><br><span class="line">m  = <span class="built_in">pow</span>(c, d, n)</span><br><span class="line">flag = long_to_bytes(m)</span><br><span class="line"><span class="built_in">print</span>(flag)</span><br><span class="line"><span class="comment">#flag&#123;d0bafb7185f2acfd371c566cbae25af9&#125;</span></span><br></pre></td></tr></table></figure></div>
 
 
 
 <h1 id="数据安全"><a href="#数据安全" class="headerlink" title="数据安全"></a>数据安全</h1><p>狠狠破防</p>
 <h2 id="数据脱敏-3"><a href="#数据脱敏-3" class="headerlink" title="数据脱敏-3"></a>数据脱敏-3</h2><p>为了抵抗黑客攻击导致数据拖库等问题，需要将敏感数据识别并脱敏存储成⼀个表。给定脱敏算法逻辑，要求选⼿⽣成脱敏后的数据表数据（所有数据均为随机⽣成，与现实世界⽆任何联系）。为了防⽌⼀些隐私数据泄漏，现需要对该数据表进⾏脱敏操作，请按照指定要求对各字段进⾏脱敏处理，并按照先行后列拼接字符串（不包含标题行），对此字符串进行md5计算，得到答案。 <strong>脱敏要求：</strong> - <strong>编号</strong>：⽆需脱敏。 - <strong>姓名</strong>：⼆字姓名对最后⼀位字使⽤ * 进⾏替换，三字姓名对中间⼀位字使⽤ * 进⾏替换，四字姓名对中间两位字使⽤ * 进⾏替换。 - <strong>手机号</strong>：请对中间五位信息使⽤ * 进⾏替换。 - <strong>身份证号码</strong>：请对除了前6位信息使⽤ * 进⾏替换。 - <strong>银⾏卡</strong>：请对前四位和后十位信息使⽤ * 进⾏替换。 - <strong>Email</strong>：请对字符 @ 前除 . 外的字符使⽤ * 进⾏替换。 - <strong>性别</strong>：替换成未知。 - <strong>微信号</strong>：请对为字符的信息使用 * 进行替换。</p>
-<p>提示：000001,章三,17955640890,319540678369985756,3612632840753013460,<a href="mailto:&#x62;&#x76;&#115;&#x66;&#x76;&#x62;&#x40;&#111;&#x75;&#116;&#x6c;&#x6f;&#x6f;&#x6b;&#x2e;&#x63;&#111;&#x6d;">&#x62;&#x76;&#115;&#x66;&#x76;&#x62;&#x40;&#111;&#x75;&#116;&#x6c;&#x6f;&#x6f;&#x6b;&#x2e;&#x63;&#111;&#x6d;</a>,女,bcv6349</p>
+<p>提示：000001,章三,17955640890,319540678369985756,3612632840753013460,<a class="link"   href="mailto:&#x62;&#x76;&#115;&#x66;&#118;&#x62;&#x40;&#x6f;&#117;&#116;&#x6c;&#x6f;&#x6f;&#x6b;&#x2e;&#x63;&#x6f;&#x6d;" >&#x62;&#x76;&#115;&#x66;&#118;&#x62;&#x40;&#x6f;&#117;&#116;&#x6c;&#x6f;&#x6f;&#x6b;&#x2e;&#x63;&#x6f;&#x6d;<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>,女,bcv6349</p>
 <p>000001,章*,179<em><strong><strong>890,319540</strong></strong></em><em><strong><strong><strong>,<strong><strong>63284</strong></strong></strong></strong></strong>,</em><em><strong><strong>@outlook.com,未知,</strong></strong></em>**</p>
 <p>加逗号和不加逗号都试过</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">import</span> re<br><span class="hljs-keyword">import</span> hashlib<br><br><span class="hljs-comment"># 脱敏规则函数</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">desensitize_name</span>(<span class="hljs-params">name</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;姓名脱敏规则：二字姓名对最后一位字使用 * 替换，三字姓名对中间一位字使用 * 替换，四字姓名对中间两位字使用 * 替换&quot;&quot;&quot;</span><br>    <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(name) == <span class="hljs-number">2</span>:<br>        <span class="hljs-keyword">return</span> name[<span class="hljs-number">0</span>] + <span class="hljs-string">&quot;*&quot;</span><br>    <span class="hljs-keyword">elif</span> <span class="hljs-built_in">len</span>(name) == <span class="hljs-number">3</span>:<br>        <span class="hljs-keyword">return</span> name[<span class="hljs-number">0</span>] + <span class="hljs-string">&quot;*&quot;</span> + name[<span class="hljs-number">2</span>]<br>    <span class="hljs-keyword">elif</span> <span class="hljs-built_in">len</span>(name) == <span class="hljs-number">4</span>:<br>        <span class="hljs-keyword">return</span> name[<span class="hljs-number">0</span>] + <span class="hljs-string">&quot;*&quot;</span> + <span class="hljs-string">&quot;*&quot;</span> + name[<span class="hljs-number">3</span>]<br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-keyword">return</span> name<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">desensitize_phone</span>(<span class="hljs-params">phone</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;手机号脱敏规则：对中间五位信息使用 * 进行替换&quot;&quot;&quot;</span><br>    phone = <span class="hljs-built_in">str</span>(phone).strip()  <span class="hljs-comment"># 确保没有空格</span><br>    <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(phone) == <span class="hljs-number">11</span>:  <span class="hljs-comment"># 假设手机号长度为11</span><br>        <span class="hljs-keyword">return</span> phone[:<span class="hljs-number">3</span>] + <span class="hljs-string">&quot;*****&quot;</span> + phone[<span class="hljs-number">8</span>:]<br>    <span class="hljs-keyword">return</span> phone  <span class="hljs-comment"># 如果长度不对，直接返回原始手机号</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">desensitize_id</span>(<span class="hljs-params">id_number</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;身份证号脱敏规则：保留前六位，剩下的用 * 替代&quot;&quot;&quot;</span><br>    id_number = <span class="hljs-built_in">str</span>(id_number).strip()  <span class="hljs-comment"># 去除空格</span><br>    <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(id_number) &gt;= <span class="hljs-number">6</span>:<br>        <span class="hljs-keyword">return</span> id_number[:<span class="hljs-number">6</span>] + <span class="hljs-string">&quot;**************&quot;</span><br>    <span class="hljs-keyword">return</span> id_number  <span class="hljs-comment"># 如果长度不足6位，直接返回</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">desensitize_bank_card</span>(<span class="hljs-params">bank_card</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;银行卡号脱敏规则：前四位和后十位信息使用 * 替换&quot;&quot;&quot;</span><br>    bank_card = <span class="hljs-built_in">str</span>(bank_card).strip()<br>    <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(bank_card) &gt;= <span class="hljs-number">14</span>:<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;****&quot;</span> + bank_card[<span class="hljs-number">4</span>:-<span class="hljs-number">10</span>] + <span class="hljs-string">&quot;**********&quot;</span><br>    <span class="hljs-keyword">return</span> bank_card  <span class="hljs-comment"># 如果银行卡号不符合要求，返回原始值</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">desensitize_email</span>(<span class="hljs-params">email</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;Email脱敏规则：@前部分除 . 外的字符使用 * 替换&quot;&quot;&quot;</span><br>    local, domain = email.split(<span class="hljs-string">&#x27;@&#x27;</span>)<br>    local = re.sub(<span class="hljs-string">r&#x27;[^\.\*]&#x27;</span>, <span class="hljs-string">&#x27;*&#x27;</span>, local)<br>    <span class="hljs-keyword">return</span> local + <span class="hljs-string">&#x27;@&#x27;</span> + domain<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">desensitize_gender</span>(<span class="hljs-params">gender</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;性别脱敏规则：替换为 &#x27;未知&#x27;&quot;&quot;&quot;</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;未知&quot;</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">desensitize_wechat</span>(<span class="hljs-params">wechat</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;微信号脱敏规则：将所有字符替换为 &#x27;*&#x27;&quot;&quot;&quot;</span><br>    <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(wechat, <span class="hljs-built_in">str</span>):<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;*&#x27;</span> * <span class="hljs-built_in">len</span>(wechat)  <span class="hljs-comment"># 替换所有字符为 *</span><br>    <span class="hljs-keyword">return</span> wechat  <span class="hljs-comment"># 如果不是字符串，直接返回原值</span><br><br><span class="hljs-comment"># 读取 Excel 文件</span><br>df = pd.read_excel(<span class="hljs-string">&quot;data.xlsx&quot;</span>, dtype=<span class="hljs-built_in">str</span>)<br><br><span class="hljs-comment"># 脱敏处理数据</span><br><span class="hljs-keyword">for</span> column <span class="hljs-keyword">in</span> df.columns:<br>    <span class="hljs-keyword">for</span> i, value <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(df[column]):<br>        <span class="hljs-keyword">if</span> column == <span class="hljs-string">&quot;编号&quot;</span>:<br>            <span class="hljs-comment"># 保持编号不变</span><br>            <span class="hljs-keyword">continue</span><br>        <span class="hljs-keyword">elif</span> column == <span class="hljs-string">&quot;姓名&quot;</span> <span class="hljs-keyword">and</span> <span class="hljs-built_in">isinstance</span>(value, <span class="hljs-built_in">str</span>):<br>            df.at[i, column] = desensitize_name(value)<br>        <span class="hljs-keyword">elif</span> column == <span class="hljs-string">&quot;手机号&quot;</span> <span class="hljs-keyword">and</span> <span class="hljs-built_in">isinstance</span>(value, <span class="hljs-built_in">str</span>):<br>            df.at[i, column] = desensitize_phone(value)<br>        <span class="hljs-keyword">elif</span> column == <span class="hljs-string">&quot;身份证号&quot;</span> <span class="hljs-keyword">and</span> <span class="hljs-built_in">isinstance</span>(value, <span class="hljs-built_in">str</span>):<br>            df.at[i, column] = desensitize_id(value)<br>        <span class="hljs-keyword">elif</span> column == <span class="hljs-string">&quot;银行卡号&quot;</span> <span class="hljs-keyword">and</span> <span class="hljs-built_in">isinstance</span>(value, <span class="hljs-built_in">str</span>):<br>            df.at[i, column] = desensitize_bank_card(value)<br>        <span class="hljs-keyword">elif</span> column == <span class="hljs-string">&quot;Email&quot;</span> <span class="hljs-keyword">and</span> <span class="hljs-built_in">isinstance</span>(value, <span class="hljs-built_in">str</span>):<br>            df.at[i, column] = desensitize_email(value)<br>        <span class="hljs-keyword">elif</span> column == <span class="hljs-string">&quot;性别&quot;</span> <span class="hljs-keyword">and</span> <span class="hljs-built_in">isinstance</span>(value, <span class="hljs-built_in">str</span>):<br>            df.at[i, column] = desensitize_gender(value)<br>        <span class="hljs-keyword">elif</span> column == <span class="hljs-string">&quot;微信号&quot;</span> <span class="hljs-keyword">and</span> <span class="hljs-built_in">isinstance</span>(value, <span class="hljs-built_in">str</span>):<br>            df.at[i, column] = desensitize_wechat(value)<br><br><span class="hljs-comment"># 保存脱敏后的数据到新 Excel 文件</span><br>df.to_excel(<span class="hljs-string">&quot;desensitized_data.xlsx&quot;</span>, index=<span class="hljs-literal">False</span>)<br><br><span class="hljs-comment"># 生成拼接字符串（按行拼接，每列数据之间用逗号隔开）</span><br>data_str = <span class="hljs-string">&#x27;&#x27;</span>.join(df.astype(<span class="hljs-built_in">str</span>).values.flatten())<br><br><span class="hljs-comment"># 去除所有可能的换行符和回车符</span><br>data_str = data_str.replace(<span class="hljs-string">&#x27;\n&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>).replace(<span class="hljs-string">&#x27;\r&#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>)<br><br><span class="hljs-comment"># 计算 MD5</span><br>md5_hash = hashlib.md5(data_str.encode()).hexdigest()<br><br><span class="hljs-comment"># 输出 MD5 结果</span><br><span class="hljs-built_in">print</span>(data_str)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;MD5:&quot;</span>, md5_hash)<br></code></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"></span><br><span class="line"><span class="comment"># 脱敏规则函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">desensitize_name</span>(<span class="params">name</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;姓名脱敏规则：二字姓名对最后一位字使用 * 替换，三字姓名对中间一位字使用 * 替换，四字姓名对中间两位字使用 * 替换&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(name) == <span class="number">2</span>:</span><br><span class="line">        <span class="keyword">return</span> name[<span class="number">0</span>] + <span class="string">&quot;*&quot;</span></span><br><span class="line">    <span class="keyword">elif</span> <span class="built_in">len</span>(name) == <span class="number">3</span>:</span><br><span class="line">        <span class="keyword">return</span> name[<span class="number">0</span>] + <span class="string">&quot;*&quot;</span> + name[<span class="number">2</span>]</span><br><span class="line">    <span class="keyword">elif</span> <span class="built_in">len</span>(name) == <span class="number">4</span>:</span><br><span class="line">        <span class="keyword">return</span> name[<span class="number">0</span>] + <span class="string">&quot;*&quot;</span> + <span class="string">&quot;*&quot;</span> + name[<span class="number">3</span>]</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> name</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">desensitize_phone</span>(<span class="params">phone</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;手机号脱敏规则：对中间五位信息使用 * 进行替换&quot;&quot;&quot;</span></span><br><span class="line">    phone = <span class="built_in">str</span>(phone).strip()  <span class="comment"># 确保没有空格</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(phone) == <span class="number">11</span>:  <span class="comment"># 假设手机号长度为11</span></span><br><span class="line">        <span class="keyword">return</span> phone[:<span class="number">3</span>] + <span class="string">&quot;*****&quot;</span> + phone[<span class="number">8</span>:]</span><br><span class="line">    <span class="keyword">return</span> phone  <span class="comment"># 如果长度不对，直接返回原始手机号</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">desensitize_id</span>(<span class="params">id_number</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;身份证号脱敏规则：保留前六位，剩下的用 * 替代&quot;&quot;&quot;</span></span><br><span class="line">    id_number = <span class="built_in">str</span>(id_number).strip()  <span class="comment"># 去除空格</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(id_number) &gt;= <span class="number">6</span>:</span><br><span class="line">        <span class="keyword">return</span> id_number[:<span class="number">6</span>] + <span class="string">&quot;**************&quot;</span></span><br><span class="line">    <span class="keyword">return</span> id_number  <span class="comment"># 如果长度不足6位，直接返回</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">desensitize_bank_card</span>(<span class="params">bank_card</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;银行卡号脱敏规则：前四位和后十位信息使用 * 替换&quot;&quot;&quot;</span></span><br><span class="line">    bank_card = <span class="built_in">str</span>(bank_card).strip()</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(bank_card) &gt;= <span class="number">14</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;****&quot;</span> + bank_card[<span class="number">4</span>:-<span class="number">10</span>] + <span class="string">&quot;**********&quot;</span></span><br><span class="line">    <span class="keyword">return</span> bank_card  <span class="comment"># 如果银行卡号不符合要求，返回原始值</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">desensitize_email</span>(<span class="params">email</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;Email脱敏规则：@前部分除 . 外的字符使用 * 替换&quot;&quot;&quot;</span></span><br><span class="line">    local, domain = email.split(<span class="string">&#x27;@&#x27;</span>)</span><br><span class="line">    local = re.sub(<span class="string">r&#x27;[^\.\*]&#x27;</span>, <span class="string">&#x27;*&#x27;</span>, local)</span><br><span class="line">    <span class="keyword">return</span> local + <span class="string">&#x27;@&#x27;</span> + domain</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">desensitize_gender</span>(<span class="params">gender</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;性别脱敏规则：替换为 &#x27;未知&#x27;&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;未知&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">desensitize_wechat</span>(<span class="params">wechat</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;微信号脱敏规则：将所有字符替换为 &#x27;*&#x27;&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">isinstance</span>(wechat, <span class="built_in">str</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;*&#x27;</span> * <span class="built_in">len</span>(wechat)  <span class="comment"># 替换所有字符为 *</span></span><br><span class="line">    <span class="keyword">return</span> wechat  <span class="comment"># 如果不是字符串，直接返回原值</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取 Excel 文件</span></span><br><span class="line">df = pd.read_excel(<span class="string">&quot;data.xlsx&quot;</span>, dtype=<span class="built_in">str</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 脱敏处理数据</span></span><br><span class="line"><span class="keyword">for</span> column <span class="keyword">in</span> df.columns:</span><br><span class="line">    <span class="keyword">for</span> i, value <span class="keyword">in</span> <span class="built_in">enumerate</span>(df[column]):</span><br><span class="line">        <span class="keyword">if</span> column == <span class="string">&quot;编号&quot;</span>:</span><br><span class="line">            <span class="comment"># 保持编号不变</span></span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        <span class="keyword">elif</span> column == <span class="string">&quot;姓名&quot;</span> <span class="keyword">and</span> <span class="built_in">isinstance</span>(value, <span class="built_in">str</span>):</span><br><span class="line">            df.at[i, column] = desensitize_name(value)</span><br><span class="line">        <span class="keyword">elif</span> column == <span class="string">&quot;手机号&quot;</span> <span class="keyword">and</span> <span class="built_in">isinstance</span>(value, <span class="built_in">str</span>):</span><br><span class="line">            df.at[i, column] = desensitize_phone(value)</span><br><span class="line">        <span class="keyword">elif</span> column == <span class="string">&quot;身份证号&quot;</span> <span class="keyword">and</span> <span class="built_in">isinstance</span>(value, <span class="built_in">str</span>):</span><br><span class="line">            df.at[i, column] = desensitize_id(value)</span><br><span class="line">        <span class="keyword">elif</span> column == <span class="string">&quot;银行卡号&quot;</span> <span class="keyword">and</span> <span class="built_in">isinstance</span>(value, <span class="built_in">str</span>):</span><br><span class="line">            df.at[i, column] = desensitize_bank_card(value)</span><br><span class="line">        <span class="keyword">elif</span> column == <span class="string">&quot;Email&quot;</span> <span class="keyword">and</span> <span class="built_in">isinstance</span>(value, <span class="built_in">str</span>):</span><br><span class="line">            df.at[i, column] = desensitize_email(value)</span><br><span class="line">        <span class="keyword">elif</span> column == <span class="string">&quot;性别&quot;</span> <span class="keyword">and</span> <span class="built_in">isinstance</span>(value, <span class="built_in">str</span>):</span><br><span class="line">            df.at[i, column] = desensitize_gender(value)</span><br><span class="line">        <span class="keyword">elif</span> column == <span class="string">&quot;微信号&quot;</span> <span class="keyword">and</span> <span class="built_in">isinstance</span>(value, <span class="built_in">str</span>):</span><br><span class="line">            df.at[i, column] = desensitize_wechat(value)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存脱敏后的数据到新 Excel 文件</span></span><br><span class="line">df.to_excel(<span class="string">&quot;desensitized_data.xlsx&quot;</span>, index=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成拼接字符串（按行拼接，每列数据之间用逗号隔开）</span></span><br><span class="line">data_str = <span class="string">&#x27;&#x27;</span>.join(df.astype(<span class="built_in">str</span>).values.flatten())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 去除所有可能的换行符和回车符</span></span><br><span class="line">data_str = data_str.replace(<span class="string">&#x27;\n&#x27;</span>, <span class="string">&#x27;&#x27;</span>).replace(<span class="string">&#x27;\r&#x27;</span>, <span class="string">&#x27;&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算 MD5</span></span><br><span class="line">md5_hash = hashlib.md5(data_str.encode()).hexdigest()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出 MD5 结果</span></span><br><span class="line"><span class="built_in">print</span>(data_str)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;MD5:&quot;</span>, md5_hash)</span><br></pre></td></tr></table></figure></div>
 
-<h2 id="结构化数据识别-3"><a href="#结构化数据识别-3" class="headerlink" title="结构化数据识别-3"></a>结构化数据识别-3</h2><p>### 题目描述： 请参赛选手对给定的结构化文件《data.xlsx》进行处理，文件中包括手机号、身份证号码、银行卡号、邮箱等四类敏感数据以及干扰的脏数据（数据不满足特征）。具体数据检测规则可参考下文。参赛选手需要对数据进行清洗，编写规则，识别其中正确的敏感数据，并输出识别结果。仅当一行中所有的数据命中数据类型的规则时，才认为该行命中某一数据类型。 请参赛选手编写程序对数据进行识别，计算全部都命中的行数，计算答案的 MD5 值（MD5 值英文字符全小写，长度 32 个字符；计算答案的 MD5 值时，用 UTF-8 字符编码），并将答案的 MD5 值提交至平台。 1. <strong>手机号</strong>是指11 位纯数字的民用手机号， 具体规则为：a) 1-3 位—— 138——运营商网络识别号，运营商包括中国移动、中国联通、中国电信、中国广电b) 4-7 位——8888——地区编码或其他（无规律）c) 8-11 位——8888——用户编码 2. <strong>身份证号码</strong>是指18 位二代身份证号码， 具体规则为：a) 1-6 位—— 140521——为行政区代码（不定年份有修订）b) 7-14 位—— 19701231——为出生年月日，出生年月日不早于 1930 年1 月 1 日， 不晚于当前日期c) 15-17 位——543——顺序码，任意 3 位数字，第 17 位奇数为男性，偶数位女性d) 18 位——2——校验位，取值范围为 0~9 或 X。身份证号校验算法参照国标GB11643-1999《公民身份号码》。 3. <strong>银行卡号</strong>是指19 位纯数字的银行卡号， 具体规则为：银行卡号规则是银行卡号由发卡银行标识、账户标识、校验位等部分组成。发卡银行标识为开头的6 位数字，不同的银行有不同的BIN。银行卡号的中间部分用于标识持卡人的账户信息，包括账户类型、账户分行等，通常包含12 位数字。银行卡号的最后一位通常是校验位，用于检查卡号是否合法，计算方法按照一定的算法生成。银行卡号校验位采用Luhn 算法。 4. <strong>邮箱</strong>由用户名@域名组成，不限制长度，例如：<a href="mailto:&#49;&#x32;&#x33;&#x34;&#x35;&#54;&#55;&#x38;&#x39;&#x40;&#x31;&#x36;&#51;&#x2e;&#x63;&#x6f;&#x6d;">&#49;&#x32;&#x33;&#x34;&#x35;&#54;&#55;&#x38;&#x39;&#x40;&#x31;&#x36;&#51;&#x2e;&#x63;&#x6f;&#x6d;</a> 具体规则为：用户名@域名，用户名可由字母、数字、下划线构成，不以下划线开始；域名：至少包含一个”.”，以最后一个”.”分割为两个部分，前半部分由字母、数字或”.”构成，”.”不能在最前面；后半部分由字母或数字构成。 <strong>正确答案示例</strong>：2323行，md5后答案提交为：flag{149815eb972b3c370dee3b89d645ae14}</p>
+<h2 id="结构化数据识别-3"><a href="#结构化数据识别-3" class="headerlink" title="结构化数据识别-3"></a>结构化数据识别-3</h2><p>### 题目描述： 请参赛选手对给定的结构化文件《data.xlsx》进行处理，文件中包括手机号、身份证号码、银行卡号、邮箱等四类敏感数据以及干扰的脏数据（数据不满足特征）。具体数据检测规则可参考下文。参赛选手需要对数据进行清洗，编写规则，识别其中正确的敏感数据，并输出识别结果。仅当一行中所有的数据命中数据类型的规则时，才认为该行命中某一数据类型。 请参赛选手编写程序对数据进行识别，计算全部都命中的行数，计算答案的 MD5 值（MD5 值英文字符全小写，长度 32 个字符；计算答案的 MD5 值时，用 UTF-8 字符编码），并将答案的 MD5 值提交至平台。 1. <strong>手机号</strong>是指11 位纯数字的民用手机号， 具体规则为：a) 1-3 位—— 138——运营商网络识别号，运营商包括中国移动、中国联通、中国电信、中国广电b) 4-7 位——8888——地区编码或其他（无规律）c) 8-11 位——8888——用户编码 2. <strong>身份证号码</strong>是指18 位二代身份证号码， 具体规则为：a) 1-6 位—— 140521——为行政区代码（不定年份有修订）b) 7-14 位—— 19701231——为出生年月日，出生年月日不早于 1930 年1 月 1 日， 不晚于当前日期c) 15-17 位——543——顺序码，任意 3 位数字，第 17 位奇数为男性，偶数位女性d) 18 位——2——校验位，取值范围为 0~9 或 X。身份证号校验算法参照国标GB11643-1999《公民身份号码》。 3. <strong>银行卡号</strong>是指19 位纯数字的银行卡号， 具体规则为：银行卡号规则是银行卡号由发卡银行标识、账户标识、校验位等部分组成。发卡银行标识为开头的6 位数字，不同的银行有不同的BIN。银行卡号的中间部分用于标识持卡人的账户信息，包括账户类型、账户分行等，通常包含12 位数字。银行卡号的最后一位通常是校验位，用于检查卡号是否合法，计算方法按照一定的算法生成。银行卡号校验位采用Luhn 算法。 4. <strong>邮箱</strong>由用户名@域名组成，不限制长度，例如：<a class="link"   href="mailto:&#x31;&#x32;&#x33;&#x34;&#53;&#54;&#55;&#56;&#57;&#x40;&#49;&#54;&#x33;&#x2e;&#99;&#111;&#x6d;" >&#x31;&#x32;&#x33;&#x34;&#53;&#54;&#55;&#56;&#57;&#x40;&#49;&#54;&#x33;&#x2e;&#99;&#111;&#x6d;<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> 具体规则为：用户名@域名，用户名可由字母、数字、下划线构成，不以下划线开始；域名：至少包含一个”.”，以最后一个”.”分割为两个部分，前半部分由字母、数字或”.”构成，”.”不能在最前面；后半部分由字母或数字构成。 <strong>正确答案示例</strong>：2323行，md5后答案提交为：flag{149815eb972b3c370dee3b89d645ae14}</p>
 <p>挺奇怪的一点点筛选下来，如果直接匹配银行卡号前六位就什么都没有，因为要求比较精确且一分钟内提交有限制，最后也没试出来</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">import</span> re<br><span class="hljs-keyword">import</span> hashlib<br><br><br><span class="hljs-comment"># 正则表达式规则</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">is_valid_phone</span>(<span class="hljs-params">phone</span>):<br>    phone_pattern = <span class="hljs-string">r&#x27;^(1(3[4-9]|4[7]|5[0-3]|5[5-9]|6[6]|7[0-3]|8[0-9]|9[1-9]|70[0-9]|9[9]))\d&#123;8&#125;$&#x27;</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">bool</span>(re.<span class="hljs-keyword">match</span>(phone_pattern, phone))<br><br><br><span class="hljs-keyword">import</span> re<br><span class="hljs-keyword">from</span> datetime <span class="hljs-keyword">import</span> datetime<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">calculate_check_digit</span>(<span class="hljs-params">id_card</span>):<br>    <span class="hljs-comment"># 权重系数</span><br>    weights = [<span class="hljs-number">7</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>, <span class="hljs-number">5</span>, <span class="hljs-number">8</span>, <span class="hljs-number">4</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-number">6</span>, <span class="hljs-number">3</span>, <span class="hljs-number">7</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>, <span class="hljs-number">5</span>, <span class="hljs-number">8</span>, <span class="hljs-number">4</span>, <span class="hljs-number">2</span>]<br>    <span class="hljs-comment"># 校验位映射</span><br>    check_map = [<span class="hljs-string">&#x27;1&#x27;</span>, <span class="hljs-string">&#x27;0&#x27;</span>, <span class="hljs-string">&#x27;X&#x27;</span>, <span class="hljs-string">&#x27;9&#x27;</span>, <span class="hljs-string">&#x27;8&#x27;</span>, <span class="hljs-string">&#x27;7&#x27;</span>, <span class="hljs-string">&#x27;6&#x27;</span>, <span class="hljs-string">&#x27;5&#x27;</span>, <span class="hljs-string">&#x27;4&#x27;</span>, <span class="hljs-string">&#x27;3&#x27;</span>, <span class="hljs-string">&#x27;2&#x27;</span>]<br><br>    <span class="hljs-comment"># 计算加权和</span><br>    weighted_sum = <span class="hljs-built_in">sum</span>(<span class="hljs-built_in">int</span>(id_card[i]) * weights[i] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">17</span>))<br><br>    <span class="hljs-comment"># 取模操作</span><br>    remainder = weighted_sum % <span class="hljs-number">11</span><br><br>    <span class="hljs-comment"># 返回校验位</span><br>    <span class="hljs-keyword">return</span> check_map[remainder]<br><br><br><span class="hljs-comment"># 身份证号校验</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">is_valid_id_card</span>(<span class="hljs-params">id_card</span>):<br>    <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(id_card) != <span class="hljs-number">18</span> <span class="hljs-keyword">or</span> <span class="hljs-keyword">not</span> id_card[:<span class="hljs-number">17</span>].isdigit():<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br><br>    <span class="hljs-comment"># 第一位不能是0或9</span><br>    <span class="hljs-keyword">if</span> id_card[<span class="hljs-number">0</span>] <span class="hljs-keyword">in</span> &#123;<span class="hljs-string">&#x27;0&#x27;</span>, <span class="hljs-string">&#x27;9&#x27;</span>&#125;:<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br><br>    <span class="hljs-comment"># 检查省级行政区划代码是否合法（11-65，71-82）</span><br>    province_code = <span class="hljs-built_in">int</span>(id_card[:<span class="hljs-number">2</span>])<br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> (<span class="hljs-number">11</span> &lt;= province_code &lt;= <span class="hljs-number">65</span> <span class="hljs-keyword">or</span> <span class="hljs-number">71</span> &lt;= province_code &lt;= <span class="hljs-number">82</span>):<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br><br>    <span class="hljs-comment">#特殊校验：第一位为7时第二位只能是1；第一位为8时第二位只能是1或2</span><br>    <span class="hljs-keyword">if</span> id_card[<span class="hljs-number">0</span>] == <span class="hljs-string">&#x27;7&#x27;</span> <span class="hljs-keyword">and</span> id_card[<span class="hljs-number">1</span>] != <span class="hljs-string">&#x27;1&#x27;</span>:<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br>    <span class="hljs-keyword">if</span> id_card[<span class="hljs-number">0</span>] == <span class="hljs-string">&#x27;8&#x27;</span> <span class="hljs-keyword">and</span> id_card[<span class="hljs-number">1</span>] <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> &#123;<span class="hljs-string">&#x27;1&#x27;</span>, <span class="hljs-string">&#x27;2&#x27;</span>&#125;:<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br><br>    <span class="hljs-comment"># 区域码应为前6位的数字</span><br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> re.<span class="hljs-keyword">match</span>(<span class="hljs-string">r&#x27;^\d&#123;6&#125;&#x27;</span>, id_card):<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br><br>    <span class="hljs-comment"># 出生日期合法性校验</span><br>    birth_date = id_card[<span class="hljs-number">6</span>:<span class="hljs-number">14</span>]<br>    <span class="hljs-keyword">try</span>:<br>        datetime.strptime(birth_date, <span class="hljs-string">&#x27;%Y%m%d&#x27;</span>)<br>    <span class="hljs-keyword">except</span> ValueError:<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br><br>    <span class="hljs-comment"># 顺序码应为数字</span><br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> id_card[<span class="hljs-number">14</span>:<span class="hljs-number">17</span>].isdigit():<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br><br>    <span class="hljs-comment"># 校验位判断</span><br>    <span class="hljs-keyword">if</span> id_card[<span class="hljs-number">17</span>].upper() != calculate_check_digit(id_card):<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br><br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">is_valid_bank_card</span>(<span class="hljs-params">bank_card</span>):<br>    <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(bank_card) != <span class="hljs-number">19</span> <span class="hljs-keyword">or</span> <span class="hljs-keyword">not</span> bank_card.isdigit():<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br><br>    <span class="hljs-keyword">if</span> bank_card[<span class="hljs-number">0</span>] == <span class="hljs-string">&#x27;0&#x27;</span> <span class="hljs-keyword">or</span> bank_card[<span class="hljs-number">0</span>] == <span class="hljs-string">&#x27;7&#x27;</span> <span class="hljs-keyword">or</span> bank_card[<span class="hljs-number">0</span>] == <span class="hljs-string">&#x27;8&#x27;</span>:<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br>    <span class="hljs-comment"># Luhn 校验</span><br>    total = <span class="hljs-number">0</span><br>    reverse_digits = bank_card[::-<span class="hljs-number">1</span>]<br>    <span class="hljs-keyword">for</span> i, digit <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(reverse_digits):<br>        n = <span class="hljs-built_in">int</span>(digit)<br>        <span class="hljs-keyword">if</span> i % <span class="hljs-number">2</span> == <span class="hljs-number">1</span>:<br>            n *= <span class="hljs-number">2</span><br>            <span class="hljs-keyword">if</span> n &gt; <span class="hljs-number">9</span>:<br>                n -= <span class="hljs-number">9</span><br>        total += n<br>    <span class="hljs-keyword">return</span> total % <span class="hljs-number">10</span> == <span class="hljs-number">0</span><br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">is_valid_email</span>(<span class="hljs-params">email</span>):<br>    email_regex = <span class="hljs-string">r&#x27;^[a-zA-Z0-9][a-zA-Z0-9_]*@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]&#123;2,&#125;)+$&#x27;</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">bool</span>(re.<span class="hljs-keyword">match</span>(email_regex, email))<br><br><br><span class="hljs-comment"># 读取Excel文件</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">read_and_process_data</span>(<span class="hljs-params">file_path</span>):<br>    df = pd.read_excel(file_path)<br>    valid_count = <span class="hljs-number">0</span><br><br>    <span class="hljs-keyword">for</span> _, row <span class="hljs-keyword">in</span> df.iterrows():<br>        phone_valid = is_valid_phone(row[<span class="hljs-string">&#x27;col2&#x27;</span>])<br>        id_card_valid = is_valid_id_card(row[<span class="hljs-string">&#x27;col1&#x27;</span>])<br>        bank_card_valid = is_valid_bank_card(row[<span class="hljs-string">&#x27;col4&#x27;</span>])<br>        email_valid = is_valid_email(row[<span class="hljs-string">&#x27;col3&#x27;</span>])<br><br>        <span class="hljs-comment"># 如果一行的所有数据都符合规则</span><br>        <span class="hljs-keyword">if</span> phone_valid <span class="hljs-keyword">and</span> id_card_valid <span class="hljs-keyword">and</span> bank_card_valid <span class="hljs-keyword">and</span> email_valid:<br>            valid_count += <span class="hljs-number">1</span><br>    <span class="hljs-built_in">print</span>(valid_count)<br>    <span class="hljs-keyword">return</span> valid_count<br><br><br><span class="hljs-comment"># 计算MD5值</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">calculate_md5</span>(<span class="hljs-params">valid_count</span>):<br>    <span class="hljs-keyword">return</span> hashlib.md5(<span class="hljs-built_in">str</span>(valid_count).encode(<span class="hljs-string">&#x27;utf-8&#x27;</span>)).hexdigest()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">print_valid_data</span>(<span class="hljs-params">file_path</span>):<br>    df = pd.read_excel(file_path)<br>    <span class="hljs-keyword">for</span> _, row <span class="hljs-keyword">in</span> df.iterrows():<br>        phone_valid = is_valid_phone(row[<span class="hljs-string">&#x27;col2&#x27;</span>])<br>        id_card_valid = is_valid_id_card(row[<span class="hljs-string">&#x27;col1&#x27;</span>])<br>        bank_card_valid = is_valid_bank_card(row[<span class="hljs-string">&#x27;col4&#x27;</span>])<br>        email_valid = is_valid_email(row[<span class="hljs-string">&#x27;col3&#x27;</span>])<br><br>        <span class="hljs-keyword">if</span> phone_valid <span class="hljs-keyword">and</span> id_card_valid <span class="hljs-keyword">and</span> bank_card_valid <span class="hljs-keyword">and</span> email_valid:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Valid data: <span class="hljs-subst">&#123;row.to_dict()&#125;</span>&quot;</span>)<br><br><span class="hljs-comment"># 主程序</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">main</span>():<br>    file_path = <span class="hljs-string">&#x27;data.xlsx&#x27;</span>  <span class="hljs-comment"># 替换为文件路径</span><br>    valid_count = read_and_process_data(file_path)<br>    md5_result = calculate_md5(valid_count)<br>    print_valid_data(file_path)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;MD5 Result: flag&#123;&#123;<span class="hljs-subst">&#123;md5_result&#125;</span>&#125;&#125;&quot;</span>)<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    main()<br></code></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 正则表达式规则</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">is_valid_phone</span>(<span class="params">phone</span>):</span><br><span class="line">    phone_pattern = <span class="string">r&#x27;^(1(3[4-9]|4[7]|5[0-3]|5[5-9]|6[6]|7[0-3]|8[0-9]|9[1-9]|70[0-9]|9[9]))\d&#123;8&#125;$&#x27;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">bool</span>(re.<span class="keyword">match</span>(phone_pattern, phone))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">calculate_check_digit</span>(<span class="params">id_card</span>):</span><br><span class="line">    <span class="comment"># 权重系数</span></span><br><span class="line">    weights = [<span class="number">7</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">6</span>, <span class="number">3</span>, <span class="number">7</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">4</span>, <span class="number">2</span>]</span><br><span class="line">    <span class="comment"># 校验位映射</span></span><br><span class="line">    check_map = [<span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;X&#x27;</span>, <span class="string">&#x27;9&#x27;</span>, <span class="string">&#x27;8&#x27;</span>, <span class="string">&#x27;7&#x27;</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;5&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;2&#x27;</span>]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 计算加权和</span></span><br><span class="line">    weighted_sum = <span class="built_in">sum</span>(<span class="built_in">int</span>(id_card[i]) * weights[i] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">17</span>))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 取模操作</span></span><br><span class="line">    remainder = weighted_sum % <span class="number">11</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 返回校验位</span></span><br><span class="line">    <span class="keyword">return</span> check_map[remainder]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 身份证号校验</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">is_valid_id_card</span>(<span class="params">id_card</span>):</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(id_card) != <span class="number">18</span> <span class="keyword">or</span> <span class="keyword">not</span> id_card[:<span class="number">17</span>].isdigit():</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 第一位不能是0或9</span></span><br><span class="line">    <span class="keyword">if</span> id_card[<span class="number">0</span>] <span class="keyword">in</span> &#123;<span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;9&#x27;</span>&#125;:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 检查省级行政区划代码是否合法（11-65，71-82）</span></span><br><span class="line">    province_code = <span class="built_in">int</span>(id_card[:<span class="number">2</span>])</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> (<span class="number">11</span> &lt;= province_code &lt;= <span class="number">65</span> <span class="keyword">or</span> <span class="number">71</span> &lt;= province_code &lt;= <span class="number">82</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#特殊校验：第一位为7时第二位只能是1；第一位为8时第二位只能是1或2</span></span><br><span class="line">    <span class="keyword">if</span> id_card[<span class="number">0</span>] == <span class="string">&#x27;7&#x27;</span> <span class="keyword">and</span> id_card[<span class="number">1</span>] != <span class="string">&#x27;1&#x27;</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">if</span> id_card[<span class="number">0</span>] == <span class="string">&#x27;8&#x27;</span> <span class="keyword">and</span> id_card[<span class="number">1</span>] <span class="keyword">not</span> <span class="keyword">in</span> &#123;<span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;2&#x27;</span>&#125;:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 区域码应为前6位的数字</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> re.<span class="keyword">match</span>(<span class="string">r&#x27;^\d&#123;6&#125;&#x27;</span>, id_card):</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 出生日期合法性校验</span></span><br><span class="line">    birth_date = id_card[<span class="number">6</span>:<span class="number">14</span>]</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        datetime.strptime(birth_date, <span class="string">&#x27;%Y%m%d&#x27;</span>)</span><br><span class="line">    <span class="keyword">except</span> ValueError:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 顺序码应为数字</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> id_card[<span class="number">14</span>:<span class="number">17</span>].isdigit():</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 校验位判断</span></span><br><span class="line">    <span class="keyword">if</span> id_card[<span class="number">17</span>].upper() != calculate_check_digit(id_card):</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">is_valid_bank_card</span>(<span class="params">bank_card</span>):</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(bank_card) != <span class="number">19</span> <span class="keyword">or</span> <span class="keyword">not</span> bank_card.isdigit():</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> bank_card[<span class="number">0</span>] == <span class="string">&#x27;0&#x27;</span> <span class="keyword">or</span> bank_card[<span class="number">0</span>] == <span class="string">&#x27;7&#x27;</span> <span class="keyword">or</span> bank_card[<span class="number">0</span>] == <span class="string">&#x27;8&#x27;</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="comment"># Luhn 校验</span></span><br><span class="line">    total = <span class="number">0</span></span><br><span class="line">    reverse_digits = bank_card[::-<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">for</span> i, digit <span class="keyword">in</span> <span class="built_in">enumerate</span>(reverse_digits):</span><br><span class="line">        n = <span class="built_in">int</span>(digit)</span><br><span class="line">        <span class="keyword">if</span> i % <span class="number">2</span> == <span class="number">1</span>:</span><br><span class="line">            n *= <span class="number">2</span></span><br><span class="line">            <span class="keyword">if</span> n &gt; <span class="number">9</span>:</span><br><span class="line">                n -= <span class="number">9</span></span><br><span class="line">        total += n</span><br><span class="line">    <span class="keyword">return</span> total % <span class="number">10</span> == <span class="number">0</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">is_valid_email</span>(<span class="params">email</span>):</span><br><span class="line">    email_regex = <span class="string">r&#x27;^[a-zA-Z0-9][a-zA-Z0-9_]*@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]&#123;2,&#125;)+$&#x27;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">bool</span>(re.<span class="keyword">match</span>(email_regex, email))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取Excel文件</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">read_and_process_data</span>(<span class="params">file_path</span>):</span><br><span class="line">    df = pd.read_excel(file_path)</span><br><span class="line">    valid_count = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> _, row <span class="keyword">in</span> df.iterrows():</span><br><span class="line">        phone_valid = is_valid_phone(row[<span class="string">&#x27;col2&#x27;</span>])</span><br><span class="line">        id_card_valid = is_valid_id_card(row[<span class="string">&#x27;col1&#x27;</span>])</span><br><span class="line">        bank_card_valid = is_valid_bank_card(row[<span class="string">&#x27;col4&#x27;</span>])</span><br><span class="line">        email_valid = is_valid_email(row[<span class="string">&#x27;col3&#x27;</span>])</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 如果一行的所有数据都符合规则</span></span><br><span class="line">        <span class="keyword">if</span> phone_valid <span class="keyword">and</span> id_card_valid <span class="keyword">and</span> bank_card_valid <span class="keyword">and</span> email_valid:</span><br><span class="line">            valid_count += <span class="number">1</span></span><br><span class="line">    <span class="built_in">print</span>(valid_count)</span><br><span class="line">    <span class="keyword">return</span> valid_count</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算MD5值</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">calculate_md5</span>(<span class="params">valid_count</span>):</span><br><span class="line">    <span class="keyword">return</span> hashlib.md5(<span class="built_in">str</span>(valid_count).encode(<span class="string">&#x27;utf-8&#x27;</span>)).hexdigest()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">print_valid_data</span>(<span class="params">file_path</span>):</span><br><span class="line">    df = pd.read_excel(file_path)</span><br><span class="line">    <span class="keyword">for</span> _, row <span class="keyword">in</span> df.iterrows():</span><br><span class="line">        phone_valid = is_valid_phone(row[<span class="string">&#x27;col2&#x27;</span>])</span><br><span class="line">        id_card_valid = is_valid_id_card(row[<span class="string">&#x27;col1&#x27;</span>])</span><br><span class="line">        bank_card_valid = is_valid_bank_card(row[<span class="string">&#x27;col4&#x27;</span>])</span><br><span class="line">        email_valid = is_valid_email(row[<span class="string">&#x27;col3&#x27;</span>])</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> phone_valid <span class="keyword">and</span> id_card_valid <span class="keyword">and</span> bank_card_valid <span class="keyword">and</span> email_valid:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;Valid data: <span class="subst">&#123;row.to_dict()&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 主程序</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    file_path = <span class="string">&#x27;data.xlsx&#x27;</span>  <span class="comment"># 替换为文件路径</span></span><br><span class="line">    valid_count = read_and_process_data(file_path)</span><br><span class="line">    md5_result = calculate_md5(valid_count)</span><br><span class="line">    print_valid_data(file_path)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;MD5 Result: flag&#123;&#123;<span class="subst">&#123;md5_result&#125;</span>&#125;&#125;&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure></div>
 
-                
-              </div>
-            
-            <hr/>
-            <div>
-              <div class="post-metas my-3">
-  
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
+		</div>
 
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> 2025能源安全初赛部分wp</li>
+        <li><strong>作者:</strong> j1ya</li>
+        <li><strong>创建于
+                :</strong> 2025-04-24 11:48:28</li>
         
-  <a href="/categories/%E6%AF%94%E8%B5%9Bwp/" class="category-chain-item">比赛wp</a>
-  
-  
+            <li>
+                <strong>更新于
+                    :</strong> 2025-04-24 11:49:55
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://redefine.ohevan.com/2025/04/24/2025能源安全初赛部分wp/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
 
-      </span>
-    
-  
-</span>
-
-    </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/rc4%E9%AD%94%E6%94%B9/" class="print-no-link">#rc4魔改</a>
-      
-        <a href="/tags/%E6%95%B0%E8%AE%BA/" class="print-no-link">#数论</a>
-      
-    </div>
-  
+            
+                本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a> 进行许可。
+            
+        </li>
+    </ul>
 </div>
 
+		</div>
+		
 
-              
-  
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/rc4%E9%AD%94%E6%94%B9/">#rc4魔改</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E6%95%B0%E8%AE%BA/">#数论</a>&nbsp;
+			</li>
+			
+		</ul>
+		
 
-  <div class="license-box my-3">
-    <div class="license-title">
-      <div>2025能源安全初赛部分wp</div>
-      <div>https://j1ya-22.github.io/2025/04/24/2025能源安全初赛部分wp/</div>
+		
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2025/05/11/Pwn%E5%87%BA%E9%A2%98%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Pwn出题简单总结</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2025/04/21/defconctf2025-qualifier/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">defconctf2025_qualifier</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
     </div>
-    <div class="license-meta">
-      
-        <div class="license-meta-item">
-          <div>作者</div>
-          <div>j1ya</div>
-        </div>
-      
-      
-        <div class="license-meta-item license-meta-date">
-          <div>发布于</div>
-          <div>2025年4月24日</div>
-        </div>
-      
-      
-      
-        <div class="license-meta-item">
-          <div>许可协议</div>
-          <div>
+    
+
+        
             
-              
-              
-                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
-                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
-                    <i class="iconfont icon-by"></i>
-                  </span>
-                </a>
-              
-            
-          </div>
-        </div>
-      
-    </div>
-    <div class="license-icon iconfont"></div>
-  </div>
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.js';
 
+      (function() {
+        const startPath = location.pathname;
+        const startTime = Date.now();
+        const retryDelay = 200;
+        const retryLimit = 5000;
 
-
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2025/05/11/Pwn%E5%87%BA%E9%A2%98%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93/" title="Pwn出题简单总结">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Pwn出题简单总结</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2025/04/21/defconctf2025-qualifier/" title="defconctf2025_qualifier">
-                        <span class="hidden-mobile">defconctf2025_qualifier</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
-              
-            </div>
-
-            
-  
-  
-    <article id="comments" lazyload>
-      
-  <div id="valine"></div>
-  <script type="text/javascript">
-    Fluid.utils.loadComments('#valine', function() {
-      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
-        var options = Object.assign(
-          {"appId":"5oPqGOgpqzM186wdJq3YyrcV-gzGzoHsz","appKey":"tdZv3tC3tP1IszSKxEodRe6e","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
-          {
-            el: "#valine",
-            path: window.location.pathname
+        const runWaline = () => {
+          if (location.pathname !== startPath) {
+            return;
           }
-        )
-        new Valine(options);
-        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
-          var imgSelector = '#valine .vcontent img:not(.vemoji)';
-          Fluid.plugins.imageCaption(imgSelector);
-          Fluid.plugins.fancyBox(imgSelector);
-        })
-      });
-    });
-  </script>
-  <noscript>Please enable JavaScript to view the comments</noscript>
+
+          const container = document.getElementById('waline');
+          if (!container) {
+            if (Date.now() - startTime < retryLimit) {
+              setTimeout(runWaline, retryDelay);
+            }
+            return;
+          }
+
+          if (window.redefineWalineInstance?.destroy) {
+            window.redefineWalineInstance.destroy();
+          }
+
+          container.innerHTML = '';
+          window.redefineWalineInstance = init({
+            el: '#waline',
+            serverURL: 'https://example.example.com',
+            path: location.pathname,
+            dark: 'body[class~="dark-mode"]',
+            reaction: false,
+            requiredMeta: ['nick', 'mail'],
+            emoji: [],
+                      lang: 'zh-CN',
+          });
+        };
+
+        runWaline();
+      })();
+    </script>
 
 
-    </article>
-  
 
+        
+    
+</div>
 
-          </article>
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">2025能源安全初赛部分wp</div>
+		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%BD%E6%BA%90%E8%A1%8C%E4%B8%9A"><span class="nav-text">能源行业</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#lava"><span class="nav-text">lava</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#usb"><span class="nav-text">usb</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#easymodbus-3"><span class="nav-text">easymodbus-3</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Crypto"><span class="nav-text">Crypto</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#NumberTheory"><span class="nav-text">NumberTheory</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%AE%89%E5%85%A8"><span class="nav-text">数据安全</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E8%84%B1%E6%95%8F-3"><span class="nav-text">数据脱敏-3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E5%8C%96%E6%95%B0%E6%8D%AE%E8%AF%86%E5%88%AB-3"><span class="nav-text">结构化数据识别-3</span></a></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">j1ya</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 79 篇文章
+                    </span>
+                    
+                </p>
+            
         </div>
-      </div>
-    </div>
-
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-  <aside class="sidebar" style="margin-left: -1rem">
-    <div id="toc">
-  <p class="toc-header">
-    <i class="iconfont icon-list"></i>
-    <span>目录</span>
-  </p>
-  <div class="toc-body" id="toc-body"></div>
-</div>
-
-
-
-  </aside>
-
-
-    </div>
-  </div>
-</div>
-
-
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-
-
-
-
-    
-
-    
-      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
-        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-      </a>
-    
-
-    
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
         </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="图片查看器">
+	<button class="image-viewer-close" type="button" aria-label="关闭">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="上一页">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="关闭">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="下一页">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
 </div>
 
-    
 
-    
-  </main>
+	
 
-  <footer>
-    <div class="footer-inner">
-  
-    <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
-    </div>
-  
-  
-    <div class="statistics">
-  
-  
-
-  
-    
-      <span id="busuanzi_container_site_pv" style="display: none">
-        总访问量 
-        <span id="busuanzi_value_site_pv"></span>
-         次
-      </span>
-    
-    
-      <span id="busuanzi_container_site_uv" style="display: none">
-        总访客数 
-        <span id="busuanzi_value_site_uv"></span>
-         人
-      </span>
-    
-    
-  
-</div>
-
-  
-  
-  
-</div>
-
-  </footer>
-
-  <!-- Scripts -->
-  
-  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
-
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
-
-
-<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
-<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
-
-
-  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
+</main>
 
 
 
+<script src="/js/build/libs/Swup.min.js"></script>
 
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
 
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
 
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
 
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
 
-  
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
 <script>
-  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
-    var toc = jQuery('#toc');
-    if (toc.length === 0 || !window.tocbot) { return; }
-    var boardCtn = jQuery('#board-ctn');
-    var boardTop = boardCtn.offset().top;
-
-    window.tocbot.init(Object.assign({
-      tocSelector     : '#toc-body',
-      contentSelector : '.markdown-body',
-      linkClass       : 'tocbot-link',
-      activeLinkClass : 'tocbot-active-link',
-      listClass       : 'tocbot-list',
-      isCollapsedClass: 'tocbot-is-collapsed',
-      collapsibleClass: 'tocbot-is-collapsible',
-      scrollSmooth    : true,
-      includeTitleTags: true,
-      headingsOffset  : -boardTop,
-    }, CONFIG.toc));
-    if (toc.find('.toc-list-item').length > 0) {
-      toc.css('visibility', 'visible');
-    }
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('tocbot' in window) {
-        tocbot.refresh();
-        var toc = jQuery('#toc');
-        if (toc.length === 0 || !tocbot) {
-          return;
-        }
-        if (toc.find('.toc-list-item').length > 0) {
-          toc.css('visibility', 'visible');
-        }
-      }
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
     });
-  });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
 </script>
 
 
-  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
-
-  <script>Fluid.plugins.codeWidget();</script>
 
 
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
-    window.anchors.options = {
-      placement: CONFIG.anchorjs.placement,
-      visible  : CONFIG.anchorjs.visible
-    };
-    if (CONFIG.anchorjs.icon) {
-      window.anchors.options.icon = CONFIG.anchorjs.icon;
-    }
-    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-    var res = [];
-    for (var item of el) {
-      res.push('.markdown-body > ' + item.trim());
-    }
-    if (CONFIG.anchorjs.placement === 'left') {
-      window.anchors.options.class = 'anchorjs-link-left';
-    }
-    window.anchors.add(res.join(', '));
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('anchors' in window) {
-        anchors.removeAll();
-        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-        var res = [];
-        for (var item of el) {
-          res.push('.markdown-body > ' + item.trim());
-        }
-        if (CONFIG.anchorjs.placement === 'left') {
-          anchors.options.class = 'anchorjs-link-left';
-        }
-        anchors.add(res.join(', '));
-      }
-    });
-  });
-</script>
+	
+<script src="/js/build/main.js" type="module"></script>
 
 
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
-    Fluid.plugins.fancyBox();
-  });
-</script>
 
+    
+<script src="/js/build/libs/odometer.min.js"></script>
 
-  <script>Fluid.plugins.imageCaption();</script>
-
-  <script defer src="/js/leancloud.js" ></script>
-
-  <script  src="/js/local-search.js" ></script>
-
-  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
 
 
 
 
 
-<!-- 主题的启动项，将它保持在最底部 -->
-<!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
 
 
   
+<script src="/js/build/libs/Typed.min.js"></script>
 
-  <noscript>
-    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript>
+
+
+
+
+
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+
+	
 </body>
+
 </html>

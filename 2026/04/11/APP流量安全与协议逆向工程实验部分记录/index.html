@@ -1,395 +1,656 @@
-
-
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=auto>
-
-
-
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/China.jpg">
-  <link rel="icon" href="/img/China.jpg">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-  <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="j1ya">
-  <meta name="keywords" content="">
-  
-    <meta name="description" content="二进制磨剑公众号（P4nda0s师傅）推出的一个限时靶机 平台：https:&#x2F;&#x2F;www.bin-lab.com&#x2F;labs 实验 0: 自签名证书与中间人攻击    1.使用 OpenSSL 生成自签名 CA 证书 2.用 CA 签发服务器证书 12345根 CA (Root CA)  └── 服务器证书 (Server Certificate)根 CA：自签名，被操作系统&#x2F;浏览器信任服务器证书：由">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    
+    <meta name="author" content="j1ya">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://j1ya-22.github.io/2026/04/11/app流量安全与协议逆向工程实验部分记录/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="APP流量安全与协议逆向工程实验部分记录">
 <meta property="og:url" content="https://j1ya-22.github.io/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/index.html">
 <meta property="og:site_name" content="j1ya">
-<meta property="og:description" content="二进制磨剑公众号（P4nda0s师傅）推出的一个限时靶机 平台：https:&#x2F;&#x2F;www.bin-lab.com&#x2F;labs 实验 0: 自签名证书与中间人攻击    1.使用 OpenSSL 生成自签名 CA 证书 2.用 CA 签发服务器证书 12345根 CA (Root CA)  └── 服务器证书 (Server Certificate)根 CA：自签名，被操作系统&#x2F;浏览器信任服务器证书：由">
+<meta property="og:description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://j1ya-22.github.io/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774711268043-5df39758-5f50-4f90-8971-6c4b07ea0d61.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774711284624-2fd9bfa4-4f2f-4b6b-a213-1fc6f0435830.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774687446655-89dec9fa-fd8a-4739-a654-7ad818e7f7fe.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774687492397-e358e89e-4de2-4223-b03b-81141f9acb70.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774687083405-f884205b-6147-4a23-aaba-3780305d93a6.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774751197419-c64239bf-0e73-4f24-b18c-48414b8b6944.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774751228453-5970ac69-ddbb-434e-acee-5b182c7b0d2b.png">
-<meta property="og:image" content="https://j1ya-22.github.io/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774751361883-7523aea4-06f1-41db-be5d-75d5837e2cd4.png">
-<meta property="og:image" content="https://j1ya-22.github.io/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774751478866-5e94e1eb-5cec-4c22-8612-12b0ff02a6e7.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774773205786-64ed256a-9d62-423d-a7ca-b6a69b93d082.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774773189445-718be058-67e4-401a-bb60-329b6f12a8f0.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774773419587-ba737713-680a-4ca5-af99-e84214c58325.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774782023248-5a58929e-aba9-42fe-b0e9-3ac647e53754.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774772963829-2961511f-2a9e-4dfe-a545-7636ac2874ca.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774772868802-a5ee25b9-fbee-4d97-9d89-cdc62329669e.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774772901603-b603e510-ba90-4937-8e09-0611b9e716ff.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774711203387-7deba624-d67e-423a-9482-7b25f9a06e73.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774711220875-fc3e3864-6c89-45c2-82be-4ff2df14b492.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774711613834-e90971dc-2873-43d4-9250-db1ecb4078a4.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774711822202-959c2533-f19d-484b-8e07-1df0898c9f00.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774712067128-54fa8132-5534-40e5-bc9a-a40a2294a99a.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774712299925-224fe6d9-4098-4d74-a2eb-20bd2e760654.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774712441697-5d45c525-6e5b-4a10-a500-1083010f3764.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774712546478-0bc19feb-b977-4552-ab9e-ebea89b166b1.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774712414625-cea57008-7c83-4f6d-995e-55ef5b087e47.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774704191879-086410ff-e353-477b-986e-a1ef2af6d0d4.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774704216340-dd052952-1ac5-4695-a537-421594c79a95.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774703242396-7c05ae22-1fe2-42ad-9648-476fbc6bf0a3.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774704093499-dfe13a25-e06b-4447-90e0-de59582fd994.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774704022278-a3a7992a-3523-4a13-91db-29c89f590180.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774792204581-14ebc1dc-bf16-4b36-9efe-2da8724bc29b.png">
+<meta property="og:image" content="https://j1ya-22.github.io/images/redefine-og.webp">
 <meta property="article:published_time" content="2026-04-11T07:55:55.000Z">
 <meta property="article:modified_time" content="2026-08-05T07:09:01.232Z">
 <meta property="article:author" content="j1ya">
 <meta property="article:tag" content="Android">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://j1ya-22.github.io/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774711268043-5df39758-5f50-4f90-8971-6c4b07ea0d61.png">
-  
-  
-    <meta name="referrer" content="no-referrer-when-downgrade">
-  
-  
-  <title>APP流量安全与协议逆向工程实验部分记录 - j1ya</title>
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
-
-
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-<!-- Do not modify the link that theme dependent icons -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
-
-
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
-
-
-<link  rel="stylesheet" href="/css/main.css" />
-
-
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
-  
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
-  
-
-
-
-
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"j1ya-22.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":false,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"5oPqGOgpqzM186wdJq3YyrcV-gzGzoHsz","app_key":"tdZv3tC3tP1IszSKxEodRe6e","server_url":null,"path":"window.location.pathname","ignore_local":true}},"search_path":"/local-search.xml","include_content_in_search":true};
-
-    if (CONFIG.web_analytics.follow_dnt) {
-      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
-      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
-    }
-  </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
-  
-
-  
-
-  
-    <!-- Google tag (gtag.js) -->
-    <script async>
-      if (!Fluid.ctx.dnt) {
-        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
-          window.dataLayer = window.dataLayer || [];
-          function gtag() {
-            dataLayer.push(arguments);
-          }
-          gtag('js', new Date());
-          gtag('config', '');
-        });
-      }
-    </script>
-  
-
-  
-
-  
-
-  
-
-  
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://j1ya-22.github.io/images/redefine-og.webp">
     
-  
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/img/China.jpg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/China.jpg">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/img/China.jpg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            APP流量安全与协议逆向工程实验部分记录 | j1ya&#39;s blog
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
 
 
+    <!--- Inject Part-->
+    
 
-  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"j1ya-22.github.io","root":"/","language":"zh-CN"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":"Hexo Theme Redefine, Redefine Your Hexo Journey."},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"<span style=\"display:none\"></span>","subtitle":{"text":["There is only one heroism in the world:<br>to see the world as it is, and to love it."],"hitokoto":{"enable":false,"show_author":false,"api":"https://v1.hitokoto.cn"},"typing_speed":80,"backing_speed":80,"starting_delay":500,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.4rem","subtitle_size":"2.35rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"style":"default","links":[{"icon":"fa-brands fa-github","url":null},{"icon":"fa-brands fa-twitter","url":null},{"icon":"fa-solid fa-at","url":"you@example.com"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Archives":{"path":"/archives/","icon":"fa-regular fa-archive"},"Categories":{"path":"/categories/","icon":"fa-regular fa-folder"},"Tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"About":{"icon":"fa-regular fa-user","path":"/about/"},"Friends":{"path":"/links/","icon":"fa-solid fa-link"}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":null},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-heart fa-beat\" style=\"--fa-animation-duration: 0.5s; color: #f54545\"></i>","start":"2022/8/17 11:45:14","statistics":true,"customize":null,"icp":{"enable":false,"number":null,"url":null}},"footerStart":"2022/8/17 11:45:14","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.i18n = {"search":"站内搜索您需要的内容...","toc":"目录","prev":"上一页","next":"下一页","prev_posts":"上一篇","next_posts":"下一篇","page":"第 %d 页","recent_posts":"最新文章","share":"分享","powered_by":"由 %s 驱动","theme":"主题","rss_feed":"RSS Feed","category":"分类","categories":"分类","tag":"标签","tags":"标签","post":"文章","posts":"文章","tagcloud":"标签云","comment":"评论","comments":"评论","top":"置顶","sticky":"置顶","go-back-home":"回到首页","masonry_loading":"照片加载中...","image_viewer":"图片查看器","close":"关闭","exif":{"title":"EXIF","cards":{"camera":"相机","lens":"镜头","exposure":"曝光","other":"其他"},"fields":{"make":"品牌","model":"机型","date_taken":"拍摄时间","lens_model":"镜头","focal_length":"焦距","focus_mode":"对焦模式","shutter":"快门","aperture":"光圈","iso":"感光度","exposure_program":"曝光程序","exposure_compensation":"曝光补偿","metering_mode":"测光模式","flash":"闪光灯","white_balance":"白平衡","latitude":"纬度","longitude":"经度","altitude":"海拔"},"status":{"loading":"加载中...","no_exif":"无 EXIF 信息","library_missing":"EXIF 库未加载","image_source_missing":"图片地址不可用","unavailable":"EXIF 不可用（可能被 CORS 阻止或缺少元数据）","flag_unavailable":"EXIF 不可用"}},"home":"首页","archive":"归档","archives":"归档","about":"关于","links":"链接","link":"链接","friends":"友情链接","friend":"友情链接","timeline":"时间轴","shuoshuo":"说说","bookmarks":"书签","site_uv":"访问人数","site_pv":"总访问量","read_more":"阅读全文","wordcount":"字","min2read":"分钟","changelog":"更新日志","status":"状态","runtime":"博客已运行","days":"天","hours":"小时","minutes":"分钟","seconds":"秒","optimized_by":"并由 Evan 进行优化","rights":"版权所有","site_posts":"共撰写了 %s 篇文章","site_wordcount":"共 %s 字","copyright":{"title":"标题","author":"作者","link":"链接","create_time":"创建于","update_time":"更新于","license_title":"版权声明","license_content":"本文章采用 %s 进行许可。","all_rights_reserved":"版权所有 &#169 %s，禁止转载。","public_domain":"本文为公有领域作品，可自由转载、引用。"},"ago":{"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"},"create_time":"创建","update_time":"更新","expired":"这篇文章最后更新于 %s 天前，内容可能已经过时。"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
 <meta name="generator" content="Hexo 7.0.0"></head>
 
 
 <body>
-  
+	<div class="progress-bar-container">
+	
 
-  <header>
-    
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
 
-<div class="header-inner" style="height: 70vh;">
-  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <strong>j1ya</strong>
-    </a>
+<main class="page-container" id="swup">
 
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
+	
 
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/" target="_self">
-                <i class="iconfont icon-home-fill"></i>
-                <span>首页</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/" target="_self">
-                <i class="iconfont icon-archive-fill"></i>
-                <span>归档</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/" target="_self">
-                <i class="iconfont icon-category-fill"></i>
-                <span>分类</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/" target="_self">
-                <i class="iconfont icon-tags-fill"></i>
-                <span>标签</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/" target="_self">
-                <i class="iconfont icon-user-fill"></i>
-                <span>关于</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/links/" target="_self">
-                <i class="iconfont icon-link-fill"></i>
-                <span>友链</span>
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              <i class="iconfont icon-search"></i>
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                j1ya&#39;s blog
+                
             </a>
-          </li>
-          
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
-              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
-            </a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-</nav>
-
-  
-
-<div id="banner" class="banner" parallax=true
-     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
-  <div class="full-bg-img">
-    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-      <div class="banner-text text-center fade-in-up">
-        <div class="h2">
-          
-            <span id="subtitle" data-typed-text="APP流量安全与协议逆向工程实验部分记录"></span>
-          
         </div>
 
-        
-          
-  <div class="mt-3">
-    
-    
-      <span class="post-meta">
-        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-04-11 15:55" pubdate>
-          2026年4月11日 下午
-        </time>
-      </span>
-    
-  </div>
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
 
-  <div class="mt-1">
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-chart"></i>
-        
-          3.2k 字
-        
-      </span>
-    
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
 
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-clock-fill"></i>
-        
-        
-        
-          27 分钟
-        
-      </span>
-    
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-    
-    
-      
-        <span id="busuanzi_container_page_pv" style="display: none">
-          <i class="iconfont icon-eye" aria-hidden="true"></i>
-          <span id="busuanzi_value_page_pv"></span> 次
-        </span>
-        
-      
-    
-  </div>
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/archives/"
+                                        >
+                                    <i class="fa-regular fa-archive fa-fw"></i>
+                                    归档
+                                    
+                                </a>
 
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-        
-      </div>
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/categories/"
+                                        >
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    分类
+                                    
+                                </a>
 
-      
-    </div>
-  </div>
-</div>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-</div>
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/tags/"
+                                        >
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    标签
+                                    
+                                </a>
 
-  </header>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-  <main>
-    
-      
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/about/"
+                                        >
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
 
-<div class="container-fluid nopadding-x">
-  <div class="row nomargin-x">
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-    </div>
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/links/"
+                                        >
+                                    <i class="fa-solid fa-link fa-fw"></i>
+                                    友情链接
+                                    
+                                </a>
 
-    <div class="col-lg-8 nopadding-x-md">
-      <div class="container nopadding-x-md" id="board-ctn">
-        <div id="board">
-          <article class="post-content mx-auto">
-            <h1 id="seo-header">APP流量安全与协议逆向工程实验部分记录</h1>
-            
-            
-              <div class="markdown-body">
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
                 
-                <p>二进制磨剑公众号（<a target="_blank" rel="noopener" href="https://github.com/P4nda0s">P4nda0s</a>师傅）推出的一个限时靶机</p>
-<p>平台：<a target="_blank" rel="noopener" href="https://www.bin-lab.com/labs">https://www.bin-lab.com/labs</a></p>
-<h1 id="实验-0-自签名证书与中间人攻击"><a href="#实验-0-自签名证书与中间人攻击" class="headerlink" title="实验 0: 自签名证书与中间人攻击"></a>实验 0: 自签名证书与中间人攻击</h1><img src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774711268043-5df39758-5f50-4f90-8971-6c4b07ea0d61.png" srcset="/img/loading.gif" lazyload class="" title="img">
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<img src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774711284624-2fd9bfa4-4f2f-4b6b-a213-1fc6f0435830.png" srcset="/img/loading.gif" lazyload class="" title="img">
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/archives/"
+                        >
+                            <span>
+                                归档
+                            </span>
+                            
+                                <i class="fa-regular fa-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/categories/"
+                        >
+                            <span>
+                                分类
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/tags/"
+                        >
+                            <span>
+                                标签
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/about/"
+                        >
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/links/"
+                        >
+                            <span>
+                                友情链接
+                            </span>
+                            
+                                <i class="fa-solid fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">51</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">5</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">79</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			<div class="w-full flex items-center pt-6 justify-start">
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">APP流量安全与协议逆向工程实验部分记录</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/img/China.jpg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">j1ya</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv5</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-04-11 15:55:55</span>
+        <span class="mobile">2026-04-11 15:55:55</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2026-08-05 15:09:01</span>
+            <span class="mobile">2026-08-05 15:09:01</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E9%A1%B9%E7%9B%AE/">项目</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/Android/">Android</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<p>二进制磨剑公众号（<a class="link"   target="_blank" rel="noopener" href="https://github.com/P4nda0s" >P4nda0s<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>师傅）推出的一个限时靶机</p>
+<p>平台：<a class="link"   target="_blank" rel="noopener" href="https://www.bin-lab.com/labs" >https://www.bin-lab.com/labs<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h1 id="实验-0-自签名证书与中间人攻击"><a href="#实验-0-自签名证书与中间人攻击" class="headerlink" title="实验 0: 自签名证书与中间人攻击"></a>实验 0: 自签名证书与中间人攻击</h1><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774711268043-5df39758-5f50-4f90-8971-6c4b07ea0d61.png"
+                      class="" title="img"
+                >
+
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774711284624-2fd9bfa4-4f2f-4b6b-a213-1fc6f0435830.png"
+                      class="" title="img"
+                >
 
 <p>1.使用 OpenSSL 生成自签名 CA 证书</p>
 <p>2.用 CA 签发服务器证书</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs plain">根 CA (Root CA)<br>  └── 服务器证书 (Server Certificate)<br><br>根 CA：自签名，被操作系统/浏览器信任<br>服务器证书：由 CA 签发，用于标识网站身份<br></code></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">根 CA (Root CA)</span><br><span class="line">  └── 服务器证书 (Server Certificate)</span><br><span class="line"></span><br><span class="line">根 CA：自签名，被操作系统/浏览器信任</span><br><span class="line">服务器证书：由 CA 签发，用于标识网站身份</span><br></pre></td></tr></table></figure></div>
 
-<img src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774687446655-89dec9fa-fd8a-4739-a654-7ad818e7f7fe.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774687446655-89dec9fa-fd8a-4739-a654-7ad818e7f7fe.png"
+                      class="" title="img"
+                >
 
-<img src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774687492397-e358e89e-4de2-4223-b03b-81141f9acb70.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774687492397-e358e89e-4de2-4223-b03b-81141f9acb70.png"
+                      class="" title="img"
+                >
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs plain"># 生成针对 aaa.local 的配置文件<br>cat &gt; /data/aaa.cnf &lt;&lt; &#x27;EOF&#x27;<br>[req]<br>default_bits = 2048<br>prompt = no<br>default_md = sha256<br>distinguished_name = dn<br>req_extensions = v3_req<br><br>[dn]<br>C=CN<br>O=MyOrganization<br>CN=aaa.local<br><br>[v3_req]<br>subjectAltName = @alt_names<br>keyUsage = digitalSignature, keyEncipherment<br>extendedKeyUsage = serverAuth<br><br>[alt_names]<br>DNS.1 = aaa.local<br>EOF<br><br># 生成私钥 a.key<br>openssl genrsa -out /data/a.key 2048<br><br># 使用配置文件生成 CSR (a.csr)<br>openssl req -new -key /data/a.key -out /data/a.csr -config /data/aaa.cnf<br><br># 使用 Root CA 签发 a.crt (有效期 1 年 / 365 天)<br>openssl x509 -req -in /data/a.csr \<br>  -CA /data/myCA.crt -CAkey /data/myCA.key -CAcreateserial \<br>  -out /data/a.crt -days 365 -sha256 \<br>  -extfile /data/aaa.cnf -extensions v3_req<br></code></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"># 生成针对 aaa.local 的配置文件</span><br><span class="line">cat &gt; /data/aaa.cnf &lt;&lt; &#x27;EOF&#x27;</span><br><span class="line">[req]</span><br><span class="line">default_bits = 2048</span><br><span class="line">prompt = no</span><br><span class="line">default_md = sha256</span><br><span class="line">distinguished_name = dn</span><br><span class="line">req_extensions = v3_req</span><br><span class="line"></span><br><span class="line">[dn]</span><br><span class="line">C=CN</span><br><span class="line">O=MyOrganization</span><br><span class="line">CN=aaa.local</span><br><span class="line"></span><br><span class="line">[v3_req]</span><br><span class="line">subjectAltName = @alt_names</span><br><span class="line">keyUsage = digitalSignature, keyEncipherment</span><br><span class="line">extendedKeyUsage = serverAuth</span><br><span class="line"></span><br><span class="line">[alt_names]</span><br><span class="line">DNS.1 = aaa.local</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"># 生成私钥 a.key</span><br><span class="line">openssl genrsa -out /data/a.key 2048</span><br><span class="line"></span><br><span class="line"># 使用配置文件生成 CSR (a.csr)</span><br><span class="line">openssl req -new -key /data/a.key -out /data/a.csr -config /data/aaa.cnf</span><br><span class="line"></span><br><span class="line"># 使用 Root CA 签发 a.crt (有效期 1 年 / 365 天)</span><br><span class="line">openssl x509 -req -in /data/a.csr \</span><br><span class="line">  -CA /data/myCA.crt -CAkey /data/myCA.key -CAcreateserial \</span><br><span class="line">  -out /data/a.crt -days 365 -sha256 \</span><br><span class="line">  -extfile /data/aaa.cnf -extensions v3_req</span><br></pre></td></tr></table></figure></div>
 
-<img src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774687083405-f884205b-6147-4a23-aaba-3780305d93a6.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774687083405-f884205b-6147-4a23-aaba-3780305d93a6.png"
+                      class="" title="img"
+                >
 
 <p>中间人攻击需要把myCA.crt（自签名根证书）偷偷安装到受害者的操作系统或浏览器中，并设置为“受信任的根证书颁发机构；burp suite会要求先在手机或电脑上安装它们自己生成的 Root CA 证书，然后它们才能解密并抓取HTTPS 流量</p>
-<h1 id="实验-1-App-MITM-基础抓包与请求构造实验"><a href="#实验-1-App-MITM-基础抓包与请求构造实验" class="headerlink" title="实验 1: App MITM 基础抓包与请求构造实验"></a>实验 1: App MITM 基础抓包与请求构造实验</h1><img src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774751197419-c64239bf-0e73-4f24-b18c-48414b8b6944.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<h1 id="实验-1-App-MITM-基础抓包与请求构造实验"><a href="#实验-1-App-MITM-基础抓包与请求构造实验" class="headerlink" title="实验 1: App MITM 基础抓包与请求构造实验"></a>实验 1: App MITM 基础抓包与请求构造实验</h1><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774751197419-c64239bf-0e73-4f24-b18c-48414b8b6944.png"
+                      class="" title="img"
+                >
 
 <p>本实验希望app的流量经过电脑代理转发，从而被电脑上的抓包工具捕获请求</p>
-<img src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774751228453-5970ac69-ddbb-434e-acee-5b182c7b0d2b.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774751228453-5970ac69-ddbb-434e-acee-5b182c7b0d2b.png"
+                      class="" title="img"
+                >
 
 <p>典型的抓包环境配置方法，我这里用Charles来抓包</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><code class="hljs plain">第一阶段：配置 Charles 与证书（打通抓包通道）<br>1. 开启 Charles 的 SSL 抓包<br>默认情况下，Charles 只能抓 HTTP。我们需要让它能抓 HTTPS：<br><br>打开 Charles，点击菜单栏的 Proxy -&gt; SSL Proxying Settings。<br><br>勾选 Enable SSL Proxying。<br><br>在 Include 列表中点击 Add，Host 填 *，Port 填 *（代表抓取所有域名的 HTTPS 请求），点击 OK 保存。<br><br>2. 获取电脑局域网 IP<br><br>在 Charles 菜单栏点击 Help -&gt; Local IP Address，记下您电脑的 IP（例如 192.168.1.100）。Charles 的默认代理端口是 8888。<br><br>3. 配置雷电模拟器代理<br><br>打开雷电模拟器，进入系统自带的 设置 -&gt; 网络和互联网 -&gt; WLAN。<br><br>鼠标左键长按连接中的 WiFi（通常叫 WiredSSID），选择 修改网络。<br><br>点开 高级选项，将 代理 改为 手动。<br><br>代理主机名填刚刚记下的电脑 IP，端口填 8888，保存。<br><br>此时 Charles 会弹出一个提示框问您是否允许连接，务必点击 Allow。<br><br>4. 在模拟器中安装 Charles 证书（非常关键！）<br><br>打开雷电模拟器自带的浏览器，在地址栏输入 chls.pro/ssl 并回车。<br><br>浏览器会自动下载一个证书文件（通常叫 charles-proxy-ssl-proxying-certificate.pem 或 .crt）。<br><br>下载完成后点击打开它，给证书随便起个名字（比如 charles），如果系统提示您设置锁屏密码，按提示设置一个简单的 PIN 码即可，最后完成安装。<br><br>第二阶段：应用内操作与抓包<br>1. 准备 App<br><br>将下载好的 app-debug-easy-1.apk 拖入雷电模拟器完成安装。<br><br>打开 App。<br><br>2. 填写目标信息<br><br>根据您的实验平台提示：<br><br>【Domain】 填写：nc.bin-lab.com<br><br>【Port】 填写：31755<br><br>3. 触发注册请求<br><br>在 App 随便输入一个测试账号（比如用户名 testuser1，密码 123456），点击注册/提交按钮。<br><br>4. 在 Charles 中寻找目标<br><br>回到 Charles，您会看到很多请求。找到域名为 nc.bin-lab.com 的请求，展开它。<br><br>找到那个注册接口（通常是 POST 请求，路径可能是 /register 或 /api/user 之类的）。<br><br>点击这个请求，查看下方的 Contents 标签页，确保您能清楚地看到请求的 URL、Headers（请求头） 以及 Body（提交的表单数据或 JSON）<br></code></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">第一阶段：配置 Charles 与证书（打通抓包通道）</span><br><span class="line">1. 开启 Charles 的 SSL 抓包</span><br><span class="line">默认情况下，Charles 只能抓 HTTP。我们需要让它能抓 HTTPS：</span><br><span class="line"></span><br><span class="line">打开 Charles，点击菜单栏的 Proxy -&gt; SSL Proxying Settings。</span><br><span class="line"></span><br><span class="line">勾选 Enable SSL Proxying。</span><br><span class="line"></span><br><span class="line">在 Include 列表中点击 Add，Host 填 *，Port 填 *（代表抓取所有域名的 HTTPS 请求），点击 OK 保存。</span><br><span class="line"></span><br><span class="line">2. 获取电脑局域网 IP</span><br><span class="line"></span><br><span class="line">在 Charles 菜单栏点击 Help -&gt; Local IP Address，记下您电脑的 IP（例如 192.168.1.100）。Charles 的默认代理端口是 8888。</span><br><span class="line"></span><br><span class="line">3. 配置雷电模拟器代理</span><br><span class="line"></span><br><span class="line">打开雷电模拟器，进入系统自带的 设置 -&gt; 网络和互联网 -&gt; WLAN。</span><br><span class="line"></span><br><span class="line">鼠标左键长按连接中的 WiFi（通常叫 WiredSSID），选择 修改网络。</span><br><span class="line"></span><br><span class="line">点开 高级选项，将 代理 改为 手动。</span><br><span class="line"></span><br><span class="line">代理主机名填刚刚记下的电脑 IP，端口填 8888，保存。</span><br><span class="line"></span><br><span class="line">此时 Charles 会弹出一个提示框问您是否允许连接，务必点击 Allow。</span><br><span class="line"></span><br><span class="line">4. 在模拟器中安装 Charles 证书（非常关键！）</span><br><span class="line"></span><br><span class="line">打开雷电模拟器自带的浏览器，在地址栏输入 chls.pro/ssl 并回车。</span><br><span class="line"></span><br><span class="line">浏览器会自动下载一个证书文件（通常叫 charles-proxy-ssl-proxying-certificate.pem 或 .crt）。</span><br><span class="line"></span><br><span class="line">下载完成后点击打开它，给证书随便起个名字（比如 charles），如果系统提示您设置锁屏密码，按提示设置一个简单的 PIN 码即可，最后完成安装。</span><br><span class="line"></span><br><span class="line">第二阶段：应用内操作与抓包</span><br><span class="line">1. 准备 App</span><br><span class="line"></span><br><span class="line">将下载好的 app-debug-easy-1.apk 拖入雷电模拟器完成安装。</span><br><span class="line"></span><br><span class="line">打开 App。</span><br><span class="line"></span><br><span class="line">2. 填写目标信息</span><br><span class="line"></span><br><span class="line">根据您的实验平台提示：</span><br><span class="line"></span><br><span class="line">【Domain】 填写：nc.bin-lab.com</span><br><span class="line"></span><br><span class="line">【Port】 填写：31755</span><br><span class="line"></span><br><span class="line">3. 触发注册请求</span><br><span class="line"></span><br><span class="line">在 App 随便输入一个测试账号（比如用户名 testuser1，密码 123456），点击注册/提交按钮。</span><br><span class="line"></span><br><span class="line">4. 在 Charles 中寻找目标</span><br><span class="line"></span><br><span class="line">回到 Charles，您会看到很多请求。找到域名为 nc.bin-lab.com 的请求，展开它。</span><br><span class="line"></span><br><span class="line">找到那个注册接口（通常是 POST 请求，路径可能是 /register 或 /api/user 之类的）。</span><br><span class="line"></span><br><span class="line">点击这个请求，查看下方的 Contents 标签页，确保您能清楚地看到请求的 URL、Headers（请求头） 以及 Body（提交的表单数据或 JSON）</span><br></pre></td></tr></table></figure></div>
 
-<p><img src="/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774751361883-7523aea4-06f1-41db-be5d-75d5837e2cd4.png" srcset="/img/loading.gif" lazyload alt="img"><img src="/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774751478866-5e94e1eb-5cec-4c22-8612-12b0ff02a6e7.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774751361883-7523aea4-06f1-41db-be5d-75d5837e2cd4.png"
+                      alt="img"
+                ><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774751478866-5e94e1eb-5cec-4c22-8612-12b0ff02a6e7.png"
+                      alt="img"
+                ></p>
 <p>发现路由和请求方式后直接循环100次即可</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> urllib3<br><span class="hljs-keyword">import</span> time<br><br><span class="hljs-comment"># 消除使用 verify=False 时控制台满屏的安全警告</span><br>urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)<br>url = <span class="hljs-string">&quot;https://nc.bin-lab.com:31755/api&quot;</span><br><br>headers = &#123;<br>    <span class="hljs-string">&quot;content-type&quot;</span>: <span class="hljs-string">&quot;application/x-www-form-urlencoded&quot;</span>,<br>    <span class="hljs-string">&quot;user-agent&quot;</span>: <span class="hljs-string">&quot;okhttp/4.12.0&quot;</span>,<br>    <span class="hljs-string">&quot;accept-encoding&quot;</span>: <span class="hljs-string">&quot;gzip&quot;</span><br>&#125;<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;🚀 开始执行 100 个账号的批量注册...&quot;</span>)<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">101</span>):<br>    current_username = <span class="hljs-string">f&quot;easy_user_<span class="hljs-subst">&#123;i&#125;</span>&quot;</span><br>    payload = &#123;<br>        <span class="hljs-string">&quot;username&quot;</span>: current_username,<br>        <span class="hljs-string">&quot;passwd&quot;</span>: <span class="hljs-string">&quot;098f6bcd4621d373cade4e832627b4f6&quot;</span>,  <span class="hljs-comment"># 密码保持原样即可</span><br>        <span class="hljs-string">&quot;operation&quot;</span>: <span class="hljs-string">&quot;1&quot;</span><br>    &#125;<br>    <span class="hljs-keyword">try</span>:<br>        <span class="hljs-comment"># 注意: 因为是表单格式，所以这里用 data=payload; 必须加 verify=False</span><br>        response = requests.post(url, data=payload, headers=headers, verify=<span class="hljs-literal">False</span>, timeout=<span class="hljs-number">5</span>)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;[<span class="hljs-subst">&#123;i:03d&#125;</span>/100] 账号: <span class="hljs-subst">&#123;current_username&#125;</span> | 状态码: <span class="hljs-subst">&#123;response.status_code&#125;</span> | 返回: <span class="hljs-subst">&#123;response.text&#125;</span>&quot;</span>)<br>        time.sleep(<span class="hljs-number">0.1</span>)<br><br>    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;❌ 注册 <span class="hljs-subst">&#123;current_username&#125;</span> 时发生错误: <span class="hljs-subst">&#123;e&#125;</span>&quot;</span>)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;✅ 100 个账号注册脚本执行完毕！&quot;</span>)<br></code></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> urllib3</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="comment"># 消除使用 verify=False 时控制台满屏的安全警告</span></span><br><span class="line">urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)</span><br><span class="line">url = <span class="string">&quot;https://nc.bin-lab.com:31755/api&quot;</span></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&quot;content-type&quot;</span>: <span class="string">&quot;application/x-www-form-urlencoded&quot;</span>,</span><br><span class="line">    <span class="string">&quot;user-agent&quot;</span>: <span class="string">&quot;okhttp/4.12.0&quot;</span>,</span><br><span class="line">    <span class="string">&quot;accept-encoding&quot;</span>: <span class="string">&quot;gzip&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;🚀 开始执行 100 个账号的批量注册...&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">101</span>):</span><br><span class="line">    current_username = <span class="string">f&quot;easy_user_<span class="subst">&#123;i&#125;</span>&quot;</span></span><br><span class="line">    payload = &#123;</span><br><span class="line">        <span class="string">&quot;username&quot;</span>: current_username,</span><br><span class="line">        <span class="string">&quot;passwd&quot;</span>: <span class="string">&quot;098f6bcd4621d373cade4e832627b4f6&quot;</span>,  <span class="comment"># 密码保持原样即可</span></span><br><span class="line">        <span class="string">&quot;operation&quot;</span>: <span class="string">&quot;1&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="comment"># 注意: 因为是表单格式，所以这里用 data=payload; 必须加 verify=False</span></span><br><span class="line">        response = requests.post(url, data=payload, headers=headers, verify=<span class="literal">False</span>, timeout=<span class="number">5</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;[<span class="subst">&#123;i:03d&#125;</span>/100] 账号: <span class="subst">&#123;current_username&#125;</span> | 状态码: <span class="subst">&#123;response.status_code&#125;</span> | 返回: <span class="subst">&#123;response.text&#125;</span>&quot;</span>)</span><br><span class="line">        time.sleep(<span class="number">0.1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;❌ 注册 <span class="subst">&#123;current_username&#125;</span> 时发生错误: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;✅ 100 个账号注册脚本执行完毕！&quot;</span>)</span><br></pre></td></tr></table></figure></div>
 
 
 
-<h1 id="实验-2-VPN、Socks5-与网关抓包"><a href="#实验-2-VPN、Socks5-与网关抓包" class="headerlink" title="实验 2: VPN、Socks5 与网关抓包"></a>实验 2: VPN、Socks5 与网关抓包</h1><img src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774773205786-64ed256a-9d62-423d-a7ca-b6a69b93d082.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<h1 id="实验-2-VPN、Socks5-与网关抓包"><a href="#实验-2-VPN、Socks5-与网关抓包" class="headerlink" title="实验 2: VPN、Socks5 与网关抓包"></a>实验 2: VPN、Socks5 与网关抓包</h1><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774773205786-64ed256a-9d62-423d-a7ca-b6a69b93d082.png"
+                      class="" title="img"
+                >
 
 <p>Flutter 框架自带Google的BoringSSL 库，完全无视系统的 WiFi 代理设置， 有自己独立的一套网络栈</p>
 <p>VPN（虚拟专用网络）本质上是工作在 IP 层的一个虚拟网卡，经过该网卡的流量经过隧道转发，在 Android 上通过 VpnService 建立本地加密隧道：</p>
@@ -399,26 +660,66 @@
 <li>数据拦截：VPN 应用可读取、修改、记录经过的所有数据</li>
 <li>再转发：处理后再由真实网卡（wlan0&#x2F;eth0）</li>
 </ul>
-<img src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774773189445-718be058-67e4-401a-bb60-329b6f12a8f0.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774773189445-718be058-67e4-401a-bb60-329b6f12a8f0.png"
+                      class="" title="img"
+                >
 
 <p>SocksTun利用 Android 系统的 VpnService API 在手机内部建立了一个虚拟网卡tun0，所有出栈流量强制走VPN隧道，SOCKS5协议负责原封不动地把 VPN 截获的字节流转发给服务器，这时候提前通过中间人攻击解密HTTPS流量就能拿到flag</p>
 <p>安装SocksTun并设置参数</p>
-<img src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774773419587-ba737713-680a-4ca5-af99-e84214c58325.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774773419587-ba737713-680a-4ca5-af99-e84214c58325.png"
+                      class="" title="img"
+                >
 
 <p>Charles在content能看到flag</p>
-<img src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774782023248-5a58929e-aba9-42fe-b0e9-3ac647e53754.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774782023248-5a58929e-aba9-42fe-b0e9-3ac647e53754.png"
+                      class="" title="img"
+                >
 
 <p>后面改用Reqable，自动安装证书到本机</p>
-<img src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774772963829-2961511f-2a9e-4dfe-a545-7636ac2874ca.png" srcset="/img/loading.gif" lazyload class="" title="img">设置代理ip和port，以及SSL代理全部拦截
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774772963829-2961511f-2a9e-4dfe-a545-7636ac2874ca.png"
+                      class="" title="img"
+                >设置代理ip和port，以及SSL代理全部拦截
 
-<img src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774772868802-a5ee25b9-fbee-4d97-9d89-cdc62329669e.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774772868802-a5ee25b9-fbee-4d97-9d89-cdc62329669e.png"
+                      class="" title="img"
+                >
 
 <p>点击调试就可以开始捕获流量</p>
-<img src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774772901603-b603e510-ba90-4937-8e09-0611b9e716ff.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774772901603-b603e510-ba90-4937-8e09-0611b9e716ff.png"
+                      class="" title="img"
+                >
 
-<h1 id="实验-3-eBPF-抓包与-Wireshark-分析实验"><a href="#实验-3-eBPF-抓包与-Wireshark-分析实验" class="headerlink" title="实验 3: eBPF 抓包与 Wireshark 分析实验"></a>实验 3: eBPF 抓包与 Wireshark 分析实验</h1><img src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774711203387-7deba624-d67e-423a-9482-7b25f9a06e73.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<h1 id="实验-3-eBPF-抓包与-Wireshark-分析实验"><a href="#实验-3-eBPF-抓包与-Wireshark-分析实验" class="headerlink" title="实验 3: eBPF 抓包与 Wireshark 分析实验"></a>实验 3: eBPF 抓包与 Wireshark 分析实验</h1><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774711203387-7deba624-d67e-423a-9482-7b25f9a06e73.png"
+                      class="" title="img"
+                >
 
-<img src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774711220875-fc3e3864-6c89-45c2-82be-4ff2df14b492.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774711220875-fc3e3864-6c89-45c2-82be-4ff2df14b492.png"
+                      class="" title="img"
+                >
 
 <p>eBPF（extended Berkeley Packet Filter） 是运行在 Linux 内核中的一种“安全沙箱程序”，可以在不修改内核源码、不重启系统的前提下，动态挂载到内核或用户态函数上，进行观测与分析</p>
 <p>在抓包场景中，常用方式是通过 eBPF 挂载到 SSL&#x2F;TLS 库的加密函数 上，在加密前&#x2F;解密后直接获取明文数据，这类方式通常被称为 eBPF TLS 抓包</p>
@@ -431,55 +732,120 @@
 </ul>
 <p>实验环境：</p>
 <ul>
-<li>eCapture: <a target="_blank" rel="noopener" href="https://ecapture.cc/">https://ecapture.cc/</a></li>
-<li>Wireshark: <a target="_blank" rel="noopener" href="https://www.wireshark.org/">https://www.wireshark.org/</a></li>
+<li>eCapture: <a class="link"   target="_blank" rel="noopener" href="https://ecapture.cc/" >https://ecapture.cc/<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>Wireshark: <a class="link"   target="_blank" rel="noopener" href="https://www.wireshark.org/" >https://www.wireshark.org/<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
 <li>Android 环境：一台支持 eBPF 的 Android 设备（推荐 Pixel 6 及以上）</li>
 </ul>
 <p>由于雷电模拟器9Linux内核版本不够高，这里用AndroidStudio上的Android14，注意模拟器需要能root（不能有Google Play）</p>
-<img src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774711613834-e90971dc-2873-43d4-9250-db1ecb4078a4.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774711613834-e90971dc-2873-43d4-9250-db1ecb4078a4.png"
+                      class="" title="img"
+                >
 
 <p>下载v2.0.0的eCapture传到虚拟机的&#x2F;data&#x2F;local&#x2F;tmp目录，同时安装附件到模拟器，port写容器里的port（相当于本地作为客户端发送TLS流量，容器作为服务端接受），中间显示verify passsed表示连接成功</p>
-<img src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774711822202-959c2533-f19d-484b-8e07-1df0898c9f00.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774711822202-959c2533-f19d-484b-8e07-1df0898c9f00.png"
+                      class="" title="img"
+                >
 
 <p>以root身份运行查看功能</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><code class="hljs plain">emu64xa:/data/local/tmp # ./ecapture                                                                                                                                                                    <br>NAME:<br>        eCapture - Capturing SSL/TLS plaintext without a CA certificate using eBPF. Supported on Linux/Android kernels for amd64/arm64.<br><br>USAGE:<br>        eCapture [flags]<br><br>VERSION:<br>        ecap_android_amd64:v2.0.0:6.8.0-1044-azure<br><br>COMMANDS:<br>        bash    capture bash command<br>        gotls   Capturing plaintext communication from Golang programs encrypted with TLS/HTTPS.<br>        help    Help about any command<br>        tls     Used to capture TLS/SSL text content without the need for a CA certificate. (Supports OpenSSL 1.0.x/1.1.x/3.x or newer).<br><br>DESCRIPTION:<br>        eCapture(旁观者) is a tool that can capture plaintext packets<br>        such as HTTPS and TLS without installing a CA certificate.<br>        It can also capture bash commands, which is suitable for<br>        security auditing scenarios, such as database auditing of mysqld, etc (disabled on Android).<br>        Support Linux(Android)  X86_64 4.18/aarch64 5.5 or newer.<br>        Repository: https://github.com/gojue/ecapture<br>        HomePage: https://ecapture.cc<br><br>        Usage:<br>          ecapture tls -h<br>          ecapture bash -h<br><br>        Docker usage:<br>        docker pull gojue/ecapture:latest<br>        docker run --rm --privileged=true --net=host -v $&#123;HOST_PATH&#125;:$&#123;CONTAINER_PATH&#125; gojue/ecapture -h<br><br>OPTIONS:<br>  -b, --btf=0                           enable BTF mode.(0:auto; 1:core; 2:non-core)<br>  -d, --debug[=false]                   enable debug logging<br>      --ecaptureq=&quot;&quot;                    listening server, waiting for clients to connect before sending events and logs; false: send directly to the remote server.<br>      --eventaddr=&quot;&quot;                    the server address that receives the captured event. --eventaddr ws://127.0.0.1:8090/ecapture or tcp://127.0.0.1:8090, default: same as logaddr<br>      --eventroratesize=0               the rorate size(MB) of the event collector file, 1M~65535M, only works for eventaddr server is file. --eventaddr=tls.log --eventroratesize=1 --eventroratetime=30<br>      --eventroratetime=0               the rorate time(s) of the event collector file, 1s~65535s, only works for eventaddr server is file. --eventaddr=tls.log --eventroratesize=1 --eventroratetime=30 <br>  -h, --help[=false]                    help for eCapture<br>      --hex[=false]                     print byte strings as hex encoded strings<br>      --listen=&quot;localhost:28256&quot;        Listens on a port, receives HTTP requests, and is used to update the runtime configuration, default: 127.0.0.1:28256<br>  -l, --logaddr=&quot;&quot;                      send logs to this server. -l /tmp/ecapture.log or -l ws://127.0.0.1:8090/ecapture or -l tcp://127.0.0.1:8080<br>      --mapsize=1024                    eBPF map size per CPU,for events buffer. default:1024 * PAGESIZE. (KB)<br>  -p, --pid=0                           if pid is 0 then we target all pids<br>  -t, --tsize=0                         the truncate size in text mode, default: 0 (B), no truncate<br>  -u, --uid=0                           if uid is 0 then we target all users<br>  -v, --version[=false]                 version for eCapture<br></code></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">emu64xa:/data/local/tmp # ./ecapture                                                                                                                                                                    </span><br><span class="line">NAME:</span><br><span class="line">        eCapture - Capturing SSL/TLS plaintext without a CA certificate using eBPF. Supported on Linux/Android kernels for amd64/arm64.</span><br><span class="line"></span><br><span class="line">USAGE:</span><br><span class="line">        eCapture [flags]</span><br><span class="line"></span><br><span class="line">VERSION:</span><br><span class="line">        ecap_android_amd64:v2.0.0:6.8.0-1044-azure</span><br><span class="line"></span><br><span class="line">COMMANDS:</span><br><span class="line">        bash    capture bash command</span><br><span class="line">        gotls   Capturing plaintext communication from Golang programs encrypted with TLS/HTTPS.</span><br><span class="line">        help    Help about any command</span><br><span class="line">        tls     Used to capture TLS/SSL text content without the need for a CA certificate. (Supports OpenSSL 1.0.x/1.1.x/3.x or newer).</span><br><span class="line"></span><br><span class="line">DESCRIPTION:</span><br><span class="line">        eCapture(旁观者) is a tool that can capture plaintext packets</span><br><span class="line">        such as HTTPS and TLS without installing a CA certificate.</span><br><span class="line">        It can also capture bash commands, which is suitable for</span><br><span class="line">        security auditing scenarios, such as database auditing of mysqld, etc (disabled on Android).</span><br><span class="line">        Support Linux(Android)  X86_64 4.18/aarch64 5.5 or newer.</span><br><span class="line">        Repository: https://github.com/gojue/ecapture</span><br><span class="line">        HomePage: https://ecapture.cc</span><br><span class="line"></span><br><span class="line">        Usage:</span><br><span class="line">          ecapture tls -h</span><br><span class="line">          ecapture bash -h</span><br><span class="line"></span><br><span class="line">        Docker usage:</span><br><span class="line">        docker pull gojue/ecapture:latest</span><br><span class="line">        docker run --rm --privileged=true --net=host -v $&#123;HOST_PATH&#125;:$&#123;CONTAINER_PATH&#125; gojue/ecapture -h</span><br><span class="line"></span><br><span class="line">OPTIONS:</span><br><span class="line">  -b, --btf=0                           enable BTF mode.(0:auto; 1:core; 2:non-core)</span><br><span class="line">  -d, --debug[=false]                   enable debug logging</span><br><span class="line">      --ecaptureq=&quot;&quot;                    listening server, waiting for clients to connect before sending events and logs; false: send directly to the remote server.</span><br><span class="line">      --eventaddr=&quot;&quot;                    the server address that receives the captured event. --eventaddr ws://127.0.0.1:8090/ecapture or tcp://127.0.0.1:8090, default: same as logaddr</span><br><span class="line">      --eventroratesize=0               the rorate size(MB) of the event collector file, 1M~65535M, only works for eventaddr server is file. --eventaddr=tls.log --eventroratesize=1 --eventroratetime=30</span><br><span class="line">      --eventroratetime=0               the rorate time(s) of the event collector file, 1s~65535s, only works for eventaddr server is file. --eventaddr=tls.log --eventroratesize=1 --eventroratetime=30 </span><br><span class="line">  -h, --help[=false]                    help for eCapture</span><br><span class="line">      --hex[=false]                     print byte strings as hex encoded strings</span><br><span class="line">      --listen=&quot;localhost:28256&quot;        Listens on a port, receives HTTP requests, and is used to update the runtime configuration, default: 127.0.0.1:28256</span><br><span class="line">  -l, --logaddr=&quot;&quot;                      send logs to this server. -l /tmp/ecapture.log or -l ws://127.0.0.1:8090/ecapture or -l tcp://127.0.0.1:8080</span><br><span class="line">      --mapsize=1024                    eBPF map size per CPU,for events buffer. default:1024 * PAGESIZE. (KB)</span><br><span class="line">  -p, --pid=0                           if pid is 0 then we target all pids</span><br><span class="line">  -t, --tsize=0                         the truncate size in text mode, default: 0 (B), no truncate</span><br><span class="line">  -u, --uid=0                           if uid is 0 then we target all users</span><br><span class="line">  -v, --version[=false]                 version for eCapture</span><br></pre></td></tr></table></figure></div>
 
 <p>.&#x2F;ecapture tls -m text以text格式显示</p>
 <p>一开始的301猜测可能是ecapture比附件app先启动的原因，后面能看到http&#x2F;2.0协议，说明能解密，但是数据还是被压缩了所以显示乱码</p>
-<img src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774712067128-54fa8132-5534-40e5-bc9a-a40a2294a99a.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774712067128-54fa8132-5534-40e5-bc9a-a40a2294a99a.png"
+                      class="" title="img"
+                >
 
 <p>.&#x2F;ecapture tls -m pcap：以pcap格式导出pcapng，但是发现还有TLS加密</p>
 <p>ls发现还有log文件，点击一次app按钮就会产生一块流量，下面的log是点击三次得到的log</p>
-<img src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774712299925-224fe6d9-4098-4d74-a2eb-20bd2e760654.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774712299925-224fe6d9-4098-4d74-a2eb-20bd2e760654.png"
+                      class="" title="img"
+                >
 
 <p>重新点击其中一个按钮得到pcapng和log</p>
-<img src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774712441697-5d45c525-6e5b-4a10-a500-1083010f3764.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774712441697-5d45c525-6e5b-4a10-a500-1083010f3764.png"
+                      class="" title="img"
+                >
 
 <p>尝试用log解密流量包，发现解密失败</p>
-<img src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774712546478-0bc19feb-b977-4552-ab9e-ebea89b166b1.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774712546478-0bc19feb-b977-4552-ab9e-ebea89b166b1.png"
+                      class="" title="img"
+                >
 
 <p>查看log发现生成的随机数一致，但是调整log格式也无法解密</p>
-<img src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774712414625-cea57008-7c83-4f6d-995e-55ef5b087e47.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774712414625-cea57008-7c83-4f6d-995e-55ef5b087e47.png"
+                      class="" title="img"
+                >
 
-<p>参考<a target="_blank" rel="noopener" href="https://github.com/gojue/ecapture/issues/752%E9%87%8C%E7%9A%84./ecapture">https://github.com/gojue/ecapture/issues/752里的./ecapture</a> tls -p <PID> -m pcap -w &#x2F;data&#x2F;local&#x2F;tmp&#x2F;save.pcapng –ssl_version&#x3D;”boringssl_a_14”强制指定 Android 的底层 SSL 版本来纠正内存偏移量，发现还是不行</p>
-<p>询问公众号得知和ecapture版本有关，有些版本会有问题，于是寻找其他版本ecapture：<a target="_blank" rel="noopener" href="https://github.com/gojue/ecapture/releases?page=2">https://github.com/gojue/ecapture/releases?page=2</a></p>
+<p>参考<a class="link"   target="_blank" rel="noopener" href="https://github.com/gojue/ecapture/issues/752%E9%87%8C%E7%9A%84./ecapture" >https://github.com/gojue/ecapture/issues/752里的./ecapture<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> tls -p <PID> -m pcap -w &#x2F;data&#x2F;local&#x2F;tmp&#x2F;save.pcapng –ssl_version&#x3D;”boringssl_a_14”强制指定 Android 的底层 SSL 版本来纠正内存偏移量，发现还是不行</p>
+<p>询问公众号得知和ecapture版本有关，有些版本会有问题，于是寻找其他版本ecapture：<a class="link"   target="_blank" rel="noopener" href="https://github.com/gojue/ecapture/releases?page=2" >https://github.com/gojue/ecapture/releases?page=2<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 <p>后面使用v1.5.0发现可行，这个时候没有log文件，直接就是解密后的流量包</p>
-<img src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774704191879-086410ff-e353-477b-986e-a1ef2af6d0d4.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774704191879-086410ff-e353-477b-986e-a1ef2af6d0d4.png"
+                      class="" title="img"
+                >
 
 <p>直接打开就能看到解密后的http流</p>
-<img src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774704216340-dd052952-1ac5-4695-a537-421594c79a95.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774704216340-dd052952-1ac5-4695-a537-421594c79a95.png"
+                      class="" title="img"
+                >
 
 <p>第二问okhttp库版本可以通过text格式直接查看</p>
-<img src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774703242396-7c05ae22-1fe2-42ad-9648-476fbc6bf0a3.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774703242396-7c05ae22-1fe2-42ad-9648-476fbc6bf0a3.png"
+                      class="" title="img"
+                >
 
 <p>追踪http流也能看到okhttp版本</p>
-<img src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774704093499-dfe13a25-e06b-4447-90e0-de59582fd994.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774704093499-dfe13a25-e06b-4447-90e0-de59582fd994.png"
+                      class="" title="img"
+                >
 
-<img src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774704022278-a3a7992a-3523-4a13-91db-29c89f590180.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774704022278-a3a7992a-3523-4a13-91db-29c89f590180.png"
+                      class="" title="img"
+                >
 
 
 
-<h1 id="实验-8-okhttp-证书验证与签名验证实验"><a href="#实验-8-okhttp-证书验证与签名验证实验" class="headerlink" title="实验 8: okhttp 证书验证与签名验证实验"></a>实验 8: okhttp 证书验证与签名验证实验</h1><img src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774792204581-14ebc1dc-bf16-4b36-9efe-2da8724bc29b.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<h1 id="实验-8-okhttp-证书验证与签名验证实验"><a href="#实验-8-okhttp-证书验证与签名验证实验" class="headerlink" title="实验 8: okhttp 证书验证与签名验证实验"></a>实验 8: okhttp 证书验证与签名验证实验</h1><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774792204581-14ebc1dc-bf16-4b36-9efe-2da8724bc29b.png"
+                      class="" title="img"
+                >
 
 
 
@@ -500,440 +866,432 @@
 <p>为了防止系统被植入不可信 CA （ App 不再信任系统 CA ），App 可以对证书的公钥进行绑定，这个就是所谓的 Pining。MITM 攻击者无法拿到公钥的私钥，因此无法伪造该公钥对应的证书，即使系统信任了 MITM 提供的 CA 证书。为什么是对公钥进行绑定，而不是整个证书进行绑定？ 因为现代证书更替的时间比较快，通常几个月换一次，而公钥则可以保持长期不变</p>
 <p>公钥 Pinning 校验 是客户端代码执行校验，因此客户端逆向工程方法仍然是最有效的突破口，通过逆向工程手段关闭 Pinning 校验以后，服务端对此将无法感知。目前大部分 Pinning 的技术实战就仅局限于客户端验证，几乎没有看到服务端验证的例子</p>
 <p>网络库&#x2F;协议栈</p>
-<p>Android App 通常使用 okhttp 这类的通用网络库，这类网络库可以使用 hook 脚本通杀。例如 frida 脚本 <a target="_blank" rel="noopener" href="https://codeshare.frida.re/@Q0120S/bypass-ssl-pinning/%E5%8F%AF%E4%BB%A5%E9%80%9A%E6%9D%80%E5%A4%A7%E9%83%A8%E5%88%86%E8%AF%81%E4%B9%A6%E6%A0%A1%E9%AA%8C">https://codeshare.frida.re/@Q0120S/bypass-ssl-pinning/可以通杀大部分证书校验</a></p>
+<p>Android App 通常使用 okhttp 这类的通用网络库，这类网络库可以使用 hook 脚本通杀。例如 frida 脚本 <a class="link"   target="_blank" rel="noopener" href="https://codeshare.frida.re/@Q0120S/bypass-ssl-pinning/%E5%8F%AF%E4%BB%A5%E9%80%9A%E6%9D%80%E5%A4%A7%E9%83%A8%E5%88%86%E8%AF%81%E4%B9%A6%E6%A0%A1%E9%AA%8C" >https://codeshare.frida.re/@Q0120S/bypass-ssl-pinning/可以通杀大部分证书校验<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 <p>另外，使用 Android 默认网络协议栈的 App 程序，你可以使用 ecapture 这类基于 ebpf 的抓包工具抓取加密流量</p>
 <p>非标准网络库&#x2F;协议栈</p>
 <p>这个就很复杂了，例如 Flutter 的 DIO、Golang 的 gotls，OpenSSL、BoringSSL。虽然 Android 提供了 BoringSSL，但是却没有暴露接口，App 可以自己编译 BoringSSL 使用，也可以编译 OpenSSL、Fizz 等网络通信库。对于这些 App 自己编译的 Native 网络库，通用脚本几乎无法处理，ecapture 也不行。更有极端情况，例如 Flutter 的 DIO 自带 CA 库，不去系统读取</p>
 <p>主动探测证书</p>
-<p>客户端在 Native 层可以主动发起 TLS 握手流程，获取服务端证书，解析服务端证书，解析公钥，记录该公钥作为验证数据。基于这样的思路，所有通杀工具将失效。DEMO 已经开源：<a target="_blank" rel="noopener" href="https://github.com/P4nda0s/probe-pin">https://github.com/P4nda0s/probe-pin</a></p>
+<p>客户端在 Native 层可以主动发起 TLS 握手流程，获取服务端证书，解析服务端证书，解析公钥，记录该公钥作为验证数据。基于这样的思路，所有通杀工具将失效。DEMO 已经开源：<a class="link"   target="_blank" rel="noopener" href="https://github.com/P4nda0s/probe-pin" >https://github.com/P4nda0s/probe-pin<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 <p>尝试通过上面的frida脚本去绕过Pinning 校验然后中间人攻击拿到解密后的流量，但是一直有ssl报错导致最后用ebpf抓的包</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plain">verify failed:SSL handshake aborted:<br>ssl=0x7fff6c047d88:I/0 error during<br>system call,Connection reset by peer<br></code></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">verify failed:SSL handshake aborted:</span><br><span class="line">ssl=0x7fff6c047d88:I/0 error during</span><br><span class="line">system call,Connection reset by peer</span><br></pre></td></tr></table></figure></div>
 
-                
-              </div>
-            
-            <hr/>
-            <div>
-              <div class="post-metas my-3">
-  
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
+		</div>
 
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> APP流量安全与协议逆向工程实验部分记录</li>
+        <li><strong>作者:</strong> j1ya</li>
+        <li><strong>创建于
+                :</strong> 2026-04-11 15:55:55</li>
         
-  <a href="/categories/%E9%A1%B9%E7%9B%AE/" class="category-chain-item">项目</a>
-  
-  
+            <li>
+                <strong>更新于
+                    :</strong> 2026-08-05 15:09:01
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://redefine.ohevan.com/2026/04/11/APP流量安全与协议逆向工程实验部分记录/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
 
-      </span>
-    
-  
-</span>
-
-    </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/Android/" class="print-no-link">#Android</a>
-      
-    </div>
-  
+            
+                本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a> 进行许可。
+            
+        </li>
+    </ul>
 </div>
 
+		</div>
+		
 
-              
-  
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/Android/">#Android</a>&nbsp;
+			</li>
+			
+		</ul>
+		
 
-  <div class="license-box my-3">
-    <div class="license-title">
-      <div>APP流量安全与协议逆向工程实验部分记录</div>
-      <div>https://j1ya-22.github.io/2026/04/11/APP流量安全与协议逆向工程实验部分记录/</div>
+		
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2026/06/01/%E5%AE%89%E5%8D%93%E7%AD%BE%E5%90%8D%E6%96%B9%E6%A1%88%E8%AE%B0%E5%BD%95/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">安卓签名方案记录</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/03/12/tigress%E6%B7%B7%E6%B7%86c%E6%96%87%E4%BB%B6%E5%88%9D%E6%8E%A2/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Tigress混淆c文件初探</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
     </div>
-    <div class="license-meta">
-      
-        <div class="license-meta-item">
-          <div>作者</div>
-          <div>j1ya</div>
-        </div>
-      
-      
-        <div class="license-meta-item license-meta-date">
-          <div>发布于</div>
-          <div>2026年4月11日</div>
-        </div>
-      
-      
-      
-        <div class="license-meta-item">
-          <div>许可协议</div>
-          <div>
+    
+
+        
             
-              
-              
-                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
-                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
-                    <i class="iconfont icon-by"></i>
-                  </span>
-                </a>
-              
-            
-          </div>
-        </div>
-      
-    </div>
-    <div class="license-icon iconfont"></div>
-  </div>
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.js';
 
+      (function() {
+        const startPath = location.pathname;
+        const startTime = Date.now();
+        const retryDelay = 200;
+        const retryLimit = 5000;
 
-
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2026/06/01/%E5%AE%89%E5%8D%93%E7%AD%BE%E5%90%8D%E6%96%B9%E6%A1%88%E8%AE%B0%E5%BD%95/" title="安卓签名方案记录">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">安卓签名方案记录</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2026/03/12/tigress%E6%B7%B7%E6%B7%86c%E6%96%87%E4%BB%B6%E5%88%9D%E6%8E%A2/" title="Tigress混淆c文件初探">
-                        <span class="hidden-mobile">Tigress混淆c文件初探</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
-              
-            </div>
-
-            
-  
-  
-    <article id="comments" lazyload>
-      
-  <div id="valine"></div>
-  <script type="text/javascript">
-    Fluid.utils.loadComments('#valine', function() {
-      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
-        var options = Object.assign(
-          {"appId":"5oPqGOgpqzM186wdJq3YyrcV-gzGzoHsz","appKey":"tdZv3tC3tP1IszSKxEodRe6e","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
-          {
-            el: "#valine",
-            path: window.location.pathname
+        const runWaline = () => {
+          if (location.pathname !== startPath) {
+            return;
           }
-        )
-        new Valine(options);
-        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
-          var imgSelector = '#valine .vcontent img:not(.vemoji)';
-          Fluid.plugins.imageCaption(imgSelector);
-          Fluid.plugins.fancyBox(imgSelector);
-        })
-      });
-    });
-  </script>
-  <noscript>Please enable JavaScript to view the comments</noscript>
+
+          const container = document.getElementById('waline');
+          if (!container) {
+            if (Date.now() - startTime < retryLimit) {
+              setTimeout(runWaline, retryDelay);
+            }
+            return;
+          }
+
+          if (window.redefineWalineInstance?.destroy) {
+            window.redefineWalineInstance.destroy();
+          }
+
+          container.innerHTML = '';
+          window.redefineWalineInstance = init({
+            el: '#waline',
+            serverURL: 'https://example.example.com',
+            path: location.pathname,
+            dark: 'body[class~="dark-mode"]',
+            reaction: false,
+            requiredMeta: ['nick', 'mail'],
+            emoji: [],
+                      lang: 'zh-CN',
+          });
+        };
+
+        runWaline();
+      })();
+    </script>
 
 
-    </article>
-  
 
+        
+    
+</div>
 
-          </article>
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">APP流量安全与协议逆向工程实验部分记录</div>
+		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C-0-%E8%87%AA%E7%AD%BE%E5%90%8D%E8%AF%81%E4%B9%A6%E4%B8%8E%E4%B8%AD%E9%97%B4%E4%BA%BA%E6%94%BB%E5%87%BB"><span class="nav-text">实验 0: 自签名证书与中间人攻击</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C-1-App-MITM-%E5%9F%BA%E7%A1%80%E6%8A%93%E5%8C%85%E4%B8%8E%E8%AF%B7%E6%B1%82%E6%9E%84%E9%80%A0%E5%AE%9E%E9%AA%8C"><span class="nav-text">实验 1: App MITM 基础抓包与请求构造实验</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C-2-VPN%E3%80%81Socks5-%E4%B8%8E%E7%BD%91%E5%85%B3%E6%8A%93%E5%8C%85"><span class="nav-text">实验 2: VPN、Socks5 与网关抓包</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C-3-eBPF-%E6%8A%93%E5%8C%85%E4%B8%8E-Wireshark-%E5%88%86%E6%9E%90%E5%AE%9E%E9%AA%8C"><span class="nav-text">实验 3: eBPF 抓包与 Wireshark 分析实验</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C-8-okhttp-%E8%AF%81%E4%B9%A6%E9%AA%8C%E8%AF%81%E4%B8%8E%E7%AD%BE%E5%90%8D%E9%AA%8C%E8%AF%81%E5%AE%9E%E9%AA%8C"><span class="nav-text">实验 8: okhttp 证书验证与签名验证实验</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">j1ya</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 79 篇文章
+                    </span>
+                    
+                </p>
+            
         </div>
-      </div>
-    </div>
-
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-  <aside class="sidebar" style="margin-left: -1rem">
-    <div id="toc">
-  <p class="toc-header">
-    <i class="iconfont icon-list"></i>
-    <span>目录</span>
-  </p>
-  <div class="toc-body" id="toc-body"></div>
-</div>
-
-
-
-  </aside>
-
-
-    </div>
-  </div>
-</div>
-
-
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-
-
-
-
-    
-
-    
-      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
-        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-      </a>
-    
-
-    
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
         </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="图片查看器">
+	<button class="image-viewer-close" type="button" aria-label="关闭">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="上一页">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="关闭">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="下一页">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
 </div>
 
-    
 
-    
-  </main>
+	
 
-  <footer>
-    <div class="footer-inner">
-  
-    <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
-    </div>
-  
-  
-    <div class="statistics">
-  
-  
-
-  
-    
-      <span id="busuanzi_container_site_pv" style="display: none">
-        总访问量 
-        <span id="busuanzi_value_site_pv"></span>
-         次
-      </span>
-    
-    
-      <span id="busuanzi_container_site_uv" style="display: none">
-        总访客数 
-        <span id="busuanzi_value_site_uv"></span>
-         人
-      </span>
-    
-    
-  
-</div>
-
-  
-  
-  
-</div>
-
-  </footer>
-
-  <!-- Scripts -->
-  
-  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
-
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
-
-
-<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
-<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
-
-
-  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
+</main>
 
 
 
+<script src="/js/build/libs/Swup.min.js"></script>
 
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
 
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
 
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
 
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
 
-  
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
 <script>
-  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
-    var toc = jQuery('#toc');
-    if (toc.length === 0 || !window.tocbot) { return; }
-    var boardCtn = jQuery('#board-ctn');
-    var boardTop = boardCtn.offset().top;
-
-    window.tocbot.init(Object.assign({
-      tocSelector     : '#toc-body',
-      contentSelector : '.markdown-body',
-      linkClass       : 'tocbot-link',
-      activeLinkClass : 'tocbot-active-link',
-      listClass       : 'tocbot-list',
-      isCollapsedClass: 'tocbot-is-collapsed',
-      collapsibleClass: 'tocbot-is-collapsible',
-      scrollSmooth    : true,
-      includeTitleTags: true,
-      headingsOffset  : -boardTop,
-    }, CONFIG.toc));
-    if (toc.find('.toc-list-item').length > 0) {
-      toc.css('visibility', 'visible');
-    }
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('tocbot' in window) {
-        tocbot.refresh();
-        var toc = jQuery('#toc');
-        if (toc.length === 0 || !tocbot) {
-          return;
-        }
-        if (toc.find('.toc-list-item').length > 0) {
-          toc.css('visibility', 'visible');
-        }
-      }
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
     });
-  });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
 </script>
 
 
-  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
-
-  <script>Fluid.plugins.codeWidget();</script>
 
 
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
-    window.anchors.options = {
-      placement: CONFIG.anchorjs.placement,
-      visible  : CONFIG.anchorjs.visible
-    };
-    if (CONFIG.anchorjs.icon) {
-      window.anchors.options.icon = CONFIG.anchorjs.icon;
-    }
-    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-    var res = [];
-    for (var item of el) {
-      res.push('.markdown-body > ' + item.trim());
-    }
-    if (CONFIG.anchorjs.placement === 'left') {
-      window.anchors.options.class = 'anchorjs-link-left';
-    }
-    window.anchors.add(res.join(', '));
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('anchors' in window) {
-        anchors.removeAll();
-        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-        var res = [];
-        for (var item of el) {
-          res.push('.markdown-body > ' + item.trim());
-        }
-        if (CONFIG.anchorjs.placement === 'left') {
-          anchors.options.class = 'anchorjs-link-left';
-        }
-        anchors.add(res.join(', '));
-      }
-    });
-  });
-</script>
+	
+<script src="/js/build/main.js" type="module"></script>
 
 
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
-    Fluid.plugins.fancyBox();
-  });
-</script>
 
+    
+<script src="/js/build/libs/odometer.min.js"></script>
 
-  <script>Fluid.plugins.imageCaption();</script>
-
-  <script defer src="/js/leancloud.js" ></script>
-
-  <script  src="/js/local-search.js" ></script>
-
-  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
 
 
 
 
 
-<!-- 主题的启动项，将它保持在最底部 -->
-<!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
 
 
   
+<script src="/js/build/libs/Typed.min.js"></script>
 
-  <noscript>
-    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript>
+
+
+
+
+
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+
+	
 </body>
+
 </html>

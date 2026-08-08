@@ -1,895 +1,1265 @@
-
-
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=auto>
-
-
-
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/China.jpg">
-  <link rel="icon" href="/img/China.jpg">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-  <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="j1ya">
-  <meta name="keywords" content="">
-  
-    <meta name="description" content="Mischello-hscctf从图片中提取关键信息   (03338) 76 Friseur Kosmetik Montag，点最后一个   报纸左下角，搜Friseursalon Aerts         Retea经典tea，密文呈现形式不同   1234567891011121314151617181920212223242526272829303132333435#include &amp;l">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    
+    <meta name="author" content="j1ya">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://j1ya-22.github.io/2024/03/10/hscctf2024/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HSCCTF2024部分wp">
 <meta property="og:url" content="https://j1ya-22.github.io/2024/03/10/HSCCTF2024/index.html">
 <meta property="og:site_name" content="j1ya">
-<meta property="og:description" content="Mischello-hscctf从图片中提取关键信息   (03338) 76 Friseur Kosmetik Montag，点最后一个   报纸左下角，搜Friseursalon Aerts         Retea经典tea，密文呈现形式不同   1234567891011121314151617181920212223242526272829303132333435#include &amp;l">
+<meta property="og:description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/10/HSCCTF2024/1709965570558-80b04d90-c33f-4182-a596-1fc0d1c32809.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/10/HSCCTF2024/1709965436900-11ae5ee9-924f-4600-ba89-9405fc614a7d.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/10/HSCCTF2024/1709965629705-cf6b6322-fd1e-4e6f-846b-6f8265b578d6.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/10/HSCCTF2024/1709965400607-02188237-d602-462f-83ce-16783c0c243f.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/10/HSCCTF2024/1709965382282-d5912365-6756-4b76-a271-5435c9507387.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/10/HSCCTF2024/1709961606736-8a0ceb3b-ea31-492f-8fad-249437667224.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/10/HSCCTF2024/1709961543764-2858e782-886c-4814-a0aa-e5deb5787d5a.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/10/HSCCTF2024/1709966236128-15b77610-7093-4097-be67-f0c51fd89e1d.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/10/HSCCTF2024/1709966361759-cd04823d-7b18-46fe-92de-685d0ab82524.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/10/HSCCTF2024/1709966965760-a8512425-228e-4aec-a16b-50247053893f.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/10/HSCCTF2024/1709967326961-01a13c08-39ea-41d0-a149-0b09f1ba2bbb.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/10/HSCCTF2024/1709967524943-3a4e06c9-246e-417a-858c-f7bcaf4e2598.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/10/HSCCTF2024/1710038562295-31b684f0-b508-4741-9a19-c167db74bd2d.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/10/HSCCTF2024/1710038776255-a545b936-9122-410b-83f6-e73861058139.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/10/HSCCTF2024/1710039007125-ad52680c-29fa-464a-9830-25e876189981.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/10/HSCCTF2024/1710041102825-dbd65880-e0c1-42f9-aecf-21f84b4f1807.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/10/HSCCTF2024/1710042320322-4ed576c7-5a94-4cb2-bf45-50ffa76d82a9.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/10/HSCCTF2024/1710054119801-e25294b2-b516-4e4a-873c-b812f5d83c02.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/10/HSCCTF2024/1710054235494-d36be0da-eac4-4265-9a1c-75e7b59a40fc.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/10/HSCCTF2024/1710057980233-dcb6dd18-2c42-474d-90c4-def9b46433e5-17102079978971.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/10/HSCCTF2024/1710058239980-9f7b6594-99ca-4cf5-a0f6-aef795cbbdb7-17102079978983.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/10/HSCCTF2024/1710058389286-a856058d-c969-42f7-9b0d-228886c4e399-17102079978985.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/10/HSCCTF2024/1710161320739-5f24379d-4131-48ff-8bf3-15d19f64e002.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/10/HSCCTF2024/1710207312322-fcd1a619-46be-447b-a865-602cad21ca7f.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/10/HSCCTF2024/1710166946004-61d68afc-f771-4451-b35c-f5215bb59651.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/10/HSCCTF2024/1710207589439-8766b8f9-5ba4-4f91-b2fe-7c9992241683.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/10/HSCCTF2024/1710166891275-3b1302ac-022b-4296-b8c7-b9fdff543fea.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/03/10/HSCCTF2024/1710041422186-08d964df-4990-493b-be7d-25c5069b4332.png">
+<meta property="og:image" content="https://j1ya-22.github.io/images/redefine-og.webp">
 <meta property="article:published_time" content="2024-03-10T15:49:43.000Z">
 <meta property="article:modified_time" content="2026-07-30T14:08:55.312Z">
 <meta property="article:author" content="j1ya">
 <meta property="article:tag" content="frida">
 <meta property="article:tag" content="VM">
 <meta property="article:tag" content="sm4">
-<meta property="article:tag" content="blowfish加密">
 <meta property="article:tag" content="shellcode">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://j1ya-22.github.io/2024/03/10/HSCCTF2024/1709965570558-80b04d90-c33f-4182-a596-1fc0d1c32809.png">
-  
-  
-    <meta name="referrer" content="no-referrer-when-downgrade">
-  
-  
-  <title>HSCCTF2024部分wp - j1ya</title>
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
-
-
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-<!-- Do not modify the link that theme dependent icons -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
-
-
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
-
-
-<link  rel="stylesheet" href="/css/main.css" />
-
-
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
-  
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
-  
-
-
-
-
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"j1ya-22.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":false,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"5oPqGOgpqzM186wdJq3YyrcV-gzGzoHsz","app_key":"tdZv3tC3tP1IszSKxEodRe6e","server_url":null,"path":"window.location.pathname","ignore_local":true}},"search_path":"/local-search.xml","include_content_in_search":true};
-
-    if (CONFIG.web_analytics.follow_dnt) {
-      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
-      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
-    }
-  </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
-  
-
-  
-
-  
-    <!-- Google tag (gtag.js) -->
-    <script async>
-      if (!Fluid.ctx.dnt) {
-        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
-          window.dataLayer = window.dataLayer || [];
-          function gtag() {
-            dataLayer.push(arguments);
-          }
-          gtag('js', new Date());
-          gtag('config', '');
-        });
-      }
-    </script>
-  
-
-  
-
-  
-
-  
-
-  
+<meta property="article:tag" content="blowfish加密">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://j1ya-22.github.io/images/redefine-og.webp">
     
-  
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/img/China.jpg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/China.jpg">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/img/China.jpg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            HSCCTF2024部分wp | j1ya&#39;s blog
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
 
 
+    <!--- Inject Part-->
+    
 
-  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"j1ya-22.github.io","root":"/","language":"zh-CN"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":"Hexo Theme Redefine, Redefine Your Hexo Journey."},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"<span style=\"display:none\"></span>","subtitle":{"text":["There is only one heroism in the world:<br>to see the world as it is, and to love it."],"hitokoto":{"enable":false,"show_author":false,"api":"https://v1.hitokoto.cn"},"typing_speed":80,"backing_speed":80,"starting_delay":500,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.4rem","subtitle_size":"2.35rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"style":"default","links":[{"icon":"fa-brands fa-github","url":null},{"icon":"fa-brands fa-twitter","url":null},{"icon":"fa-solid fa-at","url":"you@example.com"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Archives":{"path":"/archives/","icon":"fa-regular fa-archive"},"Categories":{"path":"/categories/","icon":"fa-regular fa-folder"},"Tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"About":{"icon":"fa-regular fa-user","path":"/about/"},"Friends":{"path":"/links/","icon":"fa-solid fa-link"}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":null},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-heart fa-beat\" style=\"--fa-animation-duration: 0.5s; color: #f54545\"></i>","start":"2022/8/17 11:45:14","statistics":true,"customize":null,"icp":{"enable":false,"number":null,"url":null}},"footerStart":"2022/8/17 11:45:14","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.i18n = {"search":"站内搜索您需要的内容...","toc":"目录","prev":"上一页","next":"下一页","prev_posts":"上一篇","next_posts":"下一篇","page":"第 %d 页","recent_posts":"最新文章","share":"分享","powered_by":"由 %s 驱动","theme":"主题","rss_feed":"RSS Feed","category":"分类","categories":"分类","tag":"标签","tags":"标签","post":"文章","posts":"文章","tagcloud":"标签云","comment":"评论","comments":"评论","top":"置顶","sticky":"置顶","go-back-home":"回到首页","masonry_loading":"照片加载中...","image_viewer":"图片查看器","close":"关闭","exif":{"title":"EXIF","cards":{"camera":"相机","lens":"镜头","exposure":"曝光","other":"其他"},"fields":{"make":"品牌","model":"机型","date_taken":"拍摄时间","lens_model":"镜头","focal_length":"焦距","focus_mode":"对焦模式","shutter":"快门","aperture":"光圈","iso":"感光度","exposure_program":"曝光程序","exposure_compensation":"曝光补偿","metering_mode":"测光模式","flash":"闪光灯","white_balance":"白平衡","latitude":"纬度","longitude":"经度","altitude":"海拔"},"status":{"loading":"加载中...","no_exif":"无 EXIF 信息","library_missing":"EXIF 库未加载","image_source_missing":"图片地址不可用","unavailable":"EXIF 不可用（可能被 CORS 阻止或缺少元数据）","flag_unavailable":"EXIF 不可用"}},"home":"首页","archive":"归档","archives":"归档","about":"关于","links":"链接","link":"链接","friends":"友情链接","friend":"友情链接","timeline":"时间轴","shuoshuo":"说说","bookmarks":"书签","site_uv":"访问人数","site_pv":"总访问量","read_more":"阅读全文","wordcount":"字","min2read":"分钟","changelog":"更新日志","status":"状态","runtime":"博客已运行","days":"天","hours":"小时","minutes":"分钟","seconds":"秒","optimized_by":"并由 Evan 进行优化","rights":"版权所有","site_posts":"共撰写了 %s 篇文章","site_wordcount":"共 %s 字","copyright":{"title":"标题","author":"作者","link":"链接","create_time":"创建于","update_time":"更新于","license_title":"版权声明","license_content":"本文章采用 %s 进行许可。","all_rights_reserved":"版权所有 &#169 %s，禁止转载。","public_domain":"本文为公有领域作品，可自由转载、引用。"},"ago":{"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"},"create_time":"创建","update_time":"更新","expired":"这篇文章最后更新于 %s 天前，内容可能已经过时。"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
 <meta name="generator" content="Hexo 7.0.0"></head>
 
 
 <body>
-  
+	<div class="progress-bar-container">
+	
 
-  <header>
-    
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
 
-<div class="header-inner" style="height: 70vh;">
-  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <strong>j1ya</strong>
-    </a>
+<main class="page-container" id="swup">
 
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
+	
 
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/" target="_self">
-                <i class="iconfont icon-home-fill"></i>
-                <span>首页</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/" target="_self">
-                <i class="iconfont icon-archive-fill"></i>
-                <span>归档</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/" target="_self">
-                <i class="iconfont icon-category-fill"></i>
-                <span>分类</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/" target="_self">
-                <i class="iconfont icon-tags-fill"></i>
-                <span>标签</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/" target="_self">
-                <i class="iconfont icon-user-fill"></i>
-                <span>关于</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/links/" target="_self">
-                <i class="iconfont icon-link-fill"></i>
-                <span>友链</span>
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              <i class="iconfont icon-search"></i>
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                j1ya&#39;s blog
+                
             </a>
-          </li>
-          
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
-              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
-            </a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-</nav>
-
-  
-
-<div id="banner" class="banner" parallax=true
-     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
-  <div class="full-bg-img">
-    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-      <div class="banner-text text-center fade-in-up">
-        <div class="h2">
-          
-            <span id="subtitle" data-typed-text="HSCCTF2024部分wp"></span>
-          
         </div>
 
-        
-          
-  <div class="mt-3">
-    
-    
-      <span class="post-meta">
-        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-03-10 23:49" pubdate>
-          2024年3月10日 晚上
-        </time>
-      </span>
-    
-  </div>
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
 
-  <div class="mt-1">
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-chart"></i>
-        
-          853 字
-        
-      </span>
-    
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
 
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-clock-fill"></i>
-        
-        
-        
-          8 分钟
-        
-      </span>
-    
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-    
-    
-      
-        <span id="busuanzi_container_page_pv" style="display: none">
-          <i class="iconfont icon-eye" aria-hidden="true"></i>
-          <span id="busuanzi_value_page_pv"></span> 次
-        </span>
-        
-      
-    
-  </div>
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/archives/"
+                                        >
+                                    <i class="fa-regular fa-archive fa-fw"></i>
+                                    归档
+                                    
+                                </a>
 
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-        
-      </div>
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/categories/"
+                                        >
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    分类
+                                    
+                                </a>
 
-      
-    </div>
-  </div>
-</div>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-</div>
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/tags/"
+                                        >
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    标签
+                                    
+                                </a>
 
-  </header>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-  <main>
-    
-      
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/about/"
+                                        >
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
 
-<div class="container-fluid nopadding-x">
-  <div class="row nomargin-x">
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-    </div>
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/links/"
+                                        >
+                                    <i class="fa-solid fa-link fa-fw"></i>
+                                    友情链接
+                                    
+                                </a>
 
-    <div class="col-lg-8 nopadding-x-md">
-      <div class="container nopadding-x-md" id="board-ctn">
-        <div id="board">
-          <article class="post-content mx-auto">
-            <h1 id="seo-header">HSCCTF2024部分wp</h1>
-            
-            
-              <div class="markdown-body">
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
                 
-                <h1 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h1><h2 id="hello-hscctf"><a href="#hello-hscctf" class="headerlink" title="hello-hscctf"></a>hello-hscctf</h2><p>从图片中提取关键信息</p>
-<img src="/2024/03/10/HSCCTF2024/1709965570558-80b04d90-c33f-4182-a596-1fc0d1c32809.png" srcset="/img/loading.gif" lazyload class="" title="img">
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/archives/"
+                        >
+                            <span>
+                                归档
+                            </span>
+                            
+                                <i class="fa-regular fa-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/categories/"
+                        >
+                            <span>
+                                分类
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/tags/"
+                        >
+                            <span>
+                                标签
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/about/"
+                        >
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/links/"
+                        >
+                            <span>
+                                友情链接
+                            </span>
+                            
+                                <i class="fa-solid fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">51</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">5</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">79</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			<div class="w-full flex items-center pt-6 justify-start">
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">HSCCTF2024部分wp</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/img/China.jpg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">j1ya</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv5</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2024-03-10 23:49:43</span>
+        <span class="mobile">2024-03-10 23:49:43</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2026-07-30 22:08:55</span>
+            <span class="mobile">2026-07-30 22:08:55</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E6%AF%94%E8%B5%9Bwp/">比赛wp</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/frida/">frida</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/VM/">VM</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/sm4/">sm4</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/shellcode/">shellcode</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/blowfish%E5%8A%A0%E5%AF%86/">blowfish加密</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h1 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h1><h2 id="hello-hscctf"><a href="#hello-hscctf" class="headerlink" title="hello-hscctf"></a>hello-hscctf</h2><p>从图片中提取关键信息</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/03/10/HSCCTF2024/1709965570558-80b04d90-c33f-4182-a596-1fc0d1c32809.png"
+                      class="" title="img"
+                >
 
 <p>(03338) 76 Friseur Kosmetik Montag，点最后一个</p>
-<img src="/2024/03/10/HSCCTF2024/1709965436900-11ae5ee9-924f-4600-ba89-9405fc614a7d.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/03/10/HSCCTF2024/1709965436900-11ae5ee9-924f-4600-ba89-9405fc614a7d.png"
+                      class="" title="img"
+                >
 
 <p>报纸左下角，搜Friseursalon Aerts</p>
-<img src="/2024/03/10/HSCCTF2024/1709965629705-cf6b6322-fd1e-4e6f-846b-6f8265b578d6.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/03/10/HSCCTF2024/1709965629705-cf6b6322-fd1e-4e6f-846b-6f8265b578d6.png"
+                      class="" title="img"
+                >
 
-<img src="/2024/03/10/HSCCTF2024/1709965400607-02188237-d602-462f-83ce-16783c0c243f.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/03/10/HSCCTF2024/1709965400607-02188237-d602-462f-83ce-16783c0c243f.png"
+                      class="" title="img"
+                >
 
-<img src="/2024/03/10/HSCCTF2024/1709965382282-d5912365-6756-4b76-a271-5435c9507387.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/03/10/HSCCTF2024/1709965382282-d5912365-6756-4b76-a271-5435c9507387.png"
+                      class="" title="img"
+                >
 
 
 
 <h1 id="Re"><a href="#Re" class="headerlink" title="Re"></a>Re</h1><h2 id="tea"><a href="#tea" class="headerlink" title="tea"></a>tea</h2><p>经典tea，密文呈现形式不同</p>
-<img src="/2024/03/10/HSCCTF2024/1709961606736-8a0ceb3b-ea31-492f-8fad-249437667224.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/03/10/HSCCTF2024/1709961606736-8a0ceb3b-ea31-492f-8fad-249437667224.png"
+                      class="" title="img"
+                >
 
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#include &lt;stdio.h&gt;</span><br><span class="hljs-comment">#include &lt;stdint.h&gt;</span><br><br><span class="hljs-built_in">int</span> main() &#123;<br>	uint32_t v[<span class="hljs-number">2</span>] = &#123;<span class="hljs-number">1</span>, <span class="hljs-number">2</span>&#125;;<br>	uint32_t delta = <span class="hljs-number">0x61C88647</span>;<br>	uint32_t v0 = v[<span class="hljs-number">0</span>], v1 = v[<span class="hljs-number">1</span>], <span class="hljs-built_in">sum</span> = -<span class="hljs-number">32</span> * delta, i; /* <span class="hljs-built_in">set</span> up */<br><br>	uint32_t v2[<span class="hljs-number">2</span>] = &#123;<span class="hljs-number">0x3D121D26</span>, <span class="hljs-number">0x5E6189F9</span>&#125;, v3[<span class="hljs-number">2</span>] = &#123;<span class="hljs-number">0xC1FB278E</span>, <span class="hljs-number">0x3B494648</span>&#125;, v5[<span class="hljs-number">10</span>] = &#123;<span class="hljs-number">0xb805d767</span>, <span class="hljs-number">0x63c174c3</span>&#125;; //<span class="hljs-number">0x67</span>,<span class="hljs-number">0xd7</span>,<span class="hljs-number">5</span>,<span class="hljs-number">0xb8</span><br>	unsigned <span class="hljs-built_in">int</span> k[<span class="hljs-number">4</span>] = &#123;<span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>&#125;, l = <span class="hljs-number">0</span>, r = <span class="hljs-number">0</span>;<br>	uint32_t k0 = k[<span class="hljs-number">0</span>], k1 = k[<span class="hljs-number">1</span>], k2 = k[<span class="hljs-number">2</span>], k3 = k[<span class="hljs-number">3</span>];<br>	// v为要加密的数据是两个<span class="hljs-number">32</span>位无符号整数<br>	// k为加密解密密钥，为<span class="hljs-number">4</span>个<span class="hljs-number">32</span>位无符号整数，即密钥长度为<span class="hljs-number">128</span>位<br><br>	<span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> m = <span class="hljs-number">0</span>; m &lt; <span class="hljs-number">2</span>; m += <span class="hljs-number">2</span>) &#123;//flag不全的话有可能是<span class="hljs-number">10</span><br>		//<span class="hljs-built_in">sum</span> = -<span class="hljs-number">957401312</span>;<br>		<span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">32</span>; i++) &#123;                     /* basic cycle start */<br>			v5[m + <span class="hljs-number">1</span>] -= ((v5[m] &lt;&lt; <span class="hljs-number">4</span>) + k2) ^ (v5[m] + <span class="hljs-built_in">sum</span>) ^ ((v5[m] &gt;&gt; <span class="hljs-number">5</span>) + k3);<br>			v5[m] -= ((v5[m + <span class="hljs-number">1</span>] &lt;&lt; <span class="hljs-number">4</span>) + k0) ^ (v5[m + <span class="hljs-number">1</span>] + <span class="hljs-built_in">sum</span>) ^ ((v5[m + <span class="hljs-number">1</span>] &gt;&gt; <span class="hljs-number">5</span>) + k1);<br>			<span class="hljs-built_in">sum</span> += delta;<br>		&#125;                                              /* end cycle */<br>	&#125;<br><br>	<span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">2</span>; i++) &#123;<br>		printf(<span class="hljs-string">&quot;%x &quot;</span>, v5[i]);<br>	&#125;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">2</span>; i++) &#123;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> m = <span class="hljs-number">0</span>; m &lt;= <span class="hljs-number">3</span>; m++) &#123;<br>			//printf(<span class="hljs-string">&quot;%c&quot;</span>, (v5[i] &gt;&gt; (<span class="hljs-number">8</span> * m)) &amp; <span class="hljs-number">0xff</span>);<br><br>		&#125;<br>	&#125;<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#include &lt;stdio.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;stdint.h&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">int</span> main() &#123;</span><br><span class="line">	uint32_t v[<span class="number">2</span>] = &#123;<span class="number">1</span>, <span class="number">2</span>&#125;;</span><br><span class="line">	uint32_t delta = <span class="number">0x61C88647</span>;</span><br><span class="line">	uint32_t v0 = v[<span class="number">0</span>], v1 = v[<span class="number">1</span>], <span class="built_in">sum</span> = -<span class="number">32</span> * delta, i; /* <span class="built_in">set</span> up */</span><br><span class="line"></span><br><span class="line">	uint32_t v2[<span class="number">2</span>] = &#123;<span class="number">0x3D121D26</span>, <span class="number">0x5E6189F9</span>&#125;, v3[<span class="number">2</span>] = &#123;<span class="number">0xC1FB278E</span>, <span class="number">0x3B494648</span>&#125;, v5[<span class="number">10</span>] = &#123;<span class="number">0xb805d767</span>, <span class="number">0x63c174c3</span>&#125;; //<span class="number">0x67</span>,<span class="number">0xd7</span>,<span class="number">5</span>,<span class="number">0xb8</span></span><br><span class="line">	unsigned <span class="built_in">int</span> k[<span class="number">4</span>] = &#123;<span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>&#125;, l = <span class="number">0</span>, r = <span class="number">0</span>;</span><br><span class="line">	uint32_t k0 = k[<span class="number">0</span>], k1 = k[<span class="number">1</span>], k2 = k[<span class="number">2</span>], k3 = k[<span class="number">3</span>];</span><br><span class="line">	// v为要加密的数据是两个<span class="number">32</span>位无符号整数</span><br><span class="line">	// k为加密解密密钥，为<span class="number">4</span>个<span class="number">32</span>位无符号整数，即密钥长度为<span class="number">128</span>位</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="built_in">int</span> m = <span class="number">0</span>; m &lt; <span class="number">2</span>; m += <span class="number">2</span>) &#123;//flag不全的话有可能是<span class="number">10</span></span><br><span class="line">		//<span class="built_in">sum</span> = -<span class="number">957401312</span>;</span><br><span class="line">		<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">32</span>; i++) &#123;                     /* basic cycle start */</span><br><span class="line">			v5[m + <span class="number">1</span>] -= ((v5[m] &lt;&lt; <span class="number">4</span>) + k2) ^ (v5[m] + <span class="built_in">sum</span>) ^ ((v5[m] &gt;&gt; <span class="number">5</span>) + k3);</span><br><span class="line">			v5[m] -= ((v5[m + <span class="number">1</span>] &lt;&lt; <span class="number">4</span>) + k0) ^ (v5[m + <span class="number">1</span>] + <span class="built_in">sum</span>) ^ ((v5[m + <span class="number">1</span>] &gt;&gt; <span class="number">5</span>) + k1);</span><br><span class="line">			<span class="built_in">sum</span> += delta;</span><br><span class="line">		&#125;                                              /* end cycle */</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">		printf(<span class="string">&quot;%x &quot;</span>, v5[i]);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="built_in">int</span> m = <span class="number">0</span>; m &lt;= <span class="number">3</span>; m++) &#123;</span><br><span class="line">			//printf(<span class="string">&quot;%c&quot;</span>, (v5[i] &gt;&gt; (<span class="number">8</span> * m)) &amp; <span class="number">0xff</span>);</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
 
-<img src="/2024/03/10/HSCCTF2024/1709961543764-2858e782-886c-4814-a0aa-e5deb5787d5a.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/03/10/HSCCTF2024/1709961543764-2858e782-886c-4814-a0aa-e5deb5787d5a.png"
+                      class="" title="img"
+                >
 
 <p>谁懂啊，exe输入错误，但是直接交是对的</p>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">flag</span>&#123;<span class="hljs-number">688</span>ed036-a86a60ce&#125;<br></code></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;688ed036-a86a60ce&#125;</span><br></pre></td></tr></table></figure></div>
 
 <h2 id="no-py"><a href="#no-py" class="headerlink" title="no_py"></a>no_py</h2><p>pyc反编译效果不好</p>
-<img src="/2024/03/10/HSCCTF2024/1709966236128-15b77610-7093-4097-be67-f0c51fd89e1d.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/03/10/HSCCTF2024/1709966236128-15b77610-7093-4097-be67-f0c51fd89e1d.png"
+                      class="" title="img"
+                >
 
 <p>用在线工具后发现key和enc在其他文件中，感觉和beginCTF的ezpython一模一样</p>
-<img src="/2024/03/10/HSCCTF2024/1709966361759-cd04823d-7b18-46fe-92de-685d0ab82524.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/03/10/HSCCTF2024/1709966361759-cd04823d-7b18-46fe-92de-685d0ab82524.png"
+                      class="" title="img"
+                >
 
-<img src="/2024/03/10/HSCCTF2024/1709966965760-a8512425-228e-4aec-a16b-50247053893f.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/03/10/HSCCTF2024/1709966965760-a8512425-228e-4aec-a16b-50247053893f.png"
+                      class="" title="img"
+                >
 
-<img src="/2024/03/10/HSCCTF2024/1709967326961-01a13c08-39ea-41d0-a149-0b09f1ba2bbb.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/03/10/HSCCTF2024/1709967326961-01a13c08-39ea-41d0-a149-0b09f1ba2bbb.png"
+                      class="" title="img"
+                >
 
-<img src="/2024/03/10/HSCCTF2024/1709967524943-3a4e06c9-246e-417a-858c-f7bcaf4e2598.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/03/10/HSCCTF2024/1709967524943-3a4e06c9-246e-417a-858c-f7bcaf4e2598.png"
+                      class="" title="img"
+                >
 
 <h2 id="roulette"><a href="#roulette" class="headerlink" title="roulette"></a>roulette</h2><p>基本玩不出的游戏</p>
-<img src="/2024/03/10/HSCCTF2024/1710038562295-31b684f0-b508-4741-9a19-c167db74bd2d.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/03/10/HSCCTF2024/1710038562295-31b684f0-b508-4741-9a19-c167db74bd2d.png"
+                      class="" title="img"
+                >
 
 <p>通过算法识别找到blowfish</p>
-<img src="/2024/03/10/HSCCTF2024/1710038776255-a545b936-9122-410b-83f6-e73861058139.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/03/10/HSCCTF2024/1710038776255-a545b936-9122-410b-83f6-e73861058139.png"
+                      class="" title="img"
+                >
 
 <p>7.5的汉化效果好</p>
-<img src="/2024/03/10/HSCCTF2024/1710039007125-ad52680c-29fa-464a-9830-25e876189981.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/03/10/HSCCTF2024/1710039007125-ad52680c-29fa-464a-9830-25e876189981.png"
+                      class="" title="img"
+                >
 
 <p>后来按题目的思路走，修改程序一次完成，应该是自解密，不用解程序会帮我解</p>
-<img src="/2024/03/10/HSCCTF2024/1710041102825-dbd65880-e0c1-42f9-aecf-21f84b4f1807.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/03/10/HSCCTF2024/1710041102825-dbd65880-e0c1-42f9-aecf-21f84b4f1807.png"
+                      class="" title="img"
+                >
 
-<figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dust"><span class="language-xml">HSCCTF</span><span class="hljs-template-variable">&#123;H31L0_My_FR13ND!&#125;</span><br></code></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HSCCTF&#123;H31L0_My_FR13ND!&#125;</span><br></pre></td></tr></table></figure></div>
 
 <h2 id="the-wolf-song"><a href="#the-wolf-song" class="headerlink" title="the_wolf_song"></a>the_wolf_song</h2><p>能识别但用不上</p>
-<img src="/2024/03/10/HSCCTF2024/1710042320322-4ed576c7-5a94-4cb2-bf45-50ffa76d82a9.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/03/10/HSCCTF2024/1710042320322-4ed576c7-5a94-4cb2-bf45-50ffa76d82a9.png"
+                      class="" title="img"
+                >
 
 <p>调试过掉前面的音乐</p>
-<img src="/2024/03/10/HSCCTF2024/1710054119801-e25294b2-b516-4e4a-873c-b812f5d83c02.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/03/10/HSCCTF2024/1710054119801-e25294b2-b516-4e4a-873c-b812f5d83c02.png"
+                      class="" title="img"
+                >
 
 <p>rc4算法，第一个内存会被初始化</p>
-<img src="/2024/03/10/HSCCTF2024/1710054235494-d36be0da-eac4-4265-9a1c-75e7b59a40fc.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/03/10/HSCCTF2024/1710054235494-d36be0da-eac4-4265-9a1c-75e7b59a40fc.png"
+                      class="" title="img"
+                >
 
 <p>流程在代码的第一行</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#^6 -&gt; ^3 -&gt; rc4:HSCCTF&#123;FAKE_FLAG!&#125; -&gt; ^j -&gt; ^fake_flag[i] ^fake_flag[i+1] -&gt; ^j</span><br>fake_flag=<span class="hljs-string">&#x27;HSCCTF&#123;FAKE_FLAG!&#125;&#x27;</span><br>enc=[<span class="hljs-number">0xce</span>,<span class="hljs-number">0x26</span>,<span class="hljs-number">0x9c</span>,<span class="hljs-number">0x7</span>,<span class="hljs-number">0x48</span>,<span class="hljs-number">0xd9</span>,<span class="hljs-number">0xfd</span>,<span class="hljs-number">0x23</span>,<span class="hljs-number">0xba</span>,<span class="hljs-number">0x9a</span>,<span class="hljs-number">0x40</span>,<span class="hljs-number">0xa8</span>,<span class="hljs-number">0x2e</span>,<span class="hljs-number">0xbd</span>,<span class="hljs-number">0xfc</span>,<span class="hljs-number">0x77</span>,<span class="hljs-number">0xb7</span>,<span class="hljs-number">0x5d</span>,<span class="hljs-number">0x7e</span>,<span class="hljs-number">0x67</span>,<span class="hljs-number">0x99</span>,<span class="hljs-number">0xfd</span>,<span class="hljs-number">0xcd</span>,<span class="hljs-number">0x63</span>,<span class="hljs-number">0x13</span>,<span class="hljs-number">0xa</span>,<span class="hljs-number">0x94</span>,<span class="hljs-number">0x5b</span>,<span class="hljs-number">0x95</span>,<span class="hljs-number">0x2c</span>,<span class="hljs-number">0x26</span>,<span class="hljs-number">0x60</span>,<span class="hljs-number">0x1e</span>,<span class="hljs-number">0x1e</span>,<span class="hljs-number">0xb4</span>,<span class="hljs-number">0x30</span>,<span class="hljs-number">0x89</span>,<span class="hljs-number">0xcf</span>,<span class="hljs-number">0xef</span>,<span class="hljs-number">0x68</span>]<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">len</span>(enc))<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">rc4</span>(<span class="hljs-params">data, key</span>):<br>    S = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">range</span>(<span class="hljs-number">256</span>))<br>    j = <span class="hljs-number">0</span><br>    out = []<br><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">256</span>):<br>        j = (j + S[i] + key[i % <span class="hljs-built_in">len</span>(key)]) % <span class="hljs-number">256</span><br>        S[i], S[j] = S[j], S[i]<br><br>    i = j = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">for</span> char <span class="hljs-keyword">in</span> data:<br>        i = (i + <span class="hljs-number">1</span>) % <span class="hljs-number">256</span><br>        j = (j + S[i]) % <span class="hljs-number">256</span><br>        S[i], S[j] = S[j], S[i]<br>        out.append(char ^ S[(S[i] + S[j]) % <span class="hljs-number">256</span>])<br><br>    <span class="hljs-keyword">return</span> out<br><br><span class="hljs-comment"># for i in range(len(enc)):</span><br><span class="hljs-comment">#     enc[i]^=i</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(fake_flag)-<span class="hljs-number">1</span>):<br>    enc[i]^=<span class="hljs-built_in">ord</span>(fake_flag[i+<span class="hljs-number">1</span>])<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(fake_flag)):<br>    enc[i]^=<span class="hljs-built_in">ord</span>(fake_flag[i])<br><br><span class="hljs-comment"># for i in range(len(enc)):</span><br><span class="hljs-comment">#     enc[i]^=i</span><br><br>key=<span class="hljs-built_in">bytes</span>(fake_flag.encode())<br>decrypted = rc4(enc, key)<br><span class="hljs-comment">#print(decrypted)</span><br><br>flag=<span class="hljs-string">&#x27;&#x27;</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(decrypted)):<br>    flag+=<span class="hljs-built_in">chr</span>(decrypted[i]^<span class="hljs-number">3</span>^<span class="hljs-number">6</span>)<br><span class="hljs-built_in">print</span>(flag)<br>HSCCTF&#123;Welcome_To_Participate_In_HSCCTF&#125;<br></code></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#^6 -&gt; ^3 -&gt; rc4:HSCCTF&#123;FAKE_FLAG!&#125; -&gt; ^j -&gt; ^fake_flag[i] ^fake_flag[i+1] -&gt; ^j</span></span><br><span class="line">fake_flag=<span class="string">&#x27;HSCCTF&#123;FAKE_FLAG!&#125;&#x27;</span></span><br><span class="line">enc=[<span class="number">0xce</span>,<span class="number">0x26</span>,<span class="number">0x9c</span>,<span class="number">0x7</span>,<span class="number">0x48</span>,<span class="number">0xd9</span>,<span class="number">0xfd</span>,<span class="number">0x23</span>,<span class="number">0xba</span>,<span class="number">0x9a</span>,<span class="number">0x40</span>,<span class="number">0xa8</span>,<span class="number">0x2e</span>,<span class="number">0xbd</span>,<span class="number">0xfc</span>,<span class="number">0x77</span>,<span class="number">0xb7</span>,<span class="number">0x5d</span>,<span class="number">0x7e</span>,<span class="number">0x67</span>,<span class="number">0x99</span>,<span class="number">0xfd</span>,<span class="number">0xcd</span>,<span class="number">0x63</span>,<span class="number">0x13</span>,<span class="number">0xa</span>,<span class="number">0x94</span>,<span class="number">0x5b</span>,<span class="number">0x95</span>,<span class="number">0x2c</span>,<span class="number">0x26</span>,<span class="number">0x60</span>,<span class="number">0x1e</span>,<span class="number">0x1e</span>,<span class="number">0xb4</span>,<span class="number">0x30</span>,<span class="number">0x89</span>,<span class="number">0xcf</span>,<span class="number">0xef</span>,<span class="number">0x68</span>]</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">len</span>(enc))</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">rc4</span>(<span class="params">data, key</span>):</span><br><span class="line">    S = <span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">256</span>))</span><br><span class="line">    j = <span class="number">0</span></span><br><span class="line">    out = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">256</span>):</span><br><span class="line">        j = (j + S[i] + key[i % <span class="built_in">len</span>(key)]) % <span class="number">256</span></span><br><span class="line">        S[i], S[j] = S[j], S[i]</span><br><span class="line"></span><br><span class="line">    i = j = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> char <span class="keyword">in</span> data:</span><br><span class="line">        i = (i + <span class="number">1</span>) % <span class="number">256</span></span><br><span class="line">        j = (j + S[i]) % <span class="number">256</span></span><br><span class="line">        S[i], S[j] = S[j], S[i]</span><br><span class="line">        out.append(char ^ S[(S[i] + S[j]) % <span class="number">256</span>])</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> out</span><br><span class="line"></span><br><span class="line"><span class="comment"># for i in range(len(enc)):</span></span><br><span class="line"><span class="comment">#     enc[i]^=i</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(fake_flag)-<span class="number">1</span>):</span><br><span class="line">    enc[i]^=<span class="built_in">ord</span>(fake_flag[i+<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(fake_flag)):</span><br><span class="line">    enc[i]^=<span class="built_in">ord</span>(fake_flag[i])</span><br><span class="line"></span><br><span class="line"><span class="comment"># for i in range(len(enc)):</span></span><br><span class="line"><span class="comment">#     enc[i]^=i</span></span><br><span class="line"></span><br><span class="line">key=<span class="built_in">bytes</span>(fake_flag.encode())</span><br><span class="line">decrypted = rc4(enc, key)</span><br><span class="line"><span class="comment">#print(decrypted)</span></span><br><span class="line"></span><br><span class="line">flag=<span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(decrypted)):</span><br><span class="line">    flag+=<span class="built_in">chr</span>(decrypted[i]^<span class="number">3</span>^<span class="number">6</span>)</span><br><span class="line"><span class="built_in">print</span>(flag)</span><br><span class="line">HSCCTF&#123;Welcome_To_Participate_In_HSCCTF&#125;</span><br></pre></td></tr></table></figure></div>
 
 
 
 
 
 <h2 id="Android-1"><a href="#Android-1" class="headerlink" title="Android-1"></a>Android-1</h2><p>复现来自yuro✌</p>
-<img src="/2024/03/10/HSCCTF2024/1710057980233-dcb6dd18-2c42-474d-90c4-def9b46433e5-17102079978971.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/03/10/HSCCTF2024/1710057980233-dcb6dd18-2c42-474d-90c4-def9b46433e5-17102079978971.png"
+                      class="" title="img"
+                >
 
 <p>找到关键函数，murmur3_32 哈希算法，得到一个 32 字节的哈希，作为 key  </p>
-<img src="/2024/03/10/HSCCTF2024/1710058239980-9f7b6594-99ca-4cf5-a0f6-aef795cbbdb7-17102079978983.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/03/10/HSCCTF2024/1710058239980-9f7b6594-99ca-4cf5-a0f6-aef795cbbdb7-17102079978983.png"
+                      class="" title="img"
+                >
 
 <p>sm4竟然插件没识别出来？看常数就可以发现</p>
-<img src="/2024/03/10/HSCCTF2024/1710058389286-a856058d-c969-42f7-9b0d-228886c4e399-17102079978985.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/03/10/HSCCTF2024/1710058389286-a856058d-c969-42f7-9b0d-228886c4e399-17102079978985.png"
+                      class="" title="img"
+                >
 
 <p>同一插件ida7.7就能识别</p>
-<img src="/2024/03/10/HSCCTF2024/1710161320739-5f24379d-4131-48ff-8bf3-15d19f64e002.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/03/10/HSCCTF2024/1710161320739-5f24379d-4131-48ff-8bf3-15d19f64e002.png"
+                      class="" title="img"
+                >
 
 <p>hook _Z10murmur3_32PKcjj函数 得到返回值</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> func_addr = <span class="hljs-title class_">Module</span>.<span class="hljs-title function_">findExportByName</span>(<span class="hljs-string">&quot;libmidand.so&quot;</span> , <span class="hljs-string">&quot;_Z10murmur3_32PKcjj&quot;</span>);<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;func addr is ---&quot;</span> + func_addr);<br><span class="hljs-title class_">Interceptor</span>.<span class="hljs-title function_">attach</span>(func_addr, &#123;<br>  <span class="hljs-attr">onLeave</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params">args</span>)&#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;enter murmur3_32 retvalue-&gt;\n&quot;</span> + <span class="hljs-title function_">hexdump</span>(args));<br>  &#125;<br>&#125;);<br></code></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Javascript"><figure class="iseeu highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> func_addr = <span class="title class_">Module</span>.<span class="title function_">findExportByName</span>(<span class="string">&quot;libmidand.so&quot;</span> , <span class="string">&quot;_Z10murmur3_32PKcjj&quot;</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;func addr is ---&quot;</span> + func_addr);</span><br><span class="line"><span class="title class_">Interceptor</span>.<span class="title function_">attach</span>(func_addr, &#123;</span><br><span class="line">  <span class="attr">onLeave</span>: <span class="keyword">function</span>(<span class="params">args</span>)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;enter murmur3_32 retvalue-&gt;\n&quot;</span> + <span class="title function_">hexdump</span>(args));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></div>
 
 <p>我用的是雷电模拟器，前置步骤网上有，也可以看这个</p>
-<p><a target="_blank" rel="noopener" href="https://www.yuque.com/u34082223/swqzq3/zdpepl9de1zwz7mw">https://www.yuque.com/u34082223/swqzq3/zdpepl9de1zwz7mw</a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://www.yuque.com/u34082223/swqzq3/zdpepl9de1zwz7mw" >https://www.yuque.com/u34082223/swqzq3/zdpepl9de1zwz7mw<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 <p>运行远程frida-server后用<code>frida -U -l 1.js -f MidAnd</code>，一开始找不到MidAnd，用findstr才行</p>
-<img src="/2024/03/10/HSCCTF2024/1710207312322-fcd1a619-46be-447b-a865-602cad21ca7f.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/03/10/HSCCTF2024/1710207312322-fcd1a619-46be-447b-a865-602cad21ca7f.png"
+                      class="" title="img"
+                >
 
 <p>一开始一直报错</p>
-<img src="/2024/03/10/HSCCTF2024/1710166946004-61d68afc-f771-4451-b35c-f5215bb59651.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/03/10/HSCCTF2024/1710166946004-61d68afc-f771-4451-b35c-f5215bb59651.png"
+                      class="" title="img"
+                >
 
 <p>在模拟器上输入字符然后点login就好了</p>
-<img src="/2024/03/10/HSCCTF2024/1710207589439-8766b8f9-5ba4-4f91-b2fe-7c9992241683.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/03/10/HSCCTF2024/1710207589439-8766b8f9-5ba4-4f91-b2fe-7c9992241683.png"
+                      class="" title="img"
+                >
 
-<img src="/2024/03/10/HSCCTF2024/1710166891275-3b1302ac-022b-4296-b8c7-b9fdff543fea.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/03/10/HSCCTF2024/1710166891275-3b1302ac-022b-4296-b8c7-b9fdff543fea.png"
+                      class="" title="img"
+                >
 
 <p>再用SM4解密</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> gmssl <span class="hljs-keyword">import</span> sm4<br><br>enc = <span class="hljs-built_in">bytearray</span>.fromhex(<span class="hljs-string">&quot;731E133EF76A5CD1EF9626A9947CF4A46CE237B70D4905E921E35E2E7D7A1A74&quot;</span>)<br><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">               0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F  0123456789ABCDEF</span><br><span class="hljs-string">7f13c97b0d00  c4 83 84 72 b8 e1 60 ba 5d 99 5a 6b e3 67 40 17  ...r..`.].Zk.g@.</span><br><span class="hljs-string">7f13c97b0d10  7c 3f 33 21 91 1c fa 54 8f 35 30 73 dd 2b 80 a7  |?3!...T.50s.+..</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br>key1 = <span class="hljs-built_in">bytearray</span>.fromhex(<span class="hljs-string">&quot;c4838472b8e160ba5d995a6be3674017&quot;</span>)<br>key2 = <span class="hljs-built_in">bytearray</span>.fromhex(<span class="hljs-string">&quot;7c3f3321911cfa548f353073dd2b80a7&quot;</span>)<br><br>s = sm4.CryptSM4(padding_mode=sm4.zero_padding)<br><br>s.set_key(key1, sm4.SM4_DECRYPT) <br>dec = s.crypt_ecb(enc[:<span class="hljs-number">16</span>]) <br><span class="hljs-built_in">print</span>(dec.decode(), end=<span class="hljs-string">&quot;&quot;</span>)<br><br>s.set_key(key2, sm4.SM4_DECRYPT) <br>dec = s.crypt_ecb(enc[<span class="hljs-number">16</span>:]) <br><span class="hljs-built_in">print</span>(dec.decode(), end=<span class="hljs-string">&quot;&quot;</span>)<br>flag&#123;fad1c7e27ec411eebe3a3e4419a1b3cc&#125;  <br></code></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> gmssl <span class="keyword">import</span> sm4</span><br><span class="line"></span><br><span class="line">enc = <span class="built_in">bytearray</span>.fromhex(<span class="string">&quot;731E133EF76A5CD1EF9626A9947CF4A46CE237B70D4905E921E35E2E7D7A1A74&quot;</span>)</span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">               0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F  0123456789ABCDEF</span></span><br><span class="line"><span class="string">7f13c97b0d00  c4 83 84 72 b8 e1 60 ba 5d 99 5a 6b e3 67 40 17  ...r..`.].Zk.g@.</span></span><br><span class="line"><span class="string">7f13c97b0d10  7c 3f 33 21 91 1c fa 54 8f 35 30 73 dd 2b 80 a7  |?3!...T.50s.+..</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">key1 = <span class="built_in">bytearray</span>.fromhex(<span class="string">&quot;c4838472b8e160ba5d995a6be3674017&quot;</span>)</span><br><span class="line">key2 = <span class="built_in">bytearray</span>.fromhex(<span class="string">&quot;7c3f3321911cfa548f353073dd2b80a7&quot;</span>)</span><br><span class="line"></span><br><span class="line">s = sm4.CryptSM4(padding_mode=sm4.zero_padding)</span><br><span class="line"></span><br><span class="line">s.set_key(key1, sm4.SM4_DECRYPT) </span><br><span class="line">dec = s.crypt_ecb(enc[:<span class="number">16</span>]) </span><br><span class="line"><span class="built_in">print</span>(dec.decode(), end=<span class="string">&quot;&quot;</span>)</span><br><span class="line"></span><br><span class="line">s.set_key(key2, sm4.SM4_DECRYPT) </span><br><span class="line">dec = s.crypt_ecb(enc[<span class="number">16</span>:]) </span><br><span class="line"><span class="built_in">print</span>(dec.decode(), end=<span class="string">&quot;&quot;</span>)</span><br><span class="line">flag&#123;fad1c7e27ec411eebe3a3e4419a1b3cc&#125;  </span><br></pre></td></tr></table></figure></div>
 
-<h1 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h1><h2 id="funny"><a href="#funny" class="headerlink" title="funny"></a>funny</h2><img src="/2024/03/10/HSCCTF2024/1710041422186-08d964df-4990-493b-be7d-25c5069b4332.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<h1 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h1><h2 id="funny"><a href="#funny" class="headerlink" title="funny"></a>funny</h2><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/03/10/HSCCTF2024/1710041422186-08d964df-4990-493b-be7d-25c5069b4332.png"
+                      class="" title="img"
+                >
 
-                
-              </div>
-            
-            <hr/>
-            <div>
-              <div class="post-metas my-3">
-  
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
+		</div>
 
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> HSCCTF2024部分wp</li>
+        <li><strong>作者:</strong> j1ya</li>
+        <li><strong>创建于
+                :</strong> 2024-03-10 23:49:43</li>
         
-  <a href="/categories/%E6%AF%94%E8%B5%9Bwp/" class="category-chain-item">比赛wp</a>
-  
-  
+            <li>
+                <strong>更新于
+                    :</strong> 2026-07-30 22:08:55
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://redefine.ohevan.com/2024/03/10/HSCCTF2024/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
 
-      </span>
-    
-  
-</span>
-
-    </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/frida/" class="print-no-link">#frida</a>
-      
-        <a href="/tags/VM/" class="print-no-link">#VM</a>
-      
-        <a href="/tags/sm4/" class="print-no-link">#sm4</a>
-      
-        <a href="/tags/blowfish%E5%8A%A0%E5%AF%86/" class="print-no-link">#blowfish加密</a>
-      
-        <a href="/tags/shellcode/" class="print-no-link">#shellcode</a>
-      
-    </div>
-  
+            
+                本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a> 进行许可。
+            
+        </li>
+    </ul>
 </div>
 
+		</div>
+		
 
-              
-  
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/frida/">#frida</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/VM/">#VM</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/sm4/">#sm4</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/shellcode/">#shellcode</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/blowfish%E5%8A%A0%E5%AF%86/">#blowfish加密</a>&nbsp;
+			</li>
+			
+		</ul>
+		
 
-  <div class="license-box my-3">
-    <div class="license-title">
-      <div>HSCCTF2024部分wp</div>
-      <div>https://j1ya-22.github.io/2024/03/10/HSCCTF2024/</div>
+		
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2024/03/13/BeginCTF2024%E9%83%A8%E5%88%86%E9%80%86%E5%90%91/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">BeginCTF2024部分逆向</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2024/03/04/IDA%E6%98%BE%E7%A4%BA%E4%B8%AD%E6%96%87%E5%AD%97%E7%AC%A6/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">IDA显示中文字符</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
     </div>
-    <div class="license-meta">
-      
-        <div class="license-meta-item">
-          <div>作者</div>
-          <div>j1ya</div>
-        </div>
-      
-      
-        <div class="license-meta-item license-meta-date">
-          <div>发布于</div>
-          <div>2024年3月10日</div>
-        </div>
-      
-      
-      
-        <div class="license-meta-item">
-          <div>许可协议</div>
-          <div>
+    
+
+        
             
-              
-              
-                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
-                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
-                    <i class="iconfont icon-by"></i>
-                  </span>
-                </a>
-              
-            
-          </div>
-        </div>
-      
-    </div>
-    <div class="license-icon iconfont"></div>
-  </div>
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.js';
 
+      (function() {
+        const startPath = location.pathname;
+        const startTime = Date.now();
+        const retryDelay = 200;
+        const retryLimit = 5000;
 
-
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2024/03/13/BeginCTF2024%E9%83%A8%E5%88%86%E9%80%86%E5%90%91/" title="BeginCTF2024部分逆向">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">BeginCTF2024部分逆向</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2024/03/04/IDA%E6%98%BE%E7%A4%BA%E4%B8%AD%E6%96%87%E5%AD%97%E7%AC%A6/" title="IDA显示中文字符">
-                        <span class="hidden-mobile">IDA显示中文字符</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
-              
-            </div>
-
-            
-  
-  
-    <article id="comments" lazyload>
-      
-  <div id="valine"></div>
-  <script type="text/javascript">
-    Fluid.utils.loadComments('#valine', function() {
-      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
-        var options = Object.assign(
-          {"appId":"5oPqGOgpqzM186wdJq3YyrcV-gzGzoHsz","appKey":"tdZv3tC3tP1IszSKxEodRe6e","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
-          {
-            el: "#valine",
-            path: window.location.pathname
+        const runWaline = () => {
+          if (location.pathname !== startPath) {
+            return;
           }
-        )
-        new Valine(options);
-        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
-          var imgSelector = '#valine .vcontent img:not(.vemoji)';
-          Fluid.plugins.imageCaption(imgSelector);
-          Fluid.plugins.fancyBox(imgSelector);
-        })
-      });
-    });
-  </script>
-  <noscript>Please enable JavaScript to view the comments</noscript>
+
+          const container = document.getElementById('waline');
+          if (!container) {
+            if (Date.now() - startTime < retryLimit) {
+              setTimeout(runWaline, retryDelay);
+            }
+            return;
+          }
+
+          if (window.redefineWalineInstance?.destroy) {
+            window.redefineWalineInstance.destroy();
+          }
+
+          container.innerHTML = '';
+          window.redefineWalineInstance = init({
+            el: '#waline',
+            serverURL: 'https://example.example.com',
+            path: location.pathname,
+            dark: 'body[class~="dark-mode"]',
+            reaction: false,
+            requiredMeta: ['nick', 'mail'],
+            emoji: [],
+                      lang: 'zh-CN',
+          });
+        };
+
+        runWaline();
+      })();
+    </script>
 
 
-    </article>
-  
 
+        
+    
+</div>
 
-          </article>
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">HSCCTF2024部分wp</div>
+		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Misc"><span class="nav-text">Misc</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#hello-hscctf"><span class="nav-text">hello-hscctf</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Re"><span class="nav-text">Re</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#tea"><span class="nav-text">tea</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#no-py"><span class="nav-text">no_py</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#roulette"><span class="nav-text">roulette</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#the-wolf-song"><span class="nav-text">the_wolf_song</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Android-1"><span class="nav-text">Android-1</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Crypto"><span class="nav-text">Crypto</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#funny"><span class="nav-text">funny</span></a></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">j1ya</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 79 篇文章
+                    </span>
+                    
+                </p>
+            
         </div>
-      </div>
-    </div>
-
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-  <aside class="sidebar" style="margin-left: -1rem">
-    <div id="toc">
-  <p class="toc-header">
-    <i class="iconfont icon-list"></i>
-    <span>目录</span>
-  </p>
-  <div class="toc-body" id="toc-body"></div>
-</div>
-
-
-
-  </aside>
-
-
-    </div>
-  </div>
-</div>
-
-
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-
-
-
-
-    
-
-    
-      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
-        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-      </a>
-    
-
-    
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
         </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="图片查看器">
+	<button class="image-viewer-close" type="button" aria-label="关闭">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="上一页">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="关闭">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="下一页">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
 </div>
 
-    
 
-    
-  </main>
+	
 
-  <footer>
-    <div class="footer-inner">
-  
-    <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
-    </div>
-  
-  
-    <div class="statistics">
-  
-  
-
-  
-    
-      <span id="busuanzi_container_site_pv" style="display: none">
-        总访问量 
-        <span id="busuanzi_value_site_pv"></span>
-         次
-      </span>
-    
-    
-      <span id="busuanzi_container_site_uv" style="display: none">
-        总访客数 
-        <span id="busuanzi_value_site_uv"></span>
-         人
-      </span>
-    
-    
-  
-</div>
-
-  
-  
-  
-</div>
-
-  </footer>
-
-  <!-- Scripts -->
-  
-  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
-
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
-
-
-<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
-<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
-
-
-  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
+</main>
 
 
 
+<script src="/js/build/libs/Swup.min.js"></script>
 
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
 
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
 
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
 
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
 
-  
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
 <script>
-  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
-    var toc = jQuery('#toc');
-    if (toc.length === 0 || !window.tocbot) { return; }
-    var boardCtn = jQuery('#board-ctn');
-    var boardTop = boardCtn.offset().top;
-
-    window.tocbot.init(Object.assign({
-      tocSelector     : '#toc-body',
-      contentSelector : '.markdown-body',
-      linkClass       : 'tocbot-link',
-      activeLinkClass : 'tocbot-active-link',
-      listClass       : 'tocbot-list',
-      isCollapsedClass: 'tocbot-is-collapsed',
-      collapsibleClass: 'tocbot-is-collapsible',
-      scrollSmooth    : true,
-      includeTitleTags: true,
-      headingsOffset  : -boardTop,
-    }, CONFIG.toc));
-    if (toc.find('.toc-list-item').length > 0) {
-      toc.css('visibility', 'visible');
-    }
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('tocbot' in window) {
-        tocbot.refresh();
-        var toc = jQuery('#toc');
-        if (toc.length === 0 || !tocbot) {
-          return;
-        }
-        if (toc.find('.toc-list-item').length > 0) {
-          toc.css('visibility', 'visible');
-        }
-      }
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
     });
-  });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
 </script>
 
 
-  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
-
-  <script>Fluid.plugins.codeWidget();</script>
 
 
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
-    window.anchors.options = {
-      placement: CONFIG.anchorjs.placement,
-      visible  : CONFIG.anchorjs.visible
-    };
-    if (CONFIG.anchorjs.icon) {
-      window.anchors.options.icon = CONFIG.anchorjs.icon;
-    }
-    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-    var res = [];
-    for (var item of el) {
-      res.push('.markdown-body > ' + item.trim());
-    }
-    if (CONFIG.anchorjs.placement === 'left') {
-      window.anchors.options.class = 'anchorjs-link-left';
-    }
-    window.anchors.add(res.join(', '));
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('anchors' in window) {
-        anchors.removeAll();
-        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-        var res = [];
-        for (var item of el) {
-          res.push('.markdown-body > ' + item.trim());
-        }
-        if (CONFIG.anchorjs.placement === 'left') {
-          anchors.options.class = 'anchorjs-link-left';
-        }
-        anchors.add(res.join(', '));
-      }
-    });
-  });
-</script>
+	
+<script src="/js/build/main.js" type="module"></script>
 
 
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
-    Fluid.plugins.fancyBox();
-  });
-</script>
 
+    
+<script src="/js/build/libs/odometer.min.js"></script>
 
-  <script>Fluid.plugins.imageCaption();</script>
-
-  <script defer src="/js/leancloud.js" ></script>
-
-  <script  src="/js/local-search.js" ></script>
-
-  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
 
 
 
 
 
-<!-- 主题的启动项，将它保持在最底部 -->
-<!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
 
 
   
+<script src="/js/build/libs/Typed.min.js"></script>
 
-  <noscript>
-    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript>
+
+
+
+
+
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+
+	
 </body>
+
 </html>

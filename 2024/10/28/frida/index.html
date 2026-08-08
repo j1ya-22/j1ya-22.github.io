@@ -1,351 +1,573 @@
-
-
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=auto>
-
-
-
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/China.jpg">
-  <link rel="icon" href="/img/China.jpg">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  
-  <meta name="theme-color" content="#2f4154">
-  <meta name="author" content="j1ya">
-  <meta name="keywords" content="">
-  
-    <meta name="description" content="原理Frida是一款跨平台的动态代码插桩框架，核心原理是向目标进程注入包含 Frida Runtime 的代码库。该 Runtime 在进程内构建轻量级 JavaScript 环境，并利用底层引擎（Gum）动态修改目标函数的内存指令。通过插入跳转指令（Inline Hook）等，将执行流重定向到代理函数（trampoline&#x2F;thunk），代理函数负责调用用户编写的 JavaScript">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    
+    <meta name="author" content="j1ya">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://j1ya-22.github.io/2024/10/28/frida/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Frida in CTF Android Reverse Engineering">
 <meta property="og:url" content="https://j1ya-22.github.io/2024/10/28/frida/index.html">
 <meta property="og:site_name" content="j1ya">
-<meta property="og:description" content="原理Frida是一款跨平台的动态代码插桩框架，核心原理是向目标进程注入包含 Frida Runtime 的代码库。该 Runtime 在进程内构建轻量级 JavaScript 环境，并利用底层引擎（Gum）动态修改目标函数的内存指令。通过插入跳转指令（Inline Hook）等，将执行流重定向到代理函数（trampoline&#x2F;thunk），代理函数负责调用用户编写的 JavaScript">
+<meta property="og:description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/10/28/frida/1712195710911-7cc5b222-a9ad-46b8-a495-1ade9517b74e.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/10/28/frida/1709106544067-2c326341-66b0-4547-b840-739326b8bf13.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/10/28/frida/1712197153960-64efa81f-26a4-4836-8e0e-6d92bcf579f1.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/10/28/frida/1710164574208-18b8d166-51bd-4a69-8039-6abde13ddbb9.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/10/28/frida/1708862204362-fba47b0f-f174-470b-82fd-9c0d093265e0.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/10/28/frida/1785221208428-64d75394-48ee-4f8f-9afa-9830e3a5c5c9.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/10/28/frida/1730102274627-e809a6dc-e147-4ccd-bd70-13d6eda9b9c1.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/10/28/frida/1730102659189-864d3663-4d42-4afc-8ae7-048946e21b15.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/10/28/frida/1730102502794-a16bc096-091e-4fa4-8d25-8deae8d871c8.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/10/28/frida/1744369836522-36a2ab16-f50b-4c5c-8d34-ec36f01787a6.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/10/28/frida/1719835391861-c09cb64a-798d-48fa-9ff2-bd4484900fed.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/10/28/frida/1785221583857-d7211bde-0430-4186-a353-bf4b1d6ca55d.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/10/28/frida/1709109675749-a27f484c-05c7-4662-a271-9eb7f9585c85.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/10/28/frida/1785306300594-df8c58f4-af85-4a01-aed3-1b4636081952.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/10/28/frida/1785306437567-c90bdda2-2aa7-412d-8ade-cbe726a1e287.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/10/28/frida/1785295224185-75e65efd-aa91-4424-a02b-d0e29b2f225e.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/10/28/frida/1785306684800-2c2f480f-a0cd-4943-8200-9f8128c4d7f5.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/10/28/frida/1785306183130-b18fb8bd-dca1-4638-8e45-cd637ac8aac2.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/10/28/frida/1785306625856-b26700f9-9c99-497c-a6f7-685335564398.png">
-<meta property="og:image" content="https://j1ya-22.github.io/2024/10/28/frida/1745723762216-55a48603-e0eb-4e7c-a136-1a408b062bde.png">
+<meta property="og:image" content="https://j1ya-22.github.io/images/redefine-og.webp">
 <meta property="article:published_time" content="2024-10-28T10:15:48.000Z">
 <meta property="article:modified_time" content="2026-08-06T03:27:15.423Z">
 <meta property="article:author" content="j1ya">
 <meta property="article:tag" content="frida">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://j1ya-22.github.io/2024/10/28/frida/1712195710911-7cc5b222-a9ad-46b8-a495-1ade9517b74e.png">
-  
-  
-    <meta name="referrer" content="no-referrer-when-downgrade">
-  
-  
-  <title>Frida in CTF Android Reverse Engineering - j1ya</title>
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
-
-
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
-
-  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
-
-
-
-<!-- 主题依赖的图标库，不要自行修改 -->
-<!-- Do not modify the link that theme dependent icons -->
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
-
-
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
-
-
-<link  rel="stylesheet" href="/css/main.css" />
-
-
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
-  
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
-  
-
-
-
-
-  <script id="fluid-configs">
-    var Fluid = window.Fluid || {};
-    Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"j1ya-22.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":false,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"5oPqGOgpqzM186wdJq3YyrcV-gzGzoHsz","app_key":"tdZv3tC3tP1IszSKxEodRe6e","server_url":null,"path":"window.location.pathname","ignore_local":true}},"search_path":"/local-search.xml","include_content_in_search":true};
-
-    if (CONFIG.web_analytics.follow_dnt) {
-      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
-      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
-    }
-  </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
-  
-
-  
-
-  
-    <!-- Google tag (gtag.js) -->
-    <script async>
-      if (!Fluid.ctx.dnt) {
-        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
-          window.dataLayer = window.dataLayer || [];
-          function gtag() {
-            dataLayer.push(arguments);
-          }
-          gtag('js', new Date());
-          gtag('config', '');
-        });
-      }
-    </script>
-  
-
-  
-
-  
-
-  
-
-  
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://j1ya-22.github.io/images/redefine-og.webp">
     
-  
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/img/China.jpg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/China.jpg">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/img/China.jpg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Frida in CTF Android Reverse Engineering | j1ya&#39;s blog
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
 
 
+    <!--- Inject Part-->
+    
 
-  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"j1ya-22.github.io","root":"/","language":"zh-CN"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":"Hexo Theme Redefine, Redefine Your Hexo Journey."},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"<span style=\"display:none\"></span>","subtitle":{"text":["There is only one heroism in the world:<br>to see the world as it is, and to love it."],"hitokoto":{"enable":false,"show_author":false,"api":"https://v1.hitokoto.cn"},"typing_speed":80,"backing_speed":80,"starting_delay":500,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.4rem","subtitle_size":"2.35rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"style":"default","links":[{"icon":"fa-brands fa-github","url":null},{"icon":"fa-brands fa-twitter","url":null},{"icon":"fa-solid fa-at","url":"you@example.com"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Archives":{"path":"/archives/","icon":"fa-regular fa-archive"},"Categories":{"path":"/categories/","icon":"fa-regular fa-folder"},"Tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"About":{"icon":"fa-regular fa-user","path":"/about/"},"Friends":{"path":"/links/","icon":"fa-solid fa-link"}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":null},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-heart fa-beat\" style=\"--fa-animation-duration: 0.5s; color: #f54545\"></i>","start":"2022/8/17 11:45:14","statistics":true,"customize":null,"icp":{"enable":false,"number":null,"url":null}},"footerStart":"2022/8/17 11:45:14","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.i18n = {"search":"站内搜索您需要的内容...","toc":"目录","prev":"上一页","next":"下一页","prev_posts":"上一篇","next_posts":"下一篇","page":"第 %d 页","recent_posts":"最新文章","share":"分享","powered_by":"由 %s 驱动","theme":"主题","rss_feed":"RSS Feed","category":"分类","categories":"分类","tag":"标签","tags":"标签","post":"文章","posts":"文章","tagcloud":"标签云","comment":"评论","comments":"评论","top":"置顶","sticky":"置顶","go-back-home":"回到首页","masonry_loading":"照片加载中...","image_viewer":"图片查看器","close":"关闭","exif":{"title":"EXIF","cards":{"camera":"相机","lens":"镜头","exposure":"曝光","other":"其他"},"fields":{"make":"品牌","model":"机型","date_taken":"拍摄时间","lens_model":"镜头","focal_length":"焦距","focus_mode":"对焦模式","shutter":"快门","aperture":"光圈","iso":"感光度","exposure_program":"曝光程序","exposure_compensation":"曝光补偿","metering_mode":"测光模式","flash":"闪光灯","white_balance":"白平衡","latitude":"纬度","longitude":"经度","altitude":"海拔"},"status":{"loading":"加载中...","no_exif":"无 EXIF 信息","library_missing":"EXIF 库未加载","image_source_missing":"图片地址不可用","unavailable":"EXIF 不可用（可能被 CORS 阻止或缺少元数据）","flag_unavailable":"EXIF 不可用"}},"home":"首页","archive":"归档","archives":"归档","about":"关于","links":"链接","link":"链接","friends":"友情链接","friend":"友情链接","timeline":"时间轴","shuoshuo":"说说","bookmarks":"书签","site_uv":"访问人数","site_pv":"总访问量","read_more":"阅读全文","wordcount":"字","min2read":"分钟","changelog":"更新日志","status":"状态","runtime":"博客已运行","days":"天","hours":"小时","minutes":"分钟","seconds":"秒","optimized_by":"并由 Evan 进行优化","rights":"版权所有","site_posts":"共撰写了 %s 篇文章","site_wordcount":"共 %s 字","copyright":{"title":"标题","author":"作者","link":"链接","create_time":"创建于","update_time":"更新于","license_title":"版权声明","license_content":"本文章采用 %s 进行许可。","all_rights_reserved":"版权所有 &#169 %s，禁止转载。","public_domain":"本文为公有领域作品，可自由转载、引用。"},"ago":{"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"},"create_time":"创建","update_time":"更新","expired":"这篇文章最后更新于 %s 天前，内容可能已经过时。"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
 <meta name="generator" content="Hexo 7.0.0"></head>
 
 
 <body>
-  
+	<div class="progress-bar-container">
+	
 
-  <header>
-    
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
 
-<div class="header-inner" style="height: 70vh;">
-  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
-  <div class="container">
-    <a class="navbar-brand" href="/">
-      <strong>j1ya</strong>
-    </a>
+<main class="page-container" id="swup">
 
-    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <div class="animated-icon"><span></span><span></span><span></span></div>
-    </button>
+	
 
-    <!-- Collapsible content -->
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto text-center">
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/" target="_self">
-                <i class="iconfont icon-home-fill"></i>
-                <span>首页</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/archives/" target="_self">
-                <i class="iconfont icon-archive-fill"></i>
-                <span>归档</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/categories/" target="_self">
-                <i class="iconfont icon-category-fill"></i>
-                <span>分类</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/tags/" target="_self">
-                <i class="iconfont icon-tags-fill"></i>
-                <span>标签</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/about/" target="_self">
-                <i class="iconfont icon-user-fill"></i>
-                <span>关于</span>
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
-              <a class="nav-link" href="/links/" target="_self">
-                <i class="iconfont icon-link-fill"></i>
-                <span>友链</span>
-              </a>
-            </li>
-          
-        
-        
-          <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              <i class="iconfont icon-search"></i>
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                j1ya&#39;s blog
+                
             </a>
-          </li>
-          
-        
-        
-          <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
-              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
-            </a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-</nav>
-
-  
-
-<div id="banner" class="banner" parallax=true
-     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
-  <div class="full-bg-img">
-    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-      <div class="banner-text text-center fade-in-up">
-        <div class="h2">
-          
-            <span id="subtitle" data-typed-text="Frida in CTF Android Reverse Engineering"></span>
-          
         </div>
 
-        
-          
-  <div class="mt-3">
-    
-    
-      <span class="post-meta">
-        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-10-28 18:15" pubdate>
-          2024年10月28日 晚上
-        </time>
-      </span>
-    
-  </div>
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
 
-  <div class="mt-1">
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-chart"></i>
-        
-          2k 字
-        
-      </span>
-    
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
 
-    
-      <span class="post-meta mr-2">
-        <i class="iconfont icon-clock-fill"></i>
-        
-        
-        
-          17 分钟
-        
-      </span>
-    
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-    
-    
-      
-        <span id="busuanzi_container_page_pv" style="display: none">
-          <i class="iconfont icon-eye" aria-hidden="true"></i>
-          <span id="busuanzi_value_page_pv"></span> 次
-        </span>
-        
-      
-    
-  </div>
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/archives/"
+                                        >
+                                    <i class="fa-regular fa-archive fa-fw"></i>
+                                    归档
+                                    
+                                </a>
 
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-        
-      </div>
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/categories/"
+                                        >
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    分类
+                                    
+                                </a>
 
-      
-    </div>
-  </div>
-</div>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-</div>
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/tags/"
+                                        >
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    标签
+                                    
+                                </a>
 
-  </header>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-  <main>
-    
-      
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/about/"
+                                        >
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
 
-<div class="container-fluid nopadding-x">
-  <div class="row nomargin-x">
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
 
-    </div>
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/links/"
+                                        >
+                                    <i class="fa-solid fa-link fa-fw"></i>
+                                    友情链接
+                                    
+                                </a>
 
-    <div class="col-lg-8 nopadding-x-md">
-      <div class="container nopadding-x-md" id="board-ctn">
-        <div id="board">
-          <article class="post-content mx-auto">
-            <h1 id="seo-header">Frida in CTF Android Reverse Engineering</h1>
-            
-            
-              <div class="markdown-body">
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
                 
-                <h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>Frida是一款跨平台的动态代码插桩框架，核心原理是向目标进程<strong>注入包含 Frida Runtime 的代码库</strong>。该 Runtime 在进程内构建轻量级 JavaScript 环境，并利用底层引擎（Gum）动态修改目标函数的内存指令。通过插入跳转指令（Inline Hook）等，将执行流重定向到代理函数（trampoline&#x2F;thunk），代理函数负责调用用户编写的 JavaScript 回调，实现拦截、修改参数&#x2F;返回值或追踪逻辑</p>
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/archives/"
+                        >
+                            <span>
+                                归档
+                            </span>
+                            
+                                <i class="fa-regular fa-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/categories/"
+                        >
+                            <span>
+                                分类
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/tags/"
+                        >
+                            <span>
+                                标签
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/about/"
+                        >
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/links/"
+                        >
+                            <span>
+                                友情链接
+                            </span>
+                            
+                                <i class="fa-solid fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">51</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">5</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">79</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			<div class="w-full flex items-center pt-6 justify-start">
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">Frida in CTF Android Reverse Engineering</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/img/China.jpg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">j1ya</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv5</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2024-10-28 18:15:48</span>
+        <span class="mobile">2024-10-28 18:15:48</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2026-08-06 11:27:15</span>
+            <span class="mobile">2026-08-06 11:27:15</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E7%9F%A5%E8%AF%86%E7%82%B9/">知识点</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/frida/">frida</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><p>Frida是一款跨平台的动态代码插桩框架，核心原理是向目标进程<strong>注入包含 Frida Runtime 的代码库</strong>。该 Runtime 在进程内构建轻量级 JavaScript 环境，并利用底层引擎（Gum）动态修改目标函数的内存指令。通过插入跳转指令（Inline Hook）等，将执行流重定向到代理函数（trampoline&#x2F;thunk），代理函数负责调用用户编写的 JavaScript 回调，实现拦截、修改参数&#x2F;返回值或追踪逻辑</p>
 <p>Frida 通过多种方式（例如 Android 的 ptrace，Windows 的 DLL 注入，iOS 的 Dylib）将自己的动态库注入到目标进程地址空间中，核心思想是在目标进程内存中加载 Frida 动态库并初始化 Gum 插桩引擎，最终建立双向通信通道，使 JavaScript 脚本能动态操控原生代码执行流</p>
 <h2 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h2><p><strong>frida-server (目标端)：</strong> 在目标设备或模拟器上运行的后台服务</p>
 <p><strong>frida-gadget (嵌入式)：</strong> 核心功能与frida-server相同，存在形式为动态链接库 (<code>*.so</code>&#x2F;<code>*.dylib</code>&#x2F;<code>*.dll</code>)，可静态嵌入到目标应用程序中，无需每次注入，适合在<strong>无 root 环境</strong>中使用</p>
@@ -354,48 +576,108 @@
 <p><strong>frida CLI &#x2F; Python Bindings &#x2F; Node.js Bindings (客户端)：</strong> 开发者使用的工具或库，通过进程间通信（IPC）与目标端的 server 或 gadget 通信，Python&#x2F;Node.js Bindings允许开发者在 Python 或 Node.js 环境中直接调用 Frida 的功能，frida CLI提供快速交互式操作，需提前写入 .js 文件，依赖命令行参数</p>
 <h1 id="电脑模拟器"><a href="#电脑模拟器" class="headerlink" title="电脑模拟器"></a>电脑模拟器</h1><p>本地环境：雷电模拟器Android9 x64；夜神模拟器Android7 x86</p>
 <h2 id="root"><a href="#root" class="headerlink" title="root"></a>root</h2><p>先安装Magisk（面具），这里把模拟手机型号从PCLM10改为PCLM9发现就有直接安装选项</p>
-<img src="/2024/10/28/frida/1712195710911-7cc5b222-a9ad-46b8-a495-1ade9517b74e.png" srcset="/img/loading.gif" lazyload class="" title="image.png">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/10/28/frida/1712195710911-7cc5b222-a9ad-46b8-a495-1ade9517b74e.png"
+                      class="" title="image.png"
+                >
 
 <p>安装MagiskHidePropsConfig模块</p>
 <p>共享文件夹在shared&#x2F;Pictures目录</p>
-<img src="/2024/10/28/frida/1709106544067-2c326341-66b0-4547-b840-739326b8bf13.png" srcset="/img/loading.gif" lazyload class="" title="image.png">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/10/28/frida/1709106544067-2c326341-66b0-4547-b840-739326b8bf13.png"
+                      class="" title="image.png"
+                >
 
-<img src="/2024/10/28/frida/1712197153960-64efa81f-26a4-4836-8e0e-6d92bcf579f1.png" srcset="/img/loading.gif" lazyload class="" title="image.png">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/10/28/frida/1712197153960-64efa81f-26a4-4836-8e0e-6d92bcf579f1.png"
+                      class="" title="image.png"
+                >
 
-<h2 id="连接设备"><a href="#连接设备" class="headerlink" title="连接设备"></a>连接设备</h2><p>报错10061说明模拟器没开<img src="/2024/10/28/frida/1710164574208-18b8d166-51bd-4a69-8039-6abde13ddbb9.png" srcset="/img/loading.gif" lazyload class="" title="image.png"></p>
+<h2 id="连接设备"><a href="#连接设备" class="headerlink" title="连接设备"></a>连接设备</h2><p>报错10061说明模拟器没开<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/10/28/frida/1710164574208-18b8d166-51bd-4a69-8039-6abde13ddbb9.png"
+                      class="" title="image.png"
+                ></p>
 <p>先push对应架构文件，再去对应路径</p>
 <p><code>adb devices</code>可以查看设备</p>
 <p>获得root权限<code>adb root</code>(失败的时候多试几次）</p>
 <p><code>adb shell</code>连接到远程</p>
 <p>进入frida-server安装目录<code>cd /data/local/tmp</code>，然后运行frida-server</p>
-<img src="/2024/10/28/frida/1708862204362-fba47b0f-f174-470b-82fd-9c0d093265e0.png" srcset="/img/loading.gif" lazyload class="" title="image.png">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/10/28/frida/1708862204362-fba47b0f-f174-470b-82fd-9c0d093265e0.png"
+                      class="" title="image.png"
+                >
 
 <p>进行端口转发监听，使电脑上的 Frida 客户端能够访问模拟器里的 frida-server，如果用的是 libfrida-gadget.so 就需要<code>adb forward tcp:27042 tcp:27042</code></p>
 <h2 id="经验总结"><a href="#经验总结" class="headerlink" title="经验总结"></a>经验总结</h2><p>1.打开的方式安装不了可以拖动或者adb install</p>
 <p>2.可通过下面路径查找日志</p>
-<img src="/2024/10/28/frida/1785221208428-64d75394-48ee-4f8f-9afa-9830e3a5c5c9.png" srcset="/img/loading.gif" lazyload class="" title="image.png">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/10/28/frida/1785221208428-64d75394-48ee-4f8f-9afa-9830e3a5c5c9.png"
+                      class="" title="image.png"
+                >
 
 <p>3.如果处于开发者模式一直未被调试</p>
-<img src="/2024/10/28/frida/1730102274627-e809a6dc-e147-4ccd-bd70-13d6eda9b9c1.png" srcset="/img/loading.gif" lazyload class="" title="image.png">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/10/28/frida/1730102274627-e809a6dc-e147-4ccd-bd70-13d6eda9b9c1.png"
+                      class="" title="image.png"
+                >
 
 <p>可以关闭开发者模式</p>
-<img src="/2024/10/28/frida/1730102659189-864d3663-4d42-4afc-8ae7-048946e21b15.png" srcset="/img/loading.gif" lazyload class="" title="image.png">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/10/28/frida/1730102659189-864d3663-4d42-4afc-8ae7-048946e21b15.png"
+                      class="" title="image.png"
+                >
 
 <p>4.如果是多开的模拟器需要先找到对应端口再连接：.\nox_adb -s 127.0.0.1:62026 shell</p>
-<p>!<img src="/2024/10/28/frida/1730102502794-a16bc096-091e-4fa4-8d25-8deae8d871c8.png" srcset="/img/loading.gif" lazyload class="" title="image.png"></p>
+<p>!<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/10/28/frida/1730102502794-a16bc096-091e-4fa4-8d25-8deae8d871c8.png"
+                      class="" title="image.png"
+                ></p>
 <h1 id="手机真机"><a href="#手机真机" class="headerlink" title="手机真机"></a>手机真机</h1><h2 id="连接设备-1"><a href="#连接设备-1" class="headerlink" title="连接设备"></a>连接设备</h2><p>同一网段下手机开启开发者模式中“允许usb调试”按钮，命令相同</p>
-<img src="/2024/10/28/frida/1744369836522-36a2ab16-f50b-4c5c-8d34-ec36f01787a6.png" srcset="/img/loading.gif" lazyload class="" title="image.png">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/10/28/frida/1744369836522-36a2ab16-f50b-4c5c-8d34-ec36f01787a6.png"
+                      class="" title="image.png"
+                >
 
 <h1 id="Objection"><a href="#Objection" class="headerlink" title="Objection"></a>Objection</h1><p>Objection 在 Frida 上增加了一层命令封装</p>
 <p>&#x2F;data&#x2F;local&#x2F;tmp目录下用root权限启动frida-server</p>
-<img src="/2024/10/28/frida/1719835391861-c09cb64a-798d-48fa-9ff2-bd4484900fed.png" srcset="/img/loading.gif" lazyload class="" title="image.png">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/10/28/frida/1719835391861-c09cb64a-798d-48fa-9ff2-bd4484900fed.png"
+                      class="" title="image.png"
+                >
 
 <p>搜索特定进程：<code>frida-ps -U</code> | grep -i settings</p>
 <p>查看进程对应真正包名：<code>frida-ps -Ua</code></p>
 <p>输入空格键会有提示与补全 </p>
 <h2 id="静态"><a href="#静态" class="headerlink" title="静态"></a>静态</h2><p>模拟器上启动软件后再去注入mobile包：<code>objection -g mobilego explore</code></p>
 <p>有时候进程名用空格隔开，用引号标注</p>
-<img src="/2024/10/28/frida/1785221583857-d7211bde-0430-4186-a353-bf4b1d6ca55d.png" srcset="/img/loading.gif" lazyload class="" title="image.png">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/10/28/frida/1785221583857-d7211bde-0430-4186-a353-bf4b1d6ca55d.png"
+                      class="" title="image.png"
+                >
 
 <p>在内存中所有已加载的类中搜索包含game的类：<code>android hooking search classes game</code></p>
 <p>查看com.android.settings.DisplaySettings类有哪些方法：<code>android hooking list class_methods com.android.settings.DisplaySettings</code></p>
@@ -404,35 +686,70 @@
 <h2 id="动态"><a href="#动态" class="headerlink" title="动态"></a>动态</h2><p>hook类：<code>android hooking watch class android.bluetooth.BluetoothDevice</code></p>
 <p>hook方法，查看参数、返回值和调用栈：<code>**android hooking watch class_method game.Game.checkflag --dump-args --dump-return --dump-backtrace**</code></p>
 <p>在模拟器输入符合题目要求的字符串后，再<code>Called game.Game.checkflag(java.lang.String)</code>，得到return值</p>
-<img src="/2024/10/28/frida/1709109675749-a27f484c-05c7-4662-a271-9eb7f9585c85.png" srcset="/img/loading.gif" lazyload class="" title="image.png">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/10/28/frida/1709109675749-a27f484c-05c7-4662-a271-9eb7f9585c85.png"
+                      class="" title="image.png"
+                >
 
 <p>还可以import js代码，效果和直接frida类似</p>
 <h1 id="Frida"><a href="#Frida" class="headerlink" title="Frida"></a>Frida</h1><p>包名通过frida-ps -Ua查看</p>
 <p>Frida两种启动方式的区别：</p>
-<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey">spawn` 模式：frida 重新打开一个进程并挂起，在启动的同时注入frida代码 `frida -U -f 包名 -l js路径 <br><span class="hljs-title">attch` 模式:</span> attach到已经存在的进程，核心原理是ptrace修改进程内存，如果进程处于调试状态（traceid不等于<span class="hljs-number">0</span>），则attach失败 `frida -U -n 包名 -l js路径<br></code></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spawn` 模式：frida 重新打开一个进程并挂起，在启动的同时注入frida代码 `frida -U -f 包名 -l js路径 </span><br><span class="line">attch` 模式: attach到已经存在的进程，核心原理是ptrace修改进程内存，如果进程处于调试状态（traceid不等于0），则attach失败 `frida -U -n 包名 -l js路径</span><br></pre></td></tr></table></figure></div>
 
 <h2 id="java层"><a href="#java层" class="headerlink" title="java层"></a>java层</h2><p>hook函数返回值</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>) &#123; <span class="hljs-title class_">Java</span>.<span class="hljs-title function_">perform</span>(<span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-keyword">let</span> func = <span class="hljs-title class_">Java</span>.<span class="hljs-title function_">use</span>(<span class="hljs-string">&quot;com.example.whathappened.MyJNI.Myjni&quot;</span>);<br>  func[<span class="hljs-string">&quot;getstr&quot;</span>].<span class="hljs-property">implementation</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">let</span> re0 = <span class="hljs-variable language_">this</span>[<span class="hljs-string">&quot;getstr&quot;</span>](); <br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`<span class="hljs-subst">$&#123;re0&#125;</span>`</span>); <br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;Hello&quot;</span>;<br>  &#125;;<br>&#125;);<br>&#125;                  <br><span class="hljs-title function_">setImmediate</span>(main); <br></code></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Javascript"><figure class="iseeu highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">main</span>(<span class="params"></span>) &#123; <span class="title class_">Java</span>.<span class="title function_">perform</span>(<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> func = <span class="title class_">Java</span>.<span class="title function_">use</span>(<span class="string">&quot;com.example.whathappened.MyJNI.Myjni&quot;</span>);</span><br><span class="line">  func[<span class="string">&quot;getstr&quot;</span>].<span class="property">implementation</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> re0 = <span class="variable language_">this</span>[<span class="string">&quot;getstr&quot;</span>](); </span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`<span class="subst">$&#123;re0&#125;</span>`</span>); </span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;);</span><br><span class="line">&#125;                  </span><br><span class="line"><span class="title function_">setImmediate</span>(main); </span><br></pre></td></tr></table></figure></div>
 
-<h2 id="native层"><a href="#native层" class="headerlink" title="native层"></a>native层</h2><h4 id="hook自定义函数"><a href="#hook自定义函数" class="headerlink" title="hook自定义函数"></a>hook自定义函数</h4><img src="/2024/10/28/frida/1785306300594-df8c58f4-af85-4a01-aed3-1b4636081952.png" srcset="/img/loading.gif" lazyload class="" title="image.png">
+<h2 id="native层"><a href="#native层" class="headerlink" title="native层"></a>native层</h2><h4 id="hook自定义函数"><a href="#hook自定义函数" class="headerlink" title="hook自定义函数"></a>hook自定义函数</h4><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/10/28/frida/1785306300594-df8c58f4-af85-4a01-aed3-1b4636081952.png"
+                      class="" title="image.png"
+                >
 
-<img src="/2024/10/28/frida/1785306437567-c90bdda2-2aa7-412d-8ade-cbe726a1e287.png" srcset="/img/loading.gif" lazyload class="" title="image.png">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/10/28/frida/1785306437567-c90bdda2-2aa7-412d-8ade-cbe726a1e287.png"
+                      class="" title="image.png"
+                >
 
 <p>_Z10murmur3_32PKcjj是真实导出表的名字，murmur3_32是demangle后的名字</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">var</span> func_addr = <span class="hljs-title class_">Module</span>.<span class="hljs-title function_">findExportByName</span>(<span class="hljs-string">&quot;libmidand.so&quot;</span> , <span class="hljs-string">&quot;_Z10murmur3_32PKcjj&quot;</span>);<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;func addr is ---&quot;</span> + func_addr);<br><span class="hljs-title class_">Interceptor</span>.<span class="hljs-title function_">attach</span>(func_addr, &#123;<br>  <span class="hljs-attr">onLeave</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params">retval</span>)&#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;enter murmur3_32 retvalue-&gt;\n&quot;</span> + <span class="hljs-title function_">hexdump</span>(retval));<br>    <br>  &#125;<br>&#125;);<br></code></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Javascript"><figure class="iseeu highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> func_addr = <span class="title class_">Module</span>.<span class="title function_">findExportByName</span>(<span class="string">&quot;libmidand.so&quot;</span> , <span class="string">&quot;_Z10murmur3_32PKcjj&quot;</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;func addr is ---&quot;</span> + func_addr);</span><br><span class="line"><span class="title class_">Interceptor</span>.<span class="title function_">attach</span>(func_addr, &#123;</span><br><span class="line">  <span class="attr">onLeave</span>: <span class="keyword">function</span>(<span class="params">retval</span>)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;enter murmur3_32 retvalue-&gt;\n&quot;</span> + <span class="title function_">hexdump</span>(retval));</span><br><span class="line">    </span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></div>
 
 <p>hook之后在模拟器输入字符然后点login</p>
 <p>发现能看到返回值</p>
-<img src="/2024/10/28/frida/1785295224185-75e65efd-aa91-4424-a02b-d0e29b2f225e.png" srcset="/img/loading.gif" lazyload class="" title="image.png">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/10/28/frida/1785295224185-75e65efd-aa91-4424-a02b-d0e29b2f225e.png"
+                      class="" title="image.png"
+                >
 
 <h4 id="hook系统函数"><a href="#hook系统函数" class="headerlink" title="hook系统函数"></a>hook系统函数</h4><p>v6参数（账号）会经过好几次加密，需要hook strcmp函数查看s2（密码）和比较的值</p>
-<p>!<img src="/2024/10/28/frida/1785306684800-2c2f480f-a0cd-4943-8200-9f8128c4d7f5.png" srcset="/img/loading.gif" lazyload class="" title="image.png"></p>
-<img src="/2024/10/28/frida/1785306183130-b18fb8bd-dca1-4638-8e45-cd637ac8aac2.png" srcset="/img/loading.gif" lazyload class="" title="image.png">
+<p>!<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/10/28/frida/1785306684800-2c2f480f-a0cd-4943-8200-9f8128c4d7f5.png"
+                      class="" title="image.png"
+                ></p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/10/28/frida/1785306183130-b18fb8bd-dca1-4638-8e45-cd637ac8aac2.png"
+                      class="" title="image.png"
+                >
 
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">hook_strcmp</span>(<span class="hljs-params">chall</span>) &#123;<br><br>    <span class="hljs-keyword">const</span> strcmpAddr = <span class="hljs-title class_">Module</span>.<span class="hljs-title function_">findExportByName</span>(<br>        <span class="hljs-string">&#x27;libc.so&#x27;</span>,<br>        <span class="hljs-string">&#x27;strcmp&#x27;</span><br>    );<br>    <span class="hljs-keyword">if</span> (strcmpAddr === <span class="hljs-literal">null</span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;[-] strcmp not found&#x27;</span>);<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br>    <span class="hljs-keyword">const</span> start = chall.<span class="hljs-property">base</span>;<br>    <span class="hljs-keyword">const</span> end = chall.<span class="hljs-property">base</span>.<span class="hljs-title function_">add</span>(chall.<span class="hljs-property">size</span>);<br><br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;[+] libchall1.so loaded&#x27;</span>);<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;[+] base : &#x27;</span> + start);<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;[+] strcmp : &#x27;</span> + strcmpAddr);<br><br>    <span class="hljs-title class_">Interceptor</span>.<span class="hljs-title function_">attach</span>(strcmpAddr, &#123;<br><br>        <span class="hljs-attr">onEnter</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params">args</span>) &#123;<br>            <span class="hljs-variable language_">this</span>.<span class="hljs-property">matched</span> = <span class="hljs-literal">false</span>;<br>            <span class="hljs-comment">// 判断strcmp调用者是否来自libchall1.so</span><br>            <span class="hljs-keyword">if</span> (<br>                <span class="hljs-variable language_">this</span>.<span class="hljs-property">returnAddress</span>.<span class="hljs-title function_">compare</span>(start) &lt; <span class="hljs-number">0</span> ||<br>                <span class="hljs-variable language_">this</span>.<span class="hljs-property">returnAddress</span>.<span class="hljs-title function_">compare</span>(end) &gt;= <span class="hljs-number">0</span><br>            ) &#123;<br>                <span class="hljs-keyword">return</span>;<br>            &#125;<br>            <span class="hljs-keyword">try</span> &#123;<br>                <span class="hljs-variable language_">this</span>.<span class="hljs-property">s1</span> = args[<span class="hljs-number">0</span>].<span class="hljs-title function_">readCString</span>();<br>                <span class="hljs-variable language_">this</span>.<span class="hljs-property">s2</span> = args[<span class="hljs-number">1</span>].<span class="hljs-title function_">readCString</span>();<br>                <span class="hljs-variable language_">this</span>.<span class="hljs-property">matched</span> = <span class="hljs-literal">true</span>;<br>            &#125; <span class="hljs-keyword">catch</span>(e) &#123;<br>                <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<br>                    <span class="hljs-string">&#x27;[-] read error: &#x27;</span> + e<br>                );<br>            &#125;<br>        &#125;,<br><br>        <span class="hljs-attr">onLeave</span>: <span class="hljs-keyword">function</span>(<span class="hljs-params">retval</span>) &#123;<br>            <span class="hljs-keyword">if</span>(!<span class="hljs-variable language_">this</span>.<span class="hljs-property">matched</span>)<br>                <span class="hljs-keyword">return</span>;<br>            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<br>                <span class="hljs-string">&#x27;==============================&#x27;</span><br>            );<br>            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<br>                <span class="hljs-string">&#x27;[+] p_s1 : &#x27;</span> + <span class="hljs-variable language_">this</span>.<span class="hljs-property">s1</span><br>            );<br>            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<br>                <span class="hljs-string">&#x27;[+] s2   : &#x27;</span> + <span class="hljs-variable language_">this</span>.<span class="hljs-property">s2</span><br>            );<br>            <span class="hljs-comment">// console.log(</span><br>            <span class="hljs-comment">//     &#x27;[+] ret  : &#x27; + retval.toInt32()</span><br>            <span class="hljs-comment">// );</span><br>            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<br>                <span class="hljs-string">&#x27;==============================&#x27;</span><br>            );<br>        &#125;<br>    &#125;);<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;[+] strcmp hook installed&#x27;</span>);<br>&#125;<br><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">wait_libchall1</span>(<span class="hljs-params"></span>)&#123;<br>    <span class="hljs-keyword">let</span> chall = <span class="hljs-title class_">Process</span>.<span class="hljs-title function_">findModuleByName</span>(<br>        <span class="hljs-string">&#x27;libchall1.so&#x27;</span><br>    );<br>    <span class="hljs-keyword">if</span>(chall === <span class="hljs-literal">null</span>)&#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<br>            <span class="hljs-string">&#x27;[*] waiting libchall1.so ...&#x27;</span><br>        );<br>        <span class="hljs-built_in">setTimeout</span>(<br>            wait_libchall1,<br>            <span class="hljs-number">500</span><br>        );<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br>    <span class="hljs-title function_">hook_strcmp</span>(chall);<br>&#125;<br><span class="hljs-title function_">setImmediate</span>(wait_libchall1);<br></code></pre></td></tr></table></figure>
+<div class="code-container" data-rel="Javascript"><figure class="iseeu highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">hook_strcmp</span>(<span class="params">chall</span>) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> strcmpAddr = <span class="title class_">Module</span>.<span class="title function_">findExportByName</span>(</span><br><span class="line">        <span class="string">&#x27;libc.so&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;strcmp&#x27;</span></span><br><span class="line">    );</span><br><span class="line">    <span class="keyword">if</span> (strcmpAddr === <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;[-] strcmp not found&#x27;</span>);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> start = chall.<span class="property">base</span>;</span><br><span class="line">    <span class="keyword">const</span> end = chall.<span class="property">base</span>.<span class="title function_">add</span>(chall.<span class="property">size</span>);</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;[+] libchall1.so loaded&#x27;</span>);</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;[+] base : &#x27;</span> + start);</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;[+] strcmp : &#x27;</span> + strcmpAddr);</span><br><span class="line"></span><br><span class="line">    <span class="title class_">Interceptor</span>.<span class="title function_">attach</span>(strcmpAddr, &#123;</span><br><span class="line"></span><br><span class="line">        <span class="attr">onEnter</span>: <span class="keyword">function</span>(<span class="params">args</span>) &#123;</span><br><span class="line">            <span class="variable language_">this</span>.<span class="property">matched</span> = <span class="literal">false</span>;</span><br><span class="line">            <span class="comment">// 判断strcmp调用者是否来自libchall1.so</span></span><br><span class="line">            <span class="keyword">if</span> (</span><br><span class="line">                <span class="variable language_">this</span>.<span class="property">returnAddress</span>.<span class="title function_">compare</span>(start) &lt; <span class="number">0</span> ||</span><br><span class="line">                <span class="variable language_">this</span>.<span class="property">returnAddress</span>.<span class="title function_">compare</span>(end) &gt;= <span class="number">0</span></span><br><span class="line">            ) &#123;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="variable language_">this</span>.<span class="property">s1</span> = args[<span class="number">0</span>].<span class="title function_">readCString</span>();</span><br><span class="line">                <span class="variable language_">this</span>.<span class="property">s2</span> = args[<span class="number">1</span>].<span class="title function_">readCString</span>();</span><br><span class="line">                <span class="variable language_">this</span>.<span class="property">matched</span> = <span class="literal">true</span>;</span><br><span class="line">            &#125; <span class="keyword">catch</span>(e) &#123;</span><br><span class="line">                <span class="variable language_">console</span>.<span class="title function_">log</span>(</span><br><span class="line">                    <span class="string">&#x27;[-] read error: &#x27;</span> + e</span><br><span class="line">                );</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line"></span><br><span class="line">        <span class="attr">onLeave</span>: <span class="keyword">function</span>(<span class="params">retval</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span>(!<span class="variable language_">this</span>.<span class="property">matched</span>)</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(</span><br><span class="line">                <span class="string">&#x27;==============================&#x27;</span></span><br><span class="line">            );</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(</span><br><span class="line">                <span class="string">&#x27;[+] p_s1 : &#x27;</span> + <span class="variable language_">this</span>.<span class="property">s1</span></span><br><span class="line">            );</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(</span><br><span class="line">                <span class="string">&#x27;[+] s2   : &#x27;</span> + <span class="variable language_">this</span>.<span class="property">s2</span></span><br><span class="line">            );</span><br><span class="line">            <span class="comment">// console.log(</span></span><br><span class="line">            <span class="comment">//     &#x27;[+] ret  : &#x27; + retval.toInt32()</span></span><br><span class="line">            <span class="comment">// );</span></span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(</span><br><span class="line">                <span class="string">&#x27;==============================&#x27;</span></span><br><span class="line">            );</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;[+] strcmp hook installed&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">wait_libchall1</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="keyword">let</span> chall = <span class="title class_">Process</span>.<span class="title function_">findModuleByName</span>(</span><br><span class="line">        <span class="string">&#x27;libchall1.so&#x27;</span></span><br><span class="line">    );</span><br><span class="line">    <span class="keyword">if</span>(chall === <span class="literal">null</span>)&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(</span><br><span class="line">            <span class="string">&#x27;[*] waiting libchall1.so ...&#x27;</span></span><br><span class="line">        );</span><br><span class="line">        <span class="built_in">setTimeout</span>(</span><br><span class="line">            wait_libchall1,</span><br><span class="line">            <span class="number">500</span></span><br><span class="line">        );</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="title function_">hook_strcmp</span>(chall);</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">setImmediate</span>(wait_libchall1);</span><br></pre></td></tr></table></figure></div>
 
-<p>![img]<img src="/2024/10/28/frida/1785306625856-b26700f9-9c99-497c-a6f7-685335564398.png" srcset="/img/loading.gif" lazyload class="" title="image.png"></p>
-<h4 id="主动调用主函数中未被调用的方法"><a href="#主动调用主函数中未被调用的方法" class="headerlink" title="主动调用主函数中未被调用的方法"></a>主动调用主函数中未被调用的方法</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">hook</span>(<span class="hljs-params"></span>)&#123;<br>    <span class="hljs-keyword">var</span> a = <span class="hljs-title class_">Module</span>.<span class="hljs-title function_">findBaseAddress</span>(<span class="hljs-string">&quot;libfrida0xa.so&quot;</span>);<br>    <span class="hljs-keyword">var</span> b = <span class="hljs-title class_">Module</span>.<span class="hljs-title function_">enumerateExports</span>(<span class="hljs-string">&quot;libfrida0xa.so&quot;</span>);<br>    <span class="hljs-keyword">var</span> get_flagaddress = <span class="hljs-literal">null</span>;<br>    <span class="hljs-keyword">var</span> mvaddress = <span class="hljs-literal">null</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span> ; b[i]!= <span class="hljs-literal">null</span> ; i ++ )&#123;<br>        <span class="hljs-comment">// console.log(b[i][&quot;name&quot;])</span><br>        <span class="hljs-keyword">if</span>(b[i][<span class="hljs-string">&quot;name&quot;</span>] == <span class="hljs-string">&quot;_Z8get_flagii&quot;</span>)&#123;<br>            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;function get_flag : &quot;</span>,b[i][<span class="hljs-string">&quot;address&quot;</span>]);<br>            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>((b[i][<span class="hljs-string">&quot;address&quot;</span>] - a).<span class="hljs-title function_">toString</span>(<span class="hljs-number">16</span>));<br>     <span class="hljs-comment">//       mvaddress = b[i][&quot;address&quot;] - a;</span><br>            get_flagaddress = b[i][<span class="hljs-string">&quot;address&quot;</span>];<br>        &#125;<br>    &#125;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(ptr.<span class="hljs-title function_">toString</span>(<span class="hljs-number">16</span>));<br> <br>    <span class="hljs-keyword">var</span> get_flag_ptr = <span class="hljs-keyword">new</span> <span class="hljs-title class_">NativePointer</span>(get_flagaddress);<br>    <span class="hljs-keyword">const</span> get_flag = <span class="hljs-keyword">new</span> <span class="hljs-title class_">NativeFunction</span>(get_flag_ptr,<span class="hljs-string">&#x27;char&#x27;</span>,[<span class="hljs-string">&#x27;int&#x27;</span>,<span class="hljs-string">&#x27;int&#x27;</span>]);<br>    <span class="hljs-keyword">var</span> flag = <span class="hljs-title function_">get_flag</span>(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>);<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(flag)<br>&#125;<br> <br><span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>)&#123;<br>    <span class="hljs-title class_">Java</span>.<span class="hljs-title function_">perform</span>(<span class="hljs-keyword">function</span> (<span class="hljs-params"></span>)&#123;<br>        <span class="hljs-title function_">hook</span>();<br>    &#125;)<br>&#125;<br><span class="hljs-title function_">setImmediate</span>(main)<br><br><br><span class="hljs-comment">//也可以用偏移量的方式</span><br><span class="hljs-keyword">const</span> libBase = <span class="hljs-title class_">Module</span>.<span class="hljs-title function_">findBaseAddress</span>(<br>    <span class="hljs-string">&quot;libnative.so&quot;</span><br>);<br><span class="hljs-keyword">const</span> funcAddr = libBase.<span class="hljs-title function_">add</span>(<span class="hljs-number">0x1234</span>);<br><span class="hljs-keyword">const</span> hidden_func = <span class="hljs-keyword">new</span> <span class="hljs-title class_">NativeFunction</span>(<br>    funcAddr,<br>    <span class="hljs-string">&#x27;pointer&#x27;</span>,<br>    [<br>        <span class="hljs-string">&#x27;int&#x27;</span>,<br>        <span class="hljs-string">&#x27;int&#x27;</span><br>    ]<br>);<br><span class="hljs-keyword">let</span> ret = <span class="hljs-title function_">hidden_func</span>(<span class="hljs-number">10</span>,<span class="hljs-number">20</span>);<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(ret.<span class="hljs-title function_">readCString</span>());<br></code></pre></td></tr></table></figure>
+<p>![img]<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/10/28/frida/1785306625856-b26700f9-9c99-497c-a6f7-685335564398.png"
+                      class="" title="image.png"
+                ></p>
+<h4 id="主动调用主函数中未被调用的方法"><a href="#主动调用主函数中未被调用的方法" class="headerlink" title="主动调用主函数中未被调用的方法"></a>主动调用主函数中未被调用的方法</h4><div class="code-container" data-rel="Javascript"><figure class="iseeu highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">hook</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="title class_">Module</span>.<span class="title function_">findBaseAddress</span>(<span class="string">&quot;libfrida0xa.so&quot;</span>);</span><br><span class="line">    <span class="keyword">var</span> b = <span class="title class_">Module</span>.<span class="title function_">enumerateExports</span>(<span class="string">&quot;libfrida0xa.so&quot;</span>);</span><br><span class="line">    <span class="keyword">var</span> get_flagaddress = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">var</span> mvaddress = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span> ; b[i]!= <span class="literal">null</span> ; i ++ )&#123;</span><br><span class="line">        <span class="comment">// console.log(b[i][&quot;name&quot;])</span></span><br><span class="line">        <span class="keyword">if</span>(b[i][<span class="string">&quot;name&quot;</span>] == <span class="string">&quot;_Z8get_flagii&quot;</span>)&#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;function get_flag : &quot;</span>,b[i][<span class="string">&quot;address&quot;</span>]);</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>((b[i][<span class="string">&quot;address&quot;</span>] - a).<span class="title function_">toString</span>(<span class="number">16</span>));</span><br><span class="line">     <span class="comment">//       mvaddress = b[i][&quot;address&quot;] - a;</span></span><br><span class="line">            get_flagaddress = b[i][<span class="string">&quot;address&quot;</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(ptr.<span class="title function_">toString</span>(<span class="number">16</span>));</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">var</span> get_flag_ptr = <span class="keyword">new</span> <span class="title class_">NativePointer</span>(get_flagaddress);</span><br><span class="line">    <span class="keyword">const</span> get_flag = <span class="keyword">new</span> <span class="title class_">NativeFunction</span>(get_flag_ptr,<span class="string">&#x27;char&#x27;</span>,[<span class="string">&#x27;int&#x27;</span>,<span class="string">&#x27;int&#x27;</span>]);</span><br><span class="line">    <span class="keyword">var</span> flag = <span class="title function_">get_flag</span>(<span class="number">1</span>,<span class="number">2</span>);</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(flag)</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">function</span> <span class="title function_">main</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="title class_">Java</span>.<span class="title function_">perform</span>(<span class="keyword">function</span> (<span class="params"></span>)&#123;</span><br><span class="line">        <span class="title function_">hook</span>();</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">setImmediate</span>(main)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//也可以用偏移量的方式</span></span><br><span class="line"><span class="keyword">const</span> libBase = <span class="title class_">Module</span>.<span class="title function_">findBaseAddress</span>(</span><br><span class="line">    <span class="string">&quot;libnative.so&quot;</span></span><br><span class="line">);</span><br><span class="line"><span class="keyword">const</span> funcAddr = libBase.<span class="title function_">add</span>(<span class="number">0x1234</span>);</span><br><span class="line"><span class="keyword">const</span> hidden_func = <span class="keyword">new</span> <span class="title class_">NativeFunction</span>(</span><br><span class="line">    funcAddr,</span><br><span class="line">    <span class="string">&#x27;pointer&#x27;</span>,</span><br><span class="line">    [</span><br><span class="line">        <span class="string">&#x27;int&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;int&#x27;</span></span><br><span class="line">    ]</span><br><span class="line">);</span><br><span class="line"><span class="keyword">let</span> ret = <span class="title function_">hidden_func</span>(<span class="number">10</span>,<span class="number">20</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(ret.<span class="title function_">readCString</span>());</span><br></pre></td></tr></table></figure></div>
 
 <h2 id="frida-dump"><a href="#frida-dump" class="headerlink" title="frida-dump"></a>frida-dump</h2><p> 通过 Frida 注入脚本到目标进程，动态获取进程运行时内存信息，包括已加载的 DEX 文件、Native 库以及关键内存区域，并根据内存映射信息将其导出为原始文件（如 .dex、.so）。对于经过加固、混淆或运行时解密后的代码，通常需要结合动态分析进一步恢复  </p>
 <p> 在 ART 类加载过程中，FindClassDef 会遍历当前 ClassLoader 关联的 DexFile 集合，根据目标类描述符查找对应的 ClassDef。当找到目标类所在的 DexFile 及 ClassDef 后，ClassLinker::DefineClass 使用这些信息创建对应的 Class 对象，并继续完成字段解析、方法加载以及代码链接</p>
@@ -440,441 +757,438 @@
 <h3 id="frida-dexdump"><a href="#frida-dexdump" class="headerlink" title="frida-dexdump"></a>frida-dexdump</h3><p> frida-dexdump 支持在 App 启动阶段注入，通过捕获运行时已经解密并加载到内存中的 dex 文件，可以直接导出动态加载后的 dex  </p>
 <p>连接frida-server之后用 <code>adb shell pm list packages</code>找到真正的包名（有时候和jadx里面显示的不太一样）</p>
 <p> <code>frida-dexdump -U -f com.example.wyy</code>直接dump出动态解密的dex，会自动修复</p>
-<img src="/2024/10/28/frida/1745723762216-55a48603-e0eb-4e7c-a136-1a408b062bde.png" srcset="/img/loading.gif" lazyload class="" title="img">
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/10/28/frida/1745723762216-55a48603-e0eb-4e7c-a136-1a408b062bde.png"
+                      class="" title="img"
+                >
 
 <p>-d开启深度搜索模式</p>
 <p>参考链接：</p>
-<p><a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-280758.htm">https://bbs.kanxue.com/thread-280758.htm</a></p>
-<p><a target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-280812.htm#msg_header_h2_1">https://bbs.kanxue.com/thread-280812.htm#msg_header_h2_1</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Ruaki/article/details/135580772">https://blog.csdn.net/Ruaki/article/details/135580772</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1wT411N7sV/">https://www.bilibili.com/video/BV1wT411N7sV/</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/lxh2cwl/p/14842544.html">https://www.cnblogs.com/lxh2cwl/p/14842544.html</a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-280758.htm" >https://bbs.kanxue.com/thread-280758.htm<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-280812.htm#msg_header_h2_1" >https://bbs.kanxue.com/thread-280812.htm#msg_header_h2_1<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/Ruaki/article/details/135580772" >https://blog.csdn.net/Ruaki/article/details/135580772<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1wT411N7sV/" >https://www.bilibili.com/video/BV1wT411N7sV/<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://www.cnblogs.com/lxh2cwl/p/14842544.html" >https://www.cnblogs.com/lxh2cwl/p/14842544.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 
-                
-              </div>
-            
-            <hr/>
-            <div>
-              <div class="post-metas my-3">
-  
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
+		</div>
 
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> Frida in CTF Android Reverse Engineering</li>
+        <li><strong>作者:</strong> j1ya</li>
+        <li><strong>创建于
+                :</strong> 2024-10-28 18:15:48</li>
         
-  <a href="/categories/%E7%9F%A5%E8%AF%86%E7%82%B9/" class="category-chain-item">知识点</a>
-  
-  
+            <li>
+                <strong>更新于
+                    :</strong> 2026-08-06 11:27:15
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://redefine.ohevan.com/2024/10/28/frida/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
 
-      </span>
-    
-  
-</span>
-
-    </div>
-  
-  
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/frida/" class="print-no-link">#frida</a>
-      
-    </div>
-  
+            
+                本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a> 进行许可。
+            
+        </li>
+    </ul>
 </div>
 
+		</div>
+		
 
-              
-  
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/frida/">#frida</a>&nbsp;
+			</li>
+			
+		</ul>
+		
 
-  <div class="license-box my-3">
-    <div class="license-title">
-      <div>Frida in CTF Android Reverse Engineering</div>
-      <div>https://j1ya-22.github.io/2024/10/28/frida/</div>
+		
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2024/10/30/%E7%BD%91%E9%BC%8E%E6%9D%AF2024%E9%9D%92%E9%BE%99%E7%BB%84%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">网鼎杯2024青龙组初赛部分wp</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2024/10/25/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2022%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%8E%B0/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">浙江省省赛2022决赛复现</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
     </div>
-    <div class="license-meta">
-      
-        <div class="license-meta-item">
-          <div>作者</div>
-          <div>j1ya</div>
-        </div>
-      
-      
-        <div class="license-meta-item license-meta-date">
-          <div>发布于</div>
-          <div>2024年10月28日</div>
-        </div>
-      
-      
-      
-        <div class="license-meta-item">
-          <div>许可协议</div>
-          <div>
+    
+
+        
             
-              
-              
-                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
-                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
-                    <i class="iconfont icon-by"></i>
-                  </span>
-                </a>
-              
-            
-          </div>
-        </div>
-      
-    </div>
-    <div class="license-icon iconfont"></div>
-  </div>
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.js';
 
+      (function() {
+        const startPath = location.pathname;
+        const startTime = Date.now();
+        const retryDelay = 200;
+        const retryLimit = 5000;
 
-
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2024/10/30/%E7%BD%91%E9%BC%8E%E6%9D%AF2024%E9%9D%92%E9%BE%99%E7%BB%84%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/" title="网鼎杯2024青龙组初赛部分wp">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">网鼎杯2024青龙组初赛部分wp</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2024/10/25/%E6%B5%99%E6%B1%9F%E7%9C%81%E7%9C%81%E8%B5%9B2022%E5%86%B3%E8%B5%9B%E5%A4%8D%E7%8E%B0/" title="浙江省省赛2022决赛复现">
-                        <span class="hidden-mobile">浙江省省赛2022决赛复现</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
-              
-            </div>
-
-            
-  
-  
-    <article id="comments" lazyload>
-      
-  <div id="valine"></div>
-  <script type="text/javascript">
-    Fluid.utils.loadComments('#valine', function() {
-      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
-        var options = Object.assign(
-          {"appId":"5oPqGOgpqzM186wdJq3YyrcV-gzGzoHsz","appKey":"tdZv3tC3tP1IszSKxEodRe6e","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
-          {
-            el: "#valine",
-            path: window.location.pathname
+        const runWaline = () => {
+          if (location.pathname !== startPath) {
+            return;
           }
-        )
-        new Valine(options);
-        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
-          var imgSelector = '#valine .vcontent img:not(.vemoji)';
-          Fluid.plugins.imageCaption(imgSelector);
-          Fluid.plugins.fancyBox(imgSelector);
-        })
-      });
-    });
-  </script>
-  <noscript>Please enable JavaScript to view the comments</noscript>
+
+          const container = document.getElementById('waline');
+          if (!container) {
+            if (Date.now() - startTime < retryLimit) {
+              setTimeout(runWaline, retryDelay);
+            }
+            return;
+          }
+
+          if (window.redefineWalineInstance?.destroy) {
+            window.redefineWalineInstance.destroy();
+          }
+
+          container.innerHTML = '';
+          window.redefineWalineInstance = init({
+            el: '#waline',
+            serverURL: 'https://example.example.com',
+            path: location.pathname,
+            dark: 'body[class~="dark-mode"]',
+            reaction: false,
+            requiredMeta: ['nick', 'mail'],
+            emoji: [],
+                      lang: 'zh-CN',
+          });
+        };
+
+        runWaline();
+      })();
+    </script>
 
 
-    </article>
-  
 
+        
+    
+</div>
 
-          </article>
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">Frida in CTF Android Reverse Engineering</div>
+		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-text">原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%84%E6%88%90"><span class="nav-text">组成</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%B5%E8%84%91%E6%A8%A1%E6%8B%9F%E5%99%A8"><span class="nav-text">电脑模拟器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#root"><span class="nav-text">root</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E8%AE%BE%E5%A4%87"><span class="nav-text">连接设备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%93"><span class="nav-text">经验总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%89%8B%E6%9C%BA%E7%9C%9F%E6%9C%BA"><span class="nav-text">手机真机</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E8%AE%BE%E5%A4%87-1"><span class="nav-text">连接设备</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Objection"><span class="nav-text">Objection</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%99%E6%80%81"><span class="nav-text">静态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E6%80%81"><span class="nav-text">动态</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Frida"><span class="nav-text">Frida</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#java%E5%B1%82"><span class="nav-text">java层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#native%E5%B1%82"><span class="nav-text">native层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#frida-dump"><span class="nav-text">frida-dump</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#frida-dexdump"><span class="nav-text">frida-dexdump</span></a></li></ol></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">j1ya</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 79 篇文章
+                    </span>
+                    
+                </p>
+            
         </div>
-      </div>
-    </div>
-
-    <div class="side-col d-none d-lg-block col-lg-2">
-      
-  <aside class="sidebar" style="margin-left: -1rem">
-    <div id="toc">
-  <p class="toc-header">
-    <i class="iconfont icon-list"></i>
-    <span>目录</span>
-  </p>
-  <div class="toc-body" id="toc-body"></div>
-</div>
-
-
-
-  </aside>
-
-
-    </div>
-  </div>
-</div>
-
-
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-
-
-
-
-    
-
-    
-      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
-        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
-      </a>
-    
-
-    
-      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
-        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-        <div class="md-form mb-5">
-          <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
         </div>
-        <div class="list-group" id="local-search-result"></div>
-      </div>
-    </div>
-  </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="图片查看器">
+	<button class="image-viewer-close" type="button" aria-label="关闭">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="上一页">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="关闭">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="下一页">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
 </div>
 
-    
 
-    
-  </main>
+	
 
-  <footer>
-    <div class="footer-inner">
-  
-    <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
-    </div>
-  
-  
-    <div class="statistics">
-  
-  
-
-  
-    
-      <span id="busuanzi_container_site_pv" style="display: none">
-        总访问量 
-        <span id="busuanzi_value_site_pv"></span>
-         次
-      </span>
-    
-    
-      <span id="busuanzi_container_site_uv" style="display: none">
-        总访客数 
-        <span id="busuanzi_value_site_uv"></span>
-         人
-      </span>
-    
-    
-  
-</div>
-
-  
-  
-  
-</div>
-
-  </footer>
-
-  <!-- Scripts -->
-  
-  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
-
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
-
-
-<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
-<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
-
-
-  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
+</main>
 
 
 
+<script src="/js/build/libs/Swup.min.js"></script>
 
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
 
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
 
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
 
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
 
-  
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
 <script>
-  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
-    var toc = jQuery('#toc');
-    if (toc.length === 0 || !window.tocbot) { return; }
-    var boardCtn = jQuery('#board-ctn');
-    var boardTop = boardCtn.offset().top;
-
-    window.tocbot.init(Object.assign({
-      tocSelector     : '#toc-body',
-      contentSelector : '.markdown-body',
-      linkClass       : 'tocbot-link',
-      activeLinkClass : 'tocbot-active-link',
-      listClass       : 'tocbot-list',
-      isCollapsedClass: 'tocbot-is-collapsed',
-      collapsibleClass: 'tocbot-is-collapsible',
-      scrollSmooth    : true,
-      includeTitleTags: true,
-      headingsOffset  : -boardTop,
-    }, CONFIG.toc));
-    if (toc.find('.toc-list-item').length > 0) {
-      toc.css('visibility', 'visible');
-    }
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('tocbot' in window) {
-        tocbot.refresh();
-        var toc = jQuery('#toc');
-        if (toc.length === 0 || !tocbot) {
-          return;
-        }
-        if (toc.find('.toc-list-item').length > 0) {
-          toc.css('visibility', 'visible');
-        }
-      }
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
     });
-  });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
 </script>
 
 
-  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
-
-  <script>Fluid.plugins.codeWidget();</script>
 
 
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
-    window.anchors.options = {
-      placement: CONFIG.anchorjs.placement,
-      visible  : CONFIG.anchorjs.visible
-    };
-    if (CONFIG.anchorjs.icon) {
-      window.anchors.options.icon = CONFIG.anchorjs.icon;
-    }
-    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-    var res = [];
-    for (var item of el) {
-      res.push('.markdown-body > ' + item.trim());
-    }
-    if (CONFIG.anchorjs.placement === 'left') {
-      window.anchors.options.class = 'anchorjs-link-left';
-    }
-    window.anchors.add(res.join(', '));
-
-    Fluid.events.registerRefreshCallback(function() {
-      if ('anchors' in window) {
-        anchors.removeAll();
-        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
-        var res = [];
-        for (var item of el) {
-          res.push('.markdown-body > ' + item.trim());
-        }
-        if (CONFIG.anchorjs.placement === 'left') {
-          anchors.options.class = 'anchorjs-link-left';
-        }
-        anchors.add(res.join(', '));
-      }
-    });
-  });
-</script>
+	
+<script src="/js/build/main.js" type="module"></script>
 
 
-  
-<script>
-  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
-    Fluid.plugins.fancyBox();
-  });
-</script>
 
+    
+<script src="/js/build/libs/odometer.min.js"></script>
 
-  <script>Fluid.plugins.imageCaption();</script>
-
-  <script defer src="/js/leancloud.js" ></script>
-
-  <script  src="/js/local-search.js" ></script>
-
-  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
 
 
 
 
 
-<!-- 主题的启动项，将它保持在最底部 -->
-<!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
 
 
   
+<script src="/js/build/libs/Typed.min.js"></script>
 
-  <noscript>
-    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript>
+
+
+
+
+
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+
+	
 </body>
+
 </html>
