@@ -1262,12 +1262,12 @@ Android这一部分将array0填充为enc，array1填充为key
                     <div class="home-article-content markdown-body">
                         
                             
-                            everseezupx-1查壳以后发现特征码被改了，用010修改后还是不能upx -d，于是只能动调
+                            Reverseezupx-1查壳以后发现特征码被改了，用010修改后还是不能upx -d，于是只能动调
 进入程序后往上翻四五行找到popad，且下面有个调整栈的循环，还有个jmp 0x004012D0的远跳转，所以很可能是oep（程序入口点）
 
 
 f7跟进4012D0后,使用插件里的OllyDump脱壳!
-脱壳后的文件打开分析，shift+f12查看字符串，可以看到第一行有一串可疑字符串，然后...
+脱壳后的文件打开分析，shift+f12查看字符串，可以看到第一行有一串可疑字符串，然...
                         
                     </div>
 
