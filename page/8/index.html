@@ -558,68 +558,6 @@
                 
                 <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
                     <h3 class="home-article-title">
-                        <a href="/2024/01/07/pwn%E8%B0%83%E8%AF%95%E6%8F%92%E4%BB%B6%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/">
-                            Pwn调试插件配置教程
-                        </a>
-                    </h3>
-
-                    <div class="home-article-content markdown-body">
-                        
-                            
-                            今天在用pwndbg调试的时候发现用不了fmtarg这个命令，在师傅的提醒下发现没装Pwngdb
-
-
-pwndbg和Pwngdb两个易混淆的概念两个区别如下：
-pwndbg：目前仍在积极维护，是现在二进制调试领域的主流 GDB 插件；
-Pwngdb：一个较早期的 GDB Python 脚本，主要提供一些便捷命令，现在基本已停止维护；
-我把所有插件都装到了~&#x2F;GdbPlugins文件...
-                        
-                    </div>
-
-                    <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Sun Jan 07 2024 15:36:26 GMT+0800">
-                
-                    2024-01-07
-                
-            </span>
-        </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
-            <ul>
-                
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">环境配置</a>&nbsp;
-                        </li>
-                    
-                    
-                
-            </ul>
-        </span>
-        
-        
-    </div>
-
-    <a href="/2024/01/07/pwn%E8%B0%83%E8%AF%95%E6%8F%92%E4%BB%B6%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/">阅读全文<span class="seo-reader-text">Pwn调试插件配置教程</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
-                    <h3 class="home-article-title">
                         <a href="/2023/12/31/2023%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/">
                             2023年终总结
                         </a>
@@ -1302,6 +1240,67 @@ Android这一部分将array0填充为enc，array1填充为key
     </div>
 
     <a href="/2023/07/22/OD%E4%B8%8EIDA%E7%BB%93%E5%90%88%E5%8A%A8%E8%B0%83/">阅读全文<span class="seo-reader-text">OD与IDA结合动调</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+</div>
+
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                
+
+                
+                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
+                    <h3 class="home-article-title">
+                        <a href="/2023/06/08/%E9%99%95%E8%A5%BF%E7%9C%81%E8%B5%9B2023Reverse%E9%83%A8%E5%88%86wp/">
+                            陕西省赛2023Reverse部分wp
+                        </a>
+                    </h3>
+
+                    <div class="home-article-content markdown-body">
+                        
+                            
+                            everseezupx-1查壳以后发现特征码被改了，用010修改后还是不能upx -d，于是只能动调
+进入程序后往上翻四五行找到popad，且下面有个调整栈的循环，还有个jmp 0x004012D0的远跳转，所以很可能是oep（程序入口点）
+
+
+f7跟进4012D0后,使用插件里的OllyDump脱壳!
+脱壳后的文件打开分析，shift+f12查看字符串，可以看到第一行有一串可疑字符串，然后...
+                        
+                    </div>
+
+                    <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fa-solid fa-calendars"></i>&nbsp;
+            <span class="home-article-date" data-date="Thu Jun 08 2023 22:50:21 GMT+0800">
+                
+                    2023-06-08
+                
+            </span>
+        </span>
+        
+            <span class="home-article-category">
+                <i class="fa-solid fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E6%AF%94%E8%B5%9Bwp/">比赛wp</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+        
+        
+    </div>
+
+    <a href="/2023/06/08/%E9%99%95%E8%A5%BF%E7%9C%81%E8%B5%9B2023Reverse%E9%83%A8%E5%88%86wp/">阅读全文<span class="seo-reader-text">陕西省赛2023Reverse部分wp</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
 </div>
 
                 </div>
