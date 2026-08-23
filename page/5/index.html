@@ -485,7 +485,7 @@
 
         <div class="statistics flex justify-around my-2.5">
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">52</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">53</div>
         <div class="label text-third-text-color text-sm">标签</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
@@ -525,7 +525,7 @@
 </div>
                 <div class="statistics flex justify-around my-2.5">
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">52</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">53</div>
         <div class="label text-third-text-color text-sm">标签</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
@@ -956,21 +956,22 @@ tea一次移一个字符，36次循环刚好移完全部密文
                 <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
                     <h3 class="home-article-title">
                         <a href="/2024/10/16/IDA%E7%9B%B8%E5%85%B3/">
-                            IDA 安装与常用插件配置记录
+                            IDA常用插件配置
                         </a>
                     </h3>
 
                     <div class="home-article-content markdown-body">
                         
                             
-                            安装注意不要有中文路径
-下面是7.7的全插件版，好像要从阿里网盘下
-https://bbs.kanxue.com/thread-276531.htm
-吾爱破解上的8.3
-https://down.52pojie.cn/Tools/Disassemblers/
-目前出现了9.0，还附加了一些插件安装方式
-https://bbs.kanxue.com/thread-285604.htm
-插件简单...
+                            findcrypt3识别常见算法特征
+用idapyswitch选择有yara-python的py版本，把findcrypt3.py和findcrypt3.rules放到plugins目录即可
+在IDA上方导航栏选择Edit-&gt;Plugins，点击Findcrypt即可加载插件
+
+
+默认无法识别SM4算法，需要在findcrypt3.rules添常量
+
+
+需要注意出题者可能会特意将一些常...
                         
                     </div>
 
@@ -1001,9 +1002,21 @@ https://bbs.kanxue.com/thread-285604.htm
         </span>
         
         
+            <span class="home-article-tag">
+                <i class="fa-solid fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/IDA/">IDA</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
     </div>
 
-    <a href="/2024/10/16/IDA%E7%9B%B8%E5%85%B3/">阅读全文<span class="seo-reader-text">IDA 安装与常用插件配置记录</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+    <a href="/2024/10/16/IDA%E7%9B%B8%E5%85%B3/">阅读全文<span class="seo-reader-text">IDA常用插件配置</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
 </div>
 
                 </div>

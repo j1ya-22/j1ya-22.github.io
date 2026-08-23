@@ -485,7 +485,7 @@
 
         <div class="statistics flex justify-around my-2.5">
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">52</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">53</div>
         <div class="label text-third-text-color text-sm">标签</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
@@ -525,7 +525,7 @@
 </div>
                 <div class="statistics flex justify-around my-2.5">
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">52</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">53</div>
         <div class="label text-third-text-color text-sm">标签</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
@@ -930,7 +930,7 @@ Retea经典tea，密文呈现形式不同
                     
                         <li>
                             | 
-                            <a href="/tags/sm4/">sm4</a>&nbsp;
+                            <a href="/tags/blowfish%E5%8A%A0%E5%AF%86/">blowfish加密</a>&nbsp;
                         </li>
                     
                 </ul>
@@ -961,18 +961,11 @@ Retea经典tea，密文呈现形式不同
                     <div class="home-article-content markdown-body">
                         
                             
-                            之前ida一直不知道如何识别中文字符
-在目录后面加参数-dCULTURE&#x3D;all和把编码方式改为gbk都失败了
+                            之前一直不知道ida如何识别中文字符
+在目录后面加参数-dCULTURE&#x3D;all和把编码方式改为gbk两种方法都失败了
 后来用学长的ida发现能正常显示中文，查看编码方式原来是gb2312
-于是我在ida8.3里右键插入新的编码方式
-
-
-然后在ida左下角右键重新分析
-
-
-再右键rebuild即可
-
-
+于是我在ida里点击上方菜单栏的Options-&gt;General，然后选择Strings导航栏，右键Default 8-bit对应的UTF-8格式，插入新的编码方式gb2312点OK保存
+...
                         
                     </div>
 
@@ -1002,6 +995,18 @@ Retea经典tea，密文呈现形式不同
             </ul>
         </span>
         
+        
+            <span class="home-article-tag">
+                <i class="fa-solid fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/IDA/">IDA</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
         
     </div>
 

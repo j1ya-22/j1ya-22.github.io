@@ -87,15 +87,16 @@
         
         <meta name="description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="IDA 安装与常用插件配置记录">
+<meta property="og:title" content="IDA常用插件配置">
 <meta property="og:url" content="https://j1ya-22.github.io/2024/10/16/IDA%E7%9B%B8%E5%85%B3/index.html">
 <meta property="og:site_name" content="j1ya">
 <meta property="og:description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://j1ya-22.github.io/images/redefine-og.webp">
 <meta property="article:published_time" content="2024-10-16T12:33:54.000Z">
-<meta property="article:modified_time" content="2026-06-02T02:30:55.652Z">
+<meta property="article:modified_time" content="2026-08-23T12:06:55.911Z">
 <meta property="article:author" content="j1ya">
+<meta property="article:tag" content="IDA">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://j1ya-22.github.io/images/redefine-og.webp">
     
@@ -109,7 +110,7 @@
     
     <title>
         
-            IDA 安装与常用插件配置记录 | j1ya&#39;s blog
+            IDA常用插件配置 | j1ya&#39;s blog
         
     </title>
 
@@ -452,7 +453,7 @@
 
         <div class="statistics flex justify-around my-2.5">
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">52</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">53</div>
         <div class="label text-third-text-color text-sm">标签</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
@@ -483,7 +484,7 @@
 		<div class="article-title relative w-full">
 			
 			<div class="w-full flex items-center pt-6 justify-start">
-				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">IDA 安装与常用插件配置记录</h1>
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">IDA常用插件配置</h1>
 			</div>
 			
 		</div>
@@ -511,8 +512,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2026-06-02 10:30:55</span>
-            <span class="mobile">2026-06-02 10:30:55</span>
+            <span class="desktop">2026-08-23 20:06:55</span>
+            <span class="mobile">2026-08-23 20:06:55</span>
             <span class="hover-info">更新</span>
         </span>
     
@@ -535,6 +536,17 @@
         </span>
     
     
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/IDA/">IDA</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
 
     
     
@@ -555,19 +567,68 @@
 
 
 		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
-			<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>注意不要有中文路径</p>
-<p>下面是7.7的全插件版，好像要从阿里网盘下</p>
-<p><a class="link"   target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-276531.htm" >https://bbs.kanxue.com/thread-276531.htm<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<p>吾爱破解上的8.3</p>
-<p><a class="link"   target="_blank" rel="noopener" href="https://down.52pojie.cn/Tools/Disassemblers/" >https://down.52pojie.cn/Tools/Disassemblers/<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<p>目前出现了9.0，还附加了一些插件安装方式</p>
-<p><a class="link"   target="_blank" rel="noopener" href="https://bbs.kanxue.com/thread-285604.htm" >https://bbs.kanxue.com/thread-285604.htm<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<h1 id="插件简单说明"><a href="#插件简单说明" class="headerlink" title="插件简单说明"></a>插件简单说明</h1><h2 id="findcrypt3"><a href="#findcrypt3" class="headerlink" title="findcrypt3"></a>findcrypt3</h2><p>用于识别常见算法特征</p>
-<p>用idapyswitch选择有yara-python的py版本，把findcrypt3.py和findcrypt3.rules放到plugins目录</p>
-<h2 id="d810"><a href="#d810" class="headerlink" title="d810"></a>d810</h2><p>用于去ollvm混淆</p>
-<p>python3.7&amp;IDA7.7可以正常使用该插件</p>
-<h2 id="BinDiff"><a href="#BinDiff" class="headerlink" title="BinDiff"></a>BinDiff</h2><p>用于显示两个二进制文件的差别</p>
-<p>在安装时dll文件无论放在plugins目录下还是安装bindiff默认创建的IDAPro文件夹都不行</p>
+			<h2 id="findcrypt3"><a href="#findcrypt3" class="headerlink" title="findcrypt3"></a>findcrypt3</h2><p>识别常见算法特征</p>
+<p>用idapyswitch选择有yara-python的py版本，把findcrypt3.py和findcrypt3.rules放到plugins目录即可</p>
+<p>在IDA上方导航栏选择Edit-&gt;Plugins，点击Findcrypt即可加载插件</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/10/16/IDA%E7%9B%B8%E5%85%B3/image-20260823195127694.png"
+                      class="" title="image-20260823195127694"
+                >
+
+<p>默认无法识别SM4算法，需要在findcrypt3.rules添常量</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/10/16/IDA%E7%9B%B8%E5%85%B3/image-20260823194038630.png"
+                      class="" title="image-20260823194038630"
+                >
+
+<p>需要注意出题者可能会特意将一些常量加密混淆从而让插件无法被识别</p>
+<h2 id="d810"><a href="#d810" class="headerlink" title="d810"></a>d810</h2><p>去ollvm混淆的最典型插件</p>
+<p>看到类似下面的流程图和右边一系列while循环就知道加了混淆</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/10/16/IDA%E7%9B%B8%E5%85%B3/image-20260823195938693.png"
+                      class="" title="image-20260823195938693"
+                >
+
+<p>选择D-810插件，一般默认配置点Start</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/10/16/IDA%E7%9B%B8%E5%85%B3/image-20260823200230402.png"
+                      class="" title="image-20260823200230402"
+                >
+
+<p>然后再回到伪代码页面查看效果</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/10/16/IDA%E7%9B%B8%E5%85%B3/image-20260823200434953.png"
+                      class="" title="image-20260823200434953"
+                >
+
+<h2 id="BinDiff"><a href="#BinDiff" class="headerlink" title="BinDiff"></a>BinDiff</h2><p>主要用于显示两个二进制文件的细微差别</p>
+<p>选择BinDiff插件后点击Diff Database…</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/10/16/IDA%E7%9B%B8%E5%85%B3/image-20260823195000447.png"
+                      class="" title="image-20260823195000447"
+                >
+
+<p>然后选择要diff的文件，等待几十秒就可以看到匹配的结果，绿色表示匹配度高</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/10/16/IDA%E7%9B%B8%E5%85%B3/1785721579565-b80aeb96-c30f-4021-a0a0-15c88e1bb352.png"
+                      class="" title="image.png"
+                >
+
+<p>本地安装时dll文件无论放在plugins目录下还是安装bindiff默认创建的IDAPro文件夹都不行</p>
 <img  
                      lazyload
                      src="/images/loading.svg"
@@ -575,7 +636,7 @@
                       class="" title="img"
                 >
 
-<p>在学长的提醒下去看输出窗口的报错，默认用原来系统里有的dll</p>
+<p>在学长的提醒下去看输出窗口的报错，默认使用了系统盘下的dll</p>
 <img  
                      lazyload
                      src="/images/loading.svg"
@@ -583,7 +644,7 @@
                       class="" title="img"
                 >
 
-<p>删去系统盘下的dll文件就会加载IDA目录下的dll文件</p>
+<p>删去后就会加载IDA目录下的dll文件</p>
 <img  
                      lazyload
                      src="/images/loading.svg"
@@ -598,8 +659,7 @@
                       class="" title="img"
                 >
 
-
-
+<p>也可以导入符号表，参考2024NKCTF-EzNative</p>
 <h2 id="idagolanghelper"><a href="#idagolanghelper" class="headerlink" title="idagolanghelper"></a>idagolanghelper</h2><p>用于恢复go语言的符号表，IDA8.3默认会自动恢复符号表</p>
 <p><a class="link"   target="_blank" rel="noopener" href="https://github.com/renshareck/IDAGolangHelper_SupportGo1.20" >https://github.com/renshareck/IDAGolangHelper_SupportGo1.20<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 <h2 id="IDARustDemanager"><a href="#IDARustDemanager" class="headerlink" title="IDARustDemanager"></a>IDARustDemanager</h2><p>用于还原 Rust 混淆后的函数符号名</p>
@@ -645,14 +705,14 @@
 		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
 			<div class="article-copyright-info-container">
     <ul>
-        <li><strong>标题:</strong> IDA 安装与常用插件配置记录</li>
+        <li><strong>标题:</strong> IDA常用插件配置</li>
         <li><strong>作者:</strong> j1ya</li>
         <li><strong>创建于
                 :</strong> 2024-10-16 20:33:54</li>
         
             <li>
                 <strong>更新于
-                    :</strong> 2026-06-02 10:30:55
+                    :</strong> 2026-08-23 20:06:55
             </li>
         
         <li>
@@ -674,6 +734,14 @@
 		</div>
 		
 
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/IDA/">#IDA</a>&nbsp;
+			</li>
+			
+		</ul>
 		
 
 		
@@ -780,8 +848,8 @@
 		<div class="post-toc-wrap">
 	<div class="post-toc">
 		<div class="toc-title">目录</div>
-		<div class="page-title">IDA 安装与常用插件配置记录</div>
-		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8F%92%E4%BB%B6%E7%AE%80%E5%8D%95%E8%AF%B4%E6%98%8E"><span class="nav-text">插件简单说明</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#findcrypt3"><span class="nav-text">findcrypt3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#d810"><span class="nav-text">d810</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BinDiff"><span class="nav-text">BinDiff</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#idagolanghelper"><span class="nav-text">idagolanghelper</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IDARustDemanager"><span class="nav-text">IDARustDemanager</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%98%93%E8%AF%AD%E8%A8%80"><span class="nav-text">易语言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scylla"><span class="nav-text">Scylla</span></a></li></ol></li></ol>
+		<div class="page-title">IDA常用插件配置</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#findcrypt3"><span class="nav-text">findcrypt3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#d810"><span class="nav-text">d810</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BinDiff"><span class="nav-text">BinDiff</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#idagolanghelper"><span class="nav-text">idagolanghelper</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IDARustDemanager"><span class="nav-text">IDARustDemanager</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%98%93%E8%AF%AD%E8%A8%80"><span class="nav-text">易语言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scylla"><span class="nav-text">Scylla</span></a></li></ol>
 
 	</div>
 </div>
