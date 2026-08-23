@@ -885,12 +885,8 @@ V1签名方案V1 签名会...
                     <div class="home-article-content markdown-body">
                         
                             
-                            由于用ollvm编译clang比较耗资源，这里采用Tigress项目来混淆c文件
-先在官网下载Tigress:tigress.wtf&#x2F;tigress-download.html
-设置Tigress安装路径，同时将当前目录添加到环境变量
-
-
-生成混淆的c文件test1_obf.c：.&#x2F;tigress –Seed&#x3D;0 –Environment&#x3D;x86_64...
+                            由于用ollvm编译clang比较耗资源，这里尝试用Tigress项目来混淆c文件
+Tigress由亚利桑那大学开发，主要用于学术研究，遵循 C89&#x2F;C99 标准。不同于OLLVM工作在链接前的中间层，Tigress 是一个源代码到源代码的转换器，它在设计上主要针对单个翻译单元（即单个 .c 文件）。如果代码使用 GNU 扩展（如 __attribute__）、内联汇编、或者较新的...
                         
                     </div>
 

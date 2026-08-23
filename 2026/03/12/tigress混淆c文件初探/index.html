@@ -94,7 +94,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://j1ya-22.github.io/images/redefine-og.webp">
 <meta property="article:published_time" content="2026-03-12T03:38:02.000Z">
-<meta property="article:modified_time" content="2026-04-11T08:00:40.897Z">
+<meta property="article:modified_time" content="2026-08-23T04:10:30.673Z">
 <meta property="article:author" content="j1ya">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://j1ya-22.github.io/images/redefine-og.webp">
@@ -511,8 +511,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2026-04-11 16:40</span>
-            <span class="mobile">2026-04-11 16:40</span>
+            <span class="desktop">2026-08-23 12:10:30</span>
+            <span class="mobile">2026-08-23 12:10:30</span>
             <span class="hover-info">更新</span>
         </span>
     
@@ -555,7 +555,8 @@
 
 
 		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
-			<p>由于用ollvm编译clang比较耗资源，这里采用Tigress项目来混淆c文件</p>
+			<p>由于用ollvm编译clang比较耗资源，这里尝试用Tigress项目来混淆c文件</p>
+<p>Tigress由亚利桑那大学开发，主要用于学术研究，遵循 C89&#x2F;C99 标准。不同于OLLVM工作在链接前的中间层，Tigress 是一个源代码到源代码的转换器，它在设计上主要针对单个翻译单元（即单个 .c 文件）。如果代码使用 GNU 扩展（如 __attribute__）、内联汇编、或者较新的 C11&#x2F;C17 特性，Tigress 很可能会解析失败或生成错误的代码。</p>
 <p>先在官网下载Tigress:<a class="link"   target="_blank" rel="noopener" href="https://tigress.wtf/tigress-download.html" >tigress.wtf&#x2F;tigress-download.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 <p>设置Tigress安装路径，同时将当前目录添加到环境变量</p>
 <img  
@@ -582,52 +583,52 @@
 <ol>
 <li>控制流混淆类 (最常用)</li>
 </ol>
-<p>这类变换主要针对 IDA Pro 等反编译工具，使程序的流程逻辑变得极其复杂，难以还原逻辑图</p>
+<p>这类变换主要使程序的流程逻辑变得极其复杂，难以还原逻辑图</p>
 <ul>
-<li>**<code>Flatten</code> (控制流平坦化)**：这是最经典的方法。将程序的 if-else、for 等结构拉平，放入一个大的 switch 中</li>
-<li>**<code>Virtualize</code> (代码虚拟化)**：Tigress 的核心技术。将 C 函数转换为自定义指令集（字节码），并在程序里嵌入一个解释器运行这些字节码</li>
-<li>**<code>AntiBranchAnalysis</code>**：插入大量难以预测的跳转，破坏静态分析工具对条件分支的判断</li>
+<li><code>Flatten</code> (控制流平坦化)：这是最经典的方法。将程序的 if-else、for 等结构拉平，放入一个大的 switch 中</li>
+<li><code>Virtualize</code> (代码虚拟化)：Tigress 的核心技术。将 C 函数转换为自定义指令集（字节码），并在程序里嵌入一个解释器运行这些字节码</li>
+<li><code>AntiBranchAnalysis</code>：插入大量难以预测的跳转，破坏静态分析工具对条件分支的判断</li>
 </ul>
 <ol start="2">
 <li>数据与算术混淆类</li>
 </ol>
 <p>这类变换专门用来对抗“变量跟踪”和“数学逻辑逆向”</p>
 <ul>
-<li>**<code>EncodeArithmetic</code>**：将简单的 <code>a + b</code> 转换成复杂的算术表达式组合，增加运算的复杂度</li>
-<li>**<code>EncodeData</code>**：对数据变量进行混淆（如使用不同编码或分拆变量），使内存中的数据呈现乱码状态</li>
-<li>**<code>EncodeLiterals</code>**：隐藏程序中的常量字符串和数字，防止通过字符串搜索定位关键逻辑</li>
-<li>**<code>AntiTaintAnalysis</code> &#x2F; <code>AntiAliasAnalysis</code>**：防止污点分析和别名分析，让自动化的反混淆工具无法追踪变量流向</li>
+<li><code>EncodeArithmetic</code>：将简单的 <code>a + b</code> 转换成复杂的算术表达式组合，增加运算的复杂度</li>
+<li><code>EncodeData</code>：对数据变量进行混淆（如使用不同编码或分拆变量），使内存中的数据呈现乱码状态</li>
+<li><code>EncodeLiterals</code>：隐藏程序中的常量字符串和数字，防止通过字符串搜索定位关键逻辑</li>
+<li><code>AntiTaintAnalysis</code> &#x2F; <code>AntiAliasAnalysis</code>：防止污点分析和别名分析，让自动化的反混淆工具无法追踪变量流向</li>
 </ul>
 <ol start="3">
 <li>环境与完整性防御类</li>
 </ol>
 <p>这类变换确保程序只能在预期的环境下运行，且未被篡改</p>
 <ul>
-<li>**<code>InitCheckEnvironment</code> &#x2F; <code>CheckEnvironment</code>**：插入检测代码，检查当前运行环境（如是否在调试器下、CPUID 等）</li>
-<li>**<code>Checksum</code>**：为代码块或数据段生成校验和，如果程序被修改（Patch），程序会崩溃或停止运行</li>
-<li>**<code>InitOpaque</code> &#x2F; <code>AddOpaque</code> &#x2F; <code>UpdateOpaque</code>**：添加“不透明谓词”（总是真或总是假的判断条件），让反汇编器看到不存在的分支</li>
+<li><code>InitCheckEnvironment</code> &#x2F; <code>CheckEnvironment</code>：插入检测代码，检查当前运行环境是否在调试器下、CPUID 等</li>
+<li><code>Checksum</code>：为代码块或数据段生成校验和，如果程序被修改（Patch），程序会崩溃或停止运行</li>
+<li><code>InitOpaque</code> &#x2F; <code>AddOpaque</code> &#x2F; <code>UpdateOpaque</code>：添加“不透明谓词”，让反汇编器看到不存在的分支</li>
 </ul>
 <ol start="4">
-<li>辅助与初始化类 (必要步骤)</li>
+<li>辅助与初始化类</li>
 </ol>
 <ul>
-<li>**<code>Initialize</code>**：必须先运行这个，初始化混淆环境</li>
-<li>**<code>CleanUp</code>**：在多次混淆后进行清理，优化代码结构，防止文件无限膨胀</li>
-<li>**<code>Inline</code>**：将函数内联，改变原始代码的结构</li>
-<li>**<code>Split</code>**：将一个大函数拆分成多个小函数</li>
-<li>**<code>Merge</code>**：将多个函数合并成一个，隐藏逻辑边界</li>
-<li>**<code>RandomFuns</code>**：插入无意义的垃圾代码函数，干扰逆向工程师的注意力</li>
+<li><code>Initialize</code>：必须先运行这个初始化混淆环境</li>
+<li><code>CleanUp</code>：在多次混淆后进行清理，优化代码结构，防止文件无限膨胀</li>
+<li><code>Inline</code>：将函数内联，改变原始代码的结构</li>
+<li><code>Split</code>：将一个大函数拆分成多个小函数</li>
+<li><code>Merge</code>：将多个函数合并成一个，隐藏逻辑边界</li>
+<li><code>RandomFuns</code>：插入无意义的垃圾代码函数，干扰逆向工程师的注意力</li>
 </ul>
 <ol start="5">
 <li>进阶与特殊技术类</li>
 </ol>
 <ul>
-<li>**<code>SelfModify</code> (自修改代码)**：程序运行时通过修改自身内存中的指令来实现功能，这是最高级的混淆手段之一，极难调试</li>
-<li>**<code>Jit</code> &#x2F; <code>JitDynamic</code>**：运行时生成机器码执行，直接对抗静态反汇编工具</li>
-<li>**<code>Measure</code> &#x2F; <code>SoftwareMetrics</code>**：分析并输出代码复杂度数据，用于评估混淆的效果</li>
-<li>**<code>Ident</code>**：对函数名和变量名进行随机化（伪随机命名）</li>
+<li><code>SelfModify</code> (自修改代码)：程序运行时通过修改自身内存中的指令来实现功能，这是最高级的混淆手段之一，极难调试</li>
+<li><code>Jit</code> &#x2F; <code>JitDynamic</code>：运行时生成机器码执行，直接对抗静态反汇编工具</li>
+<li><code>Measure</code> &#x2F; <code>SoftwareMetrics</code>：分析并输出代码复杂度数据，用于评估混淆的效果</li>
+<li><code>Ident</code>：对函数名和变量名进行随机化</li>
 </ul>
-<p>第一步尝试用以下命令去混淆：</p>
+<p>尝试用以下命令去混淆：</p>
 <p>.&#x2F;tigress –Seed&#x3D;0 –Environment&#x3D;x86_64:Linux:Gcc:7.3 <br>–Transform&#x3D;Initialize <br>–Transform&#x3D;Flatten –Functions&#x3D;main,MD5Transform,MD5Update <br>–Transform&#x3D;Virtualize –Functions&#x3D;main <br>–Transform&#x3D;CleanUp <br>out1.c –out&#x3D;out1_obf.c</p>
 <p>混淆后的流程图</p>
 <img  
@@ -673,7 +674,7 @@
 
 
 
-<p>由于算法高度依赖移位，用Tigress混淆会出现问题，于是将算法实现部分放到另一个c文件中分离编译，只用Tigress混淆out.c</p>
+<p>后面发现由于算法高度依赖移位，用Tigress混淆会出现问题，于是将算法实现部分放到另一个c文件中分离编译，只用Tigress混淆out.c</p>
 <img  
                      lazyload
                      src="/images/loading.svg"
@@ -681,7 +682,7 @@
                       class="" title="image-20260313114900381"
                 >
 
-<p>最终成功混淆，且flag验证正确</p>
+<p>最终成功混淆且flag验证正确</p>
 <img  
                      lazyload
                      src="/images/loading.svg"
@@ -702,7 +703,7 @@
         
             <li>
                 <strong>更新于
-                    :</strong> 2026-04-11 16:00:40
+                    :</strong> 2026-08-23 12:10:30
             </li>
         
         <li>
