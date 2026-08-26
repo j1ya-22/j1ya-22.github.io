@@ -87,14 +87,14 @@
         
         <meta name="description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="花指令">
+<meta property="og:title" content="花指令总结">
 <meta property="og:url" content="https://j1ya-22.github.io/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/index.html">
 <meta property="og:site_name" content="j1ya">
 <meta property="og:description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://j1ya-22.github.io/images/redefine-og.webp">
 <meta property="article:published_time" content="2024-10-22T03:36:26.000Z">
-<meta property="article:modified_time" content="2026-06-02T01:54:20.547Z">
+<meta property="article:modified_time" content="2026-08-26T10:37:43.400Z">
 <meta property="article:author" content="j1ya">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://j1ya-22.github.io/images/redefine-og.webp">
@@ -109,7 +109,7 @@
     
     <title>
         
-            花指令 | j1ya&#39;s blog
+            花指令总结 | j1ya&#39;s blog
         
     </title>
 
@@ -483,7 +483,7 @@
 		<div class="article-title relative w-full">
 			
 			<div class="w-full flex items-center pt-6 justify-start">
-				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">花指令</h1>
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">花指令总结</h1>
 			</div>
 			
 		</div>
@@ -511,8 +511,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2026-06-02 09:54:20</span>
-            <span class="mobile">2026-06-02 09:54:20</span>
+            <span class="desktop">2026-08-26 18:37:43</span>
+            <span class="mobile">2026-08-26 18:37:43</span>
             <span class="hover-info">更新</span>
         </span>
     
@@ -560,7 +560,7 @@
 <li>递归下降算法：根据一条指令是否被另一条指令引用来决定是否对其进行反汇编（难以准确定位）</li>
 </ul>
 <p>正是因为这两种反汇编的规格和缺陷机制，所以才导致花指令的诞生</p>
-<p><strong>花指令简单说就是在代码中混入一些垃圾数据阻碍静态分析</strong></p>
+<p>花指令简单说就是在代码中混入一些垃圾数据阻碍静态分析</p>
 <img  
                      lazyload
                      src="/images/loading.svg"
@@ -576,27 +576,21 @@
 <li>0xFF25 jmp + 4字节地址</li>
 <li>0xcc int 3</li>
 <li>0xe2 loop</li>
-<li>0x0f84 jz</li>
-<li>0x0f85 jnz</li>
+<li>0x74 jz</li>
+<li>0x75 jnz</li>
 </ul>
-<p>指令也不一定唯一，比如上面有两种表示call的方式，0x74也能表示jz</p>
-<h1 id="常规类型"><a href="#常规类型" class="headerlink" title="常规类型"></a>常规类型</h1><h3 id="1-简单jmp"><a href="#1-简单jmp" class="headerlink" title="1.简单jmp"></a>1.简单jmp</h3><p>OD能被骗过去，但是因为ida主要采用的是递归扫描的办法（会用线性扫描补充）所以能够正常识别</p>
-<img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1689132929883-c68c1e41-0162-4c74-913b-551c5afe5f80-17318416670873.png"
-                      class="" title="img"
-                >
-
-<h3 id="2-jx-jnx（x可为e-z-l）"><a href="#2-jx-jnx（x可为e-z-l）" class="headerlink" title="2.jx+jnx（x可为e,z,l）"></a>2.jx+jnx（x可为e,z,l）</h3><img  
+<h3 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h3><p>下面是与花指令相关的IDA快捷键</p>
+<p>U：undefine，把代码转化为数据</p>
+<p>P：创建函数</p>
+<p>C：把数据转化为代码</p>
+<h1 id="常规类型"><a href="#常规类型" class="headerlink" title="常规类型"></a>常规类型</h1><h3 id="1-jx-jnx（x可为e-z-l）"><a href="#1-jx-jnx（x可为e-z-l）" class="headerlink" title="1.jx+jnx（x可为e,z,l）"></a>1.jx+jnx（x可为e,z,l）</h3><img  
                      lazyload
                      src="/images/loading.svg"
                      data-src="/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1710308207074-a45f1d13-e450-4c83-8d4e-3b531590a98a-17318416670875.png"
                       class="" title="img"
                 >
 
-<p>jnz实际上是fake的，因为jz这个指令，让ida认为jz下面的是另外一个分支，所以这里将jz下面包括jz 全转化为代码</p>
-<p>call指令按u，下一行按c，再nop call，把90转为数据，再按c变为nop</p>
+<p>jnz实际上是fake的，因为jz这个指令让ida认为jz下面的是另外一个分支</p>
 <img  
                      lazyload
                      src="/images/loading.svg"
@@ -604,7 +598,7 @@
                       class="" title="img"
                 >
 
-<h3 id="3-call-add-esp，4或call-add-esp-n-retn"><a href="#3-call-add-esp，4或call-add-esp-n-retn" class="headerlink" title="3.call +add esp，4或call + add [esp], n + retn"></a>3.call +add esp，4或call + add [esp], n + retn</h3><img  
+<h3 id="2-call-add-esp-n-retn"><a href="#2-call-add-esp-n-retn" class="headerlink" title="2.call + add [esp], n + retn"></a>2.call + add [esp], n + retn</h3><img  
                      lazyload
                      src="/images/loading.svg"
                      data-src="/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1689132096401-0cbd1787-69f8-4b7f-80f1-c4d7af1f2d3c-17318416670879.png"
@@ -618,7 +612,6 @@
                       class="" title="img"
                 >
 
-<p>2023.7.8凌武杯flower_tea</p>
 <img  
                      lazyload
                      src="/images/loading.svg"
@@ -626,45 +619,29 @@
                       class="" title="img"
                 >
 
-<p>这里call指令，其实本质就是jmp&amp;push 下一条指令的地址，但是这里其实就是一个jmp指令，push这条指令是多余的，需要add esp,4 调整堆栈，但是ida会默认把call 后面的那个地址当成一个函数</p>
+<p>这里call指令，其实本质就是jmp&amp;push 下一条指令的地址，但是这里只需要jmp指令，push这条指令是多余的，后续的add指令又会修改下一条指令的地址，造成爆红</p>
 <p>易语言自带的花指令</p>
 <div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">004010BF   .  E8 <span class="number">00000000</span>   call <span class="number">1111.004010</span>C4</span><br><span class="line">004010C4  /$  <span class="number">830424</span> 06     add dword ptr ss:[esp],<span class="number">0x6</span></span><br><span class="line">004010C8  \.  C3            retn</span><br><span class="line">004010C9      B9            db B9</span><br></pre></td></tr></table></figure></div>
 
-<p>可以看到这里的add，是将call 00h的返回的地址，也就是[esp]+0x6（add 的四个字节+C3 B9）</p>
-<p>来实现一个跳转，到004010CA，对于这种，只需要将下面的特征码patch掉就可以了</p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">E80000000083042406C3??</span><br></pre></td></tr></table></figure></div>
-
-<h3 id="4-jmp-XXX（红色）"><a href="#4-jmp-XXX（红色）" class="headerlink" title="4.jmp XXX（红色）"></a>4.jmp XXX（红色）</h3><img  
+<p>只需要将下面的特征码patch掉：E80000000083042406C3??</p>
+<h3 id="3-jmp-XXX"><a href="#3-jmp-XXX" class="headerlink" title="3.jmp XXX"></a>3.jmp XXX</h3><p>题目练习：<a class="link"   target="_blank" rel="noopener" href="https://www.nssctf.cn/note/set/2970" >https://www.nssctf.cn/note/set/2970<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<img  
                      lazyload
                      src="/images/loading.svg"
                      data-src="/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1689130406691-d483f269-7400-471d-921a-58becb8e1681-173184166708715.png"
                       class="" title="img"
                 >
 
-<p>这也是一种非常常见的花指令，其实这里很明显就有问题，因为虚拟地址怎么可能那么大，我们来看一下花指令源代码</p>
-<img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1689130477926-fe2e0737-f5c7-4586-83d9-72b896e74670-173184166708717.png"
-                      class="" title="img"
-                >
-
-<p> 实际是e9在搞鬼，ida会默认将e9后面的4个字节当成地址，只要nop掉jmp(E9)就好了</p>
-<p>题目练习：<a class="link"   target="_blank" rel="noopener" href="https://www.nssctf.cn/note/set/2970" >https://www.nssctf.cn/note/set/2970<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<h3 id="5-stx-jx"><a href="#5-stx-jx" class="headerlink" title="5.stx&#x2F;jx"></a>5.stx&#x2F;jx</h3><img  
+<p>这也是一种常见的花指令，虚拟地址不可能那么大，实际是jmp指令对应的e9在搞鬼，ida会默认将e9后面的4个字节当成地址</p>
+<h3 id="4-stx-jx"><a href="#4-stx-jx" class="headerlink" title="4.stx+jx"></a>4.stx+jx</h3><img  
                      lazyload
                      src="/images/loading.svg"
                      data-src="/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1689130320004-5dc18a4f-ac2c-4cb7-8065-9f523e82f2d0-173184166708721.png"
                       class="" title="img"
                 >
 
-<p>clc是清除EFlags寄存器的carry位的标志，而jnb是根据cf&#x3D;&#x3D;0时跳转的，然而jnb这个分支指令，ida又将后面的部分认作成了另外的分支</p>
-<h1 id="创意"><a href="#创意" class="headerlink" title="创意"></a>创意</h1><h3 id="1-替换ret指令"><a href="#1-替换ret指令" class="headerlink" title="1.替换ret指令"></a>1.替换ret指令</h3><p>call指令的本质：push 函数返回地址然后jmp 函数地址</p>
-<p>ret指令的本质： pop eip</p>
-<p>所以可以在call指令之后，明白函数返回地址存放于esp，可以将值取出，用跳转指令跳转到该地址，即可代替ret指令</p>
-<h3 id="2-控制标志寄存器跳转"><a href="#2-控制标志寄存器跳转" class="headerlink" title="2.控制标志寄存器跳转"></a>2.控制标志寄存器跳转</h3><p>这一部分需要精通标志寄存器，每一个操作码都会对相应的标志寄存器产生相应的影响，如果对标志寄存器足够熟练，就可以使用对应的跳转指令构造永恒跳转</p>
-<h3 id="3-利用函数返回确定值"><a href="#3-利用函数返回确定值" class="headerlink" title="3.利用函数返回确定值"></a>3.利用函数返回确定值</h3><p>有些函数返回值是确定的，比如自己写的函数，返回值可以是任意非零整数；如果故意传入一个不存在的模块名称，那么就会返回一个确定的值NULL；另外某些api函数基本上只要调用成功就就会返回一个确定的零或者非零值，如MessageBox等，这些都可以构造永恒跳转</p>
-<h3 id="4-针对反编译"><a href="#4-针对反编译" class="headerlink" title="4.针对反编译"></a>4.针对反编译</h3><p>0x1165 开始的花指令和前面的花指令原来相似，这条花指令会使 IDA 误以为 0x116B 处的指令可能会执行，导致 IDA 的栈分析出现错误</p>
+<p>clc是清除EFlags寄存器的carry位的标志，而jnb是根据cf&#x3D;&#x3D;0时跳转的，然而jnb这个分支指令，ida又将后面的部分当成了另外的分支</p>
+<h3 id="5-干扰栈分析"><a href="#5-干扰栈分析" class="headerlink" title="5.干扰栈分析"></a>5.干扰栈分析</h3><p>这条花指令会使 IDA 误以为 0x116B 处的指令可能会执行，导致 IDA 的栈分析出现错误</p>
 <img  
                      lazyload
                      src="/images/loading.svg"
@@ -672,8 +649,8 @@
                       class="" title="img"
                 >
 
-<p>修复方法除了patch 外还有修改 ida 对栈的分析结果</p>
-<p>在Options - General菜单中勾上Stack pointer选项可以查看每行指令执行之前的栈帧大小</p>
+<p>可以修改 ida 对栈的分析结果</p>
+<p>在Options -&gt; General菜单中勾上Stack pointer选项可以查看每行指令执行之前的栈帧大小</p>
 <img  
                      lazyload
                      src="/images/loading.svg"
@@ -681,7 +658,7 @@
                       class="" title="img"
                 >
 
-<p><strong>Alt + K</strong> 可以修改某条指令对栈指针的影响，从而消除这条花指令对反编译的影响。</p>
+<p>Alt + K 可以修改某条指令对栈指针的影响，从而消除这条花指令对反编译的影响。</p>
 <img  
                      lazyload
                      src="/images/loading.svg"
@@ -689,9 +666,24 @@
                       class="" title="img"
                 >
 
+<h3 id="6-XOR加密代码字节"><a href="#6-XOR加密代码字节" class="headerlink" title="6.XOR加密代码字节"></a>6.XOR加密代码字节</h3><p>根据_main猜测是main，开头三个字节和push ebp;mov ebp,esp对应的16进制数55 8B EC异或一下刚好是7，所以猜测特定函数xor 7之后就能还原</p>
+<p>IDA Options-&gt;Disassembly窗口下可以修改显示的opcode</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1787716501745-9cb3d721-8587-413d-b320-131b2e1a14dc.png"
+                      class="" title="img"
+                >
 
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1759916771891-100789ec-0930-4401-9079-4d997dba4855.png"
+                      class="" title="img"
+                >
 
-<h1 id="如何去除花指令"><a href="#如何去除花指令" class="headerlink" title="如何去除花指令"></a>如何去除花指令</h1><h3 id="nop单字节-E8"><a href="#nop单字节-E8" class="headerlink" title="nop单字节(E8)"></a>nop单字节(E8)</h3><img  
+<h1 id="如何去除"><a href="#如何去除" class="headerlink" title="如何去除"></a>如何去除</h1><h3 id="nop单字节-E8-E9"><a href="#nop单字节-E8-E9" class="headerlink" title="nop单字节(E8&#x2F;E9)"></a>nop单字节(E8&#x2F;E9)</h3><p>练习题目：<a class="link"   target="_blank" rel="noopener" href="https://www.nssctf.cn/problem/2313" >https://www.nssctf.cn/problem/2313<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<img  
                      lazyload
                      src="/images/loading.svg"
                      data-src="/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1689129981491-9780d557-5835-434d-b50c-347ec712839d-173184166708727.png"
@@ -715,8 +707,7 @@
                 >
 
 <p>最后全选函数，按P生成函数  </p>
-<p>练习题目：<a class="link"   target="_blank" rel="noopener" href="https://www.nssctf.cn/problem/2313" >https://www.nssctf.cn/problem/2313<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<h3 id="nop跨越汇编指令"><a href="#nop跨越汇编指令" class="headerlink" title="nop跨越汇编指令"></a>nop跨越汇编指令</h3><p>jz指令指向下一条指令中间</p>
+<h3 id="nop多余汇编"><a href="#nop多余汇编" class="headerlink" title="nop多余汇编"></a>nop多余汇编</h3><p>jz指令指向下一条指令中间</p>
 <img  
                      lazyload
                      src="/images/loading.svg"
@@ -733,8 +724,22 @@
                 >
 
 <p>如果后面有数据没被分析为code，需要继续操作</p>
-<h3 id="nop部分汇编"><a href="#nop部分汇编" class="headerlink" title="nop部分汇编"></a>nop部分汇编</h3><p>一般去菜单中的编辑选项修补单字节会比较好把控</p>
-<p>像下面这种红色标志离原函数有一定距离又是call+retn组合，400f64又没什么用，还有ret会干扰函数的分析，那就尝试全部nop</p>
+<h3 id="nop部分连续汇编"><a href="#nop部分连续汇编" class="headerlink" title="nop部分连续汇编"></a>nop部分连续汇编</h3><p>一般去菜单中的Edit-&gt;Patch program-&gt;Change byte修补单字节</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1787716748681-7eb89782-046c-463a-93e1-e63a9ecce86d.png"
+                      class="" title="img"
+                >
+
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1787716730374-e4f92bf4-76b2-4d05-8a43-83f4d558f015.png"
+                      class="" title="img"
+                >
+
+<p>像下面这种红色标志离原函数有一定距离又是call+retn组合加上400f64又没什么用，可以都nop，这是一种暴力方法</p>
 <img  
                      lazyload
                      src="/images/loading.svg"
@@ -750,13 +755,6 @@
                       class="" title="img"
                 >
 
-<img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1721878266076-1962ee79-d068-49ba-9302-a5df50bc55b1-173184166708741.png"
-                      class="" title="img"
-                >
-
 <p>xchg很少用到，后面还有retn，主打不想要的直接全部nop</p>
 <img  
                      lazyload
@@ -767,7 +765,7 @@
 
 
 
-<p>先可以小范围的尝试，把call到红色的地方先nop，发现不行，再从头把关键数据之前（flag is上面那一行)也给nop掉，发现可以了</p>
+<p>也可以先可以小范围的尝试，把call及下面一行先nop；发现不行，再从头把关键数据之前（D7,flag is上面那一行）也给nop掉，发现可以了</p>
 <img  
                      lazyload
                      src="/images/loading.svg"
@@ -777,27 +775,11 @@
 
 
 
-<h3 id="根据汇编指令"><a href="#根据汇编指令" class="headerlink" title="根据汇编指令"></a>根据汇编指令</h3><p>这里汇编语句之间突然有db有点可疑，而48表示mov，一般是开头的机器码</p>
-<img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1722916980055-d0de8f1f-279a-4d7f-a0a5-7f7a0cf4c771-173184166708747.png"
-                      class="" title="img"
-                >
+<h3 id="代码自动去花"><a href="#代码自动去花" class="headerlink" title="代码自动去花"></a>代码自动去花</h3><p>出现大量花指令没有统一方法去除</p>
+<h4 id="集成脚本"><a href="#集成脚本" class="headerlink" title="集成脚本"></a>集成脚本</h4><p>下面脚本主要去除call相关花指令，jx + jnx花指令和stx + jx花指令</p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> regex <span class="keyword">as</span> re</span><br><span class="line"><span class="keyword">from</span> idc <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> idc</span><br><span class="line"><span class="keyword">from</span> keystone <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> capstone <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">asmer = Ks(KS_ARCH_X86, KS_MODE_32)</span><br><span class="line">disasmer = Cs(CS_ARCH_X86, CS_MODE_32)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">disasm</span>(<span class="params">machine_code, addr=<span class="number">0</span></span>):</span><br><span class="line">    l = <span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> disasmer.disasm(machine_code, addr):</span><br><span class="line">        l += <span class="string">&quot;&#123;:8s&#125; &#123;&#125;;\n&quot;</span>.<span class="built_in">format</span>(i.mnemonic, i.op_str)</span><br><span class="line">    <span class="keyword">return</span> l.strip(<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">asm</span>(<span class="params">asm_code, addr=<span class="number">0</span></span>):</span><br><span class="line">    l = <span class="string">b&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> asmer.asm(asm_code, addr)[<span class="number">0</span>]:</span><br><span class="line">        l += <span class="built_in">bytes</span>([i])</span><br><span class="line">    <span class="keyword">return</span> l</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">check_call_to_jmp</span>(<span class="params">call_insn_addr</span>):</span><br><span class="line">    call_target = idc.get_operand_value(call_insn_addr, <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">if</span> call_target <span class="keyword">not</span> <span class="keyword">in</span> <span class="built_in">range</span>(start_ea, end_ea): <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">    idc.create_insn(call_target)</span><br><span class="line">    <span class="keyword">if</span> ida_bytes.get_bytes(call_target, idc.get_item_size(call_target)) == asm(<span class="string">&#x27;add esp, 4&#x27;</span>, call_target):</span><br><span class="line">        <span class="keyword">return</span> call_target + idc.get_item_size(call_target)</span><br><span class="line">    <span class="keyword">if</span> idc.print_insn_mnem(call_target) == <span class="string">&#x27;pop&#x27;</span>:</span><br><span class="line">        <span class="keyword">return</span> call_target + idc.get_item_size(call_target)</span><br><span class="line">    insn = disasm(ida_bytes.get_bytes(call_target, idc.get_item_size(call_target)), call_target)</span><br><span class="line">    <span class="keyword">if</span> <span class="string">&#x27;[esp],&#x27;</span> <span class="keyword">in</span> insn <span class="keyword">and</span> (<span class="string">&#x27;add&#x27;</span> <span class="keyword">in</span> insn <span class="keyword">or</span> <span class="string">&#x27;sub&#x27;</span> <span class="keyword">in</span> insn) <span class="keyword">and</span> idc.get_operand_type(call_target, <span class="number">1</span>) == o_imm:</span><br><span class="line">        idc.create_insn(call_target + idc.get_item_size(call_target))</span><br><span class="line">        <span class="keyword">if</span> idc.print_insn_mnem(call_target + idc.get_item_size(call_target)) == <span class="string">&#x27;retn&#x27;</span>:</span><br><span class="line">            <span class="keyword">return</span> (call_insn_addr + <span class="number">5</span> + (<span class="number">1</span> <span class="keyword">if</span> idc.print_insn_mnem(call_target) == <span class="string">&#x27;add&#x27;</span> <span class="keyword">else</span> -<span class="number">1</span>) * idc.get_operand_value(call_target, <span class="number">1</span>)) &amp; <span class="number">0xFFFFFFFF</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">check_jcc_to_jmp</span>(<span class="params">jcc_insn_addr</span>):</span><br><span class="line">    code1 = ida_bytes.get_bytes(jcc_insn_addr, idc.get_item_size(jcc_insn_addr))</span><br><span class="line">    next_insn_addr = jcc_insn_addr + idc.get_item_size(jcc_insn_addr)</span><br><span class="line">    idc.create_insn(next_insn_addr)</span><br><span class="line">    code2 = ida_bytes.get_bytes(next_insn_addr, idc.get_item_size(next_insn_addr))</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">abs</span>(code1[<span class="number">0</span>] - code2[<span class="number">0</span>]) == <span class="number">1</span> <span class="keyword">and</span> <span class="built_in">min</span>(code1[<span class="number">0</span>], code2[<span class="number">0</span>]) % <span class="number">2</span> == <span class="number">0</span> <span class="keyword">and</span> idc.get_operand_value(jcc_insn_addr, <span class="number">0</span>) == idc.get_operand_value(next_insn_addr, <span class="number">0</span>):</span><br><span class="line">        <span class="keyword">return</span> idc.get_operand_value(jcc_insn_addr, <span class="number">0</span>)</span><br><span class="line">    code = ida_bytes.get_bytes(jcc_insn_addr, <span class="number">12</span>)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;bbbbb&quot;</span>)</span><br><span class="line">    pattern_list = [</span><br><span class="line">        re.<span class="built_in">compile</span>(<span class="string">rb&quot;(?s)\x7C\x03\xEB\x03.\x74\xFB&quot;</span>),</span><br><span class="line">        re.<span class="built_in">compile</span>(<span class="string">rb&quot;(?s)\xEB\x07.\xEB\x01.\xEB\x04.\xEB\xF8.&quot;</span>),</span><br><span class="line">        re.<span class="built_in">compile</span>(<span class="string">rb&quot;(?s)\xEB\x01.&quot;</span>)</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> pattern <span class="keyword">in</span> pattern_list:</span><br><span class="line">        <span class="keyword">match</span> = re.<span class="keyword">match</span>(pattern, code)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">match</span> != <span class="literal">None</span> <span class="keyword">and</span> <span class="keyword">match</span>.span()[<span class="number">1</span>] != <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> jcc_insn_addr + <span class="keyword">match</span>.span()[<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">st_mnem_map = &#123;<span class="string">&#x27;clc&#x27;</span>: [<span class="string">&#x27;jnb&#x27;</span>], <span class="string">&#x27;stc&#x27;</span>: [<span class="string">&#x27;jb&#x27;</span>]&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">check_st_to_jmp</span>(<span class="params">st_insn_addr</span>):</span><br><span class="line">    st_mnem = idc.print_insn_mnem(st_insn_addr)</span><br><span class="line">    next_insn_addr = st_insn_addr + idc.get_item_size(st_insn_addr)</span><br><span class="line">    idc.create_insn(next_insn_addr)</span><br><span class="line">    <span class="keyword">if</span> idc.print_insn_mnem(next_insn_addr) <span class="keyword">in</span> st_mnem_map[st_mnem]:</span><br><span class="line">        <span class="keyword">return</span> idc.get_operand_value(next_insn_addr, <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">start_ea = <span class="number">0x401000</span></span><br><span class="line">end_ea = <span class="number">0x4B9CD0</span></span><br><span class="line"></span><br><span class="line">ea = start_ea</span><br><span class="line"><span class="keyword">while</span> ea &lt; end_ea:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;aaa: &quot;</span> + <span class="built_in">hex</span>(ea))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(ea, ea + <span class="number">0x10</span>): idc.del_items(i)</span><br><span class="line">    <span class="keyword">if</span> idc.create_insn(ea) == <span class="number">0</span>:</span><br><span class="line">        <span class="comment"># idc.patch_byte(ea, 0x90)</span></span><br><span class="line">        ea += <span class="number">1</span></span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    mnem = idc.print_insn_mnem(ea)</span><br><span class="line">    <span class="keyword">if</span> mnem == <span class="string">&#x27;call&#x27;</span>:</span><br><span class="line">        jmp_target = check_call_to_jmp(ea)</span><br><span class="line">        <span class="keyword">if</span> jmp_target != <span class="literal">None</span>:</span><br><span class="line">            <span class="keyword">assert</span> jmp_target &gt; ea</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;call: &quot;</span> + <span class="built_in">hex</span>(ea))</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;jmp target: &quot;</span> + <span class="built_in">hex</span>(jmp_target))</span><br><span class="line">            <span class="keyword">if</span> jmp_target &gt; ea <span class="keyword">and</span> <span class="built_in">abs</span>(jmp_target - ea) &lt;= <span class="number">0x80</span>:</span><br><span class="line">                ida_bytes.patch_bytes(ea, <span class="string">b&quot;\x90&quot;</span> * (jmp_target - ea))</span><br><span class="line">                ea = jmp_target</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                code = asm(<span class="string">&#x27;jmp 0x%x&#x27;</span> % (jmp_target), ea)</span><br><span class="line">                ida_bytes.patch_bytes(ea, code)</span><br><span class="line">                ea += <span class="built_in">len</span>(code)</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">    <span class="keyword">elif</span> mnem[<span class="number">0</span>] == <span class="string">&#x27;j&#x27;</span>:</span><br><span class="line">        jmp_target = check_jcc_to_jmp(ea)</span><br><span class="line">        <span class="keyword">if</span> jmp_target != <span class="literal">None</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;jcc: &quot;</span> + <span class="built_in">hex</span>(ea))</span><br><span class="line">            <span class="keyword">assert</span> jmp_target &gt; ea</span><br><span class="line">            <span class="keyword">if</span> jmp_target &gt; ea <span class="keyword">and</span> <span class="built_in">abs</span>(jmp_target - ea) &lt;= <span class="number">0x80</span>:</span><br><span class="line">                ida_bytes.patch_bytes(ea, <span class="string">b&quot;\x90&quot;</span> * (jmp_target - ea))</span><br><span class="line">                ea = jmp_target</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                code = asm(<span class="string">&#x27;jmp 0x%x&#x27;</span> % (jmp_target), ea)</span><br><span class="line">                ida_bytes.patch_bytes(ea, code)</span><br><span class="line">                ea += <span class="built_in">len</span>(code)</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">    <span class="keyword">elif</span> mnem <span class="keyword">in</span> st_mnem_map:</span><br><span class="line">        jmp_target = check_st_to_jmp(ea)</span><br><span class="line">        <span class="keyword">if</span> jmp_target != <span class="literal">None</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;st: &quot;</span> + <span class="built_in">hex</span>(ea))</span><br><span class="line">            <span class="keyword">assert</span> jmp_target &gt; ea</span><br><span class="line">            <span class="keyword">if</span> jmp_target &gt; ea <span class="keyword">and</span> <span class="built_in">abs</span>(jmp_target - ea) &lt;= <span class="number">0x80</span>:</span><br><span class="line">                ida_bytes.patch_bytes(ea, <span class="string">b&quot;\x90&quot;</span> * (jmp_target - ea))</span><br><span class="line">                ea = jmp_target</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                code = asm(<span class="string">&#x27;jmp 0x%x&#x27;</span> % (jmp_target), ea)</span><br><span class="line">                ida_bytes.patch_bytes(ea, code)</span><br><span class="line">                ea += <span class="built_in">len</span>(code)</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">    ea += idc.get_item_size(ea)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(start_ea, end_ea):</span><br><span class="line">    idc.del_items(_)</span><br><span class="line"></span><br><span class="line">idc.jumpto(<span class="number">0x004B8DE4</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;finish&quot;</span>)</span><br></pre></td></tr></table></figure></div>
 
-<p>这里把0x12以下的重新分析，就可以得到key</p>
-<img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1722917002876-cfa0e989-69ba-4b1a-9102-4580be626109-173184166708749.png"
-                      class="" title="img"
-                >
-
-<h3 id="代码自动去花"><a href="#代码自动去花" class="headerlink" title="代码自动去花"></a>代码自动去花</h3><div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#include &lt;idc.idc&gt;</span></span><br><span class="line">static main()&#123;</span><br><span class="line">auto addr_start =<span class="number">0x00415990</span>;//函数起始地址</span><br><span class="line">auto addr_end = <span class="number">0x00416048</span>;//函数结束地址</span><br><span class="line">auto i=<span class="number">0</span>,j=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(i=addr_start;i&lt;addr_end;i++)&#123;</span><br><span class="line">          <span class="keyword">if</span>(Dword(i) == <span class="number">0x1E8</span>)&#123;</span><br><span class="line">              <span class="keyword">for</span>(j=<span class="number">0</span> ; j&lt;<span class="number">6</span>; j++,i++ )&#123;</span><br><span class="line">                  PatchByte(i,<span class="number">0x90</span>);</span><br><span class="line">              &#125;</span><br><span class="line">              i=i+<span class="number">4</span>;</span><br><span class="line">              <span class="keyword">for</span>(j=<span class="number">0</span> ; j&lt;<span class="number">3</span>; j++,i++ )&#123;</span><br><span class="line">                  PatchByte(i,<span class="number">0x90</span>);</span><br><span class="line">              &#125;</span><br><span class="line">              i=i+<span class="number">10</span>;</span><br><span class="line">              <span class="keyword">for</span>(j=<span class="number">0</span> ; j&lt;<span class="number">3</span>; j++,i++ )&#123;</span><br><span class="line">                  PatchByte(i,<span class="number">0x90</span>);</span><br><span class="line">              &#125;</span><br><span class="line">              i=i+<span class="number">5</span>;</span><br><span class="line">              <span class="keyword">for</span>(j=<span class="number">0</span> ; j&lt;<span class="number">1</span>; j++,i++ )&#123;</span><br><span class="line">                  PatchByte(i,<span class="number">0x90</span>);</span><br><span class="line">              &#125;  </span><br><span class="line">              i=i+<span class="number">3</span>;</span><br><span class="line">              <span class="keyword">for</span>(j=<span class="number">0</span> ; j&lt;<span class="number">2</span>; j++,i++ )&#123;</span><br><span class="line">                  PatchByte(i,<span class="number">0x90</span>);</span><br><span class="line">              &#125;    </span><br><span class="line">              i--;    </span><br><span class="line">          &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-
-
-
-<img  
+<h4 id="jx-jnx"><a href="#jx-jnx" class="headerlink" title="jx+jnx"></a>jx+jnx</h4><img  
                      lazyload
                      src="/images/loading.svg"
                      data-src="/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1708908062701-c3a60020-c29f-423a-8530-75efd5c88945-173184166708751.png"
@@ -806,87 +788,24 @@
 
 <div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> ida_bytes <span class="keyword">import</span> get_bytes,patch_bytes</span><br><span class="line">start= <span class="number">0x401000</span></span><br><span class="line">end = <span class="number">0x422000</span></span><br><span class="line">buf = get_bytes(start,end-start)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">patch_at</span>(<span class="params">p,ln</span>):</span><br><span class="line">    <span class="keyword">global</span> buf</span><br><span class="line">    buf = buf[:p]+<span class="string">b&quot;\x90&quot;</span>*ln+buf[p+ln:]</span><br><span class="line"></span><br><span class="line">fake_jcc=[]</span><br><span class="line"><span class="keyword">for</span> opcode <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0x70</span>,<span class="number">0x7f</span>,<span class="number">2</span>):</span><br><span class="line">    pattern = <span class="built_in">chr</span>(opcode)+<span class="string">&quot;\x03&quot;</span>+<span class="built_in">chr</span>(opcode|<span class="number">1</span>)+<span class="string">&quot;\x01&quot;</span></span><br><span class="line">    fake_jcc.append(pattern.encode())</span><br><span class="line">    pattern = <span class="built_in">chr</span>(opcode|<span class="number">1</span>)+<span class="string">&quot;\x03&quot;</span>+<span class="built_in">chr</span>(opcode)+<span class="string">&quot;\x01&quot;</span></span><br><span class="line">    fake_jcc.append(pattern.encode())</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(fake_jcc)</span><br><span class="line"><span class="keyword">for</span> pattern <span class="keyword">in</span> fake_jcc:</span><br><span class="line">    p = buf.find(pattern)</span><br><span class="line">    <span class="keyword">while</span> p != -<span class="number">1</span>:</span><br><span class="line">        patch_at(p,<span class="number">5</span>)</span><br><span class="line">        p = buf.find(pattern,p+<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">patch_bytes(start,buf)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Done&quot;</span>) </span><br></pre></td></tr></table></figure></div>
 
-<p>去常见花指令</p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> idc</span><br><span class="line"><span class="keyword">import</span> ida_bytes</span><br><span class="line"><span class="keyword">import</span> keystone</span><br><span class="line"><span class="keyword">import</span> capstone</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">set_x86</span>():</span><br><span class="line">    <span class="keyword">global</span> ks, cs</span><br><span class="line">    ks = keystone.Ks(keystone.KS_ARCH_X86, keystone.KS_MODE_32)</span><br><span class="line">    cs = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32)</span><br><span class="line"></span><br><span class="line">set_x86()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">asm</span>(<span class="params">code, addr=<span class="number">0</span></span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">bytes</span>(ks.asm(code, addr)[<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">disasm</span>(<span class="params">code, addr=<span class="number">0</span></span>):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> cs.disasm(code, addr):</span><br><span class="line">        <span class="keyword">return</span> (<span class="string">&#x27;%s %s&#x27;</span> %(i.mnemonic, i.op_str))</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">MakeCode</span>(<span class="params">ea</span>):</span><br><span class="line">    <span class="keyword">return</span> idc.create_insn(ea)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">disasm_at</span>(<span class="params">addr</span>):</span><br><span class="line">    size = MakeCode(addr)</span><br><span class="line">    code = idc.get_bytes(addr, size)</span><br><span class="line">    <span class="keyword">return</span> addr + size, disasm(code, addr)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">disasm_block</span>(<span class="params">start, end</span>):</span><br><span class="line">    codes = []</span><br><span class="line">    addr = start</span><br><span class="line">    <span class="keyword">while</span> addr &lt; end:</span><br><span class="line">        _addr, code = disasm_at(addr)</span><br><span class="line">        codes.append((addr, code))</span><br><span class="line">        addr = _addr</span><br><span class="line">    <span class="keyword">return</span> codes</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">addr = <span class="number">0x4010b0</span></span><br><span class="line">end = <span class="number">0x402e41</span></span><br><span class="line"><span class="keyword">while</span> addr &lt; end:</span><br><span class="line">    ida_bytes.del_items(addr, <span class="number">0</span>, <span class="number">10</span>)</span><br><span class="line">    size = MakeCode(addr)</span><br><span class="line">    <span class="keyword">assert</span> size, <span class="built_in">hex</span>(addr)</span><br><span class="line">    <span class="keyword">if</span> size == <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">if</span> ida_bytes.get_bytes(addr, <span class="number">3</span>) == <span class="string">b&#x27;\xf9\x72\x01&#x27;</span>: <span class="comment"># stc; jb $+3</span></span><br><span class="line">            ida_bytes.patch_bytes(addr, <span class="string">b&#x27;\x90&#x27;</span> * <span class="number">4</span>)</span><br><span class="line">        <span class="keyword">elif</span> ida_bytes.get_bytes(addr, <span class="number">3</span>) == <span class="string">b&#x27;\xf8\x73\x01&#x27;</span>: <span class="comment"># clc; jnb $+3</span></span><br><span class="line">            ida_bytes.patch_bytes(addr, <span class="string">b&#x27;\x90&#x27;</span> * <span class="number">4</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            addr += size</span><br><span class="line">    <span class="keyword">elif</span> size == <span class="number">2</span> <span class="keyword">and</span> ida_bytes.get_bytes(addr, <span class="number">2</span>) == <span class="string">b&#x27;\xeb\x01&#x27;</span>: <span class="comment"># jmp $+3</span></span><br><span class="line">        ida_bytes.patch_bytes(addr, <span class="string">b&#x27;\x90&#x27;</span> * <span class="number">3</span>)</span><br><span class="line">    <span class="keyword">elif</span> size == <span class="number">5</span>:</span><br><span class="line">        <span class="keyword">if</span> ida_bytes.get_bytes(addr, <span class="number">10</span>) == <span class="string">b&#x27;\xe8\x00\x00\x00\x00\x83\x04\x24\x06\xc3&#x27;</span>: <span class="comment"># call $+5; add dword ptr [esp], 6; ret</span></span><br><span class="line">            ida_bytes.patch_bytes(addr, <span class="string">b&#x27;\x90&#x27;</span> * <span class="number">11</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            addr += size</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        addr += size</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Done.&#x27;</span>)</span><br></pre></td></tr></table></figure></div>
-
-
-
-<ol>
-<li>定义了一个名为f的函数，用于执行二进制搜索并对匹配的位置进行nop</li>
-</ol>
-<ul>
-<li><ul>
-<li>begin_addr是搜索开始的地址。</li>
-<li>end_addr是搜索结束的地址。</li>
-<li>hexStr是用于搜索的十六进制模式字符串（用空格分开，其中??表示通配符，注意不可以使用诸如2?这样的情况）</li>
-</ul>
-</li>
-</ul>
-<ol>
-<li>接着，将hexStr转换为两个字节数组：bMask和bPattern。bMask是用于表示可变字节的，其中00表示需要匹配的字节，01表示不需要匹配的字节；bPattern则是用于搜索的固定字节序列</li>
-<li>定义了一个signs变量，用于指定搜索的标志位，其中BIN_SEARCH_FORWARD表示向前搜索，BIN_SEARCH_NOBREAK表示不允许搜索中途中断，BIN_SEARCH_NOSHOW表示不显示搜索结果</li>
-<li>接着使用ida_bytes.bin_search函数进行二进制搜索，从begin_addr到end_addr之间搜索bPattern，其中可变字节由bMask指定。搜索到匹配的位置后，将其打印出来，并调用patch函数对其进行补丁操作</li>
-<li>最后更新begin_addr为下一个搜索的起始地址，通常为当前匹配位置加上一个偏移量</li>
-</ol>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ida_bytes</span><br><span class="line"><span class="keyword">import</span> ida_ida</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">patch</span>(<span class="params">ea,num=<span class="number">1</span></span>):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(num):</span><br><span class="line">        ida_bytes.patch_byte(ea+i,<span class="number">0x90</span>)</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">f</span>(<span class="params">begin_addr,end_addr,hexStr</span>)</span><br><span class="line">  xx=(<span class="built_in">len</span>(hexStr)-<span class="number">1</span>)//<span class="number">2</span></span><br><span class="line">    bMask = <span class="built_in">bytes</span>.fromhex(hexStr.replace(<span class="string">&#x27;00&#x27;</span>, <span class="string">&#x27;01&#x27;</span>).replace(<span class="string">&#x27;??&#x27;</span>, <span class="string">&#x27;00&#x27;</span>))</span><br><span class="line">    bPattern = <span class="built_in">bytes</span>.fromhex(hexStr.replace(<span class="string">&#x27;??&#x27;</span>, <span class="string">&#x27;00&#x27;</span>))</span><br><span class="line">    signs=ida_bytes.BIN_SEARCH_FORWARD| ida_bytes.BIN_SEARCH_NOBREAK| ida_bytes.BIN_SEARCH_NOSHOW</span><br><span class="line">    <span class="keyword">while</span> begin_addr&lt;end_addr:</span><br><span class="line">        ea=ida_bytes.bin_search(begin_addr,end_addr,bPattern,bMask,<span class="number">1</span>,signs)</span><br><span class="line">        <span class="keyword">if</span> ea == ida_idaapi.BADADDR:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>: </span><br><span class="line">            <span class="built_in">print</span>(<span class="built_in">hex</span>(ea))</span><br><span class="line">            patch(ea,xx)</span><br><span class="line">            begin_addr=ea+xx </span><br><span class="line">f(<span class="number">0x0</span>,<span class="number">0x1000</span>,<span class="string">&quot;?? ?? 00 00 00 ??&quot;</span>)</span><br></pre></td></tr></table></figure></div>
-
-<img  
+<h4 id="jmp花指令"><a href="#jmp花指令" class="headerlink" title="jmp花指令"></a>jmp花指令</h4><img  
                      lazyload
                      src="/images/loading.svg"
                      data-src="/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1721562043136-2bd5e634-32dd-4a02-a83a-f8e6e7115c7e-173184166708853.png"
                       class="" title="img"
                 >
 
-<p>分析main()函数可以看到是杂乱的字节，观察0x1144可以发现，存在着jmp db1这种类型的花指令，因此可以写一个idapython脚本来解决</p>
+<p>分析main函数可以看到是杂乱字节，观察0x1144可以发现存在jmp db这种类型的花指令，因此可以写idapython脚本来解决</p>
 <div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ida_bytes</span><br><span class="line"><span class="keyword">import</span> ida_ida</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">patch</span>(<span class="params">ea,num=<span class="number">1</span></span>):</span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(num):</span><br><span class="line">    ida_bytes.patch_byte(ea+i,<span class="number">0x90</span>)</span><br><span class="line">  <span class="keyword">return</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;-----&quot;</span>)</span><br><span class="line">hexStr=<span class="string">&quot;EB FF C0 BF ?? 00 00 00 E8&quot;</span></span><br><span class="line">bMask = <span class="built_in">bytes</span>.fromhex(hexStr.replace(<span class="string">&#x27;00&#x27;</span>, <span class="string">&#x27;01&#x27;</span>).replace(<span class="string">&#x27;??&#x27;</span>, <span class="string">&#x27;00&#x27;</span>))</span><br><span class="line">bPattern = <span class="built_in">bytes</span>.fromhex(hexStr.replace(<span class="string">&#x27;??&#x27;</span>, <span class="string">&#x27;00&#x27;</span>))</span><br><span class="line">signs=ida_bytes.BIN_SEARCH_FORWARD| ida_bytes.BIN_SEARCH_NOBREAK| ida_bytes.BIN_SEARCH_NOSHOW</span><br><span class="line"><span class="built_in">print</span>(bMask,bPattern)</span><br><span class="line">begin_addr=<span class="number">0x1135</span></span><br><span class="line">end_addr=<span class="number">0x3100</span></span><br><span class="line"><span class="keyword">while</span> begin_addr&lt;end_addr:</span><br><span class="line">  ea=ida_bytes.bin_search(begin_addr,end_addr,bPattern,bMask,<span class="number">1</span>,signs)</span><br><span class="line">  <span class="keyword">if</span> ea == ida_idaapi.BADADDR:</span><br><span class="line">    <span class="keyword">break</span></span><br><span class="line">  <span class="keyword">else</span>: </span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">hex</span>(ea))</span><br><span class="line">    patch(ea,<span class="number">3</span>)</span><br><span class="line">    begin_addr=ea+<span class="number">8</span></span><br></pre></td></tr></table></figure></div>
 
-<h3 id="pyc去花指令"><a href="#pyc去花指令" class="headerlink" title="pyc去花指令"></a>pyc去花指令</h3><div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">脚本读取机器码+010删掉花指令+修改co_code长度</span><br></pre></td></tr></table></figure></div>
 
-<p>花指令通常开头是JUMP_ABSOLUTE X，然后填充错误代码</p>
-<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> marshal, dis</span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&quot;D:\\new\\AD\\game\\vnctf2022\\re\\BabyMaze.pyc&quot;</span>, <span class="string">&quot;rb&quot;</span>).read()</span><br><span class="line">code = marshal.loads(f[<span class="number">16</span>:]) <span class="comment">#这边从16位开始取因为是python3 python2从8位开始取</span></span><br><span class="line">dis.dis(code)</span><br><span class="line">dis.dis(code)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">len</span>(code.co_code))</span><br></pre></td></tr></table></figure></div>
 
-<img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1700738761596-0e59581e-b49e-4165-82c2-582914cabe90-173184166708855.png"
-                      class="" title="img"
-                >
-
-<p>转为十六进制后去010editor修改，去掉即可，这里JUMP_ABSOLUTE16进制为71</p>
-<img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1700738995690-98510c80-1424-448e-b824-e2a26248c12f-173184166708857.png"
-                      class="" title="img"
-                >
-
-<img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1700739054715-46fb1e74-1aa1-4380-a6d4-75db5236e992-173184166708859.png"
-                      class="" title="img"
-                >
-
-<img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1700739191513-de253465-6cc9-4a7a-b634-9d64e2a4f19a-173184166708861.png"
-                      class="" title="img"
-                >
-
-<img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/2024/10/22/%E8%8A%B1%E6%8C%87%E4%BB%A4/1700739265623-36862cfa-dd7f-487e-8619-d168e782330b-173184166708863.png"
-                      class="" title="img"
-                >
-
-<p>之后重新反编译即可</p>
 <p>参考链接：</p>
 <p><a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/m0_51246873/article/details/127167749" >https://blog.csdn.net/m0_51246873/article/details/127167749<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 <p><a class="link"   target="_blank" rel="noopener" href="https://www.cnblogs.com/YenKoc/p/14136012.html" >https://www.cnblogs.com/YenKoc/p/14136012.html<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 <p><a class="link"   target="_blank" rel="noopener" href="https://www.xjx100.cn/news/40167.html?action=onClick" >https://www.xjx100.cn/news/40167.html?action=onClick<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 <p><a class="link"   target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/MUth1Qw-Fl2a5OrLw_2_0g" >https://mp.weixin.qq.com/s/MUth1Qw-Fl2a5OrLw_2_0g<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>[<a class="link"   target="_blank" rel="noopener" href="https://skyi23.github.io/2024/11/11/IDA%20Python%20%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/]" >https://skyi23.github.io/2024/11/11/IDA%20Python%20%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/]<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>(<a class="link"   target="_blank" rel="noopener" href="https://skyi23.github.io/2024/11/11/IDA" >https://skyi23.github.io/2024/11/11/IDA<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> Python 使用总结&#x2F;)</p>
 
 		</div>
 
@@ -894,14 +813,14 @@
 		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
 			<div class="article-copyright-info-container">
     <ul>
-        <li><strong>标题:</strong> 花指令</li>
+        <li><strong>标题:</strong> 花指令总结</li>
         <li><strong>作者:</strong> j1ya</li>
         <li><strong>创建于
                 :</strong> 2024-10-22 11:36:26</li>
         
             <li>
                 <strong>更新于
-                    :</strong> 2026-06-02 09:54:20
+                    :</strong> 2026-08-26 18:37:43
             </li>
         
         <li>
@@ -1029,8 +948,8 @@
 		<div class="post-toc-wrap">
 	<div class="post-toc">
 		<div class="toc-title">目录</div>
-		<div class="page-title">花指令</div>
-		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E6%8C%87%E4%BB%A4"><span class="nav-text">常见指令</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E8%A7%84%E7%B1%BB%E5%9E%8B"><span class="nav-text">常规类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%AE%80%E5%8D%95jmp"><span class="nav-text">1.简单jmp</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-jx-jnx%EF%BC%88x%E5%8F%AF%E4%B8%BAe-z-l%EF%BC%89"><span class="nav-text">2.jx+jnx（x可为e,z,l）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-call-add-esp%EF%BC%8C4%E6%88%96call-add-esp-n-retn"><span class="nav-text">3.call +add esp，4或call + add [esp], n + retn</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-jmp-XXX%EF%BC%88%E7%BA%A2%E8%89%B2%EF%BC%89"><span class="nav-text">4.jmp XXX（红色）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-stx-jx"><span class="nav-text">5.stx&#x2F;jx</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%9B%E6%84%8F"><span class="nav-text">创意</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%9B%BF%E6%8D%A2ret%E6%8C%87%E4%BB%A4"><span class="nav-text">1.替换ret指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%8E%A7%E5%88%B6%E6%A0%87%E5%BF%97%E5%AF%84%E5%AD%98%E5%99%A8%E8%B7%B3%E8%BD%AC"><span class="nav-text">2.控制标志寄存器跳转</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%88%A9%E7%94%A8%E5%87%BD%E6%95%B0%E8%BF%94%E5%9B%9E%E7%A1%AE%E5%AE%9A%E5%80%BC"><span class="nav-text">3.利用函数返回确定值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E9%92%88%E5%AF%B9%E5%8F%8D%E7%BC%96%E8%AF%91"><span class="nav-text">4.针对反编译</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%8E%BB%E9%99%A4%E8%8A%B1%E6%8C%87%E4%BB%A4"><span class="nav-text">如何去除花指令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#nop%E5%8D%95%E5%AD%97%E8%8A%82-E8"><span class="nav-text">nop单字节(E8)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nop%E8%B7%A8%E8%B6%8A%E6%B1%87%E7%BC%96%E6%8C%87%E4%BB%A4"><span class="nav-text">nop跨越汇编指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nop%E9%83%A8%E5%88%86%E6%B1%87%E7%BC%96"><span class="nav-text">nop部分汇编</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B9%E6%8D%AE%E6%B1%87%E7%BC%96%E6%8C%87%E4%BB%A4"><span class="nav-text">根据汇编指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E8%87%AA%E5%8A%A8%E5%8E%BB%E8%8A%B1"><span class="nav-text">代码自动去花</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pyc%E5%8E%BB%E8%8A%B1%E6%8C%87%E4%BB%A4"><span class="nav-text">pyc去花指令</span></a></li></ol></li></ol></li></ol>
+		<div class="page-title">花指令总结</div>
+		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E6%8C%87%E4%BB%A4"><span class="nav-text">常见指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="nav-text">快捷键</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E8%A7%84%E7%B1%BB%E5%9E%8B"><span class="nav-text">常规类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-jx-jnx%EF%BC%88x%E5%8F%AF%E4%B8%BAe-z-l%EF%BC%89"><span class="nav-text">1.jx+jnx（x可为e,z,l）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-call-add-esp-n-retn"><span class="nav-text">2.call + add [esp], n + retn</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-jmp-XXX"><span class="nav-text">3.jmp XXX</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-stx-jx"><span class="nav-text">4.stx+jx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E5%B9%B2%E6%89%B0%E6%A0%88%E5%88%86%E6%9E%90"><span class="nav-text">5.干扰栈分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-XOR%E5%8A%A0%E5%AF%86%E4%BB%A3%E7%A0%81%E5%AD%97%E8%8A%82"><span class="nav-text">6.XOR加密代码字节</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%8E%BB%E9%99%A4"><span class="nav-text">如何去除</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#nop%E5%8D%95%E5%AD%97%E8%8A%82-E8-E9"><span class="nav-text">nop单字节(E8&#x2F;E9)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nop%E5%A4%9A%E4%BD%99%E6%B1%87%E7%BC%96"><span class="nav-text">nop多余汇编</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nop%E9%83%A8%E5%88%86%E8%BF%9E%E7%BB%AD%E6%B1%87%E7%BC%96"><span class="nav-text">nop部分连续汇编</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E8%87%AA%E5%8A%A8%E5%8E%BB%E8%8A%B1"><span class="nav-text">代码自动去花</span></a></li></ol></li></ol></li></ol>
 
 	</div>
 </div>
