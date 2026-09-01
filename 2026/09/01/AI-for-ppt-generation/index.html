@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    
+    <meta name="author" content="j1ya">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://j1ya-22.github.io/2026/09/01/ai-for-ppt-generation/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI for ppt generation">
+<meta property="og:url" content="https://j1ya-22.github.io/2026/09/01/AI-for-ppt-generation/index.html">
+<meta property="og:site_name" content="j1ya">
+<meta property="og:description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://j1ya-22.github.io/images/redefine-og.webp">
+<meta property="article:published_time" content="2026-09-01T05:43:01.000Z">
+<meta property="article:modified_time" content="2026-09-01T05:47:39.334Z">
+<meta property="article:author" content="j1ya">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://j1ya-22.github.io/images/redefine-og.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/img/China.jpg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/China.jpg">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/img/China.jpg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            AI for ppt generation | j1ya&#39;s blog
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"j1ya-22.github.io","root":"/","language":"zh-CN"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":"Hexo Theme Redefine, Redefine Your Hexo Journey."},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"<span style=\"display:none\"></span>","subtitle":{"text":["There is only one heroism in the world:<br>to see the world as it is, and to love it."],"hitokoto":{"enable":false,"show_author":false,"api":"https://v1.hitokoto.cn"},"typing_speed":80,"backing_speed":80,"starting_delay":500,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.4rem","subtitle_size":"2.35rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"style":"default","links":[{"icon":"fa-brands fa-github","url":null},{"icon":"fa-brands fa-twitter","url":null},{"icon":"fa-solid fa-at","url":"you@example.com"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Archives":{"path":"/archives/","icon":"fa-regular fa-archive"},"Categories":{"path":"/categories/","icon":"fa-regular fa-folder"},"Tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"About":{"icon":"fa-regular fa-user","path":"/about/"},"Friends":{"path":"/links/","icon":"fa-solid fa-link"}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":null},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-heart fa-beat\" style=\"--fa-animation-duration: 0.5s; color: #f54545\"></i>","start":"2022/8/17 11:45:14","statistics":true,"customize":null,"icp":{"enable":false,"number":null,"url":null}},"footerStart":"2022/8/17 11:45:14","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.i18n = {"search":"站内搜索您需要的内容...","toc":"目录","prev":"上一页","next":"下一页","prev_posts":"上一篇","next_posts":"下一篇","page":"第 %d 页","recent_posts":"最新文章","share":"分享","powered_by":"由 %s 驱动","theme":"主题","rss_feed":"RSS Feed","category":"分类","categories":"分类","tag":"标签","tags":"标签","post":"文章","posts":"文章","tagcloud":"标签云","comment":"评论","comments":"评论","top":"置顶","sticky":"置顶","go-back-home":"回到首页","masonry_loading":"照片加载中...","image_viewer":"图片查看器","close":"关闭","exif":{"title":"EXIF","cards":{"camera":"相机","lens":"镜头","exposure":"曝光","other":"其他"},"fields":{"make":"品牌","model":"机型","date_taken":"拍摄时间","lens_model":"镜头","focal_length":"焦距","focus_mode":"对焦模式","shutter":"快门","aperture":"光圈","iso":"感光度","exposure_program":"曝光程序","exposure_compensation":"曝光补偿","metering_mode":"测光模式","flash":"闪光灯","white_balance":"白平衡","latitude":"纬度","longitude":"经度","altitude":"海拔"},"status":{"loading":"加载中...","no_exif":"无 EXIF 信息","library_missing":"EXIF 库未加载","image_source_missing":"图片地址不可用","unavailable":"EXIF 不可用（可能被 CORS 阻止或缺少元数据）","flag_unavailable":"EXIF 不可用"}},"home":"首页","archive":"归档","archives":"归档","about":"关于","links":"链接","link":"链接","friends":"友情链接","friend":"友情链接","timeline":"时间轴","shuoshuo":"说说","bookmarks":"书签","site_uv":"访问人数","site_pv":"总访问量","read_more":"阅读全文","wordcount":"字","min2read":"分钟","changelog":"更新日志","status":"状态","runtime":"博客已运行","days":"天","hours":"小时","minutes":"分钟","seconds":"秒","optimized_by":"并由 Evan 进行优化","rights":"版权所有","site_posts":"共撰写了 %s 篇文章","site_wordcount":"共 %s 字","copyright":{"title":"标题","author":"作者","link":"链接","create_time":"创建于","update_time":"更新于","license_title":"版权声明","license_content":"本文章采用 %s 进行许可。","all_rights_reserved":"版权所有 &#169 %s，禁止转载。","public_domain":"本文为公有领域作品，可自由转载、引用。"},"ago":{"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"},"create_time":"创建","update_time":"更新","expired":"这篇文章最后更新于 %s 天前，内容可能已经过时。"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                j1ya&#39;s blog
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/archives/"
+                                        >
+                                    <i class="fa-regular fa-archive fa-fw"></i>
+                                    归档
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/categories/"
+                                        >
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    分类
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/tags/"
+                                        >
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    标签
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/about/"
+                                        >
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/links/"
+                                        >
+                                    <i class="fa-solid fa-link fa-fw"></i>
+                                    友情链接
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/archives/"
+                        >
+                            <span>
+                                归档
+                            </span>
+                            
+                                <i class="fa-regular fa-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/categories/"
+                        >
+                            <span>
+                                分类
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/tags/"
+                        >
+                            <span>
+                                标签
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/about/"
+                        >
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/links/"
+                        >
+                            <span>
+                                友情链接
+                            </span>
+                            
+                                <i class="fa-solid fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">53</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">5</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">84</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			<div class="w-full flex items-center pt-6 justify-start">
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">AI for ppt generation</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/img/China.jpg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">j1ya</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv5</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-09-01 13:43:01</span>
+        <span class="mobile">2026-09-01 13:43:01</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2026-09-01 13:47:39</span>
+            <span class="mobile">2026-09-01 13:47:39</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<p>下面是主要测评的五个方式，前两个是skii，后三个是在线网站。综合下来ppt-master效果较好，其他几个供参考</p>
+<h1 id="ppt-master"><a href="#ppt-master" class="headerlink" title="ppt-master"></a>ppt-master</h1><p><a class="link"   target="_blank" rel="noopener" href="https://github.com/hugohe3/ppt-master" >https://github.com/hugohe3/ppt-master<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>Agent先完成 PPT 的结构规划与视觉设计，再基于 SVG 组件化渲染和自动布局生成可编辑 PPTX，从而实现从文档到高质量演示稿的自动化制作</p>
+<p>gpt生成提示词+codex，下面是每一轮的prompt</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br></pre></td><td class="code"><pre><span class="line">你现在位于项目目录：</span><br><span class="line"></span><br><span class="line">E:\ppt-master</span><br><span class="line"></span><br><span class="line">我要使用 ppt-master 项目，根据本科毕业论文 PDF 生成一套可编辑的毕业答辩 PPTX。</span><br><span class="line"></span><br><span class="line">输入文件路径：</span><br><span class="line"></span><br><span class="line">E:\ppt-master\projects\graduation_thesis\毕业论文.pdf</span><br><span class="line"></span><br><span class="line">重要：请不要立刻生成 PPT。请先完成“项目理解与环境检查”阶段。</span><br><span class="line"></span><br><span class="line">第一阶段：阅读项目与确认工作流</span><br><span class="line"></span><br><span class="line">请先完整阅读并理解本项目的使用方式，包括但不限于：</span><br><span class="line"></span><br><span class="line">- README.md</span><br><span class="line">- README.zh-CN.md，如果存在</span><br><span class="line">- docs/ 目录</span><br><span class="line">- examples/ 目录</span><br><span class="line">- templates/ 目录</span><br><span class="line">- skills/ 目录，如果存在</span><br><span class="line">- scripts/ 目录</span><br><span class="line">- requirements.txt</span><br><span class="line">- pyproject.toml / package.json / uv.lock / poetry.lock，如果存在</span><br><span class="line">- .env.example / config 示例文件，如果存在</span><br><span class="line">- Windows 安装说明，如果存在</span><br><span class="line"></span><br><span class="line">请重点确认以下问题：</span><br><span class="line"></span><br><span class="line">1. ppt-master 的推荐生成流程是什么。</span><br><span class="line">2. 如何从 PDF 生成原生可编辑 PPTX。</span><br><span class="line">3. 是否需要先创建项目目录、素材目录、输出目录。</span><br><span class="line">4. 是否需要 API key、模型 provider、环境变量或配置文件。</span><br><span class="line">5. 是否需要安装 Python 依赖。</span><br><span class="line">6. Windows + conda 环境下推荐如何安装。</span><br><span class="line">7. 输出 PPTX 默认保存在哪里。</span><br><span class="line">8. 是否支持模板、主题、版式或 design spec。</span><br><span class="line">9. 是否需要先生成中间文件，例如 markdown、outline、spec、json、svg 等。</span><br><span class="line">10. 是否有官方推荐命令或示例命令。</span><br><span class="line"></span><br><span class="line">完成第一阶段后，请先输出：</span><br><span class="line"></span><br><span class="line">- 你读到了哪些关键文件</span><br><span class="line">- 本项目推荐的生成流程</span><br><span class="line">- 当前环境还缺什么</span><br><span class="line">- 需要我补充哪些 API key 或配置</span><br><span class="line">- 下一步准备执行哪些命令</span><br><span class="line"></span><br><span class="line">在我确认之前，不要生成 PPTX。</span><br><span class="line">我已经创建并安装好了 conda 虚拟环境：</span><br><span class="line"></span><br><span class="line">ppt-master</span><br><span class="line"></span><br><span class="line">当前项目目录：</span><br><span class="line"></span><br><span class="line">E:\ppt-master</span><br><span class="line"></span><br><span class="line">输入论文文件：</span><br><span class="line"></span><br><span class="line">E:\ppt-master\projects\graduation_thesis\毕业论文.pdf</span><br><span class="line"></span><br><span class="line">请继续执行 ppt-master 正式流程的前置阶段。</span><br><span class="line"></span><br><span class="line">重要：必须使用 conda 虚拟环境 ppt-master，不要使用系统 Python。</span><br><span class="line"></span><br><span class="line">请优先使用下面这种方式执行 Python 命令：</span><br><span class="line"></span><br><span class="line">conda run -n ppt-master python ...</span><br><span class="line"></span><br><span class="line">如果你需要进入环境，可以先执行：</span><br><span class="line"></span><br><span class="line">conda activate ppt-master</span><br><span class="line"></span><br><span class="line">但所有关键命令都必须确认使用的是 ppt-master 环境中的 Python。</span><br><span class="line"></span><br><span class="line">本阶段不要生成 PPTX。</span><br><span class="line">本阶段不要生成 SVG 页面。</span><br><span class="line">本阶段不要进入 Executor 逐页制作阶段。</span><br><span class="line">本阶段只完成：</span><br><span class="line"></span><br><span class="line">环境验证 → PDF 转 Markdown → 创建项目 → 导入 sources → 生成 Strategist 八项确认草案</span><br><span class="line"></span><br><span class="line">完成 Strategist 八项确认草案后必须停止，等待我确认。</span><br><span class="line"></span><br><span class="line">一、环境验证</span><br><span class="line"></span><br><span class="line">请先确认 conda 环境是否可用：</span><br><span class="line"></span><br><span class="line">conda env list</span><br><span class="line"></span><br><span class="line">然后确认 ppt-master 环境中的 Python 路径和版本：</span><br><span class="line"></span><br><span class="line">conda run -n ppt-master where python</span><br><span class="line"></span><br><span class="line">conda run -n ppt-master python --version</span><br><span class="line"></span><br><span class="line">注意：</span><br><span class="line">不要直接运行 python --version，除非你已经确认当前 shell 确实激活了 ppt-master 环境。</span><br><span class="line"></span><br><span class="line">然后验证关键依赖是否可用：</span><br><span class="line"></span><br><span class="line">conda run -n ppt-master python -c &quot;import pptx; import fitz; import svglib; import reportlab; import mammoth; import markdownify; import ebooklib; import openpyxl; import curl_cffi; import openai; import google.genai; print(&#x27;All core dependencies OK&#x27;)&quot;</span><br><span class="line"></span><br><span class="line">如果依赖检查失败，请说明缺少什么并修复。</span><br><span class="line">如果检查通过，继续下一步。</span><br><span class="line"></span><br><span class="line">二、备份原始 PDF</span><br><span class="line"></span><br><span class="line">请确认论文文件存在：</span><br><span class="line"></span><br><span class="line">E:\ppt-master\projects\graduation_thesis\毕业论文.pdf</span><br><span class="line"></span><br><span class="line">因为 ppt-master 官方流程可能会把 sources 移动到项目目录中，为避免原始 PDF 丢失，请先创建备份目录：</span><br><span class="line"></span><br><span class="line">E:\ppt-master\projects\graduation_thesis\backup_original</span><br><span class="line"></span><br><span class="line">并复制一份原始 PDF 到：</span><br><span class="line"></span><br><span class="line">E:\ppt-master\projects\graduation_thesis\backup_original\毕业论文.pdf</span><br><span class="line"></span><br><span class="line">不要删除原始 PDF。</span><br><span class="line"></span><br><span class="line">三、PDF 转 Markdown</span><br><span class="line"></span><br><span class="line">请使用 ppt-master 官方脚本将 PDF 转成 Markdown。</span><br><span class="line"></span><br><span class="line">请先查看脚本帮助，确认参数：</span><br><span class="line"></span><br><span class="line">conda run -n ppt-master python skills\ppt-master\scripts\source_to_md\pdf_to_md.py --help</span><br><span class="line"></span><br><span class="line">然后将：</span><br><span class="line"></span><br><span class="line">E:\ppt-master\projects\graduation_thesis\毕业论文.pdf</span><br><span class="line"></span><br><span class="line">转换为 Markdown。</span><br><span class="line"></span><br><span class="line">请使用 conda 环境执行，例如：</span><br><span class="line"></span><br><span class="line">conda run -n ppt-master python skills\ppt-master\scripts\source_to_md\pdf_to_md.py projects\graduation_thesis\毕业论文.pdf</span><br><span class="line"></span><br><span class="line">如果脚本默认生成 Markdown，请记录生成路径。</span><br><span class="line">如果需要指定输出路径，请输出到：</span><br><span class="line"></span><br><span class="line">E:\ppt-master\projects\graduation_thesis\毕业论文.md</span><br><span class="line"></span><br><span class="line">转换完成后，请检查 Markdown 是否存在，并简单检查是否包含论文题目、章节标题、实验表格或关键内容。</span><br><span class="line"></span><br><span class="line">四、创建 ppt-master 项目</span><br><span class="line"></span><br><span class="line">请按照 ppt-master 官方流程创建新项目。</span><br><span class="line"></span><br><span class="line">项目名：</span><br><span class="line"></span><br><span class="line">graduation_thesis_defense</span><br><span class="line"></span><br><span class="line">页面格式：</span><br><span class="line"></span><br><span class="line">ppt169</span><br><span class="line"></span><br><span class="line">参考命令：</span><br><span class="line"></span><br><span class="line">conda run -n ppt-master python skills\ppt-master\scripts\project_manager.py init graduation_thesis_defense --format ppt169</span><br><span class="line"></span><br><span class="line">如果项目已存在，不要覆盖，先告诉我现有项目路径，并选择安全处理方式，例如新建：</span><br><span class="line"></span><br><span class="line">graduation_thesis_defense_v2</span><br><span class="line"></span><br><span class="line">五、导入 sources</span><br><span class="line"></span><br><span class="line">请将以下文件导入新项目 sources：</span><br><span class="line"></span><br><span class="line">1. 原始 PDF：</span><br><span class="line">E:\ppt-master\projects\graduation_thesis\毕业论文.pdf</span><br><span class="line"></span><br><span class="line">2. 转换后的 Markdown：</span><br><span class="line">E:\ppt-master\projects\graduation_thesis\毕业论文.md</span><br><span class="line"></span><br><span class="line">如果官方流程要求 import-sources --move，可以使用，但必须确认原始 PDF 已经在 backup_original 中备份。</span><br><span class="line"></span><br><span class="line">所有相关命令都必须使用：</span><br><span class="line"></span><br><span class="line">conda run -n ppt-master python ...</span><br><span class="line"></span><br><span class="line">导入完成后，请输出：</span><br><span class="line">- 新项目路径</span><br><span class="line">- sources 目录路径</span><br><span class="line">- sources 中包含哪些文件</span><br><span class="line"></span><br><span class="line">六、生成 Strategist 八项确认草案</span><br><span class="line"></span><br><span class="line">请基于论文 Markdown 和 PDF 内容，生成 Strategist 八项确认草案。</span><br><span class="line"></span><br><span class="line">本阶段只输出草案，不要生成 PPTX，不要生成 SVG。</span><br><span class="line"></span><br><span class="line">请按照下面要求设计毕业答辩 PPT。</span><br><span class="line"></span><br><span class="line">总体要求：</span><br><span class="line">论文答辩 PPT 共 18 页左右，大致分为四章：</span><br><span class="line"></span><br><span class="line">第一章：研究背景与目标</span><br><span class="line">第二章：相关技术与系统设计实现</span><br><span class="line">第三章：实验设计与结果分析</span><br><span class="line">第四章：总结与展望</span><br><span class="line"></span><br><span class="line">整体风格：</span><br><span class="line">- 简洁</span><br><span class="line">- 学术</span><br><span class="line">- 白底</span><br><span class="line">- 深蓝 / 蓝灰强调</span><br><span class="line">- 适合本科毕业答辩</span><br><span class="line">- 不要过度动画</span><br><span class="line">- 不要营销风</span><br><span class="line">- 不要花哨模板</span><br><span class="line">- 不要大段堆文字</span><br><span class="line"></span><br><span class="line">最终输出要求：</span><br><span class="line">- 可编辑 PPTX</span><br><span class="line">- 文字可编辑</span><br><span class="line">- 表格可编辑</span><br><span class="line">- 流程图可编辑</span><br><span class="line">- 架构图尽量用原生形状和箭头</span><br><span class="line">- 不要整页截图</span><br><span class="line">- 不要用图片代替主要内容</span><br><span class="line"></span><br><span class="line">七、请从论文中提取以下内容</span><br><span class="line"></span><br><span class="line">请读取并分析论文 Markdown / PDF，提取：</span><br><span class="line"></span><br><span class="line">- 论文题目</span><br><span class="line">- 学院、学号，如果论文中有</span><br><span class="line">- 研究背景</span><br><span class="line">- 研究意义</span><br><span class="line">- 国内外研究现状</span><br><span class="line">- 研究目标</span><br><span class="line">- 主要工作</span><br><span class="line">- 相关技术基础</span><br><span class="line">- 系统架构，特别是 Planner、Executor、Reflector 的关系</span><br><span class="line">- 因果图推理</span><br><span class="line">- MCP</span><br><span class="line">- RAG</span><br><span class="line">- Pwn 化改造</span><br><span class="line">- Skill 模块</span><br><span class="line">- 任务分解与执行流程</span><br><span class="line">- 基座模型性能对比实验</span><br><span class="line">- 评估基准构建</span><br><span class="line">- Skill 模块消融实验设计</span><br><span class="line">- Skill 模块消融实验结果</span><br><span class="line">- Skill 模块消融实验分析</span><br><span class="line">- 具体案例分析</span><br><span class="line">- 总结</span><br><span class="line">- 展望</span><br><span class="line"></span><br><span class="line">所有实验数据必须来自论文。</span><br><span class="line">如果论文中没有明确数据，不要编造，标注“待补充”或“论文未给出明确数据”。</span><br><span class="line"></span><br><span class="line">八、页面结构</span><br><span class="line"></span><br><span class="line">请按以下 18 页生成初步大纲和 Strategist 方案：</span><br><span class="line"></span><br><span class="line">P01 封面</span><br><span class="line">- 论文题目</span><br><span class="line">- 学号</span><br><span class="line">- 学院 / 专业</span><br><span class="line">- 日期</span><br><span class="line"></span><br><span class="line">P02 目录</span><br><span class="line">按四章展示：</span><br><span class="line">第一章：研究背景与目标</span><br><span class="line">第二章：相关技术与系统设计实现</span><br><span class="line">第三章：实验设计与结果分析</span><br><span class="line">第四章：总结与展望</span><br><span class="line"></span><br><span class="line">P03 研究意义</span><br><span class="line">说明为什么研究 LLM / Agent 辅助 Pwn 自动化利用有意义。</span><br><span class="line"></span><br><span class="line">P04 国内外研究现状</span><br><span class="line">梳理传统 AEG、LLM for Pwn、Agent 化自动利用等方向。</span><br><span class="line"></span><br><span class="line">P05 研究目标与主要工作</span><br><span class="line">展示本文研究目标和主要工作。</span><br><span class="line"></span><br><span class="line">P06 系统架构总览</span><br><span class="line">必须包含系统架构图。</span><br><span class="line">架构图必须体现 Planner、Executor、Reflector 三者关系：</span><br><span class="line">- Planner：任务理解、规划、子任务分解</span><br><span class="line">- Executor：工具调用、执行利用、环境交互</span><br><span class="line">- Reflector：结果检查、失败分析、反馈修正</span><br><span class="line"></span><br><span class="line">架构图还应体现：</span><br><span class="line">- 用户输入</span><br><span class="line">- 最终结果输出</span><br><span class="line"></span><br><span class="line">P06 不需要体现 RAG 等其他技术。</span><br><span class="line"></span><br><span class="line">架构图关系必须清楚：</span><br><span class="line">用户输入 → Planner → Executor → Reflector → 最终结果输出</span><br><span class="line">Reflector → Planner 表示反馈修正与重规划。</span><br><span class="line"></span><br><span class="line">优先自己绘制清晰架构图。</span><br><span class="line">如果论文中已有更准确的架构图，可以参考其结构，但不要直接整页截图。</span><br><span class="line"></span><br><span class="line">P07 关键技术模块：因果图推理 / MCP / RAG</span><br><span class="line">用三栏结构展示：</span><br><span class="line">- 模块作用</span><br><span class="line">- 输入</span><br><span class="line">- 输出</span><br><span class="line">- 对系统的贡献</span><br><span class="line"></span><br><span class="line">P08 Pwn 化改造</span><br><span class="line">展示从通用 Agent 到 Pwn 任务 Agent 的适配过程。</span><br><span class="line">建议使用流程图或前后对比图。</span><br><span class="line"></span><br><span class="line">P09 Skill 模块介绍</span><br><span class="line">只介绍 Skill 模块：</span><br><span class="line">- 主要字段</span><br><span class="line">- 输入输出</span><br><span class="line">- 和 RAG 关系</span><br><span class="line"></span><br><span class="line">注意：这一页不要写实验数据。</span><br><span class="line">实验数据放到 P14。</span><br><span class="line"></span><br><span class="line">P10 任务分解与执行流程</span><br><span class="line">主要介绍四个 subtask。</span><br><span class="line"></span><br><span class="line">P11 基座模型性能对比实验</span><br><span class="line">使用论文中的真实实验数据。</span><br><span class="line">建议用表格或柱状图。</span><br><span class="line"></span><br><span class="line">P12 评估基准构建</span><br><span class="line">展示：</span><br><span class="line">- benchmark 来源</span><br><span class="line">- 题目类型</span><br><span class="line">- 难度划分</span><br><span class="line"></span><br><span class="line">P13 Skill 模块消融实验设计</span><br><span class="line">展示：</span><br><span class="line">- 变量设置</span><br><span class="line">- 评价指标</span><br><span class="line">- 实验流程</span><br><span class="line"></span><br><span class="line">P14 Skill 模块消融实验结果</span><br><span class="line">必须尽量列出论文中的详细数据。</span><br><span class="line">建议使用表格 + 关键结论。</span><br><span class="line">不要只写定性结论。</span><br><span class="line"></span><br><span class="line">P15 Skill 模块贡献与局限性分析</span><br><span class="line">展示：</span><br><span class="line">- Skill 模块带来的贡献，对成功率、效率的影响</span><br><span class="line">- 当前局限性及部分失败原因</span><br><span class="line"></span><br><span class="line">P16 具体案例分析</span><br><span class="line">选择论文中的案例。</span><br><span class="line">建议结构：</span><br><span class="line">问题输入 → 任务拆解 → 推理 / 工具调用 → 结果输出 → 案例结论</span><br><span class="line"></span><br><span class="line">P17 总结</span><br><span class="line">总结：</span><br><span class="line">- 本文主要工作</span><br><span class="line">- 不足</span><br><span class="line"></span><br><span class="line">P18 展望</span><br><span class="line">写未来工作：</span><br><span class="line">- 优化任务调度的动态性</span><br><span class="line">- 更完善 benchmark</span><br><span class="line">- 更完善 Skill 模块</span><br><span class="line"></span><br><span class="line">九、排版要求</span><br><span class="line"></span><br><span class="line">页面比例：</span><br><span class="line">- 16:9</span><br><span class="line"></span><br><span class="line">字体与风格：</span><br><span class="line">- 中文优先使用 Microsoft YaHei / Noto Sans SC</span><br><span class="line">- 英文点缀可用 serif italic</span><br><span class="line">- 主色：深蓝 / 蓝灰</span><br><span class="line">- 背景：白色或极浅灰</span><br><span class="line">- 风格简洁、正式、学术</span><br><span class="line"></span><br><span class="line">页面要求：</span><br><span class="line">- 每页有统一页眉、页脚、页码</span><br><span class="line">- 每页标题清晰</span><br><span class="line">- 每页不要堆文字</span><br><span class="line">- 每张卡片最多 3 条 bullet</span><br><span class="line">- 每条 bullet 尽量不超过 18 个汉字</span><br><span class="line">- 优先使用图表、流程图、架构图、对比表、指标卡</span><br><span class="line">- 禁止文字重叠</span><br><span class="line">- 禁止卡片覆盖副标题</span><br><span class="line">- 禁止元素越界</span><br><span class="line">- 禁止大段论文原文直接复制</span><br><span class="line"></span><br><span class="line">十、重点页面设计</span><br><span class="line"></span><br><span class="line">P06 系统架构：</span><br><span class="line">- Planner、Executor、Reflector 必须清晰</span><br><span class="line">- 箭头关系清楚</span><br><span class="line">- 体现反馈闭环</span><br><span class="line">- 不要复杂到看不清</span><br><span class="line">- 尽量使用 PPT 原生形状和箭头，保证可编辑</span><br><span class="line"></span><br><span class="line">P09 Skill 模块：</span><br><span class="line">- 不写实验数据</span><br><span class="line">- 只讲设计与作用</span><br><span class="line"></span><br><span class="line">P14 消融实验结果：</span><br><span class="line">- 尽量列详细数据</span><br><span class="line">- 数据必须来自论文</span><br><span class="line">- 使用可编辑表格</span><br><span class="line">- 给出 1-2 条简短结论</span><br><span class="line"></span><br><span class="line">十一、本阶段最终输出</span><br><span class="line"></span><br><span class="line">完成后请只输出以下内容：</span><br><span class="line"></span><br><span class="line">1. 当前 conda 环境名称。</span><br><span class="line">2. conda 环境中的 Python 路径和版本。</span><br><span class="line">3. 核心依赖检查结果。</span><br><span class="line">4. PDF 是否成功转为 Markdown。</span><br><span class="line">5. Markdown 文件路径。</span><br><span class="line">6. 新项目路径。</span><br><span class="line">7. sources 是否导入成功。</span><br><span class="line">8. Strategist 八项确认草案。</span><br><span class="line">9. 18 页初步大纲，每页包含：</span><br><span class="line">   - 页码</span><br><span class="line">   - 页面标题</span><br><span class="line">   - 核心内容</span><br><span class="line">   - 推荐可视化形式</span><br><span class="line">   - 是否需要论文数据</span><br><span class="line">10. 已从论文中找到的实验数据清单。</span><br><span class="line">11. 待补充或论文未明确给出的内容。</span><br><span class="line">12. 下一阶段你准备如何生成 design_spec.md 和 spec_lock.md。</span><br><span class="line"></span><br><span class="line">重要：</span><br><span class="line">本阶段完成后必须停止，等待我确认 Strategist 八项内容。</span><br><span class="line">不要生成 PPTX。</span><br><span class="line">不要生成 SVG。</span><br><span class="line">不要进入 Executor 阶段。</span><br><span class="line">我确认进入下一阶段。</span><br><span class="line"></span><br><span class="line">请基于当前项目：</span><br><span class="line"></span><br><span class="line">graduation_thesis_defense_ppt169_20260517</span><br><span class="line"></span><br><span class="line">生成 Strategist 正式产物：</span><br><span class="line"></span><br><span class="line">1. design_spec.md</span><br><span class="line">2. spec_lock.md</span><br><span class="line"></span><br><span class="line">要求：</span><br><span class="line">- 使用刚才确认的 18 页结构。</span><br><span class="line">- 保持白底、深蓝/蓝灰、简洁学术风格。</span><br><span class="line">- 严格锁定页面尺寸、字体、配色、页眉页脚、标题层级、表格样式、图表样式。</span><br><span class="line">- 明确每页布局、核心内容、可视化形式、数据来源。</span><br><span class="line">- P06 必须锁定为可编辑系统架构图：</span><br><span class="line">  用户输入 → Planner → Executor → Reflector → 最终结果输出</span><br><span class="line">  Reflector → Planner 表示反馈修正与重规划。</span><br><span class="line">- P09 不写实验数据。</span><br><span class="line">- P14 必须使用论文表3.4、表3.5的详细数据。</span><br><span class="line">- 不使用 AI 生图，不使用网络图片，不使用整页截图。</span><br><span class="line">- 所有图表、流程图、架构图尽量转为可编辑 PPT 元素。</span><br><span class="line">- 所有实验数据必须来自论文，不允许编造。</span><br><span class="line">- 学院、作者、指导教师等未提取到的信息标注“待补充”。</span><br><span class="line"></span><br><span class="line">生成 design_spec.md 和 spec_lock.md 后请停止。</span><br><span class="line">不要生成 SVG。</span><br><span class="line">不要生成 PPTX。</span><br><span class="line">不要进入 Executor 阶段。</span><br><span class="line"></span><br><span class="line">完成后请输出：</span><br><span class="line">1. design_spec.md 路径</span><br><span class="line">2. spec_lock.md 路径</span><br><span class="line">3. 18 页设计摘要</span><br><span class="line">4. 哪些页面使用论文数据</span><br><span class="line">5. 哪些内容仍待补充</span><br><span class="line">6. 下一阶段 Executor 准备如何逐页生成 SVG</span><br></pre></td></tr></table></figure></div>
+
+<p>生成svg之后可以查看，如果有不合适的可以让codex修改特定svg，直到图表基本符合要求，再生成svg</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/09/01/AI-for-ppt-generation/1779200957626-5f1cd255-947e-4b26-803e-1a6cbaf4f7c3.png"
+                      class="" title="img"
+                >
+
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/09/01/AI-for-ppt-generation/1779200974717-3ce32da4-f9a1-4a62-9c5b-b90f3c5311bb.png"
+                      class="" title="img"
+                >
+
+<p>deepseek-v4+claude code 1h效果如下，由于deepseek不支持多模态，无法识别导出的ppt是否美观</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/09/01/AI-for-ppt-generation/1778929645021-a7f3bfb6-5486-4871-8e6a-e91854ca5e2d.png"
+                      class="" title="img"
+                >
+
+<h1 id="html-ppt-skill"><a href="#html-ppt-skill" class="headerlink" title="html-ppt-skill"></a>html-ppt-skill</h1><p><a class="link"   target="_blank" rel="noopener" href="https://github.com/lewislulu/html-ppt-skill" >https://github.com/lewislulu/html-ppt-skill<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>html格式没问题</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/09/01/AI-for-ppt-generation/1778939908823-2b7a919c-24d4-4199-b4dd-ae56766d821a.png"
+                      class="" title="img"
+                >
+
+<p>直接导出ppt格式会不美观</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/09/01/AI-for-ppt-generation/1778939930209-d573fe1b-eca5-494f-9c96-fab79b253c3a.png"
+                      class="" title="img"
+                >
+
+<p>用python-pptx转换也不太行</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line">我已经确认 HTML 版本可以作为初版视觉稿。现在不要把 HTML 直接转换成 PPTX，也不要截图放进 PPT。</span><br><span class="line"></span><br><span class="line">请基于已确认的 HTML：</span><br><span class="line">E:\html-ppt-skill\projects\graduation_thesis\html-deck\index.html</span><br><span class="line"></span><br><span class="line">重新绘制一份可编辑 PPTX：</span><br><span class="line">E:\html-ppt-skill\projects\graduation_thesis\pptx-output\本科毕业论文答辩.pptx</span><br><span class="line"></span><br><span class="line">要求：</span><br><span class="line">1. 使用 python-pptx 生成 PPTX。</span><br><span class="line">2. HTML 只作为视觉参考和内容来源。</span><br><span class="line">3. PPTX 必须用原生 PowerPoint 元素重绘：</span><br><span class="line">   - 标题：文本框</span><br><span class="line">   - 正文：文本框</span><br><span class="line">   - 卡片：圆角矩形</span><br><span class="line">   - 表格：PPT 表格</span><br><span class="line">   - 架构图：形状 + 箭头</span><br><span class="line">   - 流程图：形状 + 连接线</span><br><span class="line">   - 图表：PPT 图表或可编辑形状</span><br><span class="line">4. 禁止 HTML 自动转 PPTX。</span><br><span class="line">5. 禁止整页截图。</span><br><span class="line">6. 禁止用图片代替表格、架构图、流程图。</span><br><span class="line">7. 页面数量保持 18 页。</span><br><span class="line">8. 内容、标题、页序、章节结构与 HTML 一致。</span><br><span class="line">9. 视觉风格尽量复现 HTML：白底、深蓝、蓝灰、学术、简洁。</span><br><span class="line">10. 优先保证 PPTX 无重叠、无溢出、可编辑，不要求逐像素一致。</span><br><span class="line"></span><br><span class="line">请先分析 HTML 中每页的结构，提取：</span><br><span class="line">- 页标题</span><br><span class="line">- 英文 eyebrow</span><br><span class="line">- 页眉</span><br><span class="line">- 页脚页码</span><br><span class="line">- 卡片布局</span><br><span class="line">- 表格内容</span><br><span class="line">- 架构图/流程图结构</span><br><span class="line">- 关键数据</span><br><span class="line"></span><br><span class="line">然后编写：</span><br><span class="line">E:\html-ppt-skill\projects\graduation_thesis\scripts\generate_pptx.py</span><br><span class="line"></span><br><span class="line">并生成：</span><br><span class="line">E:\html-ppt-skill\projects\graduation_thesis\pptx-output\本科毕业论文答辩.pptx</span><br><span class="line"></span><br><span class="line">PPTX 统一规则：</span><br><span class="line">- 16:9，13.333 × 7.5 inch</span><br><span class="line">- 中文字体：Microsoft YaHei</span><br><span class="line">- 标题：28-32 pt</span><br><span class="line">- 正文：15-18 pt</span><br><span class="line">- 正文最低 14 pt</span><br><span class="line">- 页眉页脚：9-10 pt</span><br><span class="line">- 每页统一边距</span><br><span class="line">- 不允许文字重叠</span><br><span class="line">- 不允许元素越界</span><br><span class="line">- 不允许卡片覆盖标题或副标题</span><br><span class="line"></span><br><span class="line">请实现统一绘图函数：</span><br><span class="line">- add_header()</span><br><span class="line">- add_footer()</span><br><span class="line">- add_title()</span><br><span class="line">- add_card()</span><br><span class="line">- add_bullets()</span><br><span class="line">- add_table()</span><br><span class="line">- add_process_flow()</span><br><span class="line">- add_architecture_diagram()</span><br><span class="line">- check_layout_overlap()</span><br><span class="line"></span><br><span class="line">重点页面：</span><br><span class="line">- P06 系统架构图必须用 PPT 原生形状重绘，包含 Planner、Executor、Reflector、最终输出和 Reflector → Planner 的重规划箭头。</span><br><span class="line">- P11、P12、P14 表格必须用 PPT 原生表格，表头居中，数字列居中。</span><br><span class="line">- P16 案例分析必须用箭头或编号体现顺序。</span><br><span class="line"></span><br><span class="line">生成后自动检查：</span><br><span class="line">1. 是否 18 页。</span><br><span class="line">2. 是否每页有标题。</span><br><span class="line">3. 是否存在文本重叠。</span><br><span class="line">4. 是否存在元素越界。</span><br><span class="line">5. 是否正文小于 14 pt。</span><br><span class="line">6. 是否使用整页截图。</span><br><span class="line">7. P06 架构图是否可编辑。</span><br><span class="line">8. P11、P12、P14 表格是否可编辑。</span><br><span class="line"></span><br><span class="line">如果检查失败，请自动修复后重新生成。</span><br><span class="line"></span><br><span class="line">完成后输出：</span><br><span class="line">- PPTX 文件路径</span><br><span class="line">- generate_pptx.py 路径</span><br><span class="line">- 如何重新运行脚本</span><br><span class="line">- 哪些页面可能需要人工微调</span><br></pre></td></tr></table></figure></div>
+
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/09/01/AI-for-ppt-generation/1779202175610-bd739b32-5fa2-4f0f-aa56-34988520ce6f.png"
+                      class="" title="img"
+                >
+
+<h1 id="gamma"><a href="#gamma" class="headerlink" title="gamma"></a>gamma</h1><p>free版10张上限，生成速度快，可以咸鱼开个会员生成更多ppt</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/09/01/AI-for-ppt-generation/1778922484236-f1c431ab-ac71-4da4-bdd7-3296dfb74102.png"
+                      class="" title="img"
+                >
+
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/09/01/AI-for-ppt-generation/1779201447502-ddc5c1a4-a0ef-4ff0-b5b2-936a1ed92be9.png"
+                      class="" title="img"
+                >
+
+
+
+<h1 id="百度文库"><a href="#百度文库" class="headerlink" title="百度文库"></a>百度文库</h1><p>2r&#x2F;7day会员</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/09/01/AI-for-ppt-generation/1778935670695-108ae44c-91f0-4e98-b214-41765bda7bae.png"
+                      class="" title="img"
+                >
+
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/09/01/AI-for-ppt-generation/1778935485451-c575657c-1973-4d27-beb6-8e502e51c511.png"
+                      class="" title="img"
+                >
+
+<p>会有一些和项目完全无关的图</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/09/01/AI-for-ppt-generation/1779201093203-628be4ca-37db-4a00-86dd-68956a6534d7.png"
+                      class="" title="img"
+                >
+
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/09/01/AI-for-ppt-generation/1779201174445-2fb8d1ff-3400-44fa-9d53-4de4d43496cc.png"
+                      class="" title="img"
+                >
+
+
+
+<h1 id="notebooklm"><a href="#notebooklm" class="headerlink" title="notebooklm"></a>notebooklm</h1><p>最终生成的是图片，可以修改后应用，但整体风格没达到要求</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/09/01/AI-for-ppt-generation/1779201272754-3b68b11b-e751-4db0-9a84-8223cab7ddee.png"
+                      class="" title="img"
+                >
+
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2026/09/01/AI-for-ppt-generation/1779002256773-5d1c0230-0f4b-43ed-a3f1-44ca5584119f.png"
+                      class="" title="img"
+                >
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> AI for ppt generation</li>
+        <li><strong>作者:</strong> j1ya</li>
+        <li><strong>创建于
+                :</strong> 2026-09-01 13:43:01</li>
+        
+            <li>
+                <strong>更新于
+                    :</strong> 2026-09-01 13:47:39
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://redefine.ohevan.com/2026/09/01/AI-for-ppt-generation/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+
+            
+                本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a> 进行许可。
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+
+		
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/08/17/CTF%E9%80%80%E5%BD%B9%E8%AE%B0%E5%BD%95/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">CTF退役记录</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.js';
+
+      (function() {
+        const startPath = location.pathname;
+        const startTime = Date.now();
+        const retryDelay = 200;
+        const retryLimit = 5000;
+
+        const runWaline = () => {
+          if (location.pathname !== startPath) {
+            return;
+          }
+
+          const container = document.getElementById('waline');
+          if (!container) {
+            if (Date.now() - startTime < retryLimit) {
+              setTimeout(runWaline, retryDelay);
+            }
+            return;
+          }
+
+          if (window.redefineWalineInstance?.destroy) {
+            window.redefineWalineInstance.destroy();
+          }
+
+          container.innerHTML = '';
+          window.redefineWalineInstance = init({
+            el: '#waline',
+            serverURL: 'https://example.example.com',
+            path: location.pathname,
+            dark: 'body[class~="dark-mode"]',
+            reaction: false,
+            requiredMeta: ['nick', 'mail'],
+            emoji: [],
+                      lang: 'zh-CN',
+          });
+        };
+
+        runWaline();
+      })();
+    </script>
+
+
+
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">AI for ppt generation</div>
+		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ppt-master"><span class="nav-text">ppt-master</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#html-ppt-skill"><span class="nav-text">html-ppt-skill</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#gamma"><span class="nav-text">gamma</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%99%BE%E5%BA%A6%E6%96%87%E5%BA%93"><span class="nav-text">百度文库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#notebooklm"><span class="nav-text">notebooklm</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">j1ya</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 84 篇文章
+                    </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="图片查看器">
+	<button class="image-viewer-close" type="button" aria-label="关闭">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="上一页">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="关闭">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="下一页">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+
+	
+</body>
+
+</html>
