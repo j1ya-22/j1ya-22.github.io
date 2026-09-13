@@ -558,86 +558,6 @@
                 
                 <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
                     <h3 class="home-article-title">
-                        <a href="/2024/05/21/CISCN2024%E5%88%9D%E8%B5%9BReverse%E9%83%A8%E5%88%86wp/">
-                            CISCN2024初赛Reverse部分wp
-                        </a>
-                    </h3>
-
-                    <div class="home-article-content markdown-body">
-                        
-                            
-                            Reverseasm_retxt找到密文
-
-
-找到关键逻辑，*0x50 +0x14 ^0x4d +0x1e后面还有一段
-
-
-也可以问一下gpt得到流程
-12345678910111213141516171819202122#include &lt;stdio.h&gt;#include &lt;string.h&gt;void main() &#123;    char src[] = &q...
-                        
-                    </div>
-
-                    <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Tue May 21 2024 15:16:27 GMT+0800">
-                
-                    2024-05-21
-                
-            </span>
-        </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
-            <ul>
-                
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/%E6%AF%94%E8%B5%9Bwp/">比赛wp</a>&nbsp;
-                        </li>
-                    
-                    
-                
-            </ul>
-        </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/%E4%BC%AA%E9%9A%8F%E6%9C%BA%E6%95%B0/">伪随机数</a>&nbsp;
-                        </li>
-                    
-                        <li>
-                            | 
-                            <a href="/tags/frida/">frida</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2024/05/21/CISCN2024%E5%88%9D%E8%B5%9BReverse%E9%83%A8%E5%88%86wp/">阅读全文<span class="seo-reader-text">CISCN2024初赛Reverse部分wp</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
-                    <h3 class="home-article-title">
                         <a href="/2024/05/15/C%E7%9B%98%E6%89%A9%E5%AE%B9/">
                             C盘扩容
                         </a>
@@ -1386,6 +1306,69 @@ vuln函数反编译不了，问题不大
     </div>
 
     <a href="/2024/02/01/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E5%AD%98%E5%9C%A8%E4%BD%86%E4%BB%8D%E6%9C%89FileNotFoundError/">阅读全文<span class="seo-reader-text">二进制文件存在但仍有FileNotFoundError</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+</div>
+
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                
+
+                
+                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
+                    <h3 class="home-article-title">
+                        <a href="/2024/01/26/%E4%BB%A5%E4%B8%80%E9%81%93pwn%E9%A2%98%E5%AD%A6%E4%B9%A0%E5%A6%82%E4%BD%95%E5%8A%A8%E8%B0%83/">
+                            以一道pwn题学习如何动调
+                        </a>
+                    </h3>
+
+                    <div class="home-article-content markdown-body">
+                        
+                            
+                            这是0xGame的week2的一道pwn题，题目本身不难，有一个疑问，刚好借此巩固了一下pwn的动调，希望可以有所收获
+目标：去看dword_40e0改变后的值
+
+
+一开始是2，memset赋值为0
+
+
+查看内存注意不要加*
+因为是小端序，红色框起来的部分是shopping_cart[0]
+
+
+看基址
+
+
+加偏移后得到真实地址
+在两次scanf之间下断点
+
+
+
+
+有断点所以会停下来
+
+
+单步...
+                        
+                    </div>
+
+                    <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fa-solid fa-calendars"></i>&nbsp;
+            <span class="home-article-date" data-date="Fri Jan 26 2024 15:23:58 GMT+0800">
+                
+                    2024-01-26
+                
+            </span>
+        </span>
+        
+        
+    </div>
+
+    <a href="/2024/01/26/%E4%BB%A5%E4%B8%80%E9%81%93pwn%E9%A2%98%E5%AD%A6%E4%B9%A0%E5%A6%82%E4%BD%95%E5%8A%A8%E8%B0%83/">阅读全文<span class="seo-reader-text">以一道pwn题学习如何动调</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
 </div>
 
                 </div>
