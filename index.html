@@ -540,7 +540,7 @@
         <div class="label text-third-text-color text-sm">分类</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">84</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">85</div>
         <div class="label text-third-text-color text-sm">文章</div>
     </a>
 </div>
@@ -580,7 +580,7 @@
         <div class="label text-third-text-color text-sm">分类</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">84</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">85</div>
         <div class="label text-third-text-color text-sm">文章</div>
     </a>
 </div>
@@ -595,6 +595,64 @@
 			<div class="main-content">
 				<div class="home-content-container">
     <ul class="home-article-list">
+        
+            <li class="home-article-item">
+
+                
+
+                
+
+                
+                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
+                    <h3 class="home-article-title">
+                        <a href="/2026/09/13/DASCTF2023%E4%BA%8C%E8%BF%9B%E5%88%B6%E4%B8%93%E9%A1%B9Reverse%E5%A4%8D%E7%8E%B0/">
+                            DASCTF2023二进制专项Reverse复现
+                        </a>
+                    </h3>
+
+                    <div class="home-article-content markdown-body">
+                        
+                            
+                            Reversecareful一开始直接逆向得到第一个字符串
+
+
+
+
+交叉引用发现另一个域名，且在dasctf之后
+
+
+下断点步入gethostbyname之后也确实能看到
+实际上存在内联hook，hook这个API函数以修改传入的参数，然后调用真正的API
+
+
+
+
+babyreflag输入由参数argv传递，后面读取名称为cod的资源
+
+
+用 resource hacker 把资源复制下来
+...
+                        
+                    </div>
+
+                    <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fa-solid fa-calendars"></i>&nbsp;
+            <span class="home-article-date" data-date="Sun Sep 13 2026 21:40:17 GMT+0800">
+                
+                    2026-09-13
+                
+            </span>
+        </span>
+        
+        
+    </div>
+
+    <a href="/2026/09/13/DASCTF2023%E4%BA%8C%E8%BF%9B%E5%88%B6%E4%B8%93%E9%A1%B9Reverse%E5%A4%8D%E7%8E%B0/">阅读全文<span class="seo-reader-text">DASCTF2023二进制专项Reverse复现</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+</div>
+
+                </div>
+            </li>
         
             <li class="home-article-item">
 
@@ -1181,78 +1239,6 @@ https://www.yuque.com/cyberangel/rg9gdm/aooqgb
                 </div>
             </li>
         
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
-                    <h3 class="home-article-title">
-                        <a href="/2025/12/17/VM%E7%B1%BB%E5%9E%8B%E9%A2%98%E7%9B%AE%E6%95%B4%E7%90%86/">
-                            VM类型题目整理
-                        </a>
-                    </h3>
-
-                    <div class="home-article-content markdown-body">
-                        
-                            
-                            逆向中的VM类型题目是一种基于虚拟机的代码保护技术，它将可执行代码转换为字节码指令系统的代码，一种是自定义的虚拟机，另一种是模拟tea等常见算法，来达到不被轻易逆向的目的，实现原理是将程序的代码转换自定义的操作码(opcode)，然后在程序执行时再通过解释这些操作码，选择对应的函数执行，从而实现程序原有的功能
-下面用&amp;和~两种运算表示其他基础运算
-
-
-直接还原opcode给了opco...
-                        
-                    </div>
-
-                    <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Wed Dec 17 2025 10:47:04 GMT+0800">
-                
-                    2025-12-17
-                
-            </span>
-        </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
-            <ul>
-                
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/%E7%9F%A5%E8%AF%86%E7%82%B9/">知识点</a>&nbsp;
-                        </li>
-                    
-                    
-                
-            </ul>
-        </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/VM/">VM</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2025/12/17/VM%E7%B1%BB%E5%9E%8B%E9%A2%98%E7%9B%AE%E6%95%B4%E7%90%86/">阅读全文<span class="seo-reader-text">VM类型题目整理</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-                </div>
-            </li>
-        
     </ul>
 
     <div class="home-paginator px-7 py-5">
@@ -1283,7 +1269,7 @@ https://www.yuque.com/cyberangel/rg9gdm/aooqgb
                 
                 <p class="post-count space-x-0.5">
                     <span>
-                        共撰写了 84 篇文章
+                        共撰写了 85 篇文章
                     </span>
                     
                 </p>
