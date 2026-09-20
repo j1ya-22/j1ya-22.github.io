@@ -94,7 +94,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://j1ya-22.github.io/images/redefine-og.webp">
 <meta property="article:published_time" content="2023-07-12T15:27:54.000Z">
-<meta property="article:modified_time" content="2026-09-20T15:33:25.543Z">
+<meta property="article:modified_time" content="2026-09-20T15:38:21.491Z">
 <meta property="article:author" content="j1ya">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://j1ya-22.github.io/images/redefine-og.webp">
@@ -511,8 +511,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2026-09-20 23:33:25</span>
-            <span class="mobile">2026-09-20 23:33:25</span>
+            <span class="desktop">2026-09-20 23:38:21</span>
+            <span class="mobile">2026-09-20 23:38:21</span>
             <span class="hover-info">更新</span>
         </span>
     
@@ -542,12 +542,13 @@
 			<h1 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h1><h2 id="ezCache"><a href="#ezCache" class="headerlink" title="ezCache"></a>ezCache</h2><p>恢复原来的文件：vim -r .flag.swp</p>
 <p>将swp文件保存：write .&#x2F;flag.txt</p>
 <p>swp文件在kali桌面上不可见，直接运行即可，可得到高度修改后的二维码</p>
-<p><img  
+<img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="https://cdn.nlark.com/yuque/0/2023/png/35612767/1688977909259-75c6d913-54d2-4d6c-ab62-dbf181cf5ffc.png"
-                      alt="img"
-                ></p>
+                     data-src="/2023/07/12/2023%E6%A2%A6%E6%83%B3%E5%87%8C%E6%AD%A6%E6%9D%AF%E9%83%A8%E5%88%86wp/1688977909259-75c6d913-54d2-4d6c-ab62-dbf181cf5ffc.png"
+                      class="" title="img"
+                >
+
 <p>截图后用excel手搓，得到一串字符:7&#x3D;28L9_(0E@0#64@GbC0uC_|0G:&gt;N</p>
 <p>猜测是ascii偏移，每一位+47，得到：flag{h0W_to_Recov3r_Fr0M_vim}</p>
 <h2 id="ezSteganography"><a href="#ezSteganography" class="headerlink" title="ezSteganography"></a>ezSteganography</h2><p>加密脚本</p>
@@ -561,81 +562,94 @@
 
 <p>最后1684392270对应的图片是张二维码，扫描后得到：flag{a_Cut3_r4nd0m_c4t}</p>
 <h2 id="ezQRcode"><a href="#ezQRcode" class="headerlink" title="ezQRcode"></a>ezQRcode</h2><p>二维码需要缩放，旋转，同时碎片之间存在重复区域</p>
-<p><img  
+<img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="https://cdn.nlark.com/yuque/0/2026/png/35612767/1789914476511-9576e385-0e91-4bec-ac5e-f5b5e79c7f8f.png"
-                      alt="img"
-                ></p>
+                     data-src="/2023/07/12/2023%E6%A2%A6%E6%83%B3%E5%87%8C%E6%AD%A6%E6%9D%AF%E9%83%A8%E5%88%86wp/1789914476511-9576e385-0e91-4bec-ac5e-f5b5e79c7f8f.png"
+                      class="" title="img"
+                >
+
 <p>断网环境纯手搓，Flag{Y0u_d1D_tHe_J06_welL}</p>
-<p><img  
+<img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="https://cdn.nlark.com/yuque/0/2026/png/35612767/1789914589932-26bd42e5-720b-46e8-9c90-d2ffaf571a3c.png"
-                      alt="img"
-                ></p>
+                     data-src="/2023/07/12/2023%E6%A2%A6%E6%83%B3%E5%87%8C%E6%AD%A6%E6%9D%AF%E9%83%A8%E5%88%86wp/1789914589932-26bd42e5-720b-46e8-9c90-d2ffaf571a3c.png"
+                      class="" title="img"
+                >
+
 <h1 id="Reverse"><a href="#Reverse" class="headerlink" title="Reverse"></a>Reverse</h1><h2 id="base64"><a href="#base64" class="headerlink" title="base64"></a>base64</h2><p>输入v7经过1180函数处理</p>
-<p><img  
+<img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="https://cdn.nlark.com/yuque/0/2026/png/35612767/1789875029207-0c88fe4e-3192-4c4a-97b4-e7a02c0f67db.png"
-                      alt="img"
-                ></p>
+                     data-src="/2023/07/12/2023%E6%A2%A6%E6%83%B3%E5%87%8C%E6%AD%A6%E6%9D%AF%E9%83%A8%E5%88%86wp/1789875029207-0c88fe4e-3192-4c4a-97b4-e7a02c0f67db.png"
+                      class="" title="img"
+                >
+
 <p>发现是变表base64</p>
-<p><img  
+<img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="https://cdn.nlark.com/yuque/0/2026/png/35612767/1789875016960-e1abdfbd-fde2-4e0f-8244-45cb251b2a93.png"
-                      alt="img"
-                ></p>
+                     data-src="/2023/07/12/2023%E6%A2%A6%E6%83%B3%E5%87%8C%E6%AD%A6%E6%9D%AF%E9%83%A8%E5%88%86wp/1789875016960-e1abdfbd-fde2-4e0f-8244-45cb251b2a93.png"
+                      class="" title="img"
+                >
+
 <p>密文</p>
-<p><img  
+<img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="https://cdn.nlark.com/yuque/0/2026/png/35612767/1789875081547-495e43aa-ff42-430f-86be-ba4d87ce1f76.png"
-                      alt="img"
-                ></p>
-<p><img  
+                     data-src="/2023/07/12/2023%E6%A2%A6%E6%83%B3%E5%87%8C%E6%AD%A6%E6%9D%AF%E9%83%A8%E5%88%86wp/1789875081547-495e43aa-ff42-430f-86be-ba4d87ce1f76.png"
+                      class="" title="img"
+                >
+
+<img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="https://cdn.nlark.com/yuque/0/2025/png/35612767/1766056183332-720d737a-d728-4c52-9814-f00b85b04a54.png"
-                      alt="img"
-                ></p>
+                     data-src="/2023/07/12/2023%E6%A2%A6%E6%83%B3%E5%87%8C%E6%AD%A6%E6%9D%AF%E9%83%A8%E5%88%86wp/1766056183332-720d737a-d728-4c52-9814-f00b85b04a54.png"
+                      class="" title="img"
+                >
+
+
+
 <h2 id="flower-tea"><a href="#flower-tea" class="headerlink" title="flower_tea"></a>flower_tea</h2><p>先将前两个字节改为MZ然后脱壳</p>
-<p><img  
+<img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="https://cdn.nlark.com/yuque/0/2023/png/35612767/1689040510741-2a0b9fcd-dc65-4900-915d-720517d794a2.png"
-                      alt="img"
-                ></p>
+                     data-src="/2023/07/12/2023%E6%A2%A6%E6%83%B3%E5%87%8C%E6%AD%A6%E6%9D%AF%E9%83%A8%E5%88%86wp/1689040510741-2a0b9fcd-dc65-4900-915d-720517d794a2.png"
+                      class="" title="img"
+                >
+
 <p>题目提示flower说明有花指令</p>
 <p>有call函数调用花指令，全部nop</p>
-<p><img  
+<img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="https://cdn.nlark.com/yuque/0/2023/png/26918076/1688832992845-dc3216df-b044-4b15-8e3f-c46c5273d912.png"
-                      alt="img"
-                ></p>
+                     data-src="/2023/07/12/2023%E6%A2%A6%E6%83%B3%E5%87%8C%E6%AD%A6%E6%9D%AF%E9%83%A8%E5%88%86wp/1688832992845-dc3216df-b044-4b15-8e3f-c46c5273d912.png"
+                      class="" title="img"
+                >
+
 <p>之后删除红色的函数 ，再在汇编界面函数入口处按p创建函数</p>
-<p><img  
+<img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="https://cdn.nlark.com/yuque/0/2023/png/35612767/1689064008937-148956d6-efcd-4cf5-8ce2-9fed2c731c41.png"
-                      alt="img"
-                ></p>
-<p><img  
+                     data-src="/2023/07/12/2023%E6%A2%A6%E6%83%B3%E5%87%8C%E6%AD%A6%E6%9D%AF%E9%83%A8%E5%88%86wp/1689064008937-148956d6-efcd-4cf5-8ce2-9fed2c731c41.png"
+                      class="" title="img"
+                >
+
+<img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="https://cdn.nlark.com/yuque/0/2023/png/26918076/1688833122637-8b1d432f-808c-4481-b031-853aaec51002.png"
-                      alt="img"
-                ></p>
+                     data-src="/2023/07/12/2023%E6%A2%A6%E6%83%B3%E5%87%8C%E6%AD%A6%E6%9D%AF%E9%83%A8%E5%88%86wp/1688833122637-8b1d432f-808c-4481-b031-853aaec51002.png"
+                      class="" title="img"
+                >
+
 <p>跟进加密函数，发现是tea，delta为0x21524111，key为v4数组</p>
-<p><img  
+<img  
                      lazyload
                      src="/images/loading.svg"
-                     data-src="https://cdn.nlark.com/yuque/0/2023/png/26918076/1688837382737-d2ea83fd-9697-4826-a453-1d6011d8aab5.png"
-                      alt="img"
-                ></p>
+                     data-src="/2023/07/12/2023%E6%A2%A6%E6%83%B3%E5%87%8C%E6%AD%A6%E6%9D%AF%E9%83%A8%E5%88%86wp/1688837382737-d2ea83fd-9697-4826-a453-1d6011d8aab5.png"
+                      class="" title="img"
+                >
+
 <p>直接写脚本逆向</p>
 <div class="code-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="type">void</span> <span class="title function_">decrypt</span><span class="params">(<span class="type">uint32_t</span> v[<span class="number">2</span>], <span class="type">const</span> <span class="type">uint32_t</span> key[<span class="number">4</span>])</span> &#123;</span><br><span class="line">    <span class="type">uint32_t</span> v0 = v[<span class="number">0</span>], v1 = v[<span class="number">1</span>], delta = <span class="number">0x21524111</span>;</span><br><span class="line">    <span class="type">int32_t</span> sum=delta*(<span class="number">-32</span>); </span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">32</span>; i++) &#123;</span><br><span class="line">        v1 -= ((v0 &lt;&lt; <span class="number">4</span>) + key[<span class="number">2</span>]) ^ (v0 + sum) ^ ((v0 &gt;&gt; <span class="number">5</span>) + key[<span class="number">3</span>]);</span><br><span class="line">        v0 -= ((v1 &lt;&lt; <span class="number">4</span>) + key[<span class="number">0</span>]) ^ (v1 + sum) ^ ((v1 &gt;&gt; <span class="number">5</span>) + key[<span class="number">1</span>]);</span><br><span class="line">        sum += delta;</span><br><span class="line">    &#125;</span><br><span class="line">    v[<span class="number">0</span>] = v0;</span><br><span class="line">    v[<span class="number">1</span>] = v1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">uint32_t</span> key[<span class="number">4</span>] = &#123;<span class="number">0x1234</span>, <span class="number">0x2341</span>, <span class="number">0x3412</span>,<span class="number">0x4123</span>&#125;;</span><br><span class="line">    <span class="type">uint32_t</span> v5[<span class="number">8</span>] = &#123;<span class="number">0xb43ff72d</span>,<span class="number">0x13544b96</span>,<span class="number">0x261d123d</span>,<span class="number">0xf989615e</span>,<span class="number">0x8e27fbc1</span>,<span class="number">0x4846493b</span>,<span class="number">0xdc55c2f7</span>,<span class="number">0x4bb87956</span>&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">8</span>; i += <span class="number">2</span>) &#123;</span><br><span class="line">        decrypt(&amp;v5[i], key);</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">8</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> m = <span class="number">0</span>; m &lt;= <span class="number">3</span>; m++) &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%c&quot;</span>, (v5[i] &gt;&gt; (<span class="number">8</span> * m)) &amp; <span class="number">0xff</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//flag&#123;It_1s_4_nic3_Fl0wer_Tea!!!&#125;</span></span><br></pre></td></tr></table></figure></div>
 
@@ -664,7 +678,7 @@
         
             <li>
                 <strong>更新于
-                    :</strong> 2026-09-20 23:33:25
+                    :</strong> 2026-09-20 23:38:21
             </li>
         
         <li>
