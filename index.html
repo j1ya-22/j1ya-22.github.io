@@ -1082,11 +1082,23 @@ d&#x2F;i，有符号...
                     <div class="home-article-content markdown-body">
                         
                             
-                            最近几天把栈迁移的知识点重新整理了一下，下面是参考链接：
-https://www.bilibili.com/video/BV1np4y1d7pu/?spm_id_from=333.788.recommend_more_video.0
-https://www.yuque.com/cyberangel/rg9gdm/aooqgb
-简介目的：与输入函数搭配使用，实现任意地址写；变相增加溢出长度
-本...
+                            简介目的：与输入函数搭配使用，实现任意地址写；变相增加溢出长度
+本质：将rbp&#x2F;rsp迁移至其他地方的一种手段
+常用指令：leave;ret
+leave指令之前：
+
+
+mov rsp,rbp(mov rsp to rbp）
+
+
+pop rbp（把rsp指向的内容赋值给rbp）
+
+
+覆盖到rbp——任意地址写
+
+
+
+要使passwd和rbp-4是同一块内存，把rbp修改为passwd...
                         
                     </div>
 
