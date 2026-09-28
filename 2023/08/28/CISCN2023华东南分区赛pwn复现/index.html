@@ -78,7 +78,7 @@
     
     <!--- Seo Part-->
     
-    <link rel="canonical" href="https://j1ya-22.github.io/tags/堆溢出/"/>
+    <link rel="canonical" href="https://j1ya-22.github.io/2023/08/28/ciscn2023华东南分区赛pwn复现/"/>
     <meta name="robots" content="index,follow">
     <meta name="googlebot" content="index,follow">
     <meta name="revisit-after" content="1 days">
@@ -86,14 +86,17 @@
     
         
         <meta name="description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="j1ya">
-<meta property="og:url" content="https://j1ya-22.github.io/tags/%E5%A0%86%E6%BA%A2%E5%87%BA/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CISCN2023华东南分区赛pwn复现">
+<meta property="og:url" content="https://j1ya-22.github.io/2023/08/28/CISCN2023%E5%8D%8E%E4%B8%9C%E5%8D%97%E5%88%86%E5%8C%BA%E8%B5%9Bpwn%E5%A4%8D%E7%8E%B0/index.html">
 <meta property="og:site_name" content="j1ya">
 <meta property="og:description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://j1ya-22.github.io/images/redefine-og.webp">
+<meta property="article:published_time" content="2023-08-28T14:27:14.000Z">
+<meta property="article:modified_time" content="2026-09-28T14:33:54.640Z">
 <meta property="article:author" content="j1ya">
+<meta property="article:tag" content="awdp_pwn">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://j1ya-22.github.io/images/redefine-og.webp">
     
@@ -107,7 +110,7 @@
     
     <title>
         
-            标签: 堆溢出 | j1ya&#39;s blog
+            CISCN2023华东南分区赛pwn复现 | j1ya&#39;s blog
         
     </title>
 
@@ -280,7 +283,7 @@
 
                             <li class="navbar-item">
                                 <!-- Menu -->
-                                <a class="active"
+                                <a class=""
                                    href="/tags/"
                                         >
                                     <i class="fa-regular fa-tags fa-fw"></i>
@@ -408,7 +411,7 @@
 
                     <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
                         
-                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
                            href="/tags/"
                         >
                             <span>
@@ -470,7 +473,7 @@
 
         <div class="statistics flex justify-around my-2.5">
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">54</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">53</div>
         <div class="label text-third-text-color text-sm">标签</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
@@ -478,7 +481,7 @@
         <div class="label text-third-text-color text-sm">分类</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">85</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">86</div>
         <div class="label text-third-text-color text-sm">文章</div>
     </a>
 </div>
@@ -495,58 +498,372 @@
 			
 
 			<div class="main-content">
-				<div class="page-template-container">
-	
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
 
-	
-	<div class="tag-name">
-    <i class="fa-solid fa-tag"></i>&nbsp;堆溢出
-</div>
-<div class="tag-post-list">
+		<div class="article-title relative w-full">
+			
+			<div class="w-full flex items-center pt-6 justify-start">
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">CISCN2023华东南分区赛pwn复现</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/img/China.jpg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">j1ya</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv5</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-08-28 22:27:14</span>
+        <span class="mobile">2023-08-28 22:27:14</span>
+        <span class="hover-info">创建</span>
+    </span>
     
-<div class="archive-list-container">
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2026-09-28 22:33:54</span>
+            <span class="mobile">2026-09-28 22:33:54</span>
+            <span class="hover-info">更新</span>
+        </span>
     
-        <section class="archive-item mb-spacing-unit last:mb-0">
-            <div class="archive-item-header flex flex-row items-center mb-2">
-                <span class="archive-year font-semibold text-3xl mr-2">2024</span>
-                <span class="archive-year-post-count text-xs md:text-sm font-bold rounded-small bg-third-background-color py-[2px] px-[10px] border border-border-color">1</span>
-            </div>
-            
-            <ul class="article-list pl-0 md:pl-8 text-lg leading-[1.5]">
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
                 
                     
+                        
+                        <li>
+                            <a href="/categories/%E6%AF%94%E8%B5%9Bwp/">比赛wp</a>&nbsp;
+                        </li>
                     
-                         <!-- Close the previous LI if not the first item -->
-                        <li class="article-item space-y-2 px-6 pt-10 pb-2 text-xl relative border-l-2 border-border-color" date-is='12-17'>
-                    
-                    <a href="/2024/12/17/2024ciscn-ccb%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/" class="block w-fit">
-                        <span class="article-title my-0.5 text-2xl">2024ciscn&amp;ccb初赛部分wp</span>
-                    </a>
                     
                 
-                </li> <!-- Ensure the last item is properly closed -->
             </ul>
-        </section>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/awdp-pwn/">awdp_pwn</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
     
 </div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h1 id="login"><a href="#login" class="headerlink" title="login"></a>login</h1><p>第一次read会溢出</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2023/08/28/CISCN2023%E5%8D%8E%E4%B8%9C%E5%8D%97%E5%88%86%E5%8C%BA%E8%B5%9Bpwn%E5%A4%8D%E7%8E%B0/1712802939682-78406f8f-4fa2-4ff1-8c55-9e19eb7c72ce.png"
+                      class="" title="img"
+                >
+
+<p>将0x100改为0xf0</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2023/08/28/CISCN2023%E5%8D%8E%E4%B8%9C%E5%8D%97%E5%88%86%E5%8C%BA%E8%B5%9Bpwn%E5%A4%8D%E7%8E%B0/1712828467451-591ac3b6-1b7b-4159-800b-24991cc70394.png"
+                      class="" title="img"
+                >
+
+<h1 id="notepad"><a href="#notepad" class="headerlink" title="notepad"></a>notepad</h1><p>保护全开的菜单堆题</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2023/08/28/CISCN2023%E5%8D%8E%E4%B8%9C%E5%8D%97%E5%88%86%E5%8C%BA%E8%B5%9Bpwn%E5%A4%8D%E7%8E%B0/1712828252974-1c6ba2c3-84ea-4beb-acdf-02ac97492cfd.png"
+                      class="" title="img"
+                >
+
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2023/08/28/CISCN2023%E5%8D%8E%E4%B8%9C%E5%8D%97%E5%88%86%E5%8C%BA%E8%B5%9Bpwn%E5%A4%8D%E7%8E%B0/1712757721987-9002c1a5-b307-407e-9ac4-7746744bca65.png"
+                      class="" title="img"
+                >
+
+<p>漏洞在 Erase 的功能中，当 free 了堆块之后，没有将相应的指针置空，只将size清空了，存在 UAF 漏洞</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2023/08/28/CISCN2023%E5%8D%8E%E4%B8%9C%E5%8D%97%E5%88%86%E5%8C%BA%E8%B5%9Bpwn%E5%A4%8D%E7%8E%B0/1712828784114-35689642-033b-463b-80f0-070a2c5879ea.png"
+                      class="" title="img"
+                >
+
+<p>这里将8修改为0</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2023/08/28/CISCN2023%E5%8D%8E%E4%B8%9C%E5%8D%97%E5%88%86%E5%8C%BA%E8%B5%9Bpwn%E5%A4%8D%E7%8E%B0/1712829054217-c56b4ccc-ec5a-4277-8a79-7c3df7ccd14d.png"
+                      class="" title="img"
+                >
+
+<h1 id="MaskNote"><a href="#MaskNote" class="headerlink" title="MaskNote"></a>MaskNote</h1><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2023/08/28/CISCN2023%E5%8D%8E%E4%B8%9C%E5%8D%97%E5%88%86%E5%8C%BA%E8%B5%9Bpwn%E5%A4%8D%E7%8E%B0/1712829908222-60688d25-43a1-451d-ad7c-f0338e111fcc.png"
+                      class="" title="img"
+                >
+
+<p>name是具有0x80可写可读可执行的字符数组</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2023/08/28/CISCN2023%E5%8D%8E%E4%B8%9C%E5%8D%97%E5%88%86%E5%8C%BA%E8%B5%9Bpwn%E5%A4%8D%E7%8E%B0/1712836415974-710342d5-284f-41f6-a2b5-d38f804234d4.png"
+                      class="" title="img"
+                >
+
+<p>sprintf有栈溢出，把name长度改为0x64</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2023/08/28/CISCN2023%E5%8D%8E%E4%B8%9C%E5%8D%97%E5%88%86%E5%8C%BA%E8%B5%9Bpwn%E5%A4%8D%E7%8E%B0/1712836710241-c2248dde-6165-4229-9072-598dd6607f98.png"
+                      class="" title="img"
+                >
+
+<p>禁用了p&#x2F;x&#x2F;n没有禁用c，和格式化字符串相关</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2023/08/28/CISCN2023%E5%8D%8E%E4%B8%9C%E5%8D%97%E5%88%86%E5%8C%BA%E8%B5%9Bpwn%E5%A4%8D%E7%8E%B0/1712834813915-6ff6c8af-ba71-450f-8954-7acadc3157e9.png"
+                      class="" title="img"
+                >
+
+<p>遇到这种强制类型转化的就很有可能有漏洞</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2023/08/28/CISCN2023%E5%8D%8E%E4%B8%9C%E5%8D%97%E5%88%86%E5%8C%BA%E8%B5%9Bpwn%E5%A4%8D%E7%8E%B0/1712835988346-d334b2e6-6947-4e2e-b012-8a30414f302f.png"
+                      class="" title="img"
+                >
+
+<p>直接改为0x1711也能过，这里也不能太小</p>
+<h1 id="colorful"><a href="#colorful" class="headerlink" title="colorful"></a>colorful</h1><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2023/08/28/CISCN2023%E5%8D%8E%E4%B8%9C%E5%8D%97%E5%88%86%E5%8C%BA%E8%B5%9Bpwn%E5%A4%8D%E7%8E%B0/1712837934346-7270e06c-68ca-4519-832b-536259a21b2c.png"
+                      class="" title="img"
+                >
+
+<p>没法看伪c</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2023/08/28/CISCN2023%E5%8D%8E%E4%B8%9C%E5%8D%97%E5%88%86%E5%8C%BA%E8%B5%9Bpwn%E5%A4%8D%E7%8E%B0/1712837975472-2a2e091c-7622-4598-8489-52f204a2762c.png"
+                      class="" title="img"
+                >
+
+<p>原汇编是xor edx，eax 会导致溢出几个字节使得可以去覆盖fd指针</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2023/08/28/CISCN2023%E5%8D%8E%E4%B8%9C%E5%8D%97%E5%88%86%E5%8C%BA%E8%B5%9Bpwn%E5%A4%8D%E7%8E%B0/1712837915810-0a9f7c0e-35fb-4dd6-9b3d-ba739e11a714.png"
+                      class="" title="img"
+                >
+
+<p>输入key1、key2异或之后有概率溢出，会导致进程崩溃</p>
+<p>所以这里改成xor dl，al，或者把那条把寄存器里的值存到栈上的指令nop掉</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2023/08/28/CISCN2023%E5%8D%8E%E4%B8%9C%E5%8D%97%E5%88%86%E5%8C%BA%E8%B5%9Bpwn%E5%A4%8D%E7%8E%B0/1712838043149-c6a50a23-9aa6-490c-969f-f48785cee406.png"
+                      class="" title="img"
+                >
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> CISCN2023华东南分区赛pwn复现</li>
+        <li><strong>作者:</strong> j1ya</li>
+        <li><strong>创建于
+                :</strong> 2023-08-28 22:27:14</li>
+        
+            <li>
+                <strong>更新于
+                    :</strong> 2026-09-28 22:33:54
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://redefine.ohevan.com/2023/08/28/CISCN2023华东南分区赛pwn复现/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+
+            
+                本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a> 进行许可。
+            
+        </li>
+    </ul>
 </div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/awdp-pwn/">#awdp_pwn</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2023/10/16/MoeCTF2023%E9%83%A8%E5%88%86Re%E4%B8%8EPwn/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">MoeCTF2023部分Reverse与Pwn</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2023/08/13/DASCTF2023%E4%BA%8C%E8%BF%9B%E5%88%B6%E4%B8%93%E9%A1%B9Reverse%E5%A4%8D%E7%8E%B0/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">DASCTF2023二进制专项Reverse复现</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.js';
+
+      (function() {
+        const startPath = location.pathname;
+        const startTime = Date.now();
+        const retryDelay = 200;
+        const retryLimit = 5000;
+
+        const runWaline = () => {
+          if (location.pathname !== startPath) {
+            return;
+          }
+
+          const container = document.getElementById('waline');
+          if (!container) {
+            if (Date.now() - startTime < retryLimit) {
+              setTimeout(runWaline, retryDelay);
+            }
+            return;
+          }
+
+          if (window.redefineWalineInstance?.destroy) {
+            window.redefineWalineInstance.destroy();
+          }
+
+          container.innerHTML = '';
+          window.redefineWalineInstance = init({
+            el: '#waline',
+            serverURL: 'https://example.example.com',
+            path: location.pathname,
+            dark: 'body[class~="dark-mode"]',
+            reaction: false,
+            requiredMeta: ['nick', 'mail'],
+            emoji: [],
+                      lang: 'zh-CN',
+          });
+        };
+
+        runWaline();
+      })();
+    </script>
+
+
+
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
 	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">CISCN2023华东南分区赛pwn复现</div>
+		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#login"><span class="nav-text">login</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#notepad"><span class="nav-text">notepad</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MaskNote"><span class="nav-text">MaskNote</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#colorful"><span class="nav-text">colorful</span></a></li></ol>
 
-	<div class="page-template-content markdown-body">
-		
-
-		
-	</div>
-
-	<div class="page-template-comments">
-		
 	</div>
 </div>
-
-<div class="paginator">
-	<span class="page-number current">1</span>
+	</div>
+	
 </div>
-  
+
 			</div>
 
 			
@@ -567,7 +884,7 @@
                 
                 <p class="post-count space-x-0.5">
                     <span>
-                        共撰写了 85 篇文章
+                        共撰写了 86 篇文章
                     </span>
                     
                 </p>
@@ -629,6 +946,26 @@
 		</div>
 	</div>
 
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
 	
 
 	<div class="right-side-tools-container">
@@ -753,6 +1090,7 @@
         }),
     );
 </script>
+
 
 
 
