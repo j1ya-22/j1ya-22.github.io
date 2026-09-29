@@ -94,8 +94,9 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://j1ya-22.github.io/images/redefine-og.webp">
 <meta property="article:published_time" content="2023-07-25T12:09:19.000Z">
-<meta property="article:modified_time" content="2026-09-29T12:14:18.427Z">
+<meta property="article:modified_time" content="2026-09-29T12:15:53.429Z">
 <meta property="article:author" content="j1ya">
+<meta property="article:tag" content="AES">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://j1ya-22.github.io/images/redefine-og.webp">
     
@@ -531,13 +532,40 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2026-09-29 20:14:18</span>
-            <span class="mobile">2026-09-29 20:14:18</span>
+            <span class="desktop">2026-09-29 20:15:53</span>
+            <span class="mobile">2026-09-29 20:15:53</span>
             <span class="hover-info">更新</span>
         </span>
     
 
     
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E6%AF%94%E8%B5%9Bwp/">比赛wp</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/AES/">AES</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
     
 
     
@@ -562,7 +590,6 @@
 			<h1 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h1><h2 id="数学但高中"><a href="#数学但高中" class="headerlink" title="数学但高中"></a>数学但高中</h2><p>本来想手搓的，在队友提醒下直接GPT4生成脚本</p>
 <p>生成的有点问题，需要加一下库</p>
 <p>同时，gpt生成的脚本有点问题，把整个椭圆都画出来了，显然看原函数只有半个椭圆</p>
-<p>另外，一些字母也可以直接看出来</p>
 <div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> matplotlib.patches <span class="keyword">as</span> patches</span><br><span class="line"></span><br><span class="line">fig, ax = plt.subplots()</span><br><span class="line"></span><br><span class="line"><span class="comment"># Creating a large enough plot</span></span><br><span class="line">ax.set_xlim([<span class="number">0</span>, <span class="number">52</span>])</span><br><span class="line">ax.set_ylim([<span class="number">0</span>, <span class="number">10</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># Add lines</span></span><br><span class="line">ax.plot([<span class="number">4</span>, <span class="number">4</span>], [<span class="number">0</span>, <span class="number">6</span>])</span><br><span class="line">ax.plot([<span class="number">7</span>, <span class="number">7</span>], [<span class="number">0</span>, <span class="number">6</span>])</span><br><span class="line">ax.plot([<span class="number">10</span>, <span class="number">10</span>], [<span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line">ax.plot([<span class="number">13</span>, <span class="number">13</span>], [<span class="number">0</span>, <span class="number">3</span>])</span><br><span class="line">ax.plot([<span class="number">15</span>, <span class="number">15</span>], [<span class="number">0</span>, <span class="number">2</span>])</span><br><span class="line">ax.plot([<span class="number">15</span>, <span class="number">15</span>], [<span class="number">4</span>, <span class="number">6</span>])</span><br><span class="line">ax.plot([<span class="number">17</span>, <span class="number">17</span>], [<span class="number">1</span>, <span class="number">6</span>])</span><br><span class="line">ax.plot([<span class="number">19</span>, <span class="number">19</span>], [<span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line">ax.plot([<span class="number">21</span>, <span class="number">21</span>], [<span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line">ax.plot([<span class="number">22</span>, <span class="number">22</span>], [<span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line">ax.plot([<span class="number">24</span>, <span class="number">24</span>], [<span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line">ax.plot([<span class="number">29</span>, <span class="number">29</span>], [<span class="number">2</span>, <span class="number">5</span>])</span><br><span class="line">ax.plot([<span class="number">32</span>, <span class="number">32</span>], [<span class="number">2</span>, <span class="number">5</span>])</span><br><span class="line">ax.plot([<span class="number">36</span>, <span class="number">36</span>], [<span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line">ax.plot([<span class="number">38</span>, <span class="number">38</span>], [<span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line">ax.plot([<span class="number">41</span>, <span class="number">41</span>], [<span class="number">2</span>, <span class="number">6</span>])</span><br><span class="line">ax.plot([<span class="number">44</span>, <span class="number">44</span>], [<span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line">ax.plot([<span class="number">46</span>, <span class="number">46</span>], [<span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line">ax.plot([<span class="number">47</span>, <span class="number">47</span>], [<span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line">ax.plot([<span class="number">49</span>, <span class="number">49</span>], [<span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line">ax.plot([<span class="number">51</span>, <span class="number">51</span>], [<span class="number">0</span>, <span class="number">2</span>])</span><br><span class="line">ax.plot([<span class="number">51</span>, <span class="number">51</span>], [<span class="number">4</span>, <span class="number">6</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># Add horizontal lines</span></span><br><span class="line">ax.hlines(<span class="number">4</span>, <span class="number">2</span>, <span class="number">6</span>)</span><br><span class="line">ax.hlines(<span class="number">4</span>, <span class="number">17</span>, <span class="number">18</span>)</span><br><span class="line">ax.hlines(<span class="number">4</span>, <span class="number">28</span>, <span class="number">30</span>)</span><br><span class="line">ax.hlines(<span class="number">4</span>, <span class="number">41</span>, <span class="number">42</span>)</span><br><span class="line">ax.hlines(<span class="number">6</span>, <span class="number">4</span>, <span class="number">6</span>)</span><br><span class="line">ax.hlines(<span class="number">6</span>, <span class="number">15</span>, <span class="number">16</span>)</span><br><span class="line">ax.hlines(<span class="number">6</span>, <span class="number">17</span>, <span class="number">19</span>)</span><br><span class="line">ax.hlines(<span class="number">6</span>, <span class="number">41</span>, <span class="number">43</span>)</span><br><span class="line">ax.hlines(<span class="number">2</span>, <span class="number">29</span>, <span class="number">30</span>)</span><br><span class="line">ax.hlines(<span class="number">2</span>, <span class="number">31</span>, <span class="number">33</span>)</span><br><span class="line">ax.hlines(<span class="number">2</span>, <span class="number">39</span>, <span class="number">40</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Add circles</span></span><br><span class="line">circle1 = plt.Circle((<span class="number">9</span>, <span class="number">3</span>), <span class="number">1</span>, color=<span class="string">&#x27;b&#x27;</span>, fill=<span class="literal">False</span>)</span><br><span class="line">circle2 = plt.Circle((<span class="number">12</span>, <span class="number">3</span>), <span class="number">1</span>, color=<span class="string">&#x27;b&#x27;</span>, fill=<span class="literal">False</span>)</span><br><span class="line">circle3 = plt.Circle((<span class="number">20</span>, <span class="number">3</span>), <span class="number">1</span>, color=<span class="string">&#x27;b&#x27;</span>, fill=<span class="literal">False</span>)</span><br><span class="line">circle4 = plt.Circle((<span class="number">23</span>, <span class="number">3</span>), <span class="number">1</span>, color=<span class="string">&#x27;b&#x27;</span>, fill=<span class="literal">False</span>)</span><br><span class="line">circle5 = plt.Circle((<span class="number">26</span>, <span class="number">3</span>), <span class="number">1</span>, color=<span class="string">&#x27;b&#x27;</span>, fill=<span class="literal">False</span>)</span><br><span class="line">circle6 = plt.Circle((<span class="number">37</span>, <span class="number">3</span>), <span class="number">1</span>, color=<span class="string">&#x27;b&#x27;</span>, fill=<span class="literal">False</span>)</span><br><span class="line">circle7 = plt.Circle((<span class="number">45</span>, <span class="number">3</span>), <span class="number">1</span>, color=<span class="string">&#x27;b&#x27;</span>, fill=<span class="literal">False</span>)</span><br><span class="line">circle8 = plt.Circle((<span class="number">48</span>, <span class="number">3</span>), <span class="number">1</span>, color=<span class="string">&#x27;b&#x27;</span>, fill=<span class="literal">False</span>)</span><br><span class="line">ax.add_artist(circle1)</span><br><span class="line">ax.add_artist(circle2)</span><br><span class="line">ax.add_artist(circle3)</span><br><span class="line">ax.add_artist(circle4)</span><br><span class="line">ax.add_artist(circle5)</span><br><span class="line">ax.add_artist(circle6)</span><br><span class="line">ax.add_artist(circle7)</span><br><span class="line">ax.add_artist(circle8)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Add ellipse</span></span><br><span class="line">ellipse = patches.Ellipse((<span class="number">34</span>, <span class="number">3.5</span>), <span class="number">2</span>, <span class="number">1.5</span>, color=<span class="string">&#x27;b&#x27;</span>, fill=<span class="literal">False</span>)</span><br><span class="line">ax.add_artist(ellipse)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Add diagonal lines</span></span><br><span class="line">x = np.linspace(<span class="number">14</span>, <span class="number">15</span>, <span class="number">100</span>)</span><br><span class="line">y1 = -x + <span class="number">17</span></span><br><span class="line">y2 = x - <span class="number">11</span></span><br><span class="line">ax.plot(x, y1, <span class="string">&#x27;b&#x27;</span>)</span><br><span class="line">ax.plot(x, y2, <span class="string">&#x27;b&#x27;</span>)</span><br><span class="line"></span><br><span class="line">x = np.linspace(<span class="number">26</span>, <span class="number">27</span>, <span class="number">100</span>)</span><br><span class="line">y1 = <span class="number">0.5</span>*x - <span class="number">11</span></span><br><span class="line">y2 = -<span class="number">0.5</span>*x + <span class="number">17</span></span><br><span class="line">ax.plot(x, y1, <span class="string">&#x27;b&#x27;</span>)</span><br><span class="line">ax.plot(x, y2, <span class="string">&#x27;b&#x27;</span>)</span><br><span class="line"></span><br><span class="line">x = np.linspace(<span class="number">51</span>, <span class="number">52</span>, <span class="number">100</span>)</span><br><span class="line">y1 = x - <span class="number">49</span></span><br><span class="line">y2 = -x + <span class="number">55</span></span><br><span class="line">ax.plot(x, y1, <span class="string">&#x27;b&#x27;</span>)</span><br><span class="line">ax.plot(x, y2, <span class="string">&#x27;b&#x27;</span>)</span><br><span class="line"></span><br><span class="line">x = np.linspace(<span class="number">31</span>, <span class="number">32</span>, <span class="number">100</span>)</span><br><span class="line">y = x - <span class="number">27</span></span><br><span class="line">ax.plot(x, y, <span class="string">&#x27;b&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Show the plot</span></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></div>
 
 <img  
@@ -572,7 +599,7 @@
                       class="" title="img"
                 >
 
-<p>因为题目说没有字母，所以不可能是O</p>
+<p>另外，一些字母也可以直接看出来，因为题目说没有字母，所以不可能是O</p>
 <div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;Funct10n_Fun&#125;</span><br></pre></td></tr></table></figure></div>
 
 <p>还可以在线画，记得给函数加花括号</p>
@@ -709,7 +736,7 @@
         
             <li>
                 <strong>更新于
-                    :</strong> 2026-09-29 20:14:18
+                    :</strong> 2026-09-29 20:15:53
             </li>
         
         <li>
@@ -731,6 +758,14 @@
 		</div>
 		
 
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/AES/">#AES</a>&nbsp;
+			</li>
+			
+		</ul>
 		
 
 		
