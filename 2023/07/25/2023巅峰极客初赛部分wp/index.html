@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    
+    <meta name="author" content="j1ya">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://j1ya-22.github.io/2023/07/25/2023巅峰极客初赛部分wp/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2023巅峰极客初赛部分wp">
+<meta property="og:url" content="https://j1ya-22.github.io/2023/07/25/2023%E5%B7%85%E5%B3%B0%E6%9E%81%E5%AE%A2%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/index.html">
+<meta property="og:site_name" content="j1ya">
+<meta property="og:description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://j1ya-22.github.io/images/redefine-og.webp">
+<meta property="article:published_time" content="2023-07-25T12:09:19.000Z">
+<meta property="article:modified_time" content="2026-09-29T12:14:18.427Z">
+<meta property="article:author" content="j1ya">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://j1ya-22.github.io/images/redefine-og.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/img/China.jpg" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/China.jpg">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/img/China.jpg">
+    <!--- Page Info-->
+    
+    <title>
+        
+            2023巅峰极客初赛部分wp | j1ya&#39;s blog
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    <script data-swup-reload-script>
+  window.MathJax = {
+    tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+  };
+</script>
+
+                
+    
+            
+                
+                    <script data-swup-reload-script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+                
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"j1ya-22.github.io","root":"/","language":"zh-CN"};
+    window.theme = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.4rem","h3":"1.9rem","h4":"1.6rem","h5":"1.4rem","h6":"1.3rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[]},"code_block":{"copy":true,"style":"mac","highlight_theme":{"light":"github","dark":"vs2015"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null,"default_mode":"light"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":false,"percentage":true},"website_counter":{"url":"https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":true,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/redefine-og.webp","description":"Hexo Theme Redefine, Redefine Your Hexo Journey."},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/wallhaven-wqery6-light.webp","dark":"/images/wallhaven-wqery6-dark.webp"},"title":"<span style=\"display:none\"></span>","subtitle":{"text":["There is only one heroism in the world:<br>to see the world as it is, and to love it."],"hitokoto":{"enable":false,"show_author":false,"api":"https://v1.hitokoto.cn"},"typing_speed":80,"backing_speed":80,"starting_delay":500,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.4rem","subtitle_size":"2.35rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"style":"default","links":[{"icon":"fa-brands fa-github","url":null},{"icon":"fa-brands fa-twitter","url":null},{"icon":"fa-solid fa-at","url":"you@example.com"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null,"lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":35},"width":{"home":"1200px","pages":"1000px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Archives":{"path":"/archives/","icon":"fa-regular fa-archive"},"Categories":{"path":"/categories/","icon":"fa-regular fa-folder"},"Tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"About":{"icon":"fa-regular fa-user","path":"/about/"},"Friends":{"path":"/links/","icon":"fa-solid fa-link"}},"search":{"enable":false,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"show_on_mobile":true,"links":null},"article_date_format":"auto","excerpt_length":200,"categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-heart fa-beat\" style=\"--fa-animation-duration: 0.5s; color: #f54545\"></i>","start":"2022/8/17 11:45:14","statistics":true,"customize":null,"icp":{"enable":false,"number":null,"url":null}},"footerStart":"2022/8/17 11:45:14","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.i18n = {"search":"站内搜索您需要的内容...","toc":"目录","prev":"上一页","next":"下一页","prev_posts":"上一篇","next_posts":"下一篇","page":"第 %d 页","recent_posts":"最新文章","share":"分享","powered_by":"由 %s 驱动","theme":"主题","rss_feed":"RSS Feed","category":"分类","categories":"分类","tag":"标签","tags":"标签","post":"文章","posts":"文章","tagcloud":"标签云","comment":"评论","comments":"评论","top":"置顶","sticky":"置顶","go-back-home":"回到首页","masonry_loading":"照片加载中...","image_viewer":"图片查看器","close":"关闭","exif":{"title":"EXIF","cards":{"camera":"相机","lens":"镜头","exposure":"曝光","other":"其他"},"fields":{"make":"品牌","model":"机型","date_taken":"拍摄时间","lens_model":"镜头","focal_length":"焦距","focus_mode":"对焦模式","shutter":"快门","aperture":"光圈","iso":"感光度","exposure_program":"曝光程序","exposure_compensation":"曝光补偿","metering_mode":"测光模式","flash":"闪光灯","white_balance":"白平衡","latitude":"纬度","longitude":"经度","altitude":"海拔"},"status":{"loading":"加载中...","no_exif":"无 EXIF 信息","library_missing":"EXIF 库未加载","image_source_missing":"图片地址不可用","unavailable":"EXIF 不可用（可能被 CORS 阻止或缺少元数据）","flag_unavailable":"EXIF 不可用"}},"home":"首页","archive":"归档","archives":"归档","about":"关于","links":"链接","link":"链接","friends":"友情链接","friend":"友情链接","timeline":"时间轴","shuoshuo":"说说","bookmarks":"书签","site_uv":"访问人数","site_pv":"总访问量","read_more":"阅读全文","wordcount":"字","min2read":"分钟","changelog":"更新日志","status":"状态","runtime":"博客已运行","days":"天","hours":"小时","minutes":"分钟","seconds":"秒","optimized_by":"并由 Evan 进行优化","rights":"版权所有","site_posts":"共撰写了 %s 篇文章","site_wordcount":"共 %s 字","copyright":{"title":"标题","author":"作者","link":"链接","create_time":"创建于","update_time":"更新于","license_title":"版权声明","license_content":"本文章采用 %s 进行许可。","all_rights_reserved":"版权所有 &#169 %s，禁止转载。","public_domain":"本文为公有领域作品，可自由转载、引用。"},"ago":{"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"},"create_time":"创建","update_time":"更新","expired":"这篇文章最后更新于 %s 天前，内容可能已经过时。"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                j1ya&#39;s blog
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/archives/"
+                                        >
+                                    <i class="fa-regular fa-archive fa-fw"></i>
+                                    归档
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/categories/"
+                                        >
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    分类
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/tags/"
+                                        >
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    标签
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/about/"
+                                        >
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/links/"
+                                        >
+                                    <i class="fa-solid fa-link fa-fw"></i>
+                                    友情链接
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/archives/"
+                        >
+                            <span>
+                                归档
+                            </span>
+                            
+                                <i class="fa-regular fa-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/categories/"
+                        >
+                            <span>
+                                分类
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/tags/"
+                        >
+                            <span>
+                                标签
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/about/"
+                        >
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/links/"
+                        >
+                            <span>
+                                友情链接
+                            </span>
+                            
+                                <i class="fa-solid fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">53</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">5</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">87</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			<div class="w-full flex items-center pt-6 justify-start">
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">2023巅峰极客初赛部分wp</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/img/China.jpg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">j1ya</span>
+					
+					<span class="author-label ml-1.5 text-xs px-2 py-0.5 rounded-small text-third-text-color border border-shadow-color-1">Lv5</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-07-25 20:09:19</span>
+        <span class="mobile">2023-07-25 20:09:19</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2026-09-29 20:14:18</span>
+            <span class="mobile">2026-09-29 20:14:18</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h1 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h1><h2 id="数学但高中"><a href="#数学但高中" class="headerlink" title="数学但高中"></a>数学但高中</h2><p>本来想手搓的，在队友提醒下直接GPT4生成脚本</p>
+<p>生成的有点问题，需要加一下库</p>
+<p>同时，gpt生成的脚本有点问题，把整个椭圆都画出来了，显然看原函数只有半个椭圆</p>
+<p>另外，一些字母也可以直接看出来</p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> matplotlib.patches <span class="keyword">as</span> patches</span><br><span class="line"></span><br><span class="line">fig, ax = plt.subplots()</span><br><span class="line"></span><br><span class="line"><span class="comment"># Creating a large enough plot</span></span><br><span class="line">ax.set_xlim([<span class="number">0</span>, <span class="number">52</span>])</span><br><span class="line">ax.set_ylim([<span class="number">0</span>, <span class="number">10</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># Add lines</span></span><br><span class="line">ax.plot([<span class="number">4</span>, <span class="number">4</span>], [<span class="number">0</span>, <span class="number">6</span>])</span><br><span class="line">ax.plot([<span class="number">7</span>, <span class="number">7</span>], [<span class="number">0</span>, <span class="number">6</span>])</span><br><span class="line">ax.plot([<span class="number">10</span>, <span class="number">10</span>], [<span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line">ax.plot([<span class="number">13</span>, <span class="number">13</span>], [<span class="number">0</span>, <span class="number">3</span>])</span><br><span class="line">ax.plot([<span class="number">15</span>, <span class="number">15</span>], [<span class="number">0</span>, <span class="number">2</span>])</span><br><span class="line">ax.plot([<span class="number">15</span>, <span class="number">15</span>], [<span class="number">4</span>, <span class="number">6</span>])</span><br><span class="line">ax.plot([<span class="number">17</span>, <span class="number">17</span>], [<span class="number">1</span>, <span class="number">6</span>])</span><br><span class="line">ax.plot([<span class="number">19</span>, <span class="number">19</span>], [<span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line">ax.plot([<span class="number">21</span>, <span class="number">21</span>], [<span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line">ax.plot([<span class="number">22</span>, <span class="number">22</span>], [<span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line">ax.plot([<span class="number">24</span>, <span class="number">24</span>], [<span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line">ax.plot([<span class="number">29</span>, <span class="number">29</span>], [<span class="number">2</span>, <span class="number">5</span>])</span><br><span class="line">ax.plot([<span class="number">32</span>, <span class="number">32</span>], [<span class="number">2</span>, <span class="number">5</span>])</span><br><span class="line">ax.plot([<span class="number">36</span>, <span class="number">36</span>], [<span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line">ax.plot([<span class="number">38</span>, <span class="number">38</span>], [<span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line">ax.plot([<span class="number">41</span>, <span class="number">41</span>], [<span class="number">2</span>, <span class="number">6</span>])</span><br><span class="line">ax.plot([<span class="number">44</span>, <span class="number">44</span>], [<span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line">ax.plot([<span class="number">46</span>, <span class="number">46</span>], [<span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line">ax.plot([<span class="number">47</span>, <span class="number">47</span>], [<span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line">ax.plot([<span class="number">49</span>, <span class="number">49</span>], [<span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line">ax.plot([<span class="number">51</span>, <span class="number">51</span>], [<span class="number">0</span>, <span class="number">2</span>])</span><br><span class="line">ax.plot([<span class="number">51</span>, <span class="number">51</span>], [<span class="number">4</span>, <span class="number">6</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># Add horizontal lines</span></span><br><span class="line">ax.hlines(<span class="number">4</span>, <span class="number">2</span>, <span class="number">6</span>)</span><br><span class="line">ax.hlines(<span class="number">4</span>, <span class="number">17</span>, <span class="number">18</span>)</span><br><span class="line">ax.hlines(<span class="number">4</span>, <span class="number">28</span>, <span class="number">30</span>)</span><br><span class="line">ax.hlines(<span class="number">4</span>, <span class="number">41</span>, <span class="number">42</span>)</span><br><span class="line">ax.hlines(<span class="number">6</span>, <span class="number">4</span>, <span class="number">6</span>)</span><br><span class="line">ax.hlines(<span class="number">6</span>, <span class="number">15</span>, <span class="number">16</span>)</span><br><span class="line">ax.hlines(<span class="number">6</span>, <span class="number">17</span>, <span class="number">19</span>)</span><br><span class="line">ax.hlines(<span class="number">6</span>, <span class="number">41</span>, <span class="number">43</span>)</span><br><span class="line">ax.hlines(<span class="number">2</span>, <span class="number">29</span>, <span class="number">30</span>)</span><br><span class="line">ax.hlines(<span class="number">2</span>, <span class="number">31</span>, <span class="number">33</span>)</span><br><span class="line">ax.hlines(<span class="number">2</span>, <span class="number">39</span>, <span class="number">40</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Add circles</span></span><br><span class="line">circle1 = plt.Circle((<span class="number">9</span>, <span class="number">3</span>), <span class="number">1</span>, color=<span class="string">&#x27;b&#x27;</span>, fill=<span class="literal">False</span>)</span><br><span class="line">circle2 = plt.Circle((<span class="number">12</span>, <span class="number">3</span>), <span class="number">1</span>, color=<span class="string">&#x27;b&#x27;</span>, fill=<span class="literal">False</span>)</span><br><span class="line">circle3 = plt.Circle((<span class="number">20</span>, <span class="number">3</span>), <span class="number">1</span>, color=<span class="string">&#x27;b&#x27;</span>, fill=<span class="literal">False</span>)</span><br><span class="line">circle4 = plt.Circle((<span class="number">23</span>, <span class="number">3</span>), <span class="number">1</span>, color=<span class="string">&#x27;b&#x27;</span>, fill=<span class="literal">False</span>)</span><br><span class="line">circle5 = plt.Circle((<span class="number">26</span>, <span class="number">3</span>), <span class="number">1</span>, color=<span class="string">&#x27;b&#x27;</span>, fill=<span class="literal">False</span>)</span><br><span class="line">circle6 = plt.Circle((<span class="number">37</span>, <span class="number">3</span>), <span class="number">1</span>, color=<span class="string">&#x27;b&#x27;</span>, fill=<span class="literal">False</span>)</span><br><span class="line">circle7 = plt.Circle((<span class="number">45</span>, <span class="number">3</span>), <span class="number">1</span>, color=<span class="string">&#x27;b&#x27;</span>, fill=<span class="literal">False</span>)</span><br><span class="line">circle8 = plt.Circle((<span class="number">48</span>, <span class="number">3</span>), <span class="number">1</span>, color=<span class="string">&#x27;b&#x27;</span>, fill=<span class="literal">False</span>)</span><br><span class="line">ax.add_artist(circle1)</span><br><span class="line">ax.add_artist(circle2)</span><br><span class="line">ax.add_artist(circle3)</span><br><span class="line">ax.add_artist(circle4)</span><br><span class="line">ax.add_artist(circle5)</span><br><span class="line">ax.add_artist(circle6)</span><br><span class="line">ax.add_artist(circle7)</span><br><span class="line">ax.add_artist(circle8)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Add ellipse</span></span><br><span class="line">ellipse = patches.Ellipse((<span class="number">34</span>, <span class="number">3.5</span>), <span class="number">2</span>, <span class="number">1.5</span>, color=<span class="string">&#x27;b&#x27;</span>, fill=<span class="literal">False</span>)</span><br><span class="line">ax.add_artist(ellipse)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Add diagonal lines</span></span><br><span class="line">x = np.linspace(<span class="number">14</span>, <span class="number">15</span>, <span class="number">100</span>)</span><br><span class="line">y1 = -x + <span class="number">17</span></span><br><span class="line">y2 = x - <span class="number">11</span></span><br><span class="line">ax.plot(x, y1, <span class="string">&#x27;b&#x27;</span>)</span><br><span class="line">ax.plot(x, y2, <span class="string">&#x27;b&#x27;</span>)</span><br><span class="line"></span><br><span class="line">x = np.linspace(<span class="number">26</span>, <span class="number">27</span>, <span class="number">100</span>)</span><br><span class="line">y1 = <span class="number">0.5</span>*x - <span class="number">11</span></span><br><span class="line">y2 = -<span class="number">0.5</span>*x + <span class="number">17</span></span><br><span class="line">ax.plot(x, y1, <span class="string">&#x27;b&#x27;</span>)</span><br><span class="line">ax.plot(x, y2, <span class="string">&#x27;b&#x27;</span>)</span><br><span class="line"></span><br><span class="line">x = np.linspace(<span class="number">51</span>, <span class="number">52</span>, <span class="number">100</span>)</span><br><span class="line">y1 = x - <span class="number">49</span></span><br><span class="line">y2 = -x + <span class="number">55</span></span><br><span class="line">ax.plot(x, y1, <span class="string">&#x27;b&#x27;</span>)</span><br><span class="line">ax.plot(x, y2, <span class="string">&#x27;b&#x27;</span>)</span><br><span class="line"></span><br><span class="line">x = np.linspace(<span class="number">31</span>, <span class="number">32</span>, <span class="number">100</span>)</span><br><span class="line">y = x - <span class="number">27</span></span><br><span class="line">ax.plot(x, y, <span class="string">&#x27;b&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Show the plot</span></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></div>
+
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2023/07/25/2023%E5%B7%85%E5%B3%B0%E6%9E%81%E5%AE%A2%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1689927332522-08fc3d33-2a11-45f0-aa2f-74b089ed557a.png"
+                      class="" title="img"
+                >
+
+<p>因为题目说没有字母，所以不可能是O</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;Funct10n_Fun&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>还可以在线画，记得给函数加花括号</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://www.desmos.com/calculator?lang=zh-CN" >https://www.desmos.com/calculator?lang=zh-CN<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h1 id="Reverse"><a href="#Reverse" class="headerlink" title="Reverse"></a>Reverse</h1><h2 id="gore-1"><a href="#gore-1" class="headerlink" title="gore-1"></a>gore-1</h2><p>先脱壳</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2023/07/25/2023%E5%B7%85%E5%B3%B0%E6%9E%81%E5%AE%A2%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1690202285223-dd515a22-9cba-4187-8e23-8ee583ba4f36.png"
+                      class="" title="img"
+                >
+
+<p>搜索main_main函数一个是AES，一个是Base64，主函数后半部分还有一个^0x1A</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2023/07/25/2023%E5%B7%85%E5%B3%B0%E6%9E%81%E5%AE%A2%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1690265231782-3fe224ee-ad97-4cef-a650-10743d907087.png"
+                      class="" title="img"
+                >
+
+<p>查字符串能明显看到base64变表：456789}#IJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123ABCDEFGH</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2023/07/25/2023%E5%B7%85%E5%B3%B0%E6%9E%81%E5%AE%A2%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1690267988170-6ba157c1-8aa2-4503-86d5-e45953bac8d2.png"
+                      class="" title="img"
+                >
+
+<p>接下来需要动调拿到AES的key，解密函数处下一个断点，接下来去找动调后的串</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2023/07/25/2023%E5%B7%85%E5%B3%B0%E6%9E%81%E5%AE%A2%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1690258368308-63fcabab-0a08-4e0e-9ad8-197dcfdf8926.png"
+                      class="" title="img"
+                >
+
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2023/07/25/2023%E5%B7%85%E5%B3%B0%E6%9E%81%E5%AE%A2%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1690258340609-85fc2980-1f34-41b4-9b0d-773ef3dcd1a3.png"
+                      class="" title="img"
+                >
+
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2023/07/25/2023%E5%B7%85%E5%B3%B0%E6%9E%81%E5%AE%A2%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1690258266414-fc8a5b59-9326-4860-853d-6a23245c482b.png"
+                      class="" title="img"
+                >
+
+<p>多了123是因为一开始输的就是123，拿到key：wvgitbygwbk2b46d</p>
+<p>先异或0x1A再加v57[i%16]，最后和密文v53比较</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2023/07/25/2023%E5%B7%85%E5%B3%B0%E6%9E%81%E5%AE%A2%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1790680779175-43eb59bc-ab04-4b53-aab9-1aa5bacb5f60.png"
+                      class="" title="img"
+                >
+
+<div class="code-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">enc=[<span class="number">0xE6</span>, <span class="number">0xCE</span>, <span class="number">0x89</span>, <span class="number">0xC8</span>, <span class="number">0xCF</span>, <span class="number">0xC5</span>, <span class="number">0xF5</span>, <span class="number">0xC9</span>, <span class="number">0xD2</span>, <span class="number">0xD9</span>,</span><br><span class="line">  <span class="number">0xC0</span>, <span class="number">0x91</span>, <span class="number">0xCE</span>, <span class="number">0x7F</span>, <span class="number">0xAC</span>, <span class="number">0xCC</span>, <span class="number">0xE9</span>, <span class="number">0xCF</span>, <span class="number">0xB7</span>, <span class="number">0xC0</span>,</span><br><span class="line">  <span class="number">0x96</span>, <span class="number">0xD4</span>, <span class="number">0xEA</span>, <span class="number">0x92</span>, <span class="number">0xE2</span>, <span class="number">0xD7</span>, <span class="number">0xDF</span>, <span class="number">0x84</span>, <span class="number">0xCB</span>, <span class="number">0xA5</span>,</span><br><span class="line">  <span class="number">0xAE</span>, <span class="number">0x93</span>, <span class="number">0xA6</span>, <span class="number">0xCA</span>, <span class="number">0xBE</span>, <span class="number">0x97</span>, <span class="number">0xDF</span>, <span class="number">0xCE</span>, <span class="number">0xF0</span>, <span class="number">0xC9</span>,</span><br><span class="line">  <span class="number">0xB7</span>, <span class="number">0xE1</span>, <span class="number">0xAE</span>, <span class="number">0x6B</span>, <span class="number">0xC4</span>, <span class="number">0xB1</span>, <span class="number">0x65</span>, <span class="number">0xDB</span>, <span class="number">0xCE</span>, <span class="number">0xED</span>,</span><br><span class="line">  <span class="number">0x92</span>, <span class="number">0x93</span>, <span class="number">0xD6</span>, <span class="number">0x8C</span>, <span class="number">0xED</span>, <span class="number">0xC3</span>, <span class="number">0xA3</span>, <span class="number">0xDA</span>, <span class="number">0x94</span>, <span class="number">0xA5</span>,</span><br><span class="line">  <span class="number">0xAA</span>, <span class="number">0xB2</span>, <span class="number">0xB5</span>, <span class="number">0xA7</span>]</span><br><span class="line">key=b<span class="string">&quot;wvgitbygwbk2b46d&quot;</span></span><br><span class="line"></span><br><span class="line">base = <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i in range(len(enc)):</span><br><span class="line">    base+=chr(((enc[i]-key[i%<span class="number">16</span>])^<span class="number">0x1a</span>)&amp;<span class="number">0xff</span>)</span><br><span class="line">print(base)</span><br><span class="line">#uB8EAyfxAmOEvQlrhCJM8hk1qonHskb55NM4qvmxZeY#xg5mMm10x0nF6b3iRdeY</span><br></pre></td></tr></table></figure></div>
+
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2023/07/25/2023%E5%B7%85%E5%B3%B0%E6%9E%81%E5%AE%A2%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1690274001686-7974d0fc-2132-49a2-bfa4-b64f47b38635.png"
+                      class="" title="img"
+                >
+
+
+
+<h2 id="m1-read"><a href="#m1-read" class="headerlink" title="m1_read"></a>m1_read</h2><p>识别出来是AES</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2023/07/25/2023%E5%B7%85%E5%B3%B0%E6%9E%81%E5%AE%A2%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1723817972099-3c42196b-1efa-474b-b674-b4e29d911336.png"
+                      class="" title="img"
+                >
+
+<p>白盒加密是一种特殊的加密方法，它允许加密数据在不受信任的环境中被解密而无需暴露密钥本身，不会直接保存一个明显的16字节 key，而是把密钥融合进大量查表、轮函数和编码变换中</p>
+<p>针对白盒加密可以使用DFA攻击，在倒数第一轮列混淆和倒数第二轮列混淆之间修改中间结果的一个字节，会导致最终密文和正确密文有4个字节不同。通过多次的修改，得到多组错误的密文，然后通过正确密文和这些错误密文推算出加密模式下第10轮的密钥，从而能推算出原始密钥</p>
+<p>aes+异或0x66</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2023/07/25/2023%E5%B7%85%E5%B3%B0%E6%9E%81%E5%AE%A2%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1723819526281-3379f1d3-0663-48ad-85c5-8f666105cf8a.png"
+                      class="" title="img"
+                >
+
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> frida</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">currentDir = os.getcwd()</span><br><span class="line"><span class="built_in">print</span>(currentDir)</span><br><span class="line">session = frida.attach(<span class="string">&quot;m1_read.exe&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getJsScript</span>(<span class="params">fileName=<span class="string">&quot;getKey.js&quot;</span>, fileDir=currentDir</span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(fileDir + <span class="string">&quot;\\&quot;</span> + fileName, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> jsScript:</span><br><span class="line">        <span class="keyword">return</span> jsScript.read().rstrip()</span><br><span class="line"></span><br><span class="line">script = session.create_script(getJsScript())</span><br><span class="line">script.load()</span><br></pre></td></tr></table></figure></div>
+
+<p>用frida hook key，在第9轮时随机修改中间状态的1个字节，第一次输出可以看作正确密文，后面多次输出是在第9轮随机改一个字节后的错误密文</p>
+<div class="code-container" data-rel="Javascript"><figure class="iseeu highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> baseAddr = <span class="title class_">Module</span>.<span class="title function_">findBaseAddress</span>(<span class="string">&quot;m1_read.exe&quot;</span>)</span><br><span class="line"><span class="comment">// AES函数偏移：0x4BF0</span></span><br><span class="line"><span class="keyword">var</span> whiteAES = <span class="keyword">new</span> <span class="title class_">NativeFunction</span>(baseAddr.<span class="title function_">add</span>(<span class="number">0x4BF0</span>), <span class="string">&#x27;pointer&#x27;</span>, [<span class="string">&#x27;pointer&#x27;</span>,<span class="string">&#x27;pointer&#x27;</span>])</span><br><span class="line"><span class="comment">// count = 9，这样第一轮数据恰好对应正确的数据</span></span><br><span class="line"><span class="keyword">var</span> count = <span class="number">9</span></span><br><span class="line"></span><br><span class="line"><span class="title class_">Interceptor</span>.<span class="title function_">attach</span>(baseAddr.<span class="title function_">add</span>(<span class="number">0x4C2C</span>),&#123;</span><br><span class="line">  <span class="comment">// 列混淆处的偏移：0x4C2C</span></span><br><span class="line">  <span class="comment">// 若不确定，可以通过测试来看：</span></span><br><span class="line">  <span class="comment">// 		1. 若正确数据与异常数据全部不同，则修改太早</span></span><br><span class="line">  <span class="comment">// 		2. 若正确数据与异常数据仅一个不同，则修改太晚</span></span><br><span class="line">  <span class="attr">onEnter</span>: <span class="keyword">function</span>(<span class="params">args</span>)&#123;</span><br><span class="line">    count++;</span><br><span class="line">    <span class="comment">// 第九轮修改中间结果</span></span><br><span class="line">    <span class="keyword">if</span>(count == <span class="number">9</span>)&#123;</span><br><span class="line">      <span class="comment">// 参考汇编代码可以发现rdi记录第九轮中间数据的地址</span></span><br><span class="line">      <span class="comment">// &quot;add(Math.floor(Math.random()*16))&quot;:</span></span><br><span class="line">      <span class="comment">// 		表示对操作的地址进行偏移，值属于&#123;1,2,3&#125;</span></span><br><span class="line">      <span class="comment">// 		(0，4的可能性基本为0)</span></span><br><span class="line">      <span class="comment">//</span></span><br><span class="line">      <span class="comment">// &quot;writeU8(Math.floor(Math.random()*256))&quot;:</span></span><br><span class="line">      <span class="comment">// 		表示对写入的值进行修改，值属于&#123;1,2,3,...,E,F&#125;</span></span><br><span class="line">      <span class="comment">// 		(0，16的可能性基本为0)</span></span><br><span class="line">      <span class="comment">// 综上，这实现了对中间数据的单个Byte修改，取消注释下述代码即可看出</span></span><br><span class="line">      <span class="keyword">var</span> p = <span class="title function_">ptr</span>(<span class="variable language_">this</span>.<span class="property">context</span>.<span class="property">rdi</span>)</span><br><span class="line">      <span class="comment">// console.log(&quot;ori: &quot;, p.readByteArray(16), &quot;\n&quot;)</span></span><br><span class="line">      p.<span class="title function_">add</span>(<span class="title class_">Math</span>.<span class="title function_">floor</span>(<span class="title class_">Math</span>.<span class="title function_">random</span>()*<span class="number">16</span>)).<span class="title function_">writeU8</span>(<span class="title class_">Math</span>.<span class="title function_">floor</span>(<span class="title class_">Math</span>.<span class="title function_">random</span>()*<span class="number">256</span>))</span><br><span class="line">      <span class="comment">// console.log(&quot;out: &quot;, p.readByteArray(16), &quot;\n&quot;)</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">onLeave</span>:<span class="function">(<span class="params">retval</span>) =&gt;</span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> index = <span class="number">0</span>; index &lt; <span class="number">33</span>; index++)&#123;</span><br><span class="line">  <span class="comment">// 取消注释下述代码即可得到每一轮的数据</span></span><br><span class="line">  <span class="keyword">var</span> l = <span class="title class_">Memory</span>.<span class="title function_">allocAnsiString</span>(<span class="string">&quot;0123456789abcdef&quot;</span>);</span><br><span class="line">  <span class="keyword">var</span> b = <span class="title class_">Memory</span>.<span class="title function_">alloc</span>(<span class="number">16</span>);</span><br><span class="line">  <span class="title function_">whiteAES</span>(l, b);</span><br><span class="line">  <span class="comment">// console.log(b.readByteArray(16));</span></span><br><span class="line">  count = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"># 异或处理脚本</span><br><span class="line">data = <span class="string">&quot;&quot;</span><span class="string">&quot;</span></span><br><span class="line"><span class="string">00000000  72 93 98 12 0f 00 94 f4 03 7a 44 ee dd 99 20 6f  r........zD... o</span></span><br><span class="line"><span class="string">00000000  72 93 98 5a 0f 00 aa f4 03 2d 44 ee 16 99 20 6f  r..Z.....-D... o</span></span><br><span class="line"><span class="string">00000000  72 56 98 12 b6 00 94 f4 03 7a 44 30 dd 99 b9 6f  rV.......zD0...o</span></span><br><span class="line"><span class="string">00000000  1c 93 98 12 0f 00 94 89 03 7a ce ee dd c8 20 6f  .........z.... o</span></span><br><span class="line"><span class="string">00000000  72 93 98 c4 0f 00 d4 f4 03 d4 44 ee ac 99 20 6f  r.........D... o</span></span><br><span class="line"><span class="string">00000000  72 17 98 12 c1 00 94 f4 03 7a 44 7a dd 99 02 6f  r........zDz...o</span></span><br><span class="line"><span class="string">00000000  72 93 98 e5 0f 00 ad f4 03 0a 44 ee 08 99 20 6f  r.........D... o</span></span><br><span class="line"><span class="string">00000000  72 84 98 12 6a 00 94 f4 03 7a 44 68 dd 99 a6 6f  r...j....zDh...o</span></span><br><span class="line"><span class="string">00000000  d2 93 98 12 0f 00 94 57 03 7a 31 ee dd 36 20 6f  .......W.z1..6 o</span></span><br><span class="line"><span class="string">00000000  72 93 65 12 0f 7c 94 f4 90 7a 44 ee dd 99 20 0f  r.e..|...zD... .</span></span><br><span class="line"><span class="string">00000000  72 93 98 3a 0f 00 e8 f4 03 aa 44 ee 98 99 20 6f  r..:......D... o</span></span><br><span class="line"><span class="string">00000000  72 93 98 44 0f 00 49 f4 03 b2 44 ee 24 99 20 6f  r..D..I...D.$. o</span></span><br><span class="line"><span class="string">00000000  73 93 98 12 0f 00 94 1f 03 7a 76 ee dd 6b 20 6f  s........zv..k o</span></span><br><span class="line"><span class="string">00000000  72 7d 98 12 7e 00 94 f4 03 7a 44 bf dd 99 23 6f  r&#125;..~....zD...#o</span></span><br><span class="line"><span class="string">00000000  72 20 98 12 8a 00 94 f4 03 7a 44 c4 dd 99 35 6f  r .......zD...5o</span></span><br><span class="line"><span class="string">00000000  5e 93 98 12 0f 00 94 35 03 7a 1a ee dd 20 20 6f  ^......5.z...  o</span></span><br><span class="line"><span class="string">00000000  72 93 98 a5 0f 00 1e f4 03 77 44 ee 15 99 20 6f  r........wD... o</span></span><br><span class="line"><span class="string">00000000  72 93 98 5c 0f 00 07 f4 03 a5 44 ee 06 99 20 6f  r..\......D... o</span></span><br><span class="line"><span class="string">00000000  72 93 eb 12 0f e0 94 f4 13 7a 44 ee dd 99 20 2a  r........zD... *</span></span><br><span class="line"><span class="string">00000000  72 93 98 97 0f 00 f8 f4 03 c5 44 ee 2a 99 20 6f  r.........D.*. o</span></span><br><span class="line"><span class="string">00000000  72 93 98 ab 0f 00 99 f4 03 d0 44 ee 5b 99 20 6f  r.........D.[. o</span></span><br><span class="line"><span class="string">00000000  72 93 98 cb 0f 00 bd f4 03 9d 44 ee 58 99 20 6f  r.........D.X. o</span></span><br><span class="line"><span class="string">00000000  72 73 98 12 05 00 94 f4 03 7a 44 c5 dd 99 3d 6f  rs.......zD...=o</span></span><br><span class="line"><span class="string">00000000  72 dd 98 12 bf 00 94 f4 03 7a 44 b9 dd 99 45 6f  r........zD...Eo</span></span><br><span class="line"><span class="string">00000000  72 93 67 12 0f 5c 94 f4 d6 7a 44 ee dd 99 20 bb  r.g..\...zD... .</span></span><br><span class="line"><span class="string">00000000  72 84 98 12 42 00 94 f4 03 7a 44 da dd 99 f3 6f  r...B....zD....o</span></span><br><span class="line"><span class="string">00000000  72 68 98 12 b2 00 94 f4 03 7a 44 5c dd 99 b1 6f  rh.......zD\...o</span></span><br><span class="line"><span class="string">00000000  72 e5 98 12 66 00 94 f4 03 7a 44 27 dd 99 42 6f  r...f....zD&#x27;..Bo</span></span><br><span class="line"><span class="string">00000000  72 fb 98 12 6e 00 94 f4 03 7a 44 7c dd 99 cc 6f  r...n....zD|...o</span></span><br><span class="line"><span class="string">00000000  72 93 98 86 0f 00 27 f4 03 18 44 ee e0 99 20 6f  r.....&#x27;...D... o</span></span><br><span class="line"><span class="string">00000000  72 93 63 12 0f 29 94 f4 8a 7a 44 ee dd 99 20 b0  r.c..)...zD... .</span></span><br><span class="line"><span class="string">00000000  72 93 98 10 0f 00 cc f4 03 01 44 ee cd 99 20 6f  r.........D... o</span></span><br><span class="line"><span class="string">00000000  72 e0 98 12 77 00 94 f4 03 7a 44 ba dd 99 9a 6f  r...w....zD....o</span></span><br><span class="line"><span class="string">&quot;</span><span class="string">&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">def <span class="title function_">cut</span>(obj, sec):</span><br><span class="line">    <span class="keyword">return</span> [obj[<span class="attr">i</span>:i+sec] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="title function_">range</span>(<span class="number">0</span>, <span class="title function_">len</span>(obj), sec)]</span><br><span class="line"></span><br><span class="line">data = <span class="title function_">cut</span>(data, <span class="number">76</span>)</span><br><span class="line">data = data[:-<span class="number">1</span>]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="title function_">range</span>(<span class="title function_">len</span>(data)):</span><br><span class="line">    data[i] = data[i][<span class="number">11</span>:-<span class="number">18</span>]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="attr">data</span>:</span><br><span class="line">    tmp = i.<span class="title function_">split</span>(<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">    res = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="attr">tmp</span>:</span><br><span class="line">        res += <span class="string">&#x27;&#123;:02x&#125;&#x27;</span>.<span class="title function_">format</span>(<span class="title function_">int</span>(j, <span class="number">16</span>) ^ <span class="title function_">int</span>(<span class="string">&quot;66&quot;</span>, <span class="number">16</span>))</span><br><span class="line">    <span class="title function_">print</span>(res)</span><br></pre></td></tr></table></figure></div>
+
+<p>利用phoenixAES实现DFA  </p>
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># s1是前文中的33轮数据，以字符串形式存储（包含换行，否则无法识别）</span></span><br><span class="line"><span class="keyword">import</span> phoenixAES</span><br><span class="line">s1 = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">14f5fe746966f292651c2288bbff4609</span></span><br><span class="line"><span class="string">14f5fe3c6966cc92654b228870ff4609</span></span><br><span class="line"><span class="string">1430fe74d066f292651c2256bbffdf09</span></span><br><span class="line"><span class="string">7af5fe746966f2ef651ca888bbae4609</span></span><br><span class="line"><span class="string">14f5fea26966b29265b22288caff4609</span></span><br><span class="line"><span class="string">1471fe74a766f292651c221cbbff6409</span></span><br><span class="line"><span class="string">14f5fe836966cb92656c22886eff4609</span></span><br><span class="line"><span class="string">14e2fe740c66f292651c220ebbffc009</span></span><br><span class="line"><span class="string">b4f5fe746966f231651c5788bb504609</span></span><br><span class="line"><span class="string">14f50374691af292f61c2288bbff4669</span></span><br><span class="line"><span class="string">14f5fe5c69668e9265cc2288feff4609</span></span><br><span class="line"><span class="string">14f5fe2269662f9265d4228842ff4609</span></span><br><span class="line"><span class="string">15f5fe746966f279651c1088bb0d4609</span></span><br><span class="line"><span class="string">141bfe741866f292651c22d9bbff4509</span></span><br><span class="line"><span class="string">1446fe74ec66f292651c22a2bbff5309</span></span><br><span class="line"><span class="string">38f5fe746966f253651c7c88bb464609</span></span><br><span class="line"><span class="string">14f5fec3696678926511228873ff4609</span></span><br><span class="line"><span class="string">14f5fe3a6966619265c3228860ff4609</span></span><br><span class="line"><span class="string">14f58d746986f292751c2288bbff464c</span></span><br><span class="line"><span class="string">14f5fef169669e9265a322884cff4609</span></span><br><span class="line"><span class="string">14f5fecd6966ff9265b622883dff4609</span></span><br><span class="line"><span class="string">14f5fead6966db9265fb22883eff4609</span></span><br><span class="line"><span class="string">1415fe746366f292651c22a3bbff5b09</span></span><br><span class="line"><span class="string">14bbfe74d966f292651c22dfbbff2309</span></span><br><span class="line"><span class="string">14f50174693af292b01c2288bbff46dd</span></span><br><span class="line"><span class="string">14e2fe742466f292651c22bcbbff9509</span></span><br><span class="line"><span class="string">140efe74d466f292651c223abbffd709</span></span><br><span class="line"><span class="string">1483fe740066f292651c2241bbff2409</span></span><br><span class="line"><span class="string">149dfe740866f292651c221abbffaa09</span></span><br><span class="line"><span class="string">14f5fee069664192657e228886ff4609</span></span><br><span class="line"><span class="string">14f50574694ff292ec1c2288bbff46d6</span></span><br><span class="line"><span class="string">14f5fe766966aa9265672288abff4609</span></span><br><span class="line"><span class="string">1486fe741166f292651c22dcbbfffc09</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;testfile&quot;</span>, <span class="string">&quot;wb&quot;</span>) <span class="keyword">as</span> t:</span><br><span class="line">    t.write(s1.encode())</span><br><span class="line"></span><br><span class="line">phoenixAES.crack_file(<span class="string">&quot;testfile&quot;</span>)</span><br><span class="line"><span class="comment"># 自动打印出来第10轮的密钥</span></span><br><span class="line"><span class="comment"># 结果如下</span></span><br><span class="line"><span class="comment"># B4EF5BCB3E92E21123E951CF6F8F188E</span></span><br></pre></td></tr></table></figure></div>
+
+<p>用Stark提供一轮密钥暴力破解AES-128</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2023/07/25/2023%E5%B7%85%E5%B3%B0%E6%9E%81%E5%AE%A2%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1723821530889-afd0cd92-3dbb-438e-921f-9be8490a638f.png"
+                      class="" title="img"
+                >
+
+<p>在提供的out.bin里根据M1卡的存储格式，第一行中，4B为校验位，剩下为厂商信息，需要解密的部分为第三行</p>
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2023/07/25/2023%E5%B7%85%E5%B3%B0%E6%9E%81%E5%AE%A2%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1778682520792-fd41513d-30a3-4a2b-b520-2260ece99362.png"
+                      class="" title="img"
+                >
+
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"></span><br><span class="line">s = <span class="string">&quot;0B987EF5D94DD679592C4D2FADD4EB89&quot;</span></span><br><span class="line"></span><br><span class="line">key = <span class="built_in">bytes</span>.fromhex(<span class="string">&quot;00000000000000000000000000000000&quot;</span>)</span><br><span class="line">enc = <span class="built_in">bytearray</span>(<span class="built_in">bytes</span>.fromhex(s))</span><br><span class="line">cipher = AES.new(key, AES.MODE_ECB)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">16</span>):</span><br><span class="line">    enc[i] ^= <span class="number">0x66</span></span><br><span class="line"></span><br><span class="line">flag = cipher.decrypt(enc)</span><br><span class="line"><span class="built_in">print</span>(flag)</span><br></pre></td></tr></table></figure></div>
+
+<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/2023/07/25/2023%E5%B7%85%E5%B3%B0%E6%9E%81%E5%AE%A2%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/1723821622409-46cbc271-0362-4dfa-8742-5c67b8a07ce5.png"
+                      class="" title="img"
+                >
+
+<p>flag{cddc8d28dabb4ea9}</p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> 2023巅峰极客初赛部分wp</li>
+        <li><strong>作者:</strong> j1ya</li>
+        <li><strong>创建于
+                :</strong> 2023-07-25 20:09:19</li>
+        
+            <li>
+                <strong>更新于
+                    :</strong> 2026-09-29 20:14:18
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://redefine.ohevan.com/2023/07/25/2023巅峰极客初赛部分wp/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+
+            
+                本文章采用 <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a> 进行许可。
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+
+		
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2023/08/13/DASCTF2023%E4%BA%8C%E8%BF%9B%E5%88%B6%E4%B8%93%E9%A1%B9Reverse%E5%A4%8D%E7%8E%B0/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">DASCTF2023二进制专项Reverse复现</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2023/07/12/2023%E6%A2%A6%E6%83%B3%E5%87%8C%E6%AD%A6%E6%9D%AF%E9%83%A8%E5%88%86wp/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">2023梦想凌武杯部分wp</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+    <div id="waline"></div>
+    <script type="module" data-swup-reload-script>
+      import { init } from '/js/libs/waline.js';
+
+      (function() {
+        const startPath = location.pathname;
+        const startTime = Date.now();
+        const retryDelay = 200;
+        const retryLimit = 5000;
+
+        const runWaline = () => {
+          if (location.pathname !== startPath) {
+            return;
+          }
+
+          const container = document.getElementById('waline');
+          if (!container) {
+            if (Date.now() - startTime < retryLimit) {
+              setTimeout(runWaline, retryDelay);
+            }
+            return;
+          }
+
+          if (window.redefineWalineInstance?.destroy) {
+            window.redefineWalineInstance.destroy();
+          }
+
+          container.innerHTML = '';
+          window.redefineWalineInstance = init({
+            el: '#waline',
+            serverURL: 'https://example.example.com',
+            path: location.pathname,
+            dark: 'body[class~="dark-mode"]',
+            reaction: false,
+            requiredMeta: ['nick', 'mail'],
+            emoji: [],
+                      lang: 'zh-CN',
+          });
+        };
+
+        runWaline();
+      })();
+    </script>
+
+
+
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">2023巅峰极客初赛部分wp</div>
+		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Crypto"><span class="nav-text">Crypto</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E5%AD%A6%E4%BD%86%E9%AB%98%E4%B8%AD"><span class="nav-text">数学但高中</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reverse"><span class="nav-text">Reverse</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#gore-1"><span class="nav-text">gore-1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#m1-read"><span class="nav-text">m1_read</span></a></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">j1ya</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 87 篇文章
+                    </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog fa-spin"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="图片查看器">
+	<button class="image-viewer-close" type="button" aria-label="关闭">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="上一页">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="关闭">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="下一页">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+
+	
+</body>
+
+</html>
