@@ -87,14 +87,14 @@
         
         <meta name="description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DASCTF2024十月挑战赛ezre">
+<meta property="og:title" content="DASCTF2024十月挑战赛EZRE">
 <meta property="og:url" content="https://j1ya-22.github.io/2024/10/19/DASCTF2024.10%E9%83%A8%E5%88%86Reverse/index.html">
 <meta property="og:site_name" content="j1ya">
 <meta property="og:description" content="Hexo Theme Redefine, Redefine Your Hexo Journey.">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://j1ya-22.github.io/images/redefine-og.webp">
 <meta property="article:published_time" content="2024-10-19T15:13:52.000Z">
-<meta property="article:modified_time" content="2026-09-17T15:01:07.777Z">
+<meta property="article:modified_time" content="2026-10-02T02:46:55.782Z">
 <meta property="article:author" content="j1ya">
 <meta property="article:tag" content="TEA">
 <meta property="article:tag" content="RC4">
@@ -112,7 +112,7 @@
     
     <title>
         
-            DASCTF2024十月挑战赛ezre | j1ya&#39;s blog
+            DASCTF2024十月挑战赛EZRE | j1ya&#39;s blog
         
     </title>
 
@@ -483,7 +483,7 @@
         <div class="label text-third-text-color text-sm">分类</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">87</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">89</div>
         <div class="label text-third-text-color text-sm">文章</div>
     </a>
 </div>
@@ -506,7 +506,7 @@
 		<div class="article-title relative w-full">
 			
 			<div class="w-full flex items-center pt-6 justify-start">
-				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">DASCTF2024十月挑战赛ezre</h1>
+				<h1 class="article-title-regular text-second-text-color tracking-tight text-4xl md:text-6xl font-semibold px-2 sm:px-6 md:px-8 py-3">DASCTF2024十月挑战赛EZRE</h1>
 			</div>
 			
 		</div>
@@ -534,8 +534,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2026-09-17 23:01:07</span>
-            <span class="mobile">2026-09-17 23:01:07</span>
+            <span class="desktop">2026-10-02 10:46:55</span>
+            <span class="mobile">2026-10-02 10:46:55</span>
             <span class="hover-info">更新</span>
         </span>
     
@@ -597,42 +597,22 @@
 
 
 		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
-			<h1 id="ezre"><a href="#ezre" class="headerlink" title="ezre"></a><strong>ezre</strong></h1><p>14解</p>
+			<h1 id="EZRE"><a href="#EZRE" class="headerlink" title="EZRE"></a>EZRE</h1><p>14解</p>
 <p>看上去有壳，但是无法手动脱</p>
-<img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/2024/10/19/DASCTF2024.10%E9%83%A8%E5%88%86Reverse/1729308978432-b0dd664d-b08b-44d4-9f5a-c66b0e1fc67c.png"
-                      class="" title="img"
-                >
+
 
 <p>不能sfx脱壳，也不能动调</p>
-<img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/2024/10/19/DASCTF2024.10%E9%83%A8%E5%88%86Reverse/1729308926396-23de3e88-a3b4-4e4f-be89-cee838b32710.png"
-                      class="" title="img"
-                >
+
 
 <p>搜保护器的名字，找到unpack工具<a class="link"   target="_blank" rel="noopener" href="https://github.com/ergrelet/unlicense" >Releases · ergrelet&#x2F;unlicense (github.com)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 <p>去花指令后得到main是rc4魔改+tea魔改</p>
-<img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/2024/10/19/DASCTF2024.10%E9%83%A8%E5%88%86Reverse/1729340053117-1a162c50-efe7-49c5-a0c8-b975e206541a.png"
-                      class="" title="img"
-                >
+
 
 <p>tea一次移一个字符，36次循环刚好移完全部密文</p>
 <div class="code-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="type">void</span> <span class="title function_">decrypt</span><span class="params">(<span class="type">uint32_t</span> v[<span class="number">2</span>], <span class="type">uint32_t</span> <span class="type">const</span> key[<span class="number">4</span>])</span> &#123;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">int</span> i;</span><br><span class="line">    <span class="type">uint32_t</span> v0 = v[<span class="number">0</span>], v1 = v[<span class="number">1</span>], delta = <span class="number">0x9E3779B8</span>, sum = <span class="number">0x66778899</span>+delta * (<span class="number">33</span>);</span><br><span class="line">    <span class="comment">//printf(&quot;%x,%x,&quot;,v0,v1);</span></span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i &lt;= <span class="number">32</span>; i++) &#123;</span><br><span class="line">        v1 -= (((v0 &lt;&lt; <span class="number">4</span>) ^ (v0 &gt;&gt; <span class="number">5</span>)) + v0) ^ (sum + key[(sum&gt;&gt;<span class="number">11</span>) &amp; <span class="number">3</span>]);</span><br><span class="line">        sum -= delta;</span><br><span class="line">        v0 -= (((v1 &lt;&lt; <span class="number">5</span>) ^ (v1 &gt;&gt; <span class="number">6</span>)) + v1) ^ (sum + key[sum &amp; <span class="number">3</span>]);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    v[<span class="number">0</span>] = v0; v[<span class="number">1</span>] = v1;</span><br><span class="line">    <span class="comment">//printf(&quot;%x,%x,&quot;,v0,v1);</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">uint32_t</span> <span class="type">const</span> k[<span class="number">4</span>] = &#123;<span class="number">0x6E982837</span>,<span class="number">0x44332211</span>,<span class="number">0x11223344</span>,<span class="number">0x3728986E</span>&#125;;</span><br><span class="line">    <span class="type">char</span> enc[] = &#123;<span class="number">0x50</span>, <span class="number">0xD4</span>, <span class="number">0xC8</span>, <span class="number">0xC4</span>, <span class="number">0x8F</span>, <span class="number">0x84</span>, <span class="number">0x40</span>, <span class="number">0xEB</span>, <span class="number">0x32</span>, <span class="number">0x81</span>,</span><br><span class="line">                  <span class="number">0x8F</span>, <span class="number">0x85</span>, <span class="number">0x6C</span>, <span class="number">0xB2</span>, <span class="number">0x2B</span>, <span class="number">0x06</span>, <span class="number">0xBF</span>, <span class="number">0x05</span>, <span class="number">0x35</span>, <span class="number">0x5D</span>,</span><br><span class="line">                  <span class="number">0x2E</span>, <span class="number">0xE3</span>, <span class="number">0x7D</span>, <span class="number">0x46</span>, <span class="number">0x8D</span>, <span class="number">0x35</span>, <span class="number">0x01</span>, <span class="number">0x70</span>, <span class="number">0x3A</span>, <span class="number">0x80</span>,</span><br><span class="line">                  <span class="number">0x81</span>, <span class="number">0xC5</span>, <span class="number">0xE6</span>, <span class="number">0x71</span>, <span class="number">0xD3</span>, <span class="number">0xD6</span>, <span class="number">0x50</span>, <span class="number">0x69</span>, <span class="number">0x6F</span>, <span class="number">0xE2</span>,</span><br><span class="line">                  <span class="number">0x6E</span>, <span class="number">0x78</span>, <span class="number">0x14</span>, <span class="number">0xD8</span>&#125;;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">36</span>; i&gt;=<span class="number">0</span>; i-=<span class="number">1</span>)&#123;</span><br><span class="line">        decrypt(&amp;enc[i], k);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">44</span>; i++) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;0x%x,&quot;</span>, enc[i]&amp;<span class="number">0xff</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
 
 <p>rc4的魔改</p>
-<img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/2024/10/19/DASCTF2024.10%E9%83%A8%E5%88%86Reverse/1729340154073-a6075c82-2bb0-44bd-85d5-9fa7896da708.png"
-                      class="" title="img"
-                >
+
 
 <div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">rc4</span>(<span class="params">data, key</span>):</span><br><span class="line">    S = <span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">256</span>))</span><br><span class="line">    j = <span class="number">0</span></span><br><span class="line">    out = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">256</span>):</span><br><span class="line">        j = (j + S[i] + key[i % <span class="built_in">len</span>(key)]) % <span class="number">256</span></span><br><span class="line">        S[i], S[j] = S[j], S[i]</span><br><span class="line"></span><br><span class="line">    i = j = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> char <span class="keyword">in</span> data:</span><br><span class="line">        i = (i + <span class="number">1</span>) % <span class="number">256</span></span><br><span class="line">        j = (j + S[i]) % <span class="number">256</span></span><br><span class="line">        S[i], S[j] = S[j], S[i]</span><br><span class="line">        out.append((char - (S[(S[i] + S[j]) % <span class="number">256</span>]^<span class="number">0x33</span>))%<span class="number">256</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">bytes</span>(out)</span><br><span class="line"></span><br><span class="line">data = <span class="built_in">bytes</span>([<span class="number">0xf5</span>,<span class="number">0xcf</span>,<span class="number">0xc9</span>,<span class="number">0x90</span>,<span class="number">0xba</span>,<span class="number">0x79</span>,<span class="number">0xd6</span>,<span class="number">0xe3</span>,<span class="number">0x51</span>,<span class="number">0x22</span>,<span class="number">0xd5</span>,<span class="number">0x2c</span>,<span class="number">0x50</span>,<span class="number">0xe9</span>,<span class="number">0xf6</span>,<span class="number">0x99</span>,<span class="number">0x71</span>,<span class="number">0x4d</span>,<span class="number">0x7a</span>,<span class="number">0xde</span>,<span class="number">0xff</span>,<span class="number">0x44</span>,<span class="number">0xc5</span>,<span class="number">0xab</span>,<span class="number">0x19</span>,<span class="number">0x37</span>,<span class="number">0xac</span>,<span class="number">0xe8</span>,<span class="number">0x72</span>,<span class="number">0xb6</span>,<span class="number">0xa4</span>,<span class="number">0xe</span>,<span class="number">0x93</span>,<span class="number">0x86</span>,<span class="number">0x4b</span>,<span class="number">0xc3</span>,<span class="number">0x55</span>,<span class="number">0x36</span>,<span class="number">0x74</span>,<span class="number">0x19</span>,<span class="number">0x36</span>,<span class="number">0xa2</span>,<span class="number">0xaf</span>,<span class="number">0x45</span>])</span><br><span class="line">key = <span class="string">b&#x27;th0s_i0_ke9&#x27;</span></span><br><span class="line">decrypted = rc4(data, key)</span><br><span class="line"><span class="built_in">print</span>(decrypted)</span><br></pre></td></tr></table></figure></div>
 
@@ -642,14 +622,14 @@
 		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
 			<div class="article-copyright-info-container">
     <ul>
-        <li><strong>标题:</strong> DASCTF2024十月挑战赛ezre</li>
+        <li><strong>标题:</strong> DASCTF2024十月挑战赛EZRE</li>
         <li><strong>作者:</strong> j1ya</li>
         <li><strong>创建于
                 :</strong> 2024-10-19 23:13:52</li>
         
             <li>
                 <strong>更新于
-                    :</strong> 2026-09-17 23:01:07
+                    :</strong> 2026-10-02 10:46:55
             </li>
         
         <li>
@@ -708,9 +688,9 @@
 			
 			
 			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
-				<a class="next" rel="next" href="/2024/10/16/IDA%E5%B8%B8%E7%94%A8%E6%8F%92%E4%BB%B6%E9%85%8D%E7%BD%AE/">
+				<a class="next" rel="next" href="/2024/10/19/DASCTF2024%E5%8D%81%E6%9C%88%E6%8C%91%E6%88%98%E8%B5%9B%E9%83%A8%E5%88%86Reverse/">
 					<span class="title flex justify-center items-center">
-						<span class="post-nav-title-item truncate max-w-48">IDA常用插件配置</span>
+						<span class="post-nav-title-item truncate max-w-48">DASCTF2024十月挑战赛ezre</span>
 						<span class="post-nav-item">下一篇</span>
 					</span>
 					<span class="right arrow-icon flex justify-center items-center">
@@ -793,8 +773,8 @@
 		<div class="post-toc-wrap">
 	<div class="post-toc">
 		<div class="toc-title">目录</div>
-		<div class="page-title">DASCTF2024十月挑战赛ezre</div>
-		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ezre"><span class="nav-text">ezre</span></a></li></ol>
+		<div class="page-title">DASCTF2024十月挑战赛EZRE</div>
+		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#EZRE"><span class="nav-text">EZRE</span></a></li></ol>
 
 	</div>
 </div>
@@ -822,7 +802,7 @@
                 
                 <p class="post-count space-x-0.5">
                     <span>
-                        共撰写了 87 篇文章
+                        共撰写了 89 篇文章
                     </span>
                     
                 </p>

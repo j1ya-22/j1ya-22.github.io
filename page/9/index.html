@@ -513,7 +513,7 @@
         <div class="label text-third-text-color text-sm">分类</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">87</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">89</div>
         <div class="label text-third-text-color text-sm">文章</div>
     </a>
 </div>
@@ -553,7 +553,7 @@
         <div class="label text-third-text-color text-sm">分类</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">87</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">89</div>
         <div class="label text-third-text-color text-sm">文章</div>
     </a>
 </div>
@@ -568,6 +568,80 @@
 			<div class="main-content">
 				<div class="home-content-container">
     <ul class="home-article-list">
+        
+            <li class="home-article-item">
+
+                
+
+                
+
+                
+                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
+                    <h3 class="home-article-title">
+                        <a href="/2023/10/26/%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8MT%E7%AE%A1%E7%90%86%E5%99%A8/">
+                            简单使用MT管理器
+                        </a>
+                    </h3>
+
+                    <div class="home-article-content markdown-body">
+                        
+                            
+                            昨天看到0xGame的0x14537a60师傅提到了MT管理器，就去研究了一下
+这是0xGame week3的第三题
+首先把apk文件放到tmp文件夹，因为在原文件没有修改权限
+
+
+随便找一个tmp文件夹放就行
+
+
+去电脑上找到onClick绝对路径
+
+
+用dex编辑器打开classes.dex,若有多个一般都是最后一个dex
+
+
+找到方法
+
+
+进去看方法，原来是v4，改成v1
+这里为什么这...
+                        
+                    </div>
+
+                    <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fa-solid fa-calendars"></i>&nbsp;
+            <span class="home-article-date" data-date="Thu Oct 26 2023 16:13:22 GMT+0800">
+                
+                    2023-10-26
+                
+            </span>
+        </span>
+        
+            <span class="home-article-category">
+                <i class="fa-solid fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">环境配置</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+        
+        
+    </div>
+
+    <a href="/2023/10/26/%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8MT%E7%AE%A1%E7%90%86%E5%99%A8/">阅读全文<span class="seo-reader-text">简单使用MT管理器</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+</div>
+
+                </div>
+            </li>
         
             <li class="home-article-item">
 
@@ -650,99 +724,6 @@ Android这一部分将array0填充为enc，array1填充为key
     </div>
 
     <a href="/2023/10/16/MoeCTF2023%E9%83%A8%E5%88%86Re%E4%B8%8EPwn/">阅读全文<span class="seo-reader-text">MoeCTF2023部分Reverse与Pwn</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-                </div>
-            </li>
-        
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
-                    <h3 class="home-article-title">
-                        <a href="/2023/08/28/CISCN2023%E5%8D%8E%E4%B8%9C%E5%8D%97%E5%88%86%E5%8C%BA%E8%B5%9B%E9%83%A8%E5%88%86Pwn/">
-                            CISCN2023华东南分区赛部分Pwn
-                        </a>
-                    </h3>
-
-                    <div class="home-article-content markdown-body">
-                        
-                            
-                            login第一次read会溢出
-
-
-将0x100改为0xf0
-
-
-notepad保护全开的菜单堆题
-
-
-
-
-漏洞在 Erase 的功能中，当 free 了堆块之后，没有将相应的指针置空，存在 UAF 漏洞
-
-
-这里将8修改为0
-
-
-MaskNote
-
-name是长度为具有rwx权限的字符数组
-
-
-sprintf有栈溢出，把name长度改为0x64
-
-
-禁用了p&#x2F;x&#x2F;n没有...
-                        
-                    </div>
-
-                    <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Mon Aug 28 2023 22:27:14 GMT+0800">
-                
-                    2023-08-28
-                
-            </span>
-        </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
-            <ul>
-                
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/%E6%AF%94%E8%B5%9Bwp/">比赛wp</a>&nbsp;
-                        </li>
-                    
-                    
-                
-            </ul>
-        </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/awdp-pwn/">awdp_pwn</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2023/08/28/CISCN2023%E5%8D%8E%E4%B8%9C%E5%8D%97%E5%88%86%E5%8C%BA%E8%B5%9B%E9%83%A8%E5%88%86Pwn/">阅读全文<span class="seo-reader-text">CISCN2023华东南分区赛部分Pwn</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
 </div>
 
                 </div>
@@ -853,7 +834,71 @@ babyreflag输入由参数argv传递，后面读取名称为cod的资源
                 
                 <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
                     <h3 class="home-article-title">
-                        <a href="/2023/07/25/2023%E5%B7%85%E5%B3%B0%E6%9E%81%E5%AE%A2%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/">
+                        <a href="/2023/07/28/DASCTF2023%E6%9A%91%E5%81%87%E6%8C%91%E6%88%98%E8%B5%9B%E9%83%A8%E5%88%86Reverse/">
+                            DASCTF2023暑假挑战赛部分Reverse
+                        </a>
+                    </h3>
+
+                    <div class="home-article-content markdown-body">
+                        
+                            
+                            Reversecontrolflow整体属于ROP风格的控制流混淆
+main函数没有成功标识
+
+
+交叉引用dword_4043A8变量一共有三处，可以调试查看先后顺序
+先^0x401
+每一位+(i*i)
+
+
+前十位不动，中间二十位^(i*(i+1))
+
+
+每一位-i
+
+
+每一位*3
+
+
+前10位不动，中间20位两两交换
+
+
+v3是密文
+
+
+12345678910111213141516171...
+                        
+                    </div>
+
+                    <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fa-solid fa-calendars"></i>&nbsp;
+            <span class="home-article-date" data-date="Fri Jul 28 2023 10:50:38 GMT+0800">
+                
+                    2023-07-28
+                
+            </span>
+        </span>
+        
+        
+    </div>
+
+    <a href="/2023/07/28/DASCTF2023%E6%9A%91%E5%81%87%E6%8C%91%E6%88%98%E8%B5%9B%E9%83%A8%E5%88%86Reverse/">阅读全文<span class="seo-reader-text">DASCTF2023暑假挑战赛部分Reverse</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+</div>
+
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                
+
+                
+                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
+                    <h3 class="home-article-title">
+                        <a href="/2023/07/24/2023%E5%B7%85%E5%B3%B0%E6%9E%81%E5%AE%A2%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/">
                             2023巅峰极客初赛部分wp
                         </a>
                     </h3>
@@ -862,18 +907,17 @@ babyreflag输入由参数argv传递，后面读取名称为cod的资源
                         
                             
                             Crypto数学但高中本来想手搓的，在队友提醒下直接GPT4生成脚本
-生成的有点问题，需要加一下库
-同时，gpt生成的脚本有点问题，把整个椭圆都画出来了，显然看原函数只有半个椭圆
-12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758...
+生成的脚本有点问题，把整个椭圆都画出来了，显然看原函数只有半个椭圆
+12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686...
                         
                     </div>
 
                     <div class="home-article-meta-info-container">
     <div class="home-article-meta-info">
         <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Tue Jul 25 2023 20:09:19 GMT+0800">
+            <span class="home-article-date" data-date="Mon Jul 24 2023 20:09:19 GMT+0800">
                 
-                    2023-07-25
+                    2023-07-24
                 
             </span>
         </span>
@@ -909,7 +953,7 @@ babyreflag输入由参数argv传递，后面读取名称为cod的资源
         
     </div>
 
-    <a href="/2023/07/25/2023%E5%B7%85%E5%B3%B0%E6%9E%81%E5%AE%A2%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/">阅读全文<span class="seo-reader-text">2023巅峰极客初赛部分wp</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+    <a href="/2023/07/24/2023%E5%B7%85%E5%B3%B0%E6%9E%81%E5%AE%A2%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86wp/">阅读全文<span class="seo-reader-text">2023巅峰极客初赛部分wp</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
 </div>
 
                 </div>
@@ -989,6 +1033,99 @@ swp文件在kali桌面上不可见，直接运行即可，可得到高度修改�
     </div>
 
     <a href="/2023/07/12/2023%E6%A2%A6%E6%83%B3%E5%87%8C%E6%AD%A6%E6%9D%AF%E9%83%A8%E5%88%86wp/">阅读全文<span class="seo-reader-text">2023梦想凌武杯部分wp</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+</div>
+
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                
+
+                
+                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
+                    <h3 class="home-article-title">
+                        <a href="/2023/06/28/CISCN2023%E5%8D%8E%E4%B8%9C%E5%8D%97%E5%88%86%E5%8C%BA%E8%B5%9B%E9%83%A8%E5%88%86Pwn/">
+                            CISCN2023华东南分区赛部分Pwn
+                        </a>
+                    </h3>
+
+                    <div class="home-article-content markdown-body">
+                        
+                            
+                            login第一次read会溢出
+
+
+将0x100改为0xf0
+
+
+notepad保护全开的菜单堆题
+
+
+
+
+漏洞在 Erase 的功能中，当 free 了堆块之后，没有将相应的指针置空，存在 UAF 漏洞
+
+
+这里将8修改为0
+
+
+MaskNote
+
+name是长度为具有rwx权限的字符数组
+
+
+sprintf有栈溢出，把name长度改为0x64
+
+
+禁用了p&#x2F;x&#x2F;n没有...
+                        
+                    </div>
+
+                    <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fa-solid fa-calendars"></i>&nbsp;
+            <span class="home-article-date" data-date="Wed Jun 28 2023 22:27:14 GMT+0800">
+                
+                    2023-06-28
+                
+            </span>
+        </span>
+        
+            <span class="home-article-category">
+                <i class="fa-solid fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E6%AF%94%E8%B5%9Bwp/">比赛wp</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fa-solid fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/awdp-pwn/">awdp_pwn</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2023/06/28/CISCN2023%E5%8D%8E%E4%B8%9C%E5%8D%97%E5%88%86%E5%8C%BA%E8%B5%9B%E9%83%A8%E5%88%86Pwn/">阅读全文<span class="seo-reader-text">CISCN2023华东南分区赛部分Pwn</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
 </div>
 
                 </div>
@@ -1162,7 +1299,7 @@ f7跟进4012D0后,使用插件里的OllyDump脱壳!
                 
                 <p class="post-count space-x-0.5">
                     <span>
-                        共撰写了 87 篇文章
+                        共撰写了 89 篇文章
                     </span>
                     
                 </p>
