@@ -94,12 +94,12 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://j1ya-22.github.io/images/redefine-og.webp">
 <meta property="article:published_time" content="2025-01-09T03:38:13.000Z">
-<meta property="article:modified_time" content="2026-10-02T07:40:01.891Z">
+<meta property="article:modified_time" content="2026-10-02T13:26:30.677Z">
 <meta property="article:author" content="j1ya">
 <meta property="article:tag" content="TEA">
 <meta property="article:tag" content="RC4">
-<meta property="article:tag" content="SM4">
 <meta property="article:tag" content="AES">
+<meta property="article:tag" content="SM4">
 <meta property="article:tag" content="XXTEA">
 <meta property="article:tag" content="DES">
 <meta name="twitter:card" content="summary">
@@ -537,8 +537,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2026-10-02 15:40:01</span>
-            <span class="mobile">2026-10-02 15:40:01</span>
+            <span class="desktop">2026-10-02 21:26:30</span>
+            <span class="mobile">2026-10-02 21:26:30</span>
             <span class="hover-info">更新</span>
         </span>
     
@@ -574,11 +574,11 @@
                     </li>
                 
                     <li>
-                        | <a href="/tags/SM4/">SM4</a>&nbsp;
+                        | <a href="/tags/AES/">AES</a>&nbsp;
                     </li>
                 
                     <li>
-                        | <a href="/tags/AES/">AES</a>&nbsp;
+                        | <a href="/tags/SM4/">SM4</a>&nbsp;
                     </li>
                 
                     <li>
@@ -642,8 +642,7 @@
                       class="" title="img"
                 >
 
-<p>补充一下我对倒数第四行的的困惑及解释：字母和3进行与操作只保留字母的二进制最后两位，左移4相当于给低四位加0，一共是六位；后半部分直接右移4，相当于只剩4位，两数取或运算后面的数虽然只有4位，但前面可以补0，且一个数跟0进行或运算取决于它自身，所以一共是6位</p>
-<p>有时候会是下面的形式，主要一下子没看出来，记录一下。发现&gt;&gt;2和&amp;0x3f还是在的，另外一些用位操作代替了，且对字符串的长度根据%3的余数做了分类</p>
+<p>强特征：%3;&0x3f;61 or &#x3D;</p>
 <img  
                      lazyload
                      src="/images/loading.svg"
@@ -651,7 +650,6 @@
                       class="" title="img"
                 >
 
-<p>也有这种位运算之后全是&amp;0x3f的</p>
 <img  
                      lazyload
                      src="/images/loading.svg"
@@ -659,13 +657,14 @@
                       class="" title="img"
                 >
 
-<p>%3和&#x3D;告诉我下面的也是base64</p>
 <img  
                      lazyload
                      src="/images/loading.svg"
                      data-src="/2025/01/09/Reverse%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95/1722498705970-3564e836-8165-4298-b3fc-b8ee8d848a81.png"
                       class="" title="img"
                 >
+
+<div class="code-container" data-rel="Python"><figure class="iseeu highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">BASE64_TABLE = <span class="string">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">base64_encode</span>(<span class="params">data</span>):</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">isinstance</span>(data, <span class="built_in">str</span>):</span><br><span class="line">        data = data.encode(<span class="string">&quot;utf-8&quot;</span>)</span><br><span class="line">    result = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(data), <span class="number">3</span>):</span><br><span class="line">        block = data[i:i + <span class="number">3</span>]</span><br><span class="line">        length = <span class="built_in">len</span>(block)</span><br><span class="line"></span><br><span class="line">        b1 = block[<span class="number">0</span>]</span><br><span class="line">        b2 = block[<span class="number">1</span>] <span class="keyword">if</span> length &gt; <span class="number">1</span> <span class="keyword">else</span> <span class="number">0</span></span><br><span class="line">        b3 = block[<span class="number">2</span>] <span class="keyword">if</span> length &gt; <span class="number">2</span> <span class="keyword">else</span> <span class="number">0</span></span><br><span class="line">        value = (b1 &lt;&lt; <span class="number">16</span>) | (b2 &lt;&lt; <span class="number">8</span>) | b3</span><br><span class="line">        index1 = (value &gt;&gt; <span class="number">18</span>) &amp; <span class="number">0x3F</span></span><br><span class="line">        index2 = (value &gt;&gt; <span class="number">12</span>) &amp; <span class="number">0x3F</span></span><br><span class="line">        index3 = (value &gt;&gt; <span class="number">6</span>) &amp; <span class="number">0x3F</span></span><br><span class="line">        index4 = value &amp; <span class="number">0x3F</span></span><br><span class="line"></span><br><span class="line">        result.append(BASE64_TABLE[index1])</span><br><span class="line">        result.append(BASE64_TABLE[index2])</span><br><span class="line">        <span class="keyword">if</span> length &gt; <span class="number">1</span>:</span><br><span class="line">            result.append(BASE64_TABLE[index3])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            result.append(<span class="string">&quot;=&quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> length &gt; <span class="number">2</span>:</span><br><span class="line">            result.append(BASE64_TABLE[index4])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            result.append(<span class="string">&quot;=&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&quot;</span>.join(result)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">base64_decode</span>(<span class="params">encoded</span>):</span><br><span class="line">    decode_table = &#123;</span><br><span class="line">        char: index</span><br><span class="line">        <span class="keyword">for</span> index, char <span class="keyword">in</span> <span class="built_in">enumerate</span>(BASE64_TABLE)</span><br><span class="line">    &#125;</span><br><span class="line">    result = <span class="built_in">bytearray</span>()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(encoded), <span class="number">4</span>):</span><br><span class="line">        block = encoded[i:i + <span class="number">4</span>]</span><br><span class="line">        c1, c2, c3, c4 = block</span><br><span class="line"></span><br><span class="line">        v1 = decode_table[c1]</span><br><span class="line">        v2 = decode_table[c2]</span><br><span class="line">        v3 = decode_table[c3] <span class="keyword">if</span> c3 != <span class="string">&quot;=&quot;</span> <span class="keyword">else</span> <span class="number">0</span></span><br><span class="line">        v4 = decode_table[c4] <span class="keyword">if</span> c4 != <span class="string">&quot;=&quot;</span> <span class="keyword">else</span> <span class="number">0</span></span><br><span class="line">        value = (</span><br><span class="line">            (v1 &lt;&lt; <span class="number">18</span>) |</span><br><span class="line">            (v2 &lt;&lt; <span class="number">12</span>) |</span><br><span class="line">            (v3 &lt;&lt; <span class="number">6</span>) |</span><br><span class="line">            v4</span><br><span class="line">        )</span><br><span class="line">        b1 = (value &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0xFF</span></span><br><span class="line">        b2 = (value &gt;&gt; <span class="number">8</span>) &amp; <span class="number">0xFF</span></span><br><span class="line">        b3 = value &amp; <span class="number">0xFF</span></span><br><span class="line">        result.append(b1)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> c3 != <span class="string">&quot;=&quot;</span>:</span><br><span class="line">            result.append(b2)</span><br><span class="line">        <span class="keyword">if</span> c4 != <span class="string">&quot;=&quot;</span>:</span><br><span class="line">            result.append(b3)</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">bytes</span>(result)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(base64_decode(base64_encode(<span class="string">&quot;hello world&quot;</span>)))</span><br></pre></td></tr></table></figure></div>
 
 <h1 id="RC4"><a href="#RC4" class="headerlink" title="RC4"></a>RC4</h1><p>1.先初始化状态向量S（用来作为密钥流生成的种子1）</p>
 <p>2.<strong>初始密钥key（由用户输入）</strong>，长度任意,如果输入长度小于256个字节，则进行循环，直到填满k,有时候k用t来表示</p>
@@ -1284,7 +1283,7 @@
         
             <li>
                 <strong>更新于
-                    :</strong> 2026-10-02 15:40:01
+                    :</strong> 2026-10-02 21:26:30
             </li>
         
         <li>
@@ -1318,11 +1317,11 @@
 			</li>
 			
 			<li class="tag-item mx-0.5">
-				<a href="/tags/SM4/">#SM4</a>&nbsp;
+				<a href="/tags/AES/">#AES</a>&nbsp;
 			</li>
 			
 			<li class="tag-item mx-0.5">
-				<a href="/tags/AES/">#AES</a>&nbsp;
+				<a href="/tags/SM4/">#SM4</a>&nbsp;
 			</li>
 			
 			<li class="tag-item mx-0.5">
