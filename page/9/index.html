@@ -513,7 +513,7 @@
         <div class="label text-third-text-color text-sm">分类</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">92</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">93</div>
         <div class="label text-third-text-color text-sm">文章</div>
     </a>
 </div>
@@ -553,7 +553,7 @@
         <div class="label text-third-text-color text-sm">分类</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">92</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">93</div>
         <div class="label text-third-text-color text-sm">文章</div>
     </a>
 </div>
@@ -724,6 +724,92 @@ Android这一部分将array0填充为enc，array1填充为key
     </div>
 
     <a href="/2023/10/16/MoeCTF2023%E9%83%A8%E5%88%86Re%E4%B8%8EPwn/">阅读全文<span class="seo-reader-text">MoeCTF2023部分Reverse与Pwn</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+</div>
+
+                </div>
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                
+
+                
+                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
+                    <h3 class="home-article-title">
+                        <a href="/2023/09/18/2023%E7%BE%8A%E5%9F%8E%E6%9D%AF%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86Reverse/">
+                            2023羊城杯初赛部分Reverse
+                        </a>
+                    </h3>
+
+                    <div class="home-article-content markdown-body">
+                        
+                            
+                            Reversecsgomain_main找到字符串
+
+
+
+
+直接base64解码不对
+调试main_main-&gt;mainCfunc_enc-&gt;maincgo_ce3afc93dff5_Cfunc_enc-&gt;go_ce3afc93dff5_Cfunc_enc，拿到正确编码表
+
+
+fkReverse函数是base64
+
+
+blast翻译过来是爆炸，应该和爆破有关
+md5初始化，...
+                        
+                    </div>
+
+                    <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fa-solid fa-calendars"></i>&nbsp;
+            <span class="home-article-date" data-date="Mon Sep 18 2023 22:59:48 GMT+0800">
+                
+                    2023-09-18
+                
+            </span>
+        </span>
+        
+            <span class="home-article-category">
+                <i class="fa-solid fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E6%AF%94%E8%B5%9Bwp/">比赛wp</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fa-solid fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/DES/">DES</a>&nbsp;
+                        </li>
+                    
+                        <li>
+                            | 
+                            <a href="/tags/VM/">VM</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/2023/09/18/2023%E7%BE%8A%E5%9F%8E%E6%9D%AF%E5%88%9D%E8%B5%9B%E9%83%A8%E5%88%86Reverse/">阅读全文<span class="seo-reader-text">2023羊城杯初赛部分Reverse</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
 </div>
 
                 </div>
@@ -1301,99 +1387,6 @@ swp文件在kali桌面上不可见，直接运行即可，可得到高度修改�
                 </div>
             </li>
         
-            <li class="home-article-item">
-
-                
-
-                
-
-                
-                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
-                    <h3 class="home-article-title">
-                        <a href="/2023/06/28/CISCN2023%E5%8D%8E%E4%B8%9C%E5%8D%97%E5%88%86%E5%8C%BA%E8%B5%9B%E9%83%A8%E5%88%86Pwn/">
-                            CISCN2023华东南分区赛部分Pwn
-                        </a>
-                    </h3>
-
-                    <div class="home-article-content markdown-body">
-                        
-                            
-                            login第一次read会溢出
-
-
-将0x100改为0xf0
-
-
-notepad保护全开的菜单堆题
-
-
-
-
-漏洞在 Erase 的功能中，当 free 了堆块之后，没有将相应的指针置空，存在 UAF 漏洞
-
-
-这里将8修改为0
-
-
-MaskNote
-
-name是长度为具有rwx权限的字符数组
-
-
-sprintf有栈溢出，把name长度改为0x64
-
-
-禁用了p&#x2F;x&#x2F;n没有...
-                        
-                    </div>
-
-                    <div class="home-article-meta-info-container">
-    <div class="home-article-meta-info">
-        <span><i class="fa-solid fa-calendars"></i>&nbsp;
-            <span class="home-article-date" data-date="Wed Jun 28 2023 22:27:14 GMT+0800">
-                
-                    2023-06-28
-                
-            </span>
-        </span>
-        
-            <span class="home-article-category">
-                <i class="fa-solid fa-folders"></i>&nbsp;
-            <ul>
-                
-                
-                    
-                        
-                        <li>
-                            <a href="/categories/%E6%AF%94%E8%B5%9Bwp/">比赛wp</a>&nbsp;
-                        </li>
-                    
-                    
-                
-            </ul>
-        </span>
-        
-        
-            <span class="home-article-tag">
-                <i class="fa-solid fa-tags"></i>&nbsp;
-                <ul>
-                    
-                        <li>
-                            
-                            <a href="/tags/awdp-pwn/">awdp_pwn</a>&nbsp;
-                        </li>
-                    
-                </ul>
-            </span>
-        
-    </div>
-
-    <a href="/2023/06/28/CISCN2023%E5%8D%8E%E4%B8%9C%E5%8D%97%E5%88%86%E5%8C%BA%E8%B5%9B%E9%83%A8%E5%88%86Pwn/">阅读全文<span class="seo-reader-text">CISCN2023华东南分区赛部分Pwn</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
-</div>
-
-                </div>
-            </li>
-        
     </ul>
 
     <div class="home-paginator px-7 py-5">
@@ -1424,7 +1417,7 @@ sprintf有栈溢出，把name长度改为0x64
                 
                 <p class="post-count space-x-0.5">
                     <span>
-                        共撰写了 92 篇文章
+                        共撰写了 93 篇文章
                     </span>
                     
                 </p>
