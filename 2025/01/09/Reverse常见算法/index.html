@@ -94,12 +94,12 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://j1ya-22.github.io/images/redefine-og.webp">
 <meta property="article:published_time" content="2025-01-09T03:38:13.000Z">
-<meta property="article:modified_time" content="2026-10-02T13:26:30.677Z">
+<meta property="article:modified_time" content="2026-10-03T02:15:32.720Z">
 <meta property="article:author" content="j1ya">
-<meta property="article:tag" content="TEA">
-<meta property="article:tag" content="RC4">
 <meta property="article:tag" content="AES">
+<meta property="article:tag" content="TEA">
 <meta property="article:tag" content="SM4">
+<meta property="article:tag" content="RC4">
 <meta property="article:tag" content="XXTEA">
 <meta property="article:tag" content="DES">
 <meta name="twitter:card" content="summary">
@@ -537,8 +537,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2026-10-02 21:26:30</span>
-            <span class="mobile">2026-10-02 21:26:30</span>
+            <span class="desktop">2026-10-03 10:15:32</span>
+            <span class="mobile">2026-10-03 10:15:32</span>
             <span class="hover-info">更新</span>
         </span>
     
@@ -566,19 +566,19 @@
             <ul>
                 
                     <li>
-                        <a href="/tags/TEA/">TEA</a>&nbsp;
+                        <a href="/tags/AES/">AES</a>&nbsp;
                     </li>
                 
                     <li>
-                        | <a href="/tags/RC4/">RC4</a>&nbsp;
-                    </li>
-                
-                    <li>
-                        | <a href="/tags/AES/">AES</a>&nbsp;
+                        | <a href="/tags/TEA/">TEA</a>&nbsp;
                     </li>
                 
                     <li>
                         | <a href="/tags/SM4/">SM4</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/RC4/">RC4</a>&nbsp;
                     </li>
                 
                     <li>
@@ -642,7 +642,12 @@
                       class="" title="img"
                 >
 
-<p>强特征：%3;&0x3f;61 or &#x3D;</p>
+<p>强特征：</p>
+<ul>
+<li>%3</li>
+<li>&amp;0x3f</li>
+<li>61 or &#x3D;</li>
+</ul>
 <img  
                      lazyload
                      src="/images/loading.svg"
@@ -700,7 +705,7 @@
 <p>%128的魔改本质上就是8位二进制数组成的密钥变为7位</p>
 <h1 id="TEA"><a href="#TEA" class="headerlink" title="TEA"></a>TEA</h1><p>一种对称算法，每一轮循环使用2<em>32位明文和128位密钥（一般是4</em>32位）进行加解密</p>
 <p>TEA系列算法中均使用一个DELTA常数，但DELTA的值对算法并无什么影响，只是为了避免不良的取值，推荐DELTA的值十六进制值为<strong>0x9e3779B9</strong>，用于保证每一轮加密都不相同</p>
-<h3 id="加密流程"><a href="#加密流程" class="headerlink" title="加密流程"></a>加密流程</h3><ol>
+<h2 id="加密流程"><a href="#加密流程" class="headerlink" title="加密流程"></a>加密流程</h2><ol>
 <li>将明文按64位分组，将每个分组视为一个64位的二进制数，记为V </li>
 <li>将128位的密钥分成<strong>4个32位的子密钥</strong>，分别记为K0、K1、K2、K3</li>
 <li>将明文分组V分为两个32位的部分，分别记为V0和V1</li>
@@ -713,7 +718,7 @@
 <li>经过32轮迭代后，得到加密后的密文，记为C0和C1 </li>
 <li>将C0和C1按顺序连接起来，得到64位的密文</li>
 </ol>
-<h3 id="算法注意点"><a href="#算法注意点" class="headerlink" title="算法注意点"></a>算法注意点</h3><p>key一般为加密函数第二个参数，<strong>sum-&#x3D;0x61c88647和sum+&#x3D;0x9e3779b9是等价的</strong></p>
+<h2 id="算法注意点"><a href="#算法注意点" class="headerlink" title="算法注意点"></a>算法注意点</h2><p>key一般为加密函数第二个参数，<strong>sum-&#x3D;0x61c88647和sum+&#x3D;0x9e3779b9是等价的</strong></p>
 <p>循环里的l和r一般用v0和v1，这样不容易弄混</p>
 <div class="code-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> DELTA 0x9e3779b9</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">tea_encrypt</span><span class="params">(<span class="type">unsigned</span> <span class="type">int</span>* v, <span class="type">unsigned</span> <span class="type">int</span>* key)</span> &#123;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">int</span> l = v[<span class="number">0</span>], r = v[<span class="number">1</span>], sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; <span class="number">32</span>; i++) &#123;</span><br><span class="line">        l += (((r &lt;&lt; <span class="number">4</span>) ^ (r &gt;&gt; <span class="number">5</span>)) + r) ^ (sum + key[sum &amp; <span class="number">3</span>]);</span><br><span class="line">        sum += DELTA;</span><br><span class="line">        r += (((l &lt;&lt; <span class="number">4</span>) ^ (l &gt;&gt; <span class="number">5</span>)) + l) ^ (sum + key[(sum &gt;&gt; <span class="number">11</span>) &amp; <span class="number">3</span>]); </span><br><span class="line">    &#125;</span><br><span class="line">    v[<span class="number">0</span>] = l;</span><br><span class="line">    v[<span class="number">1</span>] = r;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//利用可逆性将加密过程逆转</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">tea_decrypt</span><span class="params">(<span class="type">unsigned</span> <span class="type">int</span>* v, <span class="type">unsigned</span> <span class="type">int</span>* key)</span> &#123;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">int</span> l = v[<span class="number">0</span>], r = v[<span class="number">1</span>], sum = <span class="number">0</span>;</span><br><span class="line">    sum = DELTA * <span class="number">32</span>; l</span><br><span class="line">    <span class="title function_">for</span> <span class="params">(<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; <span class="number">32</span>; i++)</span> &#123;</span><br><span class="line">        r -= (((l &lt;&lt; <span class="number">4</span>) ^ (l &gt;&gt; <span class="number">5</span>)) + l) ^ (sum + key[(sum &gt;&gt; <span class="number">11</span>) &amp; <span class="number">3</span>]);</span><br><span class="line">        sum -= DELTA;</span><br><span class="line">        l -= (((r &lt;&lt; <span class="number">4</span>) ^ (r &gt;&gt; <span class="number">5</span>)) + r) ^ (sum + key[sum &amp; <span class="number">3</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    v[<span class="number">0</span>] = l;</span><br><span class="line">    v[<span class="number">1</span>] = r;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
 
@@ -752,7 +757,7 @@
                       class="" title="img"
                 >
 
-<h3 id="解密脚本"><a href="#解密脚本" class="headerlink" title="解密脚本"></a>解密脚本</h3><p>由于涉及内存指针等问题，大部分用c写</p>
+<h2 id="解密脚本"><a href="#解密脚本" class="headerlink" title="解密脚本"></a>解密脚本</h2><p>由于涉及内存指针等问题，大部分用c写</p>
 <div class="code-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="type">void</span> <span class="title function_">decrypt</span><span class="params">(<span class="type">uint32_t</span> v[<span class="number">2</span>], <span class="type">const</span> <span class="type">uint32_t</span> key[<span class="number">4</span>])</span> &#123;</span><br><span class="line">    <span class="type">uint32_t</span> v0 = v[<span class="number">0</span>], v1 = v[<span class="number">1</span>], sum = <span class="number">0xC6EF3720</span>, delta = <span class="number">0x9e3779b9</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">32</span>; i++) &#123;</span><br><span class="line">        v1 -= ((v0 &lt;&lt; <span class="number">4</span>) + key[<span class="number">2</span>]) ^ (v0 + sum) ^ ((v0 &gt;&gt; <span class="number">5</span>) + key[<span class="number">3</span>]);</span><br><span class="line">        v0 -= ((v1 &lt;&lt; <span class="number">4</span>) + key[<span class="number">0</span>]) ^ (v1 + sum) ^ ((v1 &gt;&gt; <span class="number">5</span>) + key[<span class="number">1</span>]);</span><br><span class="line">        sum -= delta;</span><br><span class="line">    &#125;</span><br><span class="line">    v[<span class="number">0</span>] = v0;</span><br><span class="line">    v[<span class="number">1</span>] = v1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">uint32_t</span> key[<span class="number">4</span>] = &#123;<span class="number">0x11121314</span>, <span class="number">0x22232425</span>, <span class="number">0x33343536</span>, <span class="number">0x41424344</span>&#125;;</span><br><span class="line">    <span class="type">uint32_t</span> v5[<span class="number">8</span>] = &#123;<span class="number">0x38b97e28</span>, <span class="number">0xb7e510c1</span>, <span class="number">0xb4b29fae</span>, <span class="number">0x5593bbd7</span>,<span class="number">0x3c2e9b9e</span>, <span class="number">0x1671c637</span>, <span class="number">0x8f3a8cb5</span>, <span class="number">0x5116e515</span>&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">8</span>; i += <span class="number">2</span>) &#123;</span><br><span class="line">        decrypt(&amp;v5[i], key);</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">8</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> m = <span class="number">0</span>; m &lt;= <span class="number">3</span>; m++) &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%c&quot;</span>, (v5[i] &gt;&gt; (<span class="number">8</span> * m)) &amp; <span class="number">0xff</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
 
 <p>tea加密的另一种模式</p>
@@ -1283,7 +1288,7 @@
         
             <li>
                 <strong>更新于
-                    :</strong> 2026-10-02 21:26:30
+                    :</strong> 2026-10-03 10:15:32
             </li>
         
         <li>
@@ -1309,19 +1314,19 @@
 		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
 			
 			<li class="tag-item mx-0.5">
-				<a href="/tags/TEA/">#TEA</a>&nbsp;
-			</li>
-			
-			<li class="tag-item mx-0.5">
-				<a href="/tags/RC4/">#RC4</a>&nbsp;
-			</li>
-			
-			<li class="tag-item mx-0.5">
 				<a href="/tags/AES/">#AES</a>&nbsp;
 			</li>
 			
 			<li class="tag-item mx-0.5">
+				<a href="/tags/TEA/">#TEA</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
 				<a href="/tags/SM4/">#SM4</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/RC4/">#RC4</a>&nbsp;
 			</li>
 			
 			<li class="tag-item mx-0.5">
@@ -1440,7 +1445,7 @@
 	<div class="post-toc">
 		<div class="toc-title">目录</div>
 		<div class="page-title">Reverse常见算法</div>
-		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#base64"><span class="nav-text">base64</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RC4"><span class="nav-text">RC4</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TEA"><span class="nav-text">TEA</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E6%B5%81%E7%A8%8B"><span class="nav-text">加密流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E6%B3%A8%E6%84%8F%E7%82%B9"><span class="nav-text">算法注意点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%AF%86%E8%84%9A%E6%9C%AC"><span class="nav-text">解密脚本</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#XXTEA"><span class="nav-text">XXTEA</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AES"><span class="nav-text">AES</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E6%B5%81%E7%A8%8B-1"><span class="nav-text">加密流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%86%E9%92%A5%E7%94%9F%E6%88%90"><span class="nav-text">密钥生成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AE%E5%AF%86%E9%92%A5%E5%8A%A0"><span class="nav-text">轮密钥加</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E8%8A%82%E4%BB%A3%E6%8D%A2"><span class="nav-text">字节代换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%8C%E4%BD%8D%E7%A7%BB"><span class="nav-text">行位移</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%97%E6%B7%B7%E6%B7%86"><span class="nav-text">列混淆</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A1%AB%E5%85%85"><span class="nav-text">填充</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%BC%8F"><span class="nav-text">模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%AF%86%E8%84%9A%E6%9C%AC-1"><span class="nav-text">解密脚本</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DES"><span class="nav-text">DES</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E6%B5%81%E7%A8%8B-2"><span class="nav-text">加密流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E7%BD%AE%E6%8D%A2-IP%E7%BD%AE%E6%8D%A2"><span class="nav-text">初始置换(IP置换)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E6%B5%81%E7%A8%8B-3"><span class="nav-text">加密流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%86%E7%BD%AE%E6%8D%A2"><span class="nav-text">逆置换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%AF%86%E8%84%9A%E6%9C%AC-2"><span class="nav-text">解密脚本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3DES"><span class="nav-text">3DES</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SM4"><span class="nav-text">SM4</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E6%B5%81%E7%A8%8B-4"><span class="nav-text">加密流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E6%88%96"><span class="nav-text">异或</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#S%E7%9B%92%E6%9B%BF%E6%8D%A2-1"><span class="nav-text">S盒替换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E7%A7%BB%E4%BD%8D"><span class="nav-text">循环移位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%86%E9%92%A5%E6%8B%93%E5%B1%95"><span class="nav-text">密钥拓展</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%AF%86%E8%84%9A%E6%9C%AC-3"><span class="nav-text">解密脚本</span></a></li></ol></li></ol>
+		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#base64"><span class="nav-text">base64</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RC4"><span class="nav-text">RC4</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TEA"><span class="nav-text">TEA</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E6%B5%81%E7%A8%8B"><span class="nav-text">加密流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E6%B3%A8%E6%84%8F%E7%82%B9"><span class="nav-text">算法注意点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%AF%86%E8%84%9A%E6%9C%AC"><span class="nav-text">解密脚本</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#XXTEA"><span class="nav-text">XXTEA</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AES"><span class="nav-text">AES</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E6%B5%81%E7%A8%8B-1"><span class="nav-text">加密流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%86%E9%92%A5%E7%94%9F%E6%88%90"><span class="nav-text">密钥生成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AE%E5%AF%86%E9%92%A5%E5%8A%A0"><span class="nav-text">轮密钥加</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E8%8A%82%E4%BB%A3%E6%8D%A2"><span class="nav-text">字节代换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%8C%E4%BD%8D%E7%A7%BB"><span class="nav-text">行位移</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%97%E6%B7%B7%E6%B7%86"><span class="nav-text">列混淆</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A1%AB%E5%85%85"><span class="nav-text">填充</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%BC%8F"><span class="nav-text">模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%AF%86%E8%84%9A%E6%9C%AC-1"><span class="nav-text">解密脚本</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DES"><span class="nav-text">DES</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E6%B5%81%E7%A8%8B-2"><span class="nav-text">加密流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E7%BD%AE%E6%8D%A2-IP%E7%BD%AE%E6%8D%A2"><span class="nav-text">初始置换(IP置换)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E6%B5%81%E7%A8%8B-3"><span class="nav-text">加密流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%86%E7%BD%AE%E6%8D%A2"><span class="nav-text">逆置换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%AF%86%E8%84%9A%E6%9C%AC-2"><span class="nav-text">解密脚本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3DES"><span class="nav-text">3DES</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SM4"><span class="nav-text">SM4</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E6%B5%81%E7%A8%8B-4"><span class="nav-text">加密流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E6%88%96"><span class="nav-text">异或</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#S%E7%9B%92%E6%9B%BF%E6%8D%A2-1"><span class="nav-text">S盒替换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E7%A7%BB%E4%BD%8D"><span class="nav-text">循环移位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%86%E9%92%A5%E6%8B%93%E5%B1%95"><span class="nav-text">密钥拓展</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%AF%86%E8%84%9A%E6%9C%AC-3"><span class="nav-text">解密脚本</span></a></li></ol></li></ol>
 
 	</div>
 </div>
