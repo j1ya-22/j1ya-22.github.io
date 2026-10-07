@@ -94,7 +94,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://j1ya-22.github.io/images/redefine-og.webp">
 <meta property="article:published_time" content="2024-10-12T02:45:34.000Z">
-<meta property="article:modified_time" content="2026-09-17T15:05:01.191Z">
+<meta property="article:modified_time" content="2026-10-07T06:37:33.017Z">
 <meta property="article:author" content="j1ya">
 <meta property="article:tag" content="z3">
 <meta property="article:tag" content="TEA">
@@ -104,7 +104,6 @@
 <meta property="article:tag" content="XXTEA">
 <meta property="article:tag" content="shellcode">
 <meta property="article:tag" content="迷宫">
-<meta property="article:tag" content="反调试">
 <meta property="article:tag" content="e语言">
 <meta property="article:tag" content="爆破flag">
 <meta property="article:tag" content="格式化字符串">
@@ -486,7 +485,7 @@
 
         <div class="statistics flex justify-around my-2.5">
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">45</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">43</div>
         <div class="label text-third-text-color text-sm">标签</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
@@ -545,8 +544,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2026-09-17 23:05:01</span>
-            <span class="mobile">2026-09-17 23:05:01</span>
+            <span class="desktop">2026-10-07 14:37:33</span>
+            <span class="mobile">2026-10-07 14:37:33</span>
             <span class="hover-info">更新</span>
         </span>
     
@@ -603,10 +602,6 @@
                 
                     <li>
                         | <a href="/tags/%E8%BF%B7%E5%AE%AB/">迷宫</a>&nbsp;
-                    </li>
-                
-                    <li>
-                        | <a href="/tags/%E5%8F%8D%E8%B0%83%E8%AF%95/">反调试</a>&nbsp;
                     </li>
                 
                     <li>
@@ -907,7 +902,7 @@
                       class="" title="img"
                 >
 
-<p>要么根据签名v2直接找工具绕，要么找到密文直接base64解密，要么找检验函数修改后重新打包（最后一种比较难，出题者肯定不希望我们这样做）</p>
+<p>要么根据签名v2直接找工具绕，要么找到密文直接base64解密，要么找检验函数修改后重新打包（最后一种比较难，不会是预期解）</p>
 <img  
                      lazyload
                      src="/images/loading.svg"
@@ -923,7 +918,7 @@
                       class="" title="img"
                 >
 
-<p>后面qetx找到<a class="link"   target="_blank" rel="noopener" href="https://appetize.io/app/android/cn.edu.xidian.myapplication?device=pixel7&osVersion=14.0" >Play My Application (appetize.io)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>后面qetx✌找到<a class="link"   target="_blank" rel="noopener" href="https://appetize.io/app/android/cn.edu.xidian.myapplication?device=pixel7&osVersion=14.0" >Play My Application (appetize.io)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
 <p>可以模拟多个环境</p>
 <img  
                      lazyload
@@ -965,7 +960,7 @@
                 >
 
 <p>一开始有个地方异或了，没执行到，但是最后的密文还是要异或一步</p>
-<div class="code-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdint.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">int</span> a[]=&#123;<span class="number">0x7A5FB55E</span>,<span class="number">-490481854</span>,<span class="number">-1704322843</span>,<span class="number">-1418679088</span>,<span class="number">0x52C815D</span>,<span class="number">0x28D70A82</span>,<span class="number">0x398E5EAA</span>,<span class="number">0xFC4A5AF</span>,<span class="number">-1342106783</span>,<span class="number">0xCECDD9C3</span>&#125;; </span><br><span class="line">    <span class="type">int</span> m=<span class="number">0xC4F3B4B3</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0x20202020</span>;j&lt;=<span class="number">0x7d7d7d7d</span>;j++)&#123;</span><br><span class="line">            <span class="type">int</span> t=j;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">0</span>;k&lt;<span class="number">32</span>;k++)&#123;</span><br><span class="line">                <span class="keyword">if</span> (t&gt;=<span class="number">0</span>)&#123;</span><br><span class="line">                    t=t*<span class="number">2</span>;</span><br><span class="line">                &#125; </span><br><span class="line">                <span class="keyword">else</span>&#123;</span><br><span class="line">                    t=t*<span class="number">2</span>;</span><br><span class="line">                    t^=m;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(t==a[i])&#123;</span><br><span class="line">                <span class="keyword">for</span>(<span class="type">int</span> n=<span class="number">0</span>;n&lt;<span class="number">32</span>;n+=<span class="number">8</span>)&#123;</span><br><span class="line">                    <span class="built_in">printf</span>(<span class="string">&quot;%c&quot;</span>,(j&gt;&gt;n)&amp;<span class="number">0xff</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125; </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">moectf&#123;y0u_mu5t_know_vvZAt_1s__SMC__n0w&#125;</span><br></pre></td></tr></table></figure></div>
+<div class="code-container" data-rel="C"><figure class="iseeu highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdint.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">int</span> a[]=&#123;<span class="number">0x7A5FB55E</span>,<span class="number">-490481854</span>,<span class="number">-1704322843</span>,<span class="number">-1418679088</span>,<span class="number">0x52C815D</span>,<span class="number">0x28D70A82</span>,<span class="number">0x398E5EAA</span>,<span class="number">0xFC4A5AF</span>,<span class="number">-1342106783</span>,<span class="number">0xCECDD9C3</span>&#125;; </span><br><span class="line">    <span class="type">int</span> m=<span class="number">0xC4F3B4B3</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0x20202020</span>;j&lt;=<span class="number">0x7d7d7d7d</span>;j++)&#123;</span><br><span class="line">            <span class="type">int</span> t=j;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> k=<span class="number">0</span>;k&lt;<span class="number">32</span>;k++)&#123;</span><br><span class="line">                <span class="keyword">if</span> (t&gt;=<span class="number">0</span>)&#123;</span><br><span class="line">                    t=t*<span class="number">2</span>;</span><br><span class="line">                &#125; </span><br><span class="line">                <span class="keyword">else</span>&#123;</span><br><span class="line">                    t=t*<span class="number">2</span>;</span><br><span class="line">                    t^=m;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(t==a[i])&#123;</span><br><span class="line">                <span class="keyword">for</span>(<span class="type">int</span> n=<span class="number">0</span>;n&lt;<span class="number">32</span>;n+=<span class="number">8</span>)&#123;</span><br><span class="line">                    <span class="built_in">printf</span>(<span class="string">&quot;%c&quot;</span>,(j&gt;&gt;n)&amp;<span class="number">0xff</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125; </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#moectf&#123;y0u_mu5t_know_vvZAt_1s__SMC__n0w&#125;</span></span><br></pre></td></tr></table></figure></div>
 
 <h2 id="xor-rev"><a href="#xor-rev" class="headerlink" title="xor_rev"></a>xor_rev</h2><img  
                      lazyload
@@ -1366,7 +1361,7 @@
         
             <li>
                 <strong>更新于
-                    :</strong> 2026-09-17 23:05:01
+                    :</strong> 2026-10-07 14:37:33
             </li>
         
         <li>
@@ -1421,10 +1416,6 @@
 			
 			<li class="tag-item mx-0.5">
 				<a href="/tags/%E8%BF%B7%E5%AE%AB/">#迷宫</a>&nbsp;
-			</li>
-			
-			<li class="tag-item mx-0.5">
-				<a href="/tags/%E5%8F%8D%E8%B0%83%E8%AF%95/">#反调试</a>&nbsp;
 			</li>
 			
 			<li class="tag-item mx-0.5">
