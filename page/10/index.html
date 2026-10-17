@@ -513,7 +513,7 @@
         <div class="label text-third-text-color text-sm">分类</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">95</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">96</div>
         <div class="label text-third-text-color text-sm">文章</div>
     </a>
 </div>
@@ -553,7 +553,7 @@
         <div class="label text-third-text-color text-sm">分类</div>
     </a>
     <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
-        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">95</div>
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">96</div>
         <div class="label text-third-text-color text-sm">文章</div>
     </a>
 </div>
@@ -568,6 +568,86 @@
 			<div class="main-content">
 				<div class="home-content-container">
     <ul class="home-article-list">
+        
+            <li class="home-article-item">
+
+                
+
+                
+
+                
+                <div class="flex flex-col gap-5 px-7 pb-7 pt-7">
+                    <h3 class="home-article-title">
+                        <a href="/2023/07/28/DASCTF2023%E6%9A%91%E5%81%87%E6%8C%91%E6%88%98%E8%B5%9B%E9%83%A8%E5%88%86Reverse/">
+                            DASCTF2023暑假挑战赛部分Reverse
+                        </a>
+                    </h3>
+
+                    <div class="home-article-content markdown-body">
+                        
+                            
+                            Reversecontrolflow整体属于ROP风格的控制流混淆
+main函数没有成功标识
+
+
+交叉引用dword_4043A8变量一共有三处，可以调试查看先后顺序
+先^0x401
+每一位+(i*i)
+
+
+前十位不动，中间二十位^(i*(i+1))
+
+
+每一位-i
+
+
+每一位*3
+
+
+前10位不动，中间20位两两交换
+
+
+v3是密文
+
+
+12345678910111213141516171...
+                        
+                    </div>
+
+                    <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fa-solid fa-calendars"></i>&nbsp;
+            <span class="home-article-date" data-date="Fri Jul 28 2023 10:50:38 GMT+0800">
+                
+                    2023-07-28
+                
+            </span>
+        </span>
+        
+            <span class="home-article-category">
+                <i class="fa-solid fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E6%AF%94%E8%B5%9Bwp/">比赛wp</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+        
+        
+    </div>
+
+    <a href="/2023/07/28/DASCTF2023%E6%9A%91%E5%81%87%E6%8C%91%E6%88%98%E8%B5%9B%E9%83%A8%E5%88%86Reverse/">阅读全文<span class="seo-reader-text">DASCTF2023暑假挑战赛部分Reverse</span>&nbsp;<i class="fa-solid fa-angle-right"></i></a>
+</div>
+
+                </div>
+            </li>
         
             <li class="home-article-item">
 
@@ -979,7 +1059,7 @@ f7跟进4012D0后,使用插件里的OllyDump脱壳!
                 
                 <p class="post-count space-x-0.5">
                     <span>
-                        共撰写了 95 篇文章
+                        共撰写了 96 篇文章
                     </span>
                     
                 </p>
