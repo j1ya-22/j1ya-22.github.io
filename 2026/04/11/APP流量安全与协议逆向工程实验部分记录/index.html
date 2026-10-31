@@ -94,7 +94,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://j1ya-22.github.io/images/redefine-og.webp">
 <meta property="article:published_time" content="2026-04-11T07:55:55.000Z">
-<meta property="article:modified_time" content="2026-10-31T08:42:46.572Z">
+<meta property="article:modified_time" content="2026-10-31T08:56:20.500Z">
 <meta property="article:author" content="j1ya">
 <meta property="article:tag" content="Android">
 <meta name="twitter:card" content="summary">
@@ -532,8 +532,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2026-10-31 16:42:46</span>
-            <span class="mobile">2026-10-31 16:42:46</span>
+            <span class="desktop">2026-10-31 16:56:20</span>
+            <span class="mobile">2026-10-31 16:56:20</span>
             <span class="hover-info">更新</span>
         </span>
     
@@ -655,6 +655,8 @@
                      data-src="/2026/04/11/APP%E6%B5%81%E9%87%8F%E5%AE%89%E5%85%A8%E4%B8%8E%E5%8D%8F%E8%AE%AE%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%AE%9E%E9%AA%8C%E9%83%A8%E5%88%86%E8%AE%B0%E5%BD%95/1774751361883-7523aea4-06f1-41db-be5d-75d5837e2cd4.png"
                       class="" title="img"
                 >
+
+
 
 <img  
                      lazyload
@@ -879,23 +881,18 @@
 <li>2.有效期内</li>
 <li>3.域名正确</li>
 </ul>
-<p>验证点	是否默认存在	谁负责实现	重点</p>
-<p>证书链信任验证	✅ 默认	系统 &#x2F; 平台	HTTPS 的最低安全保障</p>
-<p>主机名验证	✅ 默认	系统 &#x2F; 平台	默认有，但极易被人为关闭</p>
-<p>证书 &#x2F; 公钥绑定（Pinning）	❌ 非默认	开发者	最重要的应用层身份校验</p>
-<p>抓包器 CA 签发的证书，如果安装到系统 CA 目录，就实现了（1）证书链信任验证，抓包器会自动针对主机名签发证书，自动绕过（2）主机名验证</p>
 <p>Pinning</p>
 <p>HTTPS&#x2F;SSL 网络库（okhttp3 这类）默认情况下，只会保证【证书有效】，抓包器 CA 只要合理装进系统，也可以通过校验</p>
-<p>为了防止系统被植入不可信 CA （ App 不再信任系统 CA ），App 可以对证书的公钥进行绑定，这个就是所谓的 Pining。MITM 攻击者无法拿到公钥的私钥，因此无法伪造该公钥对应的证书，即使系统信任了 MITM 提供的 CA 证书。为什么是对公钥进行绑定，而不是整个证书进行绑定？ 因为现代证书更替的时间比较快，通常几个月换一次，而公钥则可以保持长期不变</p>
-<p>公钥 Pinning 校验 是客户端代码执行校验，因此客户端逆向工程方法仍然是最有效的突破口，通过逆向工程手段关闭 Pinning 校验以后，服务端对此将无法感知。目前大部分 Pinning 的技术实战就仅局限于客户端验证，几乎没有看到服务端验证的例子</p>
+<p>为了防止系统被植入不可信 CA （ App 不再信任系统 CA ），App 可以对证书的公钥进行绑定，这个就是所谓的 Pinning。MITM 攻击者无法拿到公钥的私钥，因此无法伪造该公钥对应的证书，即使系统信任了 MITM 提供的 CA 证书。为什么是对公钥进行绑定，而不是整个证书进行绑定？ 因为现代证书更替的时间比较快，通常几个月换一次，而公钥则可以保持长期不变</p>
+<p>公钥 Pinning 校验是客户端代码执行校验，因此客户端逆向工程方法仍然是最有效的突破口，通过逆向工程手段关闭 Pinning 校验以后，服务端对此将无法感知。目前大部分 Pinning 的技术实战就仅局限于客户端验证，几乎没有看到服务端验证的例子</p>
 <p>网络库&#x2F;协议栈</p>
 <p>Android App 通常使用 okhttp 这类的通用网络库，这类网络库可以使用 hook 脚本通杀。例如 frida 脚本 <a class="link"   target="_blank" rel="noopener" href="https://codeshare.frida.re/@Q0120S/bypass-ssl-pinning/%E5%8F%AF%E4%BB%A5%E9%80%9A%E6%9D%80%E5%A4%A7%E9%83%A8%E5%88%86%E8%AF%81%E4%B9%A6%E6%A0%A1%E9%AA%8C" >https://codeshare.frida.re/@Q0120S/bypass-ssl-pinning/可以通杀大部分证书校验<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<p>另外，使用 Android 默认网络协议栈的 App 程序，你可以使用 ecapture 这类基于 ebpf 的抓包工具抓取加密流量</p>
+<p>另外，使用 Android 默认网络协议栈的 App 程序，可以使用 ecapture 这类基于 ebpf 的抓包工具抓取加密流量</p>
 <p>非标准网络库&#x2F;协议栈</p>
 <p>这个就很复杂了，例如 Flutter 的 DIO、Golang 的 gotls，OpenSSL、BoringSSL。虽然 Android 提供了 BoringSSL，但是却没有暴露接口，App 可以自己编译 BoringSSL 使用，也可以编译 OpenSSL、Fizz 等网络通信库。对于这些 App 自己编译的 Native 网络库，通用脚本几乎无法处理，ecapture 也不行。更有极端情况，例如 Flutter 的 DIO 自带 CA 库，不去系统读取</p>
 <p>主动探测证书</p>
 <p>客户端在 Native 层可以主动发起 TLS 握手流程，获取服务端证书，解析服务端证书，解析公钥，记录该公钥作为验证数据。基于这样的思路，所有通杀工具将失效。DEMO 已经开源：<a class="link"   target="_blank" rel="noopener" href="https://github.com/P4nda0s/probe-pin" >https://github.com/P4nda0s/probe-pin<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<p>尝试通过上面的frida脚本去绕过Pinning 校验然后中间人攻击拿到解密后的流量，但是一直有ssl报错导致最后用ebpf抓的包</p>
+<p>我尝试通过上面的frida脚本去绕过Pinning 校验然后中间人攻击拿到解密后的流量，但是一直有ssl报错导致最后用ebpf抓的包，有没有师傅可以讲一下原因</p>
 <div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">verify failed:SSL handshake aborted:</span><br><span class="line">ssl=0x7fff6c047d88:I/0 error during</span><br><span class="line">system call,Connection reset by peer</span><br></pre></td></tr></table></figure></div>
 
 		</div>
@@ -911,7 +908,7 @@
         
             <li>
                 <strong>更新于
-                    :</strong> 2026-10-31 16:42:46
+                    :</strong> 2026-10-31 16:56:20
             </li>
         
         <li>
