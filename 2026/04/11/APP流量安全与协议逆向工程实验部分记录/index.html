@@ -94,7 +94,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://j1ya-22.github.io/images/redefine-og.webp">
 <meta property="article:published_time" content="2026-04-11T07:55:55.000Z">
-<meta property="article:modified_time" content="2026-10-31T08:56:55.919Z">
+<meta property="article:modified_time" content="2026-11-01T06:34:02.527Z">
 <meta property="article:author" content="j1ya">
 <meta property="article:tag" content="Android">
 <meta name="twitter:card" content="summary">
@@ -532,8 +532,8 @@
     
         <span class="article-date article-meta-item">
             <i class="fa-regular fa-wrench"></i>&nbsp;
-            <span class="desktop">2026-10-31 16:56:55</span>
-            <span class="mobile">2026-10-31 16:56:55</span>
+            <span class="desktop">2026-11-01 14:34:02</span>
+            <span class="mobile">2026-11-01 14:34:02</span>
             <span class="hover-info">更新</span>
         </span>
     
@@ -646,7 +646,7 @@
                       class="" title="img"
                 >
 
-<p>典型的抓包环境配置方法，我这里用Charles来抓包</p>
+<p>典型的抓包环境配置方法，这里用Charles来抓包</p>
 <div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">第一阶段：配置 Charles 与证书（打通抓包通道）</span><br><span class="line">1. 开启 Charles 的 SSL 抓包</span><br><span class="line">默认情况下，Charles 只能抓 HTTP。我们需要让它能抓 HTTPS：</span><br><span class="line"></span><br><span class="line">打开 Charles，点击菜单栏的 Proxy -&gt; SSL Proxying Settings。</span><br><span class="line"></span><br><span class="line">勾选 Enable SSL Proxying。</span><br><span class="line"></span><br><span class="line">在 Include 列表中点击 Add，Host 填 *，Port 填 *（代表抓取所有域名的 HTTPS 请求），点击 OK 保存。</span><br><span class="line"></span><br><span class="line">2. 获取电脑局域网 IP</span><br><span class="line"></span><br><span class="line">在 Charles 菜单栏点击 Help -&gt; Local IP Address，记下您电脑的 IP（例如 192.168.1.100）。Charles 的默认代理端口是 8888。</span><br><span class="line"></span><br><span class="line">3. 配置雷电模拟器代理</span><br><span class="line"></span><br><span class="line">打开雷电模拟器，进入系统自带的 设置 -&gt; 网络和互联网 -&gt; WLAN。</span><br><span class="line"></span><br><span class="line">鼠标左键长按连接中的 WiFi（通常叫 WiredSSID），选择 修改网络。</span><br><span class="line"></span><br><span class="line">点开 高级选项，将 代理 改为 手动。</span><br><span class="line"></span><br><span class="line">代理主机名填刚刚记下的电脑 IP，端口填 8888，保存。</span><br><span class="line"></span><br><span class="line">此时 Charles 会弹出一个提示框问您是否允许连接，务必点击 Allow。</span><br><span class="line"></span><br><span class="line">4. 在模拟器中安装 Charles 证书（非常关键！）</span><br><span class="line"></span><br><span class="line">打开雷电模拟器自带的浏览器，在地址栏输入 chls.pro/ssl 并回车。</span><br><span class="line"></span><br><span class="line">浏览器会自动下载一个证书文件（通常叫 charles-proxy-ssl-proxying-certificate.pem 或 .crt）。</span><br><span class="line"></span><br><span class="line">下载完成后点击打开它，给证书随便起个名字（比如 charles），如果系统提示您设置锁屏密码，按提示设置一个简单的 PIN 码即可，最后完成安装。</span><br><span class="line"></span><br><span class="line">第二阶段：应用内操作与抓包</span><br><span class="line">1. 准备 App</span><br><span class="line"></span><br><span class="line">将下载好的 app-debug-easy-1.apk 拖入雷电模拟器完成安装。</span><br><span class="line"></span><br><span class="line">打开 App。</span><br><span class="line"></span><br><span class="line">2. 填写目标信息</span><br><span class="line"></span><br><span class="line">根据您的实验平台提示：</span><br><span class="line"></span><br><span class="line">【Domain】 填写：nc.bin-lab.com</span><br><span class="line"></span><br><span class="line">【Port】 填写：31755</span><br><span class="line"></span><br><span class="line">3. 触发注册请求</span><br><span class="line"></span><br><span class="line">在 App 随便输入一个测试账号（比如用户名 testuser1，密码 123456），点击注册/提交按钮。</span><br><span class="line"></span><br><span class="line">4. 在 Charles 中寻找目标</span><br><span class="line"></span><br><span class="line">回到 Charles，您会看到很多请求。找到域名为 nc.bin-lab.com 的请求，展开它。</span><br><span class="line"></span><br><span class="line">找到那个注册接口（通常是 POST 请求，路径可能是 /register 或 /api/user 之类的）。</span><br><span class="line"></span><br><span class="line">点击这个请求，查看下方的 Contents 标签页，确保您能清楚地看到请求的 URL、Headers（请求头） 以及 Body（提交的表单数据或 JSON）</span><br></pre></td></tr></table></figure></div>
 
 <img  
@@ -677,14 +677,8 @@
                       class="" title="img"
                 >
 
-<p>Flutter 框架自带Google的BoringSSL 库，完全无视系统的 WiFi 代理设置， 有自己独立的一套网络栈</p>
-<p>VPN（虚拟专用网络）本质上是工作在 IP 层的一个虚拟网卡，经过该网卡的流量经过隧道转发，在 Android 上通过 VpnService 建立本地加密隧道：</p>
-<ul>
-<li>虚拟网络接口：创建 tun0 设备作为新的网络出口</li>
-<li>流量重定向：系统将所有数据包导入 tun0</li>
-<li>数据拦截：VPN 应用可读取、修改、记录经过的所有数据</li>
-<li>再转发：处理后再由真实网卡（wlan0&#x2F;eth0）</li>
-</ul>
+<p>Flutter 框架自带 Google 的 BoringSSL 库，完全无视系统的 WiFi 代理设置， 有自己独立的一套网络栈</p>
+<p>VPN 本质上是工作在 IP 层的一个虚拟网卡，经过该网卡的流量通过隧道转发，在 Android 上通过 VpnService 建立本地加密隧道：</p>
 <img  
                      lazyload
                      src="/images/loading.svg"
@@ -692,8 +686,8 @@
                       class="" title="img"
                 >
 
-<p>SocksTun利用 Android 系统的 VpnService API 在手机内部建立了一个虚拟网卡tun0，所有出栈流量强制走VPN隧道，SOCKS5协议负责原封不动地把 VPN 截获的字节流转发给服务器，这时候提前通过中间人攻击解密HTTPS流量就能拿到flag</p>
-<p>安装SocksTun并设置参数</p>
+<p>SocksTun 通过 Android 的 VpnService API 创建虚拟 TUN 接口，将符合 VPN 路由和应用范围的出站 IP 数据包交给自身处理，再通过 tun2socks 将这些流量转换为 SOCKS5 代理请求，发送到配置的 SOCKS5 代理端，这时候代理端软件通过中间人攻击解密HTTPS流量就能拿到flag</p>
+<p>安装 SocksTun 并设置 Socks Address 为电脑 IP</p>
 <img  
                      lazyload
                      src="/images/loading.svg"
@@ -709,7 +703,7 @@
                       class="" title="img"
                 >
 
-<p>后面改用Reqable，自动安装证书到本机</p>
+<p>用Reqable自动安装证书到本机</p>
 <img  
                      lazyload
                      src="/images/loading.svg"
@@ -724,7 +718,7 @@
                       class="" title="img"
                 >
 
-<p>点击调试就可以开始捕获流量</p>
+<p>点击调试同样可以捕获到明文流量</p>
 <img  
                      lazyload
                      src="/images/loading.svg"
@@ -908,7 +902,7 @@
         
             <li>
                 <strong>更新于
-                    :</strong> 2026-10-31 16:56:55
+                    :</strong> 2026-11-01 14:34:02
             </li>
         
         <li>
